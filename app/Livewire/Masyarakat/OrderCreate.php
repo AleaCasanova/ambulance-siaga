@@ -28,17 +28,8 @@ class OrderCreate extends Component
 
     protected $rules = [
         'nama_pasien' => 'required|string|max:100',
-        'nik_pasien' => 'required|string|max:30',
-        'usia_pasien' => 'required|string|max:30',
-        'no_hp_kontak' => 'required|string|max:30',
-        'jumlah_pendamping' => 'required|integer|min:0|max:10',
-        'keperluan_penggunaan' => 'required|string|max:150',
-        'diagnosa_medis' => 'nullable|string|max:255',
         'kondisi_pasien' => 'required|string|max:255',
-        'tanggal_jemput' => 'required|date',
-        'jam_jemput' => 'required|string|max:20',
         'lokasi_jemput' => 'required|string|max:255',
-        'tujuan_lokasi' => 'required|string|max:255',
         'jemput_lat' => 'required|numeric',
         'jemput_lng' => 'required|numeric',
         'rumah_sakit_id' => 'nullable|exists:rumah_sakit,id',
@@ -52,16 +43,23 @@ class OrderCreate extends Component
 
         $this->jemput_lat = $defaultLat;
         $this->jemput_lng = $defaultLng;
-        $this->lokasi_jemput = 'Jl. Raya Cilacap, Kabupaten Cilacap';
-        $this->tujuan_lokasi = 'RSUD Cilacap - Jl. Gatot Subroto No.28';
+        $this->lokasi_jemput = '';
+        $this->tujuan_lokasi = 'Ditentukan Dispatcher (RS Rujukan Terdekat)';
         $this->tanggal_jemput = now()->format('Y-m-d');
         $this->jam_jemput = now()->format('H:i');
 
         if (auth()->check()) {
             $user = auth()->user();
             $this->nama_pasien = $user->name;
-            $this->no_hp_kontak = (string) $user->phone;
+            $this->no_hp_kontak = (string) ($user->phone ?? '');
             $this->nik_pasien = (string) ($user->masyarakat?->nik ?? '');
+            if ($user->masyarakat?->tanggal_lahir) {
+                try {
+                    $this->usia_pasien = \Carbon\Carbon::parse($user->masyarakat->tanggal_lahir)->age . ' Tahun';
+                } catch (\Exception $e) {
+                    $this->usia_pasien = '-';
+                }
+            }
         }
     }
 
@@ -86,21 +84,23 @@ class OrderCreate extends Component
 
     public function submitOrder(PemesananService $service)
     {
+        $this->rumah_sakit_id = !empty($this->rumah_sakit_id) ? (int) $this->rumah_sakit_id : null;
+
         $this->validate();
 
         $data = [
             'nama_pasien' => $this->nama_pasien,
-            'nik_pasien' => $this->nik_pasien,
-            'usia_pasien' => $this->usia_pasien,
-            'no_hp_kontak' => $this->no_hp_kontak,
-            'jumlah_pendamping' => $this->jumlah_pendamping,
-            'keperluan_penggunaan' => $this->keperluan_penggunaan,
-            'diagnosa_medis' => $this->diagnosa_medis,
+            'nik_pasien' => $this->nik_pasien ?: null,
+            'usia_pasien' => $this->usia_pasien ?: null,
+            'no_hp_kontak' => $this->no_hp_kontak ?: null,
+            'jumlah_pendamping' => 1,
+            'keperluan_penggunaan' => 'IGD Darurat',
+            'diagnosa_medis' => '-',
             'kondisi_pasien' => $this->kondisi_pasien,
-            'tanggal_jemput' => $this->tanggal_jemput,
-            'jam_jemput' => $this->jam_jemput,
+            'tanggal_jemput' => now()->format('Y-m-d'),
+            'jam_jemput' => now()->format('H:i'),
             'lokasi_jemput' => $this->lokasi_jemput,
-            'tujuan_lokasi' => $this->tujuan_lokasi,
+            'tujuan_lokasi' => $this->tujuan_lokasi ?: 'Ditentukan Dispatcher (RS Rujukan Terdekat)',
             'jemput_lat' => $this->jemput_lat,
             'jemput_lng' => $this->jemput_lng,
             'rumah_sakit_id' => $this->rumah_sakit_id,

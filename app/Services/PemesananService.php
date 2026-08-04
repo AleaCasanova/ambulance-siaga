@@ -16,18 +16,38 @@ class PemesananService
     public function createOrder(array $data, int $userId): Pemesanan
     {
         return DB::transaction(function () use ($data, $userId) {
+            $user = User::find($userId);
+            $masyarakat = $user?->masyarakat;
+
             $kodeOrder = 'AMB-ORD-' . date('Ymd') . '-' . str_pad(Pemesanan::whereDate('created_at', today())->count() + 1, 3, '0', STR_PAD_LEFT);
+
+            $usiaPasien = $data['usia_pasien'] ?? '-';
+            if (($usiaPasien === '-' || !$usiaPasien) && $masyarakat?->tanggal_lahir) {
+                try {
+                    $usiaPasien = Carbon::parse($masyarakat->tanggal_lahir)->age . ' Tahun';
+                } catch (\Exception $e) {
+                    $usiaPasien = '-';
+                }
+            }
 
             $order = Pemesanan::create([
                 'kode_order' => $kodeOrder,
                 'user_id' => $userId,
                 'nama_pasien' => $data['nama_pasien'],
+                'nik_pasien' => $data['nik_pasien'] ?? ($masyarakat?->nik ?: '-'),
+                'usia_pasien' => $usiaPasien,
+                'no_hp_kontak' => $data['no_hp_kontak'] ?? ($user?->phone ?: '-'),
+                'jumlah_pendamping' => $data['jumlah_pendamping'] ?? 1,
+                'keperluan_penggunaan' => $data['keperluan_penggunaan'] ?? 'IGD Darurat',
+                'diagnosa_medis' => $data['diagnosa_medis'] ?? '-',
                 'kondisi_pasien' => $data['kondisi_pasien'] ?? null,
+                'tanggal_jemput' => $data['tanggal_jemput'] ?? today()->format('Y-m-d'),
+                'jam_jemput' => $data['jam_jemput'] ?? now()->format('H:i'),
                 'lokasi_jemput' => $data['lokasi_jemput'],
                 'jemput_lat' => $data['jemput_lat'],
                 'jemput_lng' => $data['jemput_lng'],
                 'rumah_sakit_id' => $data['rumah_sakit_id'] ?? null,
-                'tujuan_lokasi' => $data['tujuan_lokasi'] ?? null,
+                'tujuan_lokasi' => $data['tujuan_lokasi'] ?? 'Ditentukan Dispatcher (RS Rujukan Terdekat)',
                 'tujuan_lat' => $data['tujuan_lat'] ?? null,
                 'tujuan_lng' => $data['tujuan_lng'] ?? null,
                 'catatan_tambahan' => $data['catatan_tambahan'] ?? null,

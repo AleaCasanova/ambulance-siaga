@@ -50,7 +50,7 @@ class ProfileController extends Controller
                     'nomor_stnk' => $request->input('nomor_stnk') ?: '-',
                 ]
             );
-        } elseif ($user->hasRole('masyarakat')) {
+        } elseif (!$user->isSupir() && !$user->isDispatcher() && !$user->isAdminOperasional()) {
             $user->masyarakat()->updateOrCreate(
                 ['user_id' => $user->id],
                 [

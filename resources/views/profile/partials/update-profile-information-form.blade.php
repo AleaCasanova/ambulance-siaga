@@ -9,7 +9,7 @@
             Informasi Akun & Kedaruratan
         </h2>
         <p class="mt-1 text-sm text-slate-500">
-            Perbarui data diri, nomor telepon, dan identitas medis/darurat untuk mempercepat proses pelayanan Ambulance Siaga.
+            Perbarui data diri, nomor telepon, dan identitas darurat. Data NIK, Tanggal Lahir, Kontak Darurat, dan Alamat yang dilengkapi di sini akan otomatis digunakan pada setiap Pemesanan Ambulans Darurat agar Anda tidak perlu mengisinya berulang kali saat situasi darurat.
         </p>
     </header>
 
@@ -175,11 +175,14 @@
                 </div>
             </div>
 
-        @elseif($user->hasRole('masyarakat'))
+        @elseif(!$user->isSupir() && !$user->isDispatcher() && !$user->isAdminOperasional())
             <div class="mt-6 p-6 rounded-3xl bg-slate-50/70 border border-slate-200 space-y-6">
                 <div class="flex items-center gap-2 pb-3 border-b border-slate-200">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
-                    <h3 class="text-sm font-extrabold text-slate-800 uppercase tracking-wider">Informasi Warga & Kedaruratan Pasien</h3>
+                    <div>
+                        <h3 class="text-sm font-extrabold text-slate-800 uppercase tracking-wider">Informasi Warga & Kedaruratan Pasien</h3>
+                        <p class="text-xs text-slate-500 mt-0.5">Data ini otomatis dihubungkan saat Anda melakukan panggilan ambulans darurat 24 Jam.</p>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
