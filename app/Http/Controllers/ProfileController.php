@@ -36,23 +36,30 @@ class ProfileController extends Controller
 
         $user->save();
 
-        // Simpan atau perbarui data lengkap ke tabel masyarakat (KTP/NIK, alamat, dll)
-        $user->masyarakat()->updateOrCreate(
-            ['user_id' => $user->id],
-            [
-                'nik' => $request->nik,
-                'alamat' => $request->alamat,
-                'tanggal_lahir' => $request->tanggal_lahir,
-                'jenis_kelamin' => $request->jenis_kelamin,
-                'kontak_darurat' => $request->kontak_darurat,
-            ]
-        );
-
-        // Jika supir, perbarui nomor SIM
-        if ($user->isSupir() && $request->has('nomor_sim')) {
+        if ($user->isSupir()) {
             $user->supir()->updateOrCreate(
                 ['user_id' => $user->id],
-                ['nomor_sim' => $request->nomor_sim]
+                [
+                    'nama_lembaga' => $request->input('nama_lembaga') ?: 'Mitra Ambulance Siaga',
+                    'nama_penanggung_jawab' => $request->input('nama_penanggung_jawab') ?: $user->name,
+                    'no_wa' => $request->input('no_wa') ?: $user->phone,
+                    'alamat_unit' => $request->input('alamat_unit') ?: '-',
+                    'merk_kendaraan' => $request->input('merk_kendaraan') ?: '-',
+                    'plat_nomor' => $request->input('plat_nomor') ?: '-',
+                    'nomor_sim' => $request->input('nomor_sim') ?: 'SIM-' . $user->id,
+                    'nomor_stnk' => $request->input('nomor_stnk') ?: '-',
+                ]
+            );
+        } elseif ($user->hasRole('masyarakat')) {
+            $user->masyarakat()->updateOrCreate(
+                ['user_id' => $user->id],
+                [
+                    'nik' => $request->input('nik') ?: '-',
+                    'alamat' => $request->input('alamat') ?: '-',
+                    'tanggal_lahir' => $request->input('tanggal_lahir'),
+                    'jenis_kelamin' => $request->input('jenis_kelamin'),
+                    'kontak_darurat' => $request->input('kontak_darurat') ?: $user->phone,
+                ]
             );
         }
 

@@ -142,10 +142,43 @@
                 <h3 class="font-bold text-slate-800 text-base border-b border-slate-100 pb-3">Detail Evakuasi Pasien</h3>
 
                 <div class="space-y-3 text-xs">
-                    <div>
-                        <span class="text-slate-400 font-semibold block">NAMA PASIEN</span>
-                        <span class="text-sm font-extrabold text-slate-800">{{ $order->nama_pasien }}</span>
+                    <div class="grid grid-cols-2 gap-2 p-3 rounded-2xl bg-slate-50 border border-slate-100">
+                        <div>
+                            <span class="text-slate-400 font-semibold block text-[10px]">NAMA PASIEN</span>
+                            <span class="text-sm font-extrabold text-slate-800">{{ $order->nama_pasien }}</span>
+                        </div>
+                        <div>
+                            <span class="text-slate-400 font-semibold block text-[10px]">NIK PASIEN</span>
+                            <span class="text-sm font-extrabold text-slate-800">{{ $order->nik_pasien ?: '-' }}</span>
+                        </div>
+                        <div class="mt-1">
+                            <span class="text-slate-400 font-semibold block text-[10px]">USIA / PENDAMPING</span>
+                            <span class="text-xs font-bold text-slate-800">{{ $order->usia_pasien ?: '-' }} ({{ $order->jumlah_pendamping ?: 1 }} Org)</span>
+                        </div>
+                        <div class="mt-1">
+                            <span class="text-slate-400 font-semibold block text-[10px]">NO. HP KONTAK</span>
+                            <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $order->no_hp_kontak) }}" target="_blank" class="text-xs font-bold text-emerald-600 hover:underline">
+                                {{ $order->no_hp_kontak ?: '-' }}
+                            </a>
+                        </div>
                     </div>
+
+                    <div class="flex justify-between py-1 border-b border-slate-50">
+                        <span class="text-slate-500 font-semibold">Keperluan Evakuasi:</span>
+                        <span class="font-extrabold text-sky-600">{{ $order->keperluan_penggunaan ?: 'IGD Darurat' }}</span>
+                    </div>
+
+                    <div class="flex justify-between py-1 border-b border-slate-50">
+                        <span class="text-slate-500 font-semibold">Jadwal Jemput:</span>
+                        <span class="font-bold text-slate-800">{{ $order->tanggal_jemput ? $order->tanggal_jemput->format('d M Y') : '-' }} • {{ $order->jam_jemput ?: 'Segera' }}</span>
+                    </div>
+
+                    @if($order->diagnosa_medis)
+                        <div class="py-1 border-b border-slate-50">
+                            <span class="text-slate-400 font-semibold block">DIAGNOSA MEDIS</span>
+                            <span class="font-bold text-slate-700">{{ $order->diagnosa_medis }}</span>
+                        </div>
+                    @endif
 
                     <div>
                         <span class="text-slate-400 font-semibold block">KONDISI MEDIS / DARURAT</span>
@@ -159,12 +192,10 @@
                         <p class="text-slate-800 font-bold text-sm">{{ $order->lokasi_jemput }}</p>
                     </div>
 
-                    @if($order->tujuan_lokasi || $order->rumahSakit)
-                        <div>
-                            <span class="text-slate-400 font-semibold block">RUMAH SAKIT RUJUKAN</span>
-                            <p class="text-emerald-700 font-extrabold text-sm">{{ $order->tujuan_lokasi ?? $order->rumahSakit->nama }}</p>
-                        </div>
-                    @endif
+                    <div>
+                        <span class="text-slate-400 font-semibold block">ALAMAT ANTAR / TUJUAN</span>
+                        <p class="text-emerald-700 font-extrabold text-sm">{{ $order->tujuan_lokasi ?? $order->rumahSakit?->nama }}</p>
+                    </div>
 
                     @if($order->catatan_tambahan)
                         <div>
@@ -191,7 +222,7 @@
         </div>
 
         <!-- Right Column: Leaflet Map Navigasi -->
-        <div class="lg:col-span-7 flex flex-col">
+        <div class="lg:col-span-7 flex flex-col lg:sticky lg:top-24 self-start">
             <div class="bg-white rounded-3xl border border-slate-200/80 p-5 shadow-xs flex-1 flex flex-col min-h-[560px]">
                 <div class="flex items-center justify-between mb-4">
                     <div>

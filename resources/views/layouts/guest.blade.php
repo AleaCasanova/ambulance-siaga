@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'GSC SIAGA') }} - Login & Registrasi</title>
+        <title>{{ config('app.name', 'Ambulance Siaga') }} - Login & Registrasi</title>
 
         <!-- Google Fonts: Plus Jakarta Sans -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,11 +25,11 @@
             <div class="mb-6 text-center">
                 <a href="{{ route('home') }}" class="inline-flex items-center gap-3 group">
                     <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-sky-600 via-cyan-600 to-blue-700 flex items-center justify-center text-white font-black text-2xl shadow-xl shadow-sky-600/30 group-hover:scale-105 transition-transform">
-                        GSC
+                        AS
                     </div>
                     <div class="text-left">
-                        <span class="text-2xl font-black text-slate-900 tracking-tight block">GSC SIAGA</span>
-                        <span class="text-xs font-bold text-sky-600 uppercase tracking-widest block">Ambulans Darurat Cilacap</span>
+                        <span class="text-2xl font-black text-slate-900 tracking-tight block">Ambulance Siaga</span>
+                        <span class="text-xs font-bold text-sky-600 uppercase tracking-widest block">Layanan Darurat • Multi-Mitra</span>
                     </div>
                 </a>
             </div>
@@ -46,13 +46,13 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                     </svg>
-                    <span>Kembali ke Beranda GSC SIAGA</span>
+                    <span>Kembali ke Beranda Ambulance Siaga</span>
                 </a>
             </div>
 
             <!-- Copyright -->
-            <p class="mt-6 text-[11px] font-semibold text-slate-400">
-                &copy; {{ date('Y') }} Yayasan Gerak Sedekah Cilacap (GSC). Layanan Medis Kemanusiaan 24 Jam.
+            <p class="mt-6 text-[11px] font-semibold text-slate-400 text-center">
+                &copy; {{ date('Y') }} Ambulance Siaga. Platform Layanan Darurat untuk Berbagai Mitra. Dikembangkan oleh GSC.
             </p>
         </div>
     </body>

@@ -8,7 +8,7 @@
         <div class="relative z-10 max-w-5xl mx-auto">
             <!-- Main Description Text -->
             <p class="text-base sm:text-lg md:text-xl font-medium leading-relaxed text-white mb-12 text-left sm:text-center">
-                LAZ Gerak sedekah cilacap (GSC) adalah lembaga amil zakat yang bergerak dalam penghimpunan dan penyaluran dana zakat,infak,sedekah, dan program sosial kemanusiaan untuk membantu masyarakat yang membutuhkan
+                Ambulance Siaga adalah platform layanan medis dan transportasi kemanusiaan yang terintegrasi untuk masyarakat umum. Sistem ini menghubungkan kebutuhan darurat medis dengan berbagai mitra penyedia ambulans, relawan, lembaga kepedulian, serta fasilitas kesehatan terdekat.
             </p>
 
             <!-- 4 Icons: Peduli Sesama | Amanah | Transparan | Tepat Sasaran -->
@@ -71,15 +71,15 @@
             <div class="lg:col-span-6 space-y-6">
                 <div>
                     <span class="inline-block text-xs sm:text-sm font-extrabold text-sky-600 uppercase tracking-widest mb-2">
-                        SIAPA KAMI?
+                        TENTANG SISTEM
                     </span>
                     <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-sky-600 sm:text-sky-700 tracking-tight leading-tight">
-                        Tentang Kami <br class="hidden sm:inline">Gerak Sedekah Cilacap
+                        Tentang Sistem <br class="hidden sm:inline">Ambulance Siaga
                     </h2>
                 </div>
 
                 <p class="text-slate-700 text-base sm:text-lg font-medium leading-relaxed">
-                    {{ $tentang ?? 'GSC Gerak Sedekah Cilacap hadir sebagai jembatan kebaikan antara para dermawan dan masyarakat yang membutuhkan. Kami percaya bahwa setiap kebaikan, sekecil apapun, dapat membawa perubahan besar bagi kehidupan sesama.' }}
+                    {{ $tentang ?? 'Ambulance Siaga hadir sebagai platform digital mandiri yang mempertemukan masyarakat yang membutuhkan evakuasi medis darurat dengan berbagai mitra ambulans, relawan kepedulian sosial, dan rumah sakit. Sistem ini dirancang dan dikembangkan oleh GSC untuk mempermudah koordinasi medis darurat bagi seluruh lapisan masyarakat secara gratis, cepat, dan transparan.' }}
                 </p>
 
                 <!-- Quick Action Buttons -->
@@ -102,12 +102,12 @@
             <div class="lg:col-span-6">
                 <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200/80 group">
                     <img src="{{ asset('images/gsc_community_photo.png') }}" 
-                         alt="Relawan dan Kegiatan Gerak Sedekah Cilacap (GSC)"
+                         alt="Relawan dan Kegiatan Jaringan Ambulance Siaga"
                          class="w-full h-auto object-cover transform group-hover:scale-[1.03] transition-transform duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent opacity-60"></div>
                     <div class="absolute bottom-4 left-4 right-4 text-white text-xs font-semibold px-4 py-2 rounded-xl bg-slate-900/60 backdrop-blur-xs flex items-center justify-between">
-                        <span>Relawan & Aksi Sosial Kemanusiaan GSC Cilacap</span>
-                        <span class="px-2 py-0.5 rounded bg-sky-600 text-white font-bold text-[10px]">MITRA UMAT</span>
+                        <span>Kolaborasi Relawan & Armada Mitra Ambulance Siaga</span>
+                        <span class="px-2 py-0.5 rounded bg-sky-600 text-white font-bold text-[10px]">MULTI-MITRA</span>
                     </div>
                 </div>
             </div>
@@ -119,12 +119,12 @@
     <div class="bg-white rounded-3xl border border-slate-200/80 p-8 sm:p-10 shadow-xs">
         <h3 class="text-xl font-extrabold text-slate-800 mb-6 flex items-center gap-2.5">
             <span class="w-3 h-3 rounded-full bg-sky-600"></span>
-            <span>Sekretariat & Kantor Layanan GSC SIAGA</span>
+            <span>Pusat Koordinasi & Sekretariat Ambulance Siaga</span>
         </h3>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200/60">
-                <span class="text-xs font-bold text-slate-400 block uppercase mb-1">Alamat Kantor</span>
+                <span class="text-xs font-bold text-slate-400 block uppercase mb-1">Alamat Pusat Koordinasi</span>
                 <p class="text-sm font-bold text-slate-800">{{ $alamat }}</p>
             </div>
 

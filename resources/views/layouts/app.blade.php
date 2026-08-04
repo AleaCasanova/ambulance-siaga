@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'GSC SIAGA') }} - Ambulans Darurat Cilacap</title>
+        <title>{{ config('app.name', 'Ambulance Siaga') }} - Platform Layanan Ambulans Darurat & Mitra</title>
 
         <!-- Fonts: Plus Jakarta Sans -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -84,10 +84,10 @@
                     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
                         <div class="flex items-center gap-2 font-bold text-slate-700">
                             <span class="w-2.5 h-2.5 rounded-full bg-sky-600"></span>
-                            <span>{{ $namaGsc ?? 'Yayasan Gerak Sedekah Cilacap (GSC)' }} • Layanan Medis & Filantropi Profesional</span>
+                            <span>{{ $namaGsc ?? 'Ambulance Siaga' }} • Platform Kolaborasi Layanan Ambulans & Medis</span>
                         </div>
                         <p class="font-medium">
-                            &copy; {{ date('Y') }} LAZ GSC SIAGA. All rights reserved.
+                            &copy; {{ date('Y') }} Ambulance Siaga. Platform Layanan Darurat untuk Masyarakat & Berbagai Mitra. Dikembangkan oleh GSC.
                         </p>
                     </div>
                 </footer>

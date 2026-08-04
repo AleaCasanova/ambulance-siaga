@@ -11,7 +11,7 @@ class AmbulansSeeder extends Seeder
     {
         $ambulances = [
             [
-                'kode_ambulans' => 'GSC-AMB-01',
+                'kode_ambulans' => 'AMB-01',
                 'plat_nomor' => 'R 1890 SC',
                 'jenis_ambulans' => 'Emergency Medis (VIP)',
                 'status' => 'Tersedia',
@@ -20,7 +20,7 @@ class AmbulansSeeder extends Seeder
                 'catatan' => 'Armada utama siaga darurat 24 jam wilayah Cilacap Kota',
             ],
             [
-                'kode_ambulans' => 'GSC-AMB-02',
+                'kode_ambulans' => 'AMB-02',
                 'plat_nomor' => 'R 1722 TC',
                 'jenis_ambulans' => 'Transport Medis / Pasien',
                 'status' => 'Tersedia',
@@ -29,7 +29,7 @@ class AmbulansSeeder extends Seeder
                 'catatan' => 'Armada pengantaran pasien rutin dan kontrol RS',
             ],
             [
-                'kode_ambulans' => 'GSC-AMB-03',
+                'kode_ambulans' => 'AMB-03',
                 'plat_nomor' => 'R 1554 BC',
                 'jenis_ambulans' => 'Darurat & Jenazah',
                 'status' => 'Tersedia',

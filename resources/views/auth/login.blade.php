@@ -1,7 +1,7 @@
 <x-guest-layout>
     <!-- Header Form -->
     <div class="mb-6 text-center">
-        <h2 class="text-xl font-extrabold text-slate-800">Masuk ke GSC SIAGA</h2>
+        <h2 class="text-xl font-extrabold text-slate-800">Masuk ke Ambulance Siaga</h2>
         <p class="text-xs font-semibold text-slate-500 mt-1">
             Kelola operasional ambulans, penugasan medis, atau pantau pesanan Anda.
         </p>
@@ -19,7 +19,7 @@
                 Alamat Email
             </label>
             <input id="email" type="email" name="email" :value="old('email')" required autofocus autocomplete="username"
-                   placeholder="contoh: admin@gsc-cilacap.org"
+                   placeholder="contoh: admin@ambulancesiaga.org"
                    class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-slate-50/50 text-sm font-semibold text-slate-800 focus:bg-white focus:border-sky-500 focus:ring-2 focus:ring-sky-200 transition-all">
             <x-input-error :messages="$errors->get('email')" class="mt-1" />
         </div>
@@ -63,7 +63,7 @@
     <!-- Register Link -->
     <div class="mt-6 pt-6 border-t border-slate-100 text-center">
         <p class="text-xs font-medium text-slate-500">
-            Belum memiliki akun GSC?
+            Belum memiliki akun?
             <a href="{{ route('register') }}" class="font-extrabold text-sky-600 hover:underline ms-1">
                 Daftar Akun Masyarakat
             </a>
@@ -78,19 +78,19 @@
         </p>
         <div class="space-y-1.5">
             <div class="flex justify-between items-center">
-                <span><strong>Super Admin:</strong> admin@gsc-cilacap.org</span>
+                <span><strong>Super Admin:</strong> superadmin@ambulancesiaga.org</span>
                 <code class="bg-white px-1.5 py-0.5 rounded border border-slate-200 text-slate-700 font-mono">password</code>
             </div>
             <div class="flex justify-between items-center">
-                <span><strong>Dispatcher:</strong> dispatcher@gsc-cilacap.org</span>
+                <span><strong>Dispatcher:</strong> dispatcher@ambulancesiaga.org</span>
                 <code class="bg-white px-1.5 py-0.5 rounded border border-slate-200 text-slate-700 font-mono">password</code>
             </div>
             <div class="flex justify-between items-center">
-                <span><strong>Supir Ambulans:</strong> budi.supir@gsc-cilacap.org</span>
+                <span><strong>Supir Ambulans:</strong> supir1@ambulancesiaga.org</span>
                 <code class="bg-white px-1.5 py-0.5 rounded border border-slate-200 text-slate-700 font-mono">password</code>
             </div>
             <div class="flex justify-between items-center">
-                <span><strong>Masyarakat:</strong> ahmad@example.com</span>
+                <span><strong>Masyarakat:</strong> masyarakat@ambulancesiaga.org</span>
                 <code class="bg-white px-1.5 py-0.5 rounded border border-slate-200 text-slate-700 font-mono">password</code>
             </div>
         </div>

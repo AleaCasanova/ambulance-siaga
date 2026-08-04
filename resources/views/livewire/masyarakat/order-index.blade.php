@@ -133,7 +133,7 @@
                     </svg>
                 </div>
                 <h3 class="font-bold text-slate-800 text-lg mb-1">Belum Ada Riwayat Pesanan</h3>
-                <p class="text-slate-500 text-sm max-w-sm mx-auto mb-6">Jika terjadi situasi darurat medis, jangan ragu untuk memesan ambulans GSC gratis 24 jam.</p>
+                <p class="text-slate-500 text-sm max-w-sm mx-auto mb-6">Jika terjadi situasi darurat medis, jangan ragu untuk memesan ambulans dari jaringan Ambulance Siaga gratis 24 jam.</p>
                 <a href="{{ route('masyarakat.order.create') }}"
                    class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-sky-600 hover:bg-sky-700 text-white font-extrabold text-sm shadow-md transition-all">
                     <span>PESAN AMBULANS SEKARANG</span>

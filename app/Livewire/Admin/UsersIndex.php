@@ -30,7 +30,14 @@ class UsersIndex extends Component
     public bool $is_active = true;
 
     // Supir Fields
+    public string $nama_lembaga = '';
+    public string $nama_penanggung_jawab = '';
+    public string $no_wa = '';
+    public string $alamat_unit = '';
+    public string $merk_kendaraan = '';
+    public string $plat_nomor = '';
     public string $nomor_sim = '';
+    public string $nomor_stnk = '';
     public bool $status_online = false;
 
     // Masyarakat Fields
@@ -47,6 +54,13 @@ class UsersIndex extends Component
             'role_id' => 'required|exists:roles,id',
             'password' => $this->isEdit ? 'nullable|min:6' : 'required|min:6',
             'nomor_sim' => 'nullable|string|max:50',
+            'nomor_stnk' => 'nullable|string|max:50',
+            'nama_lembaga' => 'nullable|string|max:150',
+            'nama_penanggung_jawab' => 'nullable|string|max:150',
+            'no_wa' => 'nullable|string|max:30',
+            'alamat_unit' => 'nullable|string|max:255',
+            'merk_kendaraan' => 'nullable|string|max:100',
+            'plat_nomor' => 'nullable|string|max:30',
             'nik' => 'nullable|string|max:30',
             'alamat' => 'nullable|string|max:255',
             'kontak_darurat' => 'nullable|string|max:30',
@@ -67,7 +81,8 @@ class UsersIndex extends Component
     {
         $this->reset([
             'userId', 'name', 'email', 'phone', 'role_id', 'password', 'is_active',
-            'nomor_sim', 'status_online', 'nik', 'alamat', 'kontak_darurat'
+            'nama_lembaga', 'nama_penanggung_jawab', 'no_wa', 'alamat_unit', 'merk_kendaraan', 'plat_nomor',
+            'nomor_sim', 'nomor_stnk', 'status_online', 'nik', 'alamat', 'kontak_darurat'
         ]);
         $this->is_active = true;
         $this->isEdit = false;
@@ -94,7 +109,14 @@ class UsersIndex extends Component
         $this->password = '';
 
         // Load Supir profile
+        $this->nama_lembaga = (string) ($user->supir?->nama_lembaga ?? '');
+        $this->nama_penanggung_jawab = (string) ($user->supir?->nama_penanggung_jawab ?? '');
+        $this->no_wa = (string) ($user->supir?->no_wa ?? '');
+        $this->alamat_unit = (string) ($user->supir?->alamat_unit ?? '');
+        $this->merk_kendaraan = (string) ($user->supir?->merk_kendaraan ?? '');
+        $this->plat_nomor = (string) ($user->supir?->plat_nomor ?? '');
         $this->nomor_sim = (string) ($user->supir?->nomor_sim ?? '');
+        $this->nomor_stnk = (string) ($user->supir?->nomor_stnk ?? '');
         $this->status_online = (bool) ($user->supir?->status_online ?? false);
 
         // Load Masyarakat profile
@@ -137,7 +159,14 @@ class UsersIndex extends Component
             Supir::updateOrCreate(
                 ['user_id' => $user->id],
                 [
+                    'nama_lembaga' => $this->nama_lembaga ?: 'Mitra Ambulance Siaga',
+                    'nama_penanggung_jawab' => $this->nama_penanggung_jawab ?: $user->name,
+                    'no_wa' => $this->no_wa ?: $user->phone,
+                    'alamat_unit' => $this->alamat_unit ?: '-',
+                    'merk_kendaraan' => $this->merk_kendaraan ?: '-',
+                    'plat_nomor' => $this->plat_nomor ?: '-',
                     'nomor_sim' => $this->nomor_sim ?: 'SIM-' . $user->id,
+                    'nomor_stnk' => $this->nomor_stnk ?: '-',
                     'status_online' => $this->status_online,
                     'lokasi_terakhir_lat' => -7.7188,
                     'lokasi_terakhir_lng' => 109.0159,

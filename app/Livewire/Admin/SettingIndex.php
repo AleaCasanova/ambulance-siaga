@@ -27,13 +27,13 @@ class SettingIndex extends Component
 
     public function mount()
     {
-        $this->nama_organisasi = SettingAplikasi::getVal('nama_organisasi', 'Yayasan Gerak Sedekah Cilacap (GSC)');
+        $this->nama_organisasi = SettingAplikasi::getVal('nama_organisasi', 'Ambulance Siaga');
         $this->telepon_darurat = SettingAplikasi::getVal('telepon_darurat', '0812-3456-7890');
-        $this->email_organisasi = SettingAplikasi::getVal('email_organisasi', 'info@gsc-cilacap.org');
-        $this->alamat_kantor = SettingAplikasi::getVal('alamat_kantor', 'Jl. Raya Cilacap No. 10, Sidanegara, Cilacap Tengah');
+        $this->email_organisasi = SettingAplikasi::getVal('email_organisasi', 'info@ambulancesiaga.org');
+        $this->alamat_kantor = SettingAplikasi::getVal('alamat_kantor', 'Pusat Koordinasi Layanan Ambulance Siaga');
         $this->default_lat = (string) SettingAplikasi::getVal('default_lat', '-7.7188');
         $this->default_lng = (string) SettingAplikasi::getVal('default_lng', '109.0159');
-        $this->tentang_gsc = SettingAplikasi::getVal('tentang_gsc', 'Yayasan Gerak Sedekah Cilacap (GSC) adalah organisasi kemanusiaan non-profit...');
+        $this->tentang_gsc = SettingAplikasi::getVal('tentang_gsc', 'Ambulance Siaga adalah platform digital layanan darurat medis dan transportasi kemanusiaan yang terintegrasi dengan berbagai mitra penyedia ambulans, rumah sakit, dan lembaga kemanusiaan untuk melayani masyarakat secara gratis, cepat, dan profesional 24 Jam.');
     }
 
     public function saveSettings()
@@ -46,9 +46,9 @@ class SettingIndex extends Component
         SettingAplikasi::setVal('alamat_kantor', $this->alamat_kantor, 'string', 'Alamat kantor sekretariat');
         SettingAplikasi::setVal('default_lat', $this->default_lat, 'string', 'Default latitude peta Cilacap');
         SettingAplikasi::setVal('default_lng', $this->default_lng, 'string', 'Default longitude peta Cilacap');
-        SettingAplikasi::setVal('tentang_gsc', $this->tentang_gsc, 'text', 'Deskripsi GSC');
+        SettingAplikasi::setVal('tentang_gsc', $this->tentang_gsc, 'text', 'Deskripsi Sistem Ambulance Siaga');
 
-        session()->flash('success', 'Konfigurasi sistem GSC SIAGA berhasil disimpan.');
+        session()->flash('success', 'Konfigurasi sistem Ambulance Siaga berhasil disimpan.');
     }
 
     public function render()

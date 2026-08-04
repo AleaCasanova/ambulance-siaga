@@ -6,7 +6,7 @@
                 Manajemen Operasional
             </span>
             <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">Jadwal Piket Supir & Ambulans</h1>
-            <p class="text-slate-500 text-sm mt-1">Kelola jadwal penugasan harian supir dan unit ambulans siaga GSC Cilacap.</p>
+            <p class="text-slate-500 text-sm mt-1">Kelola jadwal penugasan harian supir dan unit armada mitra Ambulance Siaga.</p>
         </div>
 
         <div class="flex flex-wrap items-center gap-3">

@@ -12,51 +12,51 @@ class SettingAplikasiSeeder extends Seeder
         $settings = [
             [
                 'key' => 'nama_organisasi',
-                'value' => 'Yayasan Gerak Sedekah Cilacap (GSC)',
+                'value' => 'Ambulance Siaga',
                 'type' => 'string',
-                'description' => 'Nama resmi yayasan penyedia layanan ambulans',
+                'description' => 'Nama sistem platform layanan ambulans multi-mitra',
             ],
             [
                 'key' => 'telepon_darurat',
                 'value' => '0812-3456-7890',
                 'type' => 'string',
-                'description' => 'Nomor telepon darurat siaga 24 jam GSC',
+                'description' => 'Nomor telepon hotline darurat siaga 24 jam',
             ],
             [
                 'key' => 'email_organisasi',
-                'value' => 'info@gsc-cilacap.org',
+                'value' => 'info@ambulancesiaga.org',
                 'type' => 'string',
-                'description' => 'Email resmi yayasan',
+                'description' => 'Email resmi pusat koordinasi Ambulance Siaga',
             ],
             [
                 'key' => 'alamat_kantor',
-                'value' => 'Jl. Raya Cilacap No. 10, Sidanegara, Cilacap Tengah, Jawa Tengah',
+                'value' => 'Pusat Koordinasi Layanan Ambulance Siaga',
                 'type' => 'string',
-                'description' => 'Alamat markas operasional ambulans GSC',
+                'description' => 'Alamat pusat koordinasi operasional ambulans',
             ],
             [
                 'key' => 'default_lat',
                 'value' => '-7.7188',
                 'type' => 'string',
-                'description' => 'Latitude default pusat Kabupaten Cilacap',
+                'description' => 'Latitude default pusat layanan darurat',
             ],
             [
                 'key' => 'default_lng',
                 'value' => '109.0159',
                 'type' => 'string',
-                'description' => 'Longitude default pusat Kabupaten Cilacap',
+                'description' => 'Longitude default pusat layanan darurat',
             ],
             [
                 'key' => 'jam_operasional',
                 'value' => '24 Jam Siaga Darurat',
                 'type' => 'string',
-                'description' => 'Jam kerja layanan ambulans',
+                'description' => 'Jam operasional layanan ambulans mitra',
             ],
             [
                 'key' => 'tentang_gsc',
-                'value' => 'Yayasan Gerak Sedekah Cilacap (GSC) adalah organisasi sosial kemanusiaan non-profit yang berdedikasi melayani masyarakat Cilacap dalam kondisi darurat medis dan transportasi kemanusiaan secara gratis dan profesional.',
+                'value' => 'Ambulance Siaga adalah platform digital layanan darurat medis dan transportasi kemanusiaan yang terintegrasi dengan berbagai mitra penyedia ambulans, rumah sakit, dan lembaga kemanusiaan untuk melayani masyarakat secara gratis, cepat, dan profesional 24 Jam.',
                 'type' => 'string',
-                'description' => 'Deskripsi singkat tentang Yayasan Gerak Sedekah Cilacap',
+                'description' => 'Deskripsi tentang sistem Ambulance Siaga',
             ],
         ];
 

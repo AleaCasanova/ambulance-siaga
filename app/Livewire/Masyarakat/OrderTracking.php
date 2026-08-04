@@ -44,7 +44,7 @@ class OrderTracking extends Component
         $service->submitRating($this->orderId, auth()->id(), $this->skor, $this->ulasan);
 
         $this->showRatingModal = false;
-        session()->flash('success', 'Terima kasih atas ulasan dan rating Anda untuk pelayanan GSC!');
+        session()->flash('success', 'Terima kasih atas ulasan dan rating Anda untuk pelayanan Ambulance Siaga!');
     }
 
     public function render()

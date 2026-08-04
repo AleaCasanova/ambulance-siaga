@@ -37,7 +37,7 @@
         </div>
         <div class="flex items-center gap-2">
             <span class="w-3 h-3 rounded-full bg-sky-600"></span>
-            <span class="text-slate-700 font-semibold">Posisi Armada Ambulans GSC</span>
+            <span class="text-slate-700 font-semibold">Posisi Armada Ambulans Mitra</span>
         </div>
         <div class="flex items-center gap-2">
             <span class="w-3 h-3 rounded-full bg-emerald-600"></span>

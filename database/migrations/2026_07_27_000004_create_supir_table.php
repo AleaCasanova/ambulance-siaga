@@ -14,7 +14,14 @@ return new class extends Migration
         Schema::create('supir', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->string('nama_lembaga')->nullable();
+            $table->string('nama_penanggung_jawab')->nullable();
+            $table->string('no_wa', 30)->nullable();
+            $table->text('alamat_unit')->nullable();
+            $table->string('merk_kendaraan', 100)->nullable();
+            $table->string('plat_nomor', 30)->nullable();
             $table->string('nomor_sim', 50)->nullable();
+            $table->string('nomor_stnk', 50)->nullable();
             $table->boolean('status_online')->default(false);
             $table->decimal('lokasi_terakhir_lat', 10, 8)->nullable();
             $table->decimal('lokasi_terakhir_lng', 11, 8)->nullable();

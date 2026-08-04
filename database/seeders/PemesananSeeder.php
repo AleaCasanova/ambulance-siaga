@@ -17,13 +17,13 @@ class PemesananSeeder extends Seeder
 {
     public function run(): void
     {
-        $masyarakatUser = User::where('email', 'masyarakat@gsc.org')->first();
+        $masyarakatUser = User::where('email', 'masyarakat@ambulancesiaga.org')->first();
         $budiUser = User::where('email', 'budi@gmail.com')->first();
-        $dispatcherUser = User::where('email', 'dispatcher@gsc.org')->first();
-        $supir1 = Supir::whereHas('user', fn($q) => $q->where('email', 'supir1@gsc.org'))->first();
-        $supir2 = Supir::whereHas('user', fn($q) => $q->where('email', 'supir2@gsc.org'))->first();
-        $amb1 = Ambulans::where('kode_ambulans', 'GSC-AMB-01')->first();
-        $amb2 = Ambulans::where('kode_ambulans', 'GSC-AMB-02')->first();
+        $dispatcherUser = User::where('email', 'dispatcher@ambulancesiaga.org')->first();
+        $supir1 = Supir::whereHas('user', fn($q) => $q->where('email', 'supir1@ambulancesiaga.org'))->first();
+        $supir2 = Supir::whereHas('user', fn($q) => $q->where('email', 'supir2@ambulancesiaga.org'))->first();
+        $amb1 = Ambulans::where('kode_ambulans', 'AMB-01')->first();
+        $amb2 = Ambulans::where('kode_ambulans', 'AMB-02')->first();
         $rs1 = RumahSakit::where('nama', 'RSUD Cilacap')->first();
         $rs2 = RumahSakit::where('nama', 'RS Pertamina Cilacap')->first();
 
@@ -33,13 +33,16 @@ class PemesananSeeder extends Seeder
 
         // 1. Order Selesai
         $order1 = Pemesanan::create([
-            'kode_order' => 'GSC-ORD-20260726-001',
+            'kode_order' => 'AMB-ORD-20260726-001',
             'user_id' => $masyarakatUser->id,
             'supir_id' => $supir1->id,
             'ambulans_id' => $amb1->id,
             'rumah_sakit_id' => $rs1->id,
             'dispatcher_id' => $dispatcherUser?->id,
             'nama_pasien' => 'Kakek Hartono',
+            'nik_pasien' => '3301015006900001',
+            'usia_pasien' => '68 Tahun',
+            'diagnosa_medis' => 'Sesak Napas Berat & Hipertensi',
             'kondisi_pasien' => 'Sesak nafas darurat butuh bantuan oksigen dan penanganan IGD segera',
             'lokasi_jemput' => 'Jl. Gatot Subroto No. 45, Sidanegara, Cilacap Tengah',
             'jemput_lat' => -7.7188,
@@ -47,6 +50,11 @@ class PemesananSeeder extends Seeder
             'tujuan_lokasi' => $rs1->nama . ' - ' . $rs1->alamat,
             'tujuan_lat' => $rs1->lat,
             'tujuan_lng' => $rs1->lng,
+            'tanggal_jemput' => Carbon::now()->subHours(5)->format('Y-m-d'),
+            'jam_jemput' => '14:30',
+            'jumlah_pendamping' => 2,
+            'no_hp_kontak' => '081987654321',
+            'keperluan_penggunaan' => 'IGD Darurat',
             'status' => 'selesai',
             'catatan_tambahan' => 'Tolong bawa tabung oksigen penuh',
             'waktu_pesan' => Carbon::now()->subHours(5),
@@ -65,7 +73,7 @@ class PemesananSeeder extends Seeder
         StatusPerjalanan::create([
             'pemesanan_id' => $order1->id,
             'status' => 'diproses',
-            'keterangan' => 'Dispatcher menugaskan Ambulans GSC-AMB-01 dan Supir Ahmad Supriyadi',
+            'keterangan' => 'Dispatcher menugaskan Ambulans AMB-01 dan Supir Ahmad Supriyadi',
             'created_by' => $dispatcherUser?->id,
             'created_at' => Carbon::now()->subHours(5)->addMinutes(3),
         ]);
@@ -96,18 +104,21 @@ class PemesananSeeder extends Seeder
             'user_id' => $masyarakatUser->id,
             'supir_id' => $supir1->id,
             'skor' => 5,
-            'ulasan' => 'Alhamdulillah pelayanan GSC SIAGA sangat cepat dan gratis. Supir ramah serta sabar membantu kakek kami. Semoga berkah selalu!',
+            'ulasan' => 'Alhamdulillah pelayanan Ambulance Siaga sangat cepat dan gratis. Supir ramah serta sabar membantu kakek kami. Semoga berkah selalu!',
         ]);
 
         // 2. Order Aktif (menuju_lokasi / membawa_pasien) - Untuk uji coba Realtime Tracking Map
         $order2 = Pemesanan::create([
-            'kode_order' => 'GSC-ORD-' . date('Ymd') . '-002',
+            'kode_order' => 'AMB-ORD-' . date('Ymd') . '-002',
             'user_id' => $masyarakatUser->id,
             'supir_id' => $supir1->id,
             'ambulans_id' => $amb1->id,
             'rumah_sakit_id' => $rs2->id,
             'dispatcher_id' => $dispatcherUser?->id,
             'nama_pasien' => 'Ibu Halimah',
+            'nik_pasien' => '3301021203850009',
+            'usia_pasien' => '54 Tahun',
+            'diagnosa_medis' => 'Serangan Jantung / Angina Pektoris',
             'kondisi_pasien' => 'Kecepatan tinggi kritis, perlu evakuasi segera ke RS Pertamina',
             'lokasi_jemput' => 'Jl. S. Parman No. 12, Cilacap Tengah',
             'jemput_lat' => -7.7210,
@@ -115,6 +126,11 @@ class PemesananSeeder extends Seeder
             'tujuan_lokasi' => $rs2->nama . ' - ' . $rs2->alamat,
             'tujuan_lat' => $rs2->lat,
             'tujuan_lng' => $rs2->lng,
+            'tanggal_jemput' => Carbon::today()->format('Y-m-d'),
+            'jam_jemput' => Carbon::now()->format('H:i'),
+            'jumlah_pendamping' => 1,
+            'no_hp_kontak' => '081234560006',
+            'keperluan_penggunaan' => 'IGD Darurat',
             'status' => 'menuju_lokasi',
             'catatan_tambahan' => 'Gerbang rumah warna hitam samping warung',
             'waktu_pesan' => Carbon::now()->subMinutes(15),
@@ -134,7 +150,7 @@ class PemesananSeeder extends Seeder
         StatusPerjalanan::create([
             'pemesanan_id' => $order2->id,
             'status' => 'diproses',
-            'keterangan' => 'Dispatcher menugaskan GSC-AMB-01 (Ahmad Supriyadi)',
+            'keterangan' => 'Dispatcher menugaskan AMB-01 (Ahmad Supriyadi)',
             'created_by' => $dispatcherUser?->id,
             'created_at' => Carbon::now()->subMinutes(12),
         ]);
@@ -169,13 +185,16 @@ class PemesananSeeder extends Seeder
         // 3. Order Baru (menunggu dispatcher)
         if ($budiUser) {
             Pemesanan::create([
-                'kode_order' => 'GSC-ORD-' . date('Ymd') . '-003',
+                'kode_order' => 'AMB-ORD-' . date('Ymd') . '-003',
                 'user_id' => $budiUser->id,
                 'supir_id' => null,
                 'ambulans_id' => null,
                 'rumah_sakit_id' => $rs1->id,
                 'dispatcher_id' => null,
                 'nama_pasien' => 'Rizki Aditya',
+                'nik_pasien' => '3301031112000003',
+                'usia_pasien' => '23 Tahun',
+                'diagnosa_medis' => 'Trauma Kaki Luka Robek Akibat KLL',
                 'kondisi_pasien' => 'Kecelakaan lalu lintas ringan di dekat Taman Zehner, luka robek di kaki',
                 'lokasi_jemput' => 'Jl. Letjen Suprapto depan Taman Zehner, Kebonmanis, Cilacap Utara',
                 'jemput_lat' => -7.7050,
@@ -183,6 +202,11 @@ class PemesananSeeder extends Seeder
                 'tujuan_lokasi' => $rs1->nama . ' - ' . $rs1->alamat,
                 'tujuan_lat' => $rs1->lat,
                 'tujuan_lng' => $rs1->lng,
+                'tanggal_jemput' => Carbon::today()->format('Y-m-d'),
+                'jam_jemput' => Carbon::now()->format('H:i'),
+                'jumlah_pendamping' => 1,
+                'no_hp_kontak' => '081234560007',
+                'keperluan_penggunaan' => 'IGD Darurat',
                 'status' => 'menunggu',
                 'catatan_tambahan' => 'Korban sadar, butuh angkutan aman ke IGD',
                 'waktu_pesan' => Carbon::now()->subMinutes(5),

@@ -21,9 +21,9 @@ class UserSeeder extends Seeder
 
         // 1. Super Admin
         User::updateOrCreate(
-            ['email' => 'superadmin@gsc.org'],
+            ['email' => 'superadmin@ambulancesiaga.org'],
             [
-                'name' => 'Super Admin GSC',
+                'name' => 'Super Admin Ambulance Siaga',
                 'password' => Hash::make('password'),
                 'role_id' => $superadminRole->id,
                 'phone' => '081234560001',
@@ -33,9 +33,9 @@ class UserSeeder extends Seeder
 
         // 2. Admin Operasional
         User::updateOrCreate(
-            ['email' => 'admin@gsc.org'],
+            ['email' => 'admin@ambulancesiaga.org'],
             [
-                'name' => 'Admin Operasional GSC',
+                'name' => 'Admin Operasional Ambulance Siaga',
                 'password' => Hash::make('password'),
                 'role_id' => $adminRole->id,
                 'phone' => '081234560002',
@@ -45,9 +45,9 @@ class UserSeeder extends Seeder
 
         // 3. Dispatcher
         User::updateOrCreate(
-            ['email' => 'dispatcher@gsc.org'],
+            ['email' => 'dispatcher@ambulancesiaga.org'],
             [
-                'name' => 'Dispatcher Siaga GSC',
+                'name' => 'Dispatcher Ambulance Siaga',
                 'password' => Hash::make('password'),
                 'role_id' => $dispatcherRole->id,
                 'phone' => '081234560003',
@@ -57,7 +57,7 @@ class UserSeeder extends Seeder
 
         // 4. Supir 1
         $supirUser1 = User::updateOrCreate(
-            ['email' => 'supir1@gsc.org'],
+            ['email' => 'supir1@ambulancesiaga.org'],
             [
                 'name' => 'Ahmad Supriyadi',
                 'password' => Hash::make('password'),
@@ -70,7 +70,14 @@ class UserSeeder extends Seeder
         Supir::updateOrCreate(
             ['user_id' => $supirUser1->id],
             [
+                'nama_lembaga' => 'LAZ Peduli Ummah Cilacap',
+                'nama_penanggung_jawab' => 'Ahmad Supriyadi',
+                'no_wa' => '081234560004',
+                'alamat_unit' => 'Jl. Gatot Subroto No. 12, Sidanegara, Cilacap Tengah',
+                'merk_kendaraan' => 'Toyota HiAce Commuter',
+                'plat_nomor' => 'R 1890 SC',
                 'nomor_sim' => 'SIM-B1-9988776655',
+                'nomor_stnk' => 'STNK-1890-2027',
                 'status_online' => true,
                 'lokasi_terakhir_lat' => -7.7188,
                 'lokasi_terakhir_lng' => 109.0159,
@@ -81,7 +88,7 @@ class UserSeeder extends Seeder
 
         // 5. Supir 2
         $supirUser2 = User::updateOrCreate(
-            ['email' => 'supir2@gsc.org'],
+            ['email' => 'supir2@ambulancesiaga.org'],
             [
                 'name' => 'Rahmat Hidayat',
                 'password' => Hash::make('password'),
@@ -94,7 +101,14 @@ class UserSeeder extends Seeder
         Supir::updateOrCreate(
             ['user_id' => $supirUser2->id],
             [
+                'nama_lembaga' => 'Relawan Kesehatan Al-Irsyad',
+                'nama_penanggung_jawab' => 'Rahmat Hidayat',
+                'no_wa' => '081234560005',
+                'alamat_unit' => 'Jl. Letjen Suprapto No. 45, Kebonmanis, Cilacap Utara',
+                'merk_kendaraan' => 'Daihatsu Gran Max Ambulance',
+                'plat_nomor' => 'R 1722 TC',
                 'nomor_sim' => 'SIM-B1-1122334455',
+                'nomor_stnk' => 'STNK-1722-2028',
                 'status_online' => true,
                 'lokasi_terakhir_lat' => -7.7250,
                 'lokasi_terakhir_lng' => 109.0080,
@@ -105,9 +119,9 @@ class UserSeeder extends Seeder
 
         // 6. Masyarakat 1
         $masyarakatUser1 = User::updateOrCreate(
-            ['email' => 'masyarakat@gsc.org'],
+            ['email' => 'masyarakat@ambulancesiaga.org'],
             [
-                'name' => 'Siti Aminah (Warga Cilacap)',
+                'name' => 'Siti Aminah (Masyarakat)',
                 'password' => Hash::make('password'),
                 'role_id' => $masyarakatRole->id,
                 'phone' => '081234560006',

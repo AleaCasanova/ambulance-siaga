@@ -5,7 +5,7 @@
             <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-sky-100 text-sky-700 uppercase tracking-wider mb-2">
                 Pusat Kendali Eksekutif
             </span>
-            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">Dashboard Eksekutif GSC</h1>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">Dashboard Eksekutif Ambulance Siaga</h1>
             <p class="text-slate-500 text-sm mt-1">Pantau statistik evakuasi, efisiensi armada, dan aktivitas pengguna sistem secara real-time.</p>
         </div>
 

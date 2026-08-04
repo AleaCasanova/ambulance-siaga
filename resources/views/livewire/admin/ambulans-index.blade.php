@@ -6,7 +6,7 @@
                 Manajemen Armada Medis
             </span>
             <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">Kelola Armada Ambulans</h1>
-            <p class="text-slate-500 text-sm mt-1">Daftar ambulans GSC SIAGA, plat nomor, jenis unit, dan perlengkapan medis.</p>
+            <p class="text-slate-500 text-sm mt-1">Daftar armada ambulans mitra Ambulance Siaga, plat nomor, jenis unit, dan perlengkapan medis.</p>
         </div>
 
         <div class="flex flex-wrap items-center gap-3">

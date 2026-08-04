@@ -98,24 +98,28 @@
                             AMB
                         </div>
                         <div>
-                            <span class="inline-block px-2 py-0.5 rounded text-[11px] font-bold bg-sky-100 text-sky-700 mb-0.5">
-                                {{ $order->ambulans->kode_ambulans }}
+                            <span class="inline-block px-2.5 py-0.5 rounded text-[11px] font-bold bg-sky-100 text-sky-700 mb-0.5">
+                                {{ $order->ambulans->kode_ambulans }} • {{ $order->supir->nama_lembaga ?: 'Mitra Ambulance Siaga' }}
                             </span>
                             <h3 class="font-bold text-slate-800 text-lg leading-tight">{{ $order->supir->user->name }}</h3>
-                            <p class="text-xs text-slate-500">Plat Nomor: <strong class="text-slate-700">{{ $order->ambulans->plat_nomor }}</strong></p>
+                            <p class="text-xs text-slate-500">PJ: <strong class="text-slate-700">{{ $order->supir->nama_penanggung_jawab ?: $order->supir->user->name }}</strong> • Plat: <strong class="text-slate-700">{{ $order->ambulans->plat_nomor ?? $order->supir->plat_nomor }}</strong></p>
                         </div>
                     </div>
 
-                    <div class="space-y-2.5 text-xs">
+                    <div class="space-y-2 text-xs">
                         <div class="flex justify-between py-1 border-b border-slate-50">
-                            <span class="text-slate-500">Nomor Telepon Supir:</span>
-                            <a href="tel:{{ $order->supir->user->phone }}" class="font-bold text-sky-600 hover:underline">
-                                {{ $order->supir->user->phone }}
+                            <span class="text-slate-500">No. WA / Telepon Supir:</span>
+                            <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $order->supir->no_wa ?: $order->supir->user->phone) }}" target="_blank" class="font-bold text-emerald-600 hover:underline">
+                                {{ $order->supir->no_wa ?: $order->supir->user->phone }}
                             </a>
                         </div>
                         <div class="flex justify-between py-1 border-b border-slate-50">
-                            <span class="text-slate-500">Jenis Armada:</span>
-                            <span class="font-bold text-slate-800">{{ $order->ambulans->jenis_ambulans }}</span>
+                            <span class="text-slate-500">Merk Kendaraan:</span>
+                            <span class="font-bold text-slate-800">{{ $order->supir->merk_kendaraan ?: $order->ambulans->jenis_ambulans }}</span>
+                        </div>
+                        <div class="flex justify-between py-1 border-b border-slate-50">
+                            <span class="text-slate-500">Alamat Unit:</span>
+                            <span class="font-medium text-slate-700 text-right max-w-[200px]">{{ $order->supir->alamat_unit ?: '-' }}</span>
                         </div>
                         <div class="py-1">
                             <span class="text-slate-500 block mb-1">Perlengkapan Medis:</span>
@@ -128,9 +132,59 @@
             @else
                 <div class="bg-amber-50 rounded-3xl border border-amber-200 p-6 text-center">
                     <p class="text-sm font-bold text-amber-800 mb-1">Ambulans Belum Ditugaskan</p>
-                    <p class="text-xs text-amber-700">Dispatcher sedang memproses dan mencarikan armada ambulans GSC terdekat untuk penjemputan.</p>
+                    <p class="text-xs text-amber-700">Dispatcher sedang memproses dan mencarikan armada ambulans terdekat dari jaringan mitra Ambulance Siaga untuk penjemputan.</p>
                 </div>
             @endif
+
+            <!-- Card Informasi Pasien & Jadwal Evakuasi -->
+            <div class="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-xs">
+                <h3 class="font-bold text-slate-800 text-base mb-4 flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+                    <span>Informasi Pasien & Jadwal Evakuasi</span>
+                </h3>
+
+                <div class="grid grid-cols-2 gap-3 text-xs mb-3">
+                    <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                        <span class="text-slate-400 block font-semibold">NAMA PASIEN</span>
+                        <span class="font-bold text-slate-800">{{ $order->nama_pasien }}</span>
+                    </div>
+                    <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                        <span class="text-slate-400 block font-semibold">NIK PASIEN</span>
+                        <span class="font-bold text-slate-800">{{ $order->nik_pasien ?: '-' }}</span>
+                    </div>
+                    <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                        <span class="text-slate-400 block font-semibold">USIA / PENDAMPING</span>
+                        <span class="font-bold text-slate-800">{{ $order->usia_pasien ?: '-' }} ({{ $order->jumlah_pendamping ?: 1 }} Org)</span>
+                    </div>
+                    <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                        <span class="text-slate-400 block font-semibold">NO. HP KONTAK</span>
+                        <span class="font-bold text-slate-800">{{ $order->no_hp_kontak ?: '-' }}</span>
+                    </div>
+                </div>
+
+                <div class="space-y-2 text-xs">
+                    <div class="flex justify-between py-1 border-b border-slate-50">
+                        <span class="text-slate-500">Keperluan:</span>
+                        <span class="font-extrabold text-sky-600">{{ $order->keperluan_penggunaan ?: 'IGD Darurat' }}</span>
+                    </div>
+                    <div class="flex justify-between py-1 border-b border-slate-50">
+                        <span class="text-slate-500">Hari / Tanggal Jemput:</span>
+                        <span class="font-bold text-slate-800">{{ $order->tanggal_jemput ? $order->tanggal_jemput->format('d M Y') : '-' }} ({{ $order->jam_jemput ?: '-' }})</span>
+                    </div>
+                    <div class="py-1 border-b border-slate-50">
+                        <span class="text-slate-500 block">Diagnosa Medis:</span>
+                        <span class="font-medium text-slate-700">{{ $order->diagnosa_medis ?: '-' }}</span>
+                    </div>
+                    <div class="py-1 border-b border-slate-50">
+                        <span class="text-slate-500 block">Kondisi Pasien:</span>
+                        <span class="font-medium text-slate-700">{{ $order->kondisi_pasien }}</span>
+                    </div>
+                    <div class="py-1">
+                        <span class="text-slate-500 block">Alamat Antar / Tujuan:</span>
+                        <span class="font-bold text-slate-800">{{ $order->tujuan_lokasi ?: '-' }}</span>
+                    </div>
+                </div>
+            </div>
 
             <!-- Riwayat Status Perjalanan -->
             <div class="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-xs">
@@ -175,7 +229,7 @@
         </div>
 
         <!-- Right Column: Leaflet Map -->
-        <div class="lg:col-span-7 flex flex-col">
+        <div class="lg:col-span-7 flex flex-col lg:sticky lg:top-24 self-start">
             <div class="bg-white rounded-3xl border border-slate-200/80 p-5 shadow-xs flex-1 flex flex-col min-h-[520px]">
                 <div class="flex items-center justify-between mb-4">
                     <div>
@@ -209,7 +263,7 @@
                         </svg>
                     </div>
                     <h3 class="text-xl font-extrabold text-slate-800">Perjalanan Selesai!</h3>
-                    <p class="text-slate-500 text-xs mt-1">Bagaimana pengalaman pelayanan ambulans GSC SIAGA?</p>
+                    <p class="text-slate-500 text-xs mt-1">Bagaimana pengalaman pelayanan Ambulance Siaga?</p>
                 </div>
 
                 <form wire:submit="submitRating" class="space-y-4">
@@ -271,7 +325,7 @@
                     this.ambMarker = L.marker([ambLat, ambLng], {
                         title: 'Posisi Ambulans Saat Ini'
                     }).addTo(this.map)
-                    .bindPopup('<b>Posisi Ambulans GSC</b><br>Secara realtime dari GPS')
+                    .bindPopup('<b>Posisi Ambulans</b><br>Secara realtime dari GPS')
                     .openPopup();
 
                     // Pickup Marker (Blue)

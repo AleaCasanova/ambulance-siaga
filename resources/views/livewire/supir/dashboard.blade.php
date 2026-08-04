@@ -10,7 +10,7 @@
             </div>
             <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Halo, {{ auth()->user()->name }}!</h1>
             <p class="text-slate-200 text-sm mt-1 max-w-xl">
-                {{ $isOnline ? 'Anda siap menerima penugasan evakuasi medis darurat dari Dispatcher GSC SIAGA.' : 'Aktifkan status Anda menjadi ONLINE untuk mulai menerima pesanan ambulans.' }}
+                {{ $isOnline ? 'Anda siap menerima penugasan evakuasi medis darurat dari Dispatcher Ambulance Siaga.' : 'Aktifkan status Anda menjadi ONLINE untuk mulai menerima pesanan ambulans.' }}
             </p>
         </div>
 
@@ -53,7 +53,7 @@
         <div class="p-6 rounded-3xl bg-white border border-slate-200/80 shadow-xs">
             <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">Nomor SIM / Lisensi</span>
             <span class="text-2xl font-black text-slate-800">{{ $supir?->nomor_sim ?: '-' }}</span>
-            <span class="text-xs text-slate-500 block mt-1">Supir Resmi GSC SIAGA</span>
+            <span class="text-xs text-slate-500 block mt-1">Supir Mitra Ambulance Siaga</span>
         </div>
 
         <!-- Rating -->
@@ -70,7 +70,57 @@
         <div class="p-6 rounded-3xl bg-white border border-slate-200/80 shadow-xs">
             <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">Armada Utama</span>
             <span class="text-2xl font-black text-slate-800">{{ $supir?->ambulans?->kode_ambulans ?? 'Tanpa Armada' }}</span>
-            <span class="text-xs text-slate-500 block mt-1">{{ $supir?->ambulans?->plat_nomor ?? '-' }}</span>
+            <span class="text-xs text-slate-500 block mt-1">{{ $supir?->plat_nomor ?? $supir?->ambulans?->plat_nomor ?? '-' }}</span>
+        </div>
+    </div>
+
+    <!-- Profil Lembaga Mitra & Kendaraan -->
+    <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-xs mb-8">
+        <h2 class="text-xl font-extrabold text-slate-800 mb-6 flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-emerald-600"></span>
+            <span>Profil Lembaga Mitra & Spesifikasi Kendaraan</span>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
+                <h3 class="text-xs font-black uppercase tracking-wider text-sky-600">Informasi Lembaga / Organisasi</h3>
+                <div class="flex justify-between py-1.5 border-b border-slate-200/60">
+                    <span class="text-slate-500 font-medium">Nama Lembaga / Organisasi:</span>
+                    <span class="font-extrabold text-slate-800">{{ $supir?->nama_lembaga ?: 'Mitra Ambulance Siaga' }}</span>
+                </div>
+                <div class="flex justify-between py-1.5 border-b border-slate-200/60">
+                    <span class="text-slate-500 font-medium">Penanggung Jawab:</span>
+                    <span class="font-bold text-slate-800">{{ $supir?->nama_penanggung_jawab ?: auth()->user()->name }}</span>
+                </div>
+                <div class="flex justify-between py-1.5 border-b border-slate-200/60">
+                    <span class="text-slate-500 font-medium">No. WhatsApp (WA):</span>
+                    <span class="font-bold text-emerald-600">{{ $supir?->no_wa ?: auth()->user()->phone }}</span>
+                </div>
+                <div class="py-1.5">
+                    <span class="text-slate-500 font-medium block mb-1">Alamat Unit Ambulance:</span>
+                    <span class="font-bold text-slate-800">{{ $supir?->alamat_unit ?: 'Cilacap' }}</span>
+                </div>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
+                <h3 class="text-xs font-black uppercase tracking-wider text-sky-600">Dokumen & Kendaraan</h3>
+                <div class="flex justify-between py-1.5 border-b border-slate-200/60">
+                    <span class="text-slate-500 font-medium">Merk Kendaraan:</span>
+                    <span class="font-extrabold text-slate-800">{{ $supir?->merk_kendaraan ?: '-' }}</span>
+                </div>
+                <div class="flex justify-between py-1.5 border-b border-slate-200/60">
+                    <span class="text-slate-500 font-medium">Plat Nomor:</span>
+                    <span class="font-bold text-slate-800">{{ $supir?->plat_nomor ?: ($supir?->ambulans?->plat_nomor ?? '-') }}</span>
+                </div>
+                <div class="flex justify-between py-1.5 border-b border-slate-200/60">
+                    <span class="text-slate-500 font-medium">Nomor SIM:</span>
+                    <span class="font-bold text-slate-800">{{ $supir?->nomor_sim ?: '-' }}</span>
+                </div>
+                <div class="flex justify-between py-1.5">
+                    <span class="text-slate-500 font-medium">Nomor STNK:</span>
+                    <span class="font-bold text-slate-800">{{ $supir?->nomor_stnk ?: '-' }}</span>
+                </div>
+            </div>
         </div>
     </div>
 

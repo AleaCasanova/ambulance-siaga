@@ -16,7 +16,7 @@ class PemesananService
     public function createOrder(array $data, int $userId): Pemesanan
     {
         return DB::transaction(function () use ($data, $userId) {
-            $kodeOrder = 'GSC-ORD-' . date('Ymd') . '-' . str_pad(Pemesanan::whereDate('created_at', today())->count() + 1, 3, '0', STR_PAD_LEFT);
+            $kodeOrder = 'AMB-ORD-' . date('Ymd') . '-' . str_pad(Pemesanan::whereDate('created_at', today())->count() + 1, 3, '0', STR_PAD_LEFT);
 
             $order = Pemesanan::create([
                 'kode_order' => $kodeOrder,

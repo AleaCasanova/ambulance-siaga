@@ -10,7 +10,7 @@
         </h2>
 
         <p class="mt-1 text-sm text-slate-500">
-            Setelah akun Anda dihapus, semua sumber daya, riwayat pemesanan, dan data profil akan dihapus secara permanen dari sistem GSC SIAGA Cilacap.
+            Setelah akun Anda dihapus, semua sumber daya, riwayat pemesanan, dan data profil akan dihapus secara permanen dari sistem Ambulance Siaga.
         </p>
     </header>
 

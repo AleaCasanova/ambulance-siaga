@@ -66,7 +66,7 @@
     <!-- Login Link -->
     <div class="mt-6 pt-6 border-t border-slate-100 text-center">
         <p class="text-xs font-medium text-slate-500">
-            Sudah memiliki akun GSC?
+            Sudah memiliki akun?
             <a href="{{ route('login') }}" class="font-extrabold text-sky-600 hover:underline ms-1">
                 Masuk di Sini
             </a>

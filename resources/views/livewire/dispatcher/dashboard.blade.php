@@ -4,7 +4,7 @@
         <div>
             <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-sky-100 text-sky-700 uppercase tracking-wider mb-2">
                 <span class="w-2 h-2 rounded-full bg-sky-600 animate-ping"></span>
-                Pusat Kendali GSC SIAGA
+                Pusat Kendali Ambulance Siaga
             </span>
             <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">Dashboard Dispatcher</h1>
             <p class="text-slate-500 text-sm mt-1">Pantau pesanan darurat masuk dan tugaskan armada ambulans tercepat di wilayah Cilacap.</p>

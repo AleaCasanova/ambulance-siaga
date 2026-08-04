@@ -9,7 +9,7 @@
                 {{ $isSupirPage ? 'Kelola Supir Ambulans' : 'Kelola Pengguna & Role' }}
             </h1>
             <p class="text-slate-500 text-sm mt-1">
-                {{ $isSupirPage ? 'Daftar pengemudi ambulans siaga GSC Cilacap beserta status SIM dan kesiapan online.' : 'Daftar akun pengguna sistem GSC (Super Admin, Admin, Dispatcher, Supir, Masyarakat).' }}
+                {{ $isSupirPage ? 'Daftar pengemudi ambulans mitra Ambulance Siaga beserta status SIM dan kesiapan online.' : 'Daftar akun pengguna sistem Ambulance Siaga (Super Admin, Admin, Dispatcher, Supir, Masyarakat).' }}
             </p>
         </div>
 
@@ -194,13 +194,68 @@
 
                     @if($selectedRole && $selectedRole->name === 'supir')
                         <div class="p-4 rounded-2xl bg-sky-50/70 border border-sky-100 space-y-3">
-                            <h4 class="text-xs font-extrabold text-sky-800 uppercase tracking-wider">Informasi Khusus Supir</h4>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Nomor SIM (A / B1 Umum)</label>
-                                <input type="text" wire:model="nomor_sim" placeholder="Contoh: 1234-5678-000001"
-                                       class="w-full px-4 py-2 rounded-xl border border-slate-300 text-sm font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 bg-white">
-                                @error('nomor_sim') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
+                            <h4 class="text-xs font-extrabold text-sky-800 uppercase tracking-wider">Informasi Lembaga Mitra & Armada Supir</h4>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Nama Lembaga / Organisasi</label>
+                                    <input type="text" wire:model="nama_lembaga" placeholder="Contoh: PMI Cilacap / RS Mitra"
+                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 bg-white">
+                                    @error('nama_lembaga') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Nama Penanggung Jawab</label>
+                                    <input type="text" wire:model="nama_penanggung_jawab" placeholder="Nama PJ / Koordinator"
+                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 bg-white">
+                                    @error('nama_penanggung_jawab') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                                </div>
                             </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">No. WhatsApp (WA)</label>
+                                    <input type="text" wire:model="no_wa" placeholder="081xxx (Aktif WA)"
+                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 bg-white">
+                                    @error('no_wa') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Alamat Unit Ambulance</label>
+                                    <input type="text" wire:model="alamat_unit" placeholder="Alamat pos/unit armada"
+                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 bg-white">
+                                    @error('alamat_unit') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Merk Kendaraan</label>
+                                    <input type="text" wire:model="merk_kendaraan" placeholder="Contoh: Toyota HiAce / APV"
+                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 bg-white">
+                                    @error('merk_kendaraan') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Plat No. Kendaraan</label>
+                                    <input type="text" wire:model="plat_nomor" placeholder="Contoh: R 9988 ZZ"
+                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 bg-white">
+                                    @error('plat_nomor') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Nomor SIM Driver</label>
+                                    <input type="text" wire:model="nomor_sim" placeholder="SIM A / B1 Umum"
+                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 bg-white">
+                                    @error('nomor_sim') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">STNK Kendaraan</label>
+                                    <input type="text" wire:model="nomor_stnk" placeholder="Nomor STNK"
+                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 bg-white">
+                                    @error('nomor_stnk') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                                </div>
+                            </div>
+
                             <div class="flex items-center gap-2 pt-1">
                                 <input type="checkbox" wire:model="status_online" id="status_online" class="rounded border-slate-300 text-sky-600 focus:ring-sky-500">
                                 <label for="status_online" class="text-xs font-bold text-slate-700">Supir Sedang Online (Siaga Bertugas)</label>

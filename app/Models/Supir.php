@@ -14,7 +14,14 @@ class Supir extends Model
 
     protected $fillable = [
         'user_id',
+        'nama_lembaga',
+        'nama_penanggung_jawab',
+        'no_wa',
+        'alamat_unit',
+        'merk_kendaraan',
+        'plat_nomor',
         'nomor_sim',
+        'nomor_stnk',
         'status_online',
         'lokasi_terakhir_lat',
         'lokasi_terakhir_lng',

@@ -9,11 +9,11 @@
     <div class="flex items-center gap-4">
         <a href="{{ route('home') }}" class="flex items-center gap-3 group">
             <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-sky-600 via-cyan-600 to-blue-700 flex items-center justify-center text-white font-extrabold text-xl shadow-md shadow-sky-600/30 group-hover:scale-105 transition-all">
-                GSC
+                AS
             </div>
             <div class="flex flex-col">
-                <span class="font-extrabold text-slate-900 tracking-tight text-lg leading-tight group-hover:text-sky-600 transition-colors">Gerak Sedekah Cilacap</span>
-                <span class="text-[11px] font-bold text-sky-600 tracking-wider uppercase">LAZ GSC • Ambulans Siaga</span>
+                <span class="font-extrabold text-slate-900 tracking-tight text-lg leading-tight group-hover:text-sky-600 transition-colors">Ambulance Siaga</span>
+                <span class="text-[11px] font-bold text-sky-600 tracking-wider uppercase">Layanan Darurat • Multi-Mitra</span>
             </div>
         </a>
     </div>
@@ -93,7 +93,7 @@
                         <a href="{{ route('admin.users.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 hover:text-sky-600 font-medium">Kelola Pengguna</a>
                         <a href="{{ route('admin.laporan.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 hover:text-sky-600 font-medium">Laporan & Rekap</a>
                         <a href="{{ route('admin.audit.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 hover:text-sky-600 font-medium">Log Aktivitas</a>
-                        <a href="{{ route('admin.settings.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 hover:text-sky-600 font-medium">Pengaturan GSC</a>
+                        <a href="{{ route('admin.settings.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 hover:text-sky-600 font-medium">Pengaturan Sistem</a>
                     </div>
                 </div>
             @endif
@@ -256,7 +256,7 @@
                 <a href="{{ route('admin.users.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Kelola Pengguna</a>
                 <a href="{{ route('admin.laporan.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Laporan & Rekap</a>
                 <a href="{{ route('admin.audit.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Log Aktivitas</a>
-                <a href="{{ route('admin.settings.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Pengaturan GSC</a>
+                <a href="{{ route('admin.settings.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Pengaturan Sistem</a>
             @endif
 
             @if($user->isDispatcher())

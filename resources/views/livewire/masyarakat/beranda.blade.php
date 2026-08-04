@@ -4,13 +4,13 @@
         <div class="relative z-10 max-w-3xl">
             <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-white/15 border border-white/20 uppercase tracking-widest mb-4 backdrop-blur-xs">
                 <span class="w-2 h-2 rounded-full bg-sky-300 animate-pulse"></span>
-                LAZ Gerak Sedekah Cilacap • Layanan Ambulans 24 Jam
+                Sistem Kolaborasi Layanan Medis • Siaga Darurat 24 Jam
             </span>
             <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-5 leading-tight">
-                Menjadi lembaga filantropi profesional dalam mensejahterakan masyarakat di Kabupaten Cilacap
+                Platform Layanan Ambulans Darurat Terintegrasi untuk Masyarakat & Berbagai Mitra
             </h1>
             <p class="text-sky-100 text-sm sm:text-base mb-8 leading-relaxed max-w-2xl font-medium">
-                LAZ Gerak Sedekah Cilacap (GSC) adalah lembaga amil zakat yang bergerak dalam penghimpunan dan penyaluran dana zakat, infak, sedekah, serta program sosial kemanusiaan termasuk pelayanan ambulans darurat gratis untuk masyarakat yang membutuhkan.
+                Ambulance Siaga adalah sistem pelayanan ambulans terintegrasi yang mempertemukan kebutuhan darurat medis masyarakat dengan jaringan armada ambulans dari berbagai mitra kepedulian sosial, lembaga kemanusiaan, dan fasilitas kesehatan secara cepat, gratis, dan profesional 24 Jam.
             </p>
             <div class="flex flex-wrap items-center gap-4">
                 <a href="{{ route('masyarakat.order.create') }}"
@@ -44,7 +44,7 @@
                 </svg>
             </div>
             <span class="text-2xl sm:text-3xl font-extrabold text-sky-600">{{ number_format($totalTerbantu ?? 2665) }}+</span>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider mt-1">Penerima Manfaat</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider mt-1">Masyarakat Terbantu</span>
         </div>
 
         <!-- Stat 2: Relawan -->
@@ -55,7 +55,7 @@
                 </svg>
             </div>
             <span class="text-2xl sm:text-3xl font-extrabold text-sky-600">{{ number_format($totalRelawan ?? 150) }}+</span>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider mt-1">Relawan & Supir</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider mt-1">Relawan & Supir Mitra</span>
         </div>
 
         <!-- Stat 3: Armada Ambulans -->
@@ -66,7 +66,7 @@
                 </svg>
             </div>
             <span class="text-2xl sm:text-3xl font-extrabold text-sky-600">{{ number_format($totalAmbulans ?? 8) }} Unit</span>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider mt-1">Armada Siaga</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider mt-1">Armada Ambulans Mitra</span>
         </div>
 
         <!-- Stat 4: Mitra Rumah Sakit -->
@@ -77,7 +77,7 @@
                 </svg>
             </div>
             <span class="text-2xl sm:text-3xl font-extrabold text-sky-600">{{ number_format($totalRumahSakit ?? 4) }} RS</span>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider mt-1">RS Mitra Rujukan</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider mt-1">RS & Fasilitas Mitra</span>
         </div>
     </div>
 
@@ -85,7 +85,7 @@
     <div class="mb-12">
         <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
             <span class="w-3 h-3 rounded-full bg-sky-600"></span>
-            <span>Panduan Memesan Ambulans Darurat GSC</span>
+            <span>Panduan Cepat Pesan Ambulans Darurat</span>
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Step 1 -->
@@ -105,7 +105,7 @@
                 </div>
                 <h3 class="font-bold text-slate-800 text-lg mb-2">Konfirmasi Dispatcher</h3>
                 <p class="text-slate-600 text-sm leading-relaxed">
-                    Pusat kendali GSC akan langsung menugaskan armada ambulans terdekat beserta supir profesional untuk menuju lokasi.
+                    Pusat kendali Ambulance Siaga akan langsung mengoordinasikan pesanan ke jaringan mitra ambulans terdekat dan menugaskan supir profesional menuju lokasi.
                 </p>
             </div>
             <!-- Step 3 -->
@@ -121,10 +121,10 @@
         </div>
     </div>
 
-    <!-- Rumah Sakit Rujukan di Cilacap -->
+    <!-- Rumah Sakit Rujukan -->
     <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-xs">
-        <h2 class="text-xl font-bold text-slate-800 mb-2">Rumah Sakit Rujukan Cilacap</h2>
-        <p class="text-slate-500 text-sm mb-6">Daftar fasilitas kesehatan rujukan penanganan darurat mitra GSC SIAGA.</p>
+        <h2 class="text-xl font-bold text-slate-800 mb-2">Jaringan Rumah Sakit & Fasilitas Kesehatan Mitra</h2>
+        <p class="text-slate-500 text-sm mb-6">Daftar fasilitas kesehatan rujukan penanganan darurat yang terhubung dalam ekosistem Ambulance Siaga.</p>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             @foreach($rumahSakits as $rs)

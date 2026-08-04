@@ -5,7 +5,7 @@
             <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-slate-200 text-slate-700 uppercase tracking-wider mb-2">
                 Konfigurasi Aplikasi
             </span>
-            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">Pengaturan Sistem GSC SIAGA</h1>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">Pengaturan Sistem Ambulance Siaga</h1>
             <p class="text-slate-500 text-sm mt-1">Sesuaikan informasi organisasi, hotline darurat, serta koordinat pusat penjemputan Cilacap.</p>
         </div>
     </div>
@@ -41,7 +41,7 @@
 
             <!-- Alamat Kantor -->
             <div>
-                <label class="block text-sm font-bold text-slate-700 mb-1.5">Alamat Kantor / Sekretariat GSC</label>
+                <label class="block text-sm font-bold text-slate-700 mb-1.5">Alamat Pusat Koordinasi / Sekretariat</label>
                 <input type="text" wire:model="alamat_kantor" required
                        class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
                 @error('alamat_kantor') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
@@ -62,9 +62,9 @@
                 </div>
             </div>
 
-            <!-- Tentang GSC -->
+            <!-- Tentang Ambulance Siaga -->
             <div>
-                <label class="block text-sm font-bold text-slate-700 mb-1.5">Deskripsi / Tentang Yayasan GSC</label>
+                <label class="block text-sm font-bold text-slate-700 mb-1.5">Deskripsi / Tentang Sistem Ambulance Siaga</label>
                 <textarea wire:model="tentang_gsc" rows="4"
                           class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200"></textarea>
                 @error('tentang_gsc') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror

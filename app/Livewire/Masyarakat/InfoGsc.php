@@ -10,11 +10,11 @@ class InfoGsc extends Component
 {
     public function render()
     {
-        $namaOrg = SettingAplikasi::getVal('nama_organisasi', 'Yayasan Gerak Sedekah Cilacap (GSC)');
+        $namaOrg = SettingAplikasi::getVal('nama_organisasi', 'Ambulance Siaga');
         $telepon = SettingAplikasi::getVal('telepon_darurat', '0812-3456-7890');
-        $email = SettingAplikasi::getVal('email_organisasi', 'info@gsc-cilacap.org');
-        $alamat = SettingAplikasi::getVal('alamat_kantor', 'Jl. Raya Cilacap No. 10, Sidanegara, Cilacap Tengah');
-        $tentang = SettingAplikasi::getVal('tentang_gsc', 'Yayasan Gerak Sedekah Cilacap (GSC) adalah organisasi kemanusiaan non-profit...');
+        $email = SettingAplikasi::getVal('email_organisasi', 'info@ambulancesiaga.org');
+        $alamat = SettingAplikasi::getVal('alamat_kantor', 'Pusat Koordinasi Layanan Ambulance Siaga');
+        $tentang = SettingAplikasi::getVal('tentang_gsc', 'Ambulance Siaga adalah sistem pelayanan ambulans darurat gratis yang mempertemukan masyarakat yang membutuhkan evakuasi medis dengan jaringan armada ambulans dari berbagai mitra kepedulian sosial, lembaga kemanusiaan, dan fasilitas kesehatan. Cepat, tanggap, dan profesional 24 Jam.');
 
         $rumahSakits = RumahSakit::orderBy('nama', 'asc')->get();
 

@@ -6,7 +6,7 @@
                 Manajemen Fasilitas Kesehatan
             </span>
             <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">Kelola Rumah Sakit Rujukan</h1>
-            <p class="text-slate-500 text-sm mt-1">Daftar rumah sakit mitra GSC SIAGA di wilayah Kabupaten Cilacap dan sekitarnya.</p>
+            <p class="text-slate-500 text-sm mt-1">Daftar rumah sakit dan fasilitas kesehatan mitra Ambulance Siaga.</p>
         </div>
 
         <div class="flex flex-wrap items-center gap-3">
@@ -43,7 +43,7 @@
                         <tr class="hover:bg-slate-50/50 transition-colors">
                             <td class="py-4 px-6">
                                 <span class="font-extrabold text-slate-800 block">{{ $rs->nama }}</span>
-                                <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-700 mt-1">MITRA RESMI GSC</span>
+                                <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-700 mt-1">MITRA KESEHATAN</span>
                             </td>
                             <td class="py-4 px-6 max-w-xs">
                                 <p class="text-xs text-slate-600 font-medium">{{ $rs->alamat }}</p>
