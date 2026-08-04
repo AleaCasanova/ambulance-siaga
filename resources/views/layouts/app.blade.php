@@ -7,6 +7,10 @@
 
         <title>{{ config('app.name', 'Ambulance Siaga') }} - Platform Layanan Ambulans Darurat & Mitra</title>
 
+        <!-- Favicon / Website Icon -->
+        <link rel="icon" type="image/png" href="{{ asset('images/logo_ambulansiaga.png') }}">
+        <link rel="shortcut icon" href="{{ asset('images/logo_ambulansiaga.png') }}">
+
         <!-- Fonts: Plus Jakarta Sans -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -82,8 +86,8 @@
                 <!-- Footer -->
                 <footer class="bg-white border-t border-slate-200/80 mt-12 py-6 px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-500">
                     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <div class="flex items-center gap-2 font-bold text-slate-700">
-                            <span class="w-2.5 h-2.5 rounded-full bg-sky-600"></span>
+                        <div class="flex items-center gap-2.5 font-bold text-slate-700">
+                            <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-6 h-6 object-contain">
                             <span>{{ $namaGsc ?? 'Ambulance Siaga' }} • Platform Kolaborasi Layanan Ambulans & Medis</span>
                         </div>
                         <p class="font-medium">

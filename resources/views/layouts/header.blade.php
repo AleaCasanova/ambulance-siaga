@@ -8,8 +8,8 @@
     <!-- Left side: Logo & Brand Title -->
     <div class="flex items-center gap-4">
         <a href="{{ route('home') }}" class="flex items-center gap-3 group">
-            <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-sky-600 via-cyan-600 to-blue-700 flex items-center justify-center text-white font-extrabold text-xl shadow-md shadow-sky-600/30 group-hover:scale-105 transition-all">
-                AS
+            <div class="w-11 h-11 rounded-2xl bg-white p-1 flex items-center justify-center shadow-md shadow-sky-600/15 border border-slate-100 group-hover:scale-105 transition-all overflow-hidden">
+                <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-full h-full object-contain">
             </div>
             <div class="flex flex-col">
                 <span class="font-extrabold text-slate-900 tracking-tight text-lg leading-tight group-hover:text-sky-600 transition-colors">Ambulance Siaga</span>

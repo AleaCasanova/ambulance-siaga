@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('pemesanan', function (Blueprint $table) {
             $table->id();
             $table->string('kode_order', 50)->unique();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('supir_id')->nullable()->constrained('supir')->nullOnDelete();
             $table->foreignId('ambulans_id')->nullable()->constrained('ambulans')->nullOnDelete();
             $table->foreignId('rumah_sakit_id')->nullable()->constrained('rumah_sakit')->nullOnDelete();

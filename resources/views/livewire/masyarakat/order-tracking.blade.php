@@ -1,20 +1,25 @@
 <div wire:poll.4s>
     <!-- Top Bar -->
     <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-            <div class="flex items-center gap-3 mb-1">
-                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">TRACKING REALTIME</span>
-                <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-extrabold
-                    @if($order->status === 'menunggu') bg-amber-100 text-amber-700
-                    @elseif(in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien'])) bg-blue-100 text-blue-700 animate-pulse
-                    @elseif($order->status === 'selesai') bg-emerald-100 text-emerald-700
-                    @else bg-slate-100 text-slate-600 @endif">
-                    <span class="w-2 h-2 rounded-full @if(in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien'])) bg-blue-600 animate-ping @else bg-current @endif"></span>
-                    <span>{{ $order->status_label }}</span>
-                </span>
+        <div class="flex items-center gap-4">
+            <div class="w-14 h-14 rounded-2xl bg-white p-1.5 flex items-center justify-center shadow-md border border-slate-200/80 flex-shrink-0">
+                <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-full h-full object-contain">
             </div>
-            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">Order #{{ $order->kode_order }}</h1>
-            <p class="text-slate-500 text-sm mt-0.5">Pasien: <strong class="text-slate-700">{{ $order->nama_pasien }}</strong> • Dibuat: {{ $order->waktu_pesan ? $order->waktu_pesan->translatedFormat('d M Y, H:i:s') : '-' }}</p>
+            <div>
+                <div class="flex items-center gap-3 mb-1">
+                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">TRACKING REALTIME</span>
+                    <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-extrabold
+                        @if($order->status === 'menunggu') bg-amber-100 text-amber-700
+                        @elseif(in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien'])) bg-blue-100 text-blue-700 animate-pulse
+                        @elseif($order->status === 'selesai') bg-emerald-100 text-emerald-700
+                        @else bg-slate-100 text-slate-600 @endif">
+                        <span class="w-2 h-2 rounded-full @if(in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien'])) bg-blue-600 animate-ping @else bg-current @endif"></span>
+                        <span>{{ $order->status_label }}</span>
+                    </span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">Order #{{ $order->kode_order }}</h1>
+                <p class="text-slate-500 text-sm mt-0.5">Pasien: <strong class="text-slate-700">{{ $order->nama_pasien }}</strong> • Dibuat: {{ $order->waktu_pesan ? $order->waktu_pesan->translatedFormat('d M Y, H:i:s') : '-' }}</p>
+            </div>
         </div>
 
         <div class="flex items-center gap-3">

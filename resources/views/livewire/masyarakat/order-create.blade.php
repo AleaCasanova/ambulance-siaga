@@ -1,13 +1,18 @@
 <div>
     <!-- Header Page -->
     <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-            <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-sky-100 text-sky-700 uppercase tracking-wider mb-2">
-                <span class="w-2 h-2 rounded-full bg-sky-600 animate-ping"></span>
-                Siaga Darurat 24 Jam • Ambulance Siaga
-            </span>
-            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">Pesan Ambulans Darurat</h1>
-            <p class="text-slate-500 text-sm mt-1">Lengkapi form atau klik langsung pada Peta Interaktif di sebelah kanan untuk menentukan lokasi penjemputan.</p>
+        <div class="flex items-center gap-4">
+            <div class="w-14 h-14 rounded-2xl bg-white p-1.5 flex items-center justify-center shadow-md border border-slate-200/80 flex-shrink-0">
+                <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-full h-full object-contain">
+            </div>
+            <div>
+                <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-sky-100 text-sky-700 uppercase tracking-wider mb-2">
+                    <span class="w-2 h-2 rounded-full bg-sky-600 animate-ping"></span>
+                    Siaga Darurat 24 Jam • Ambulance Siaga
+                </span>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">Pesan Ambulans Darurat</h1>
+                <p class="text-slate-500 text-sm mt-1">Lengkapi form atau klik langsung pada Peta Interaktif untuk menentukan lokasi penjemputan.</p>
+            </div>
         </div>
 
         <a href="{{ route('masyarakat.info') }}"

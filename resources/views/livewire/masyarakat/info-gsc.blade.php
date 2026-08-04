@@ -69,13 +69,18 @@
             
             <!-- Left Column: Text Description -->
             <div class="lg:col-span-6 space-y-6">
-                <div>
-                    <span class="inline-block text-xs sm:text-sm font-extrabold text-sky-600 uppercase tracking-widest mb-2">
-                        TENTANG SISTEM
-                    </span>
-                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-sky-600 sm:text-sky-700 tracking-tight leading-tight">
-                        Tentang Sistem <br class="hidden sm:inline">Ambulance Siaga
-                    </h2>
+                <div class="flex items-center gap-3">
+                    <div class="w-14 h-14 rounded-2xl bg-white p-1.5 flex items-center justify-center shadow-lg border border-slate-100">
+                        <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-full h-full object-contain">
+                    </div>
+                    <div>
+                        <span class="inline-block text-xs sm:text-sm font-extrabold text-sky-600 uppercase tracking-widest mb-1">
+                            TENTANG SISTEM
+                        </span>
+                        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-sky-600 sm:text-sky-700 tracking-tight leading-tight">
+                            Ambulance Siaga
+                        </h2>
+                    </div>
                 </div>
 
                 <p class="text-slate-700 text-base sm:text-lg font-medium leading-relaxed">

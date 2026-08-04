@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class PemesananService
 {
-    public function createOrder(array $data, int $userId): Pemesanan
+    public function createOrder(array $data, ?int $userId = null): Pemesanan
     {
         return DB::transaction(function () use ($data, $userId) {
             $user = User::find($userId);
@@ -106,14 +106,16 @@ class PemesananService
 
             AuditLogService::log('ASSIGN_ORDER', 'Pemesanan', "Menugaskan armada {$amb->kode_ambulans} untuk Order #{$order->kode_order}", $dispatcherId);
 
-            // Notifikasi ke Masyarakat (Pemesan)
-            Notifikasi::create([
-                'user_id' => $order->user_id,
-                'title' => 'Ambulans Telah Ditugaskan',
-                'message' => "Ambulans {$amb->kode_ambulans} dan Supir {$supir->user->name} telah ditugaskan untuk penjemputan.",
-                'type' => 'success',
-                'url' => route('masyarakat.tracking', $order->id),
-            ]);
+            // Notifikasi ke Masyarakat (Pemesan) jika pengguna terdaftar
+            if ($order->user_id) {
+                Notifikasi::create([
+                    'user_id' => $order->user_id,
+                    'title' => 'Ambulans Telah Ditugaskan',
+                    'message' => "Ambulans {$amb->kode_ambulans} dan Supir {$supir->user->name} telah ditugaskan untuk penjemputan.",
+                    'type' => 'success',
+                    'url' => route('masyarakat.tracking', $order->id),
+                ]);
+            }
 
             // Notifikasi ke Supir
             Notifikasi::create([
@@ -164,14 +166,16 @@ class PemesananService
 
             AuditLogService::log('UPDATE_STATUS', 'Pemesanan', "Mengubah status Order #{$order->kode_order} menjadi {$newStatus}", $userId);
 
-            // Notifikasi ke Masyarakat
-            Notifikasi::create([
-                'user_id' => $order->user_id,
-                'title' => 'Update Status Perjalanan Ambulans',
-                'message' => "Pesanan #{$order->kode_order} saat ini berstatus: " . $order->status_label,
-                'type' => 'info',
-                'url' => route('masyarakat.tracking', $order->id),
-            ]);
+            // Notifikasi ke Masyarakat jika terdaftar
+            if ($order->user_id) {
+                Notifikasi::create([
+                    'user_id' => $order->user_id,
+                    'title' => 'Update Status Perjalanan Ambulans',
+                    'message' => "Pesanan #{$order->kode_order} saat ini berstatus: " . $order->status_label,
+                    'type' => 'info',
+                    'url' => route('masyarakat.tracking', $order->id),
+                ]);
+            }
 
             return $order;
         });

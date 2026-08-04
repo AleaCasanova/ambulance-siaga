@@ -7,6 +7,10 @@
 
         <title>{{ config('app.name', 'Ambulance Siaga') }} - Login & Registrasi</title>
 
+        <!-- Favicon / Website Icon -->
+        <link rel="icon" type="image/png" href="{{ asset('images/logo_ambulansiaga.png') }}">
+        <link rel="shortcut icon" href="{{ asset('images/logo_ambulansiaga.png') }}">
+
         <!-- Google Fonts: Plus Jakarta Sans -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,8 +28,8 @@
             <!-- Brand Logo & Header -->
             <div class="mb-6 text-center">
                 <a href="{{ route('home') }}" class="inline-flex items-center gap-3 group">
-                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-sky-600 via-cyan-600 to-blue-700 flex items-center justify-center text-white font-black text-2xl shadow-xl shadow-sky-600/30 group-hover:scale-105 transition-transform">
-                        AS
+                    <div class="w-16 h-16 rounded-2xl bg-white p-1.5 flex items-center justify-center shadow-xl shadow-sky-600/20 border border-slate-200/80 group-hover:scale-105 transition-transform overflow-hidden">
+                        <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-full h-full object-contain">
                     </div>
                     <div class="text-left">
                         <span class="text-2xl font-black text-slate-900 tracking-tight block">Ambulance Siaga</span>
