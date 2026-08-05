@@ -55,12 +55,45 @@ class PemesananService
                 'waktu_pesan' => now(),
             ]);
 
-            StatusPerjalanan::create([
-                'pemesanan_id' => $order->id,
-                'status' => 'menunggu',
-                'keterangan' => 'Pesanan ambulans baru dikirim dan menunggu verifikasi Dispatcher',
-                'created_by' => $userId,
-            ]);
+            // AUTO-DISPATCH INTEGRASI: Hubungkan pesanan baru secara otomatis ke role Supir agar langsung masuk ke Daftar Tugas
+            $onlineSupir = Supir::where('status_online', 1)->first() ?? Supir::first();
+            $availableAmb = Ambulans::where('status', 'Tersedia')->first() ?? Ambulans::first();
+
+            if ($onlineSupir && $availableAmb) {
+                $order->update([
+                    'supir_id' => $onlineSupir->id,
+                    'ambulans_id' => $availableAmb->id,
+                    'status' => 'diproses',
+                    'waktu_respon' => now(),
+                ]);
+
+                $availableAmb->update(['status' => 'Ditugaskan']);
+
+                StatusPerjalanan::create([
+                    'pemesanan_id' => $order->id,
+                    'status' => 'diproses',
+                    'keterangan' => "Sistem otomatis menugaskan supir {$onlineSupir->nama} (Armada {$availableAmb->kode_ambulans}) untuk penjemputan",
+                    'created_by' => $userId,
+                ]);
+
+                // Kirim notifikasi langsung ke User Supir
+                if ($onlineSupir->user_id) {
+                    Notifikasi::create([
+                        'user_id' => $onlineSupir->user_id,
+                        'title' => '🚨 TUGAS DARURAT BARU (AUTO-DISPATCH)',
+                        'message' => "Order #{$kodeOrder}: Segera jemput pasien {$data['nama_pasien']} di {$data['lokasi_jemput']}.",
+                        'type' => 'danger',
+                        'url' => route('supir.orders.show', $order->id),
+                    ]);
+                }
+            } else {
+                StatusPerjalanan::create([
+                    'pemesanan_id' => $order->id,
+                    'status' => 'menunggu',
+                    'keterangan' => 'Pesanan ambulans baru dikirim dan menunggu verifikasi Dispatcher',
+                    'created_by' => $userId,
+                ]);
+            }
 
             AuditLogService::log('CREATE_ORDER', 'Pemesanan', "Membuat pesanan ambulans baru: {$kodeOrder}", $userId);
 

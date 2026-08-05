@@ -14,6 +14,7 @@ use App\Livewire\Dispatcher\LiveMonitoring as DispatcherLiveMonitoring;
 use App\Livewire\Dispatcher\OrderIndex as DispatcherOrderIndex;
 use App\Livewire\Masyarakat\Beranda;
 use App\Livewire\Masyarakat\InfoGsc;
+use App\Livewire\Masyarakat\OrderComplete;
 use App\Livewire\Masyarakat\OrderCreate;
 use App\Livewire\Masyarakat\OrderIndex as MasyarakatOrderIndex;
 use App\Livewire\Masyarakat\OrderTracking;
@@ -35,6 +36,7 @@ Route::get('/tentang-kami', InfoGsc::class)->name('masyarakat.info');
 
 // Halaman Buat Pesanan Darurat (Dapat diakses langsung)
 Route::get('/order/new', OrderCreate::class)->name('masyarakat.order.create');
+Route::get('/order/{id}/complete', OrderComplete::class)->middleware('auth')->name('masyarakat.order.complete');
 Route::get('/order/{id}/tracking', OrderTracking::class)->name('masyarakat.tracking');
 
 // Smart Redirector untuk /dashboard berdasarkan Role

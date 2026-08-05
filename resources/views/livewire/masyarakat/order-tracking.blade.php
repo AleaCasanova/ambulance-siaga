@@ -2,7 +2,7 @@
     <!-- Top Bar -->
     <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div class="flex items-center gap-4">
-            <div class="w-14 h-14 rounded-2xl bg-white p-1.5 flex items-center justify-center shadow-md border border-slate-200/80 flex-shrink-0">
+            <div class="w-20 h-20 rounded-full bg-white p-2 flex items-center justify-center shadow-lg border-2 border-sky-100/80 flex-shrink-0 overflow-hidden">
                 <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-full h-full object-contain">
             </div>
             <div>
@@ -31,6 +31,16 @@
                     </svg>
                     <span>Simulasikan Pergerakan GPS</span>
                 </button>
+            @endif
+
+            @if(auth()->check())
+                <a href="{{ route('masyarakat.order.complete', $order->id) }}"
+                   class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-sky-50 border border-sky-200 text-sky-700 hover:bg-sky-100 font-bold text-xs shadow-xs transition-all">
+                    <svg class="w-4 h-4 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    <span>Lengkapi / Edit Formulir Medis</span>
+                </a>
             @endif
 
             <a href="{{ route('masyarakat.orders.index') }}"
@@ -234,7 +244,19 @@
         </div>
 
         <!-- Right Column: Leaflet Map -->
-        <div class="lg:col-span-7 flex flex-col lg:sticky lg:top-24 self-start">
+        @php
+            $isAssigned = in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien', 'selesai']) && ($order->ambulans_id || $order->supir_id || $order->latestTracking);
+            $ambLatVal = $isAssigned ? ($order->latestTracking?->latitude ?? ($order->ambulans?->lat_terakhir ?? null)) : null;
+            $ambLngVal = $isAssigned ? ($order->latestTracking?->longitude ?? ($order->ambulans?->lng_terakhir ?? null)) : null;
+            $jemputLatVal = $order->jemput_lat ?: -7.7188;
+            $jemputLngVal = $order->jemput_lng ?: 109.0159;
+            $rsLatVal = $order->rumahSakit?->lat ?? ($order->tujuan_lat ?? null);
+            $rsLngVal = $order->rumahSakit?->lng ?? ($order->tujuan_lng ?? null);
+        @endphp
+        <div class="lg:col-span-7 flex flex-col lg:sticky lg:top-24 self-start"
+             wire:ignore
+             x-data="trackingMapComponent({{ $ambLatVal ?: 'null' }}, {{ $ambLngVal ?: 'null' }}, {{ $jemputLatVal }}, {{ $jemputLngVal }}, {{ $rsLatVal ?: 'null' }}, {{ $rsLngVal ?: 'null' }}, '{{ $order->status }}')"
+             x-init="$nextTick(() => initMap())">
             <div class="bg-white rounded-3xl border border-slate-200/80 p-5 shadow-xs flex-1 flex flex-col min-h-[520px]">
                 <div class="flex items-center justify-between mb-4">
                     <div>
@@ -251,7 +273,24 @@
                 </div>
 
                 <!-- Map Container -->
-                <div id="tracking-map" class="w-full h-full min-h-[460px] rounded-2xl border border-slate-200/80 z-10"></div>
+                <div class="relative w-full h-full min-h-[460px] rounded-2xl border border-slate-200/80 overflow-hidden z-10">
+                    <div id="tracking-map" class="w-full h-full min-h-[460px]"></div>
+
+                    <!-- Floating Route Info Overlay (Grab / Google Maps style) -->
+                    <div x-show="routeSummary" x-transition
+                         class="absolute top-4 left-4 right-4 sm:right-auto sm:max-w-md z-[1000] bg-white/95 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200/80 shadow-xl flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-sky-600 text-white flex items-center justify-center text-lg font-black shrink-0 shadow-md shadow-sky-600/30">
+                            🧭
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-2">
+                                <span class="text-sm font-extrabold text-slate-800" x-text="routeEta"></span>
+                                <span class="text-xs font-bold text-sky-700 bg-sky-50 px-2.5 py-0.5 rounded-full border border-sky-100" x-text="routeDistance"></span>
+                            </div>
+                            <p class="text-xs text-slate-500 font-medium truncate mt-0.5" x-text="'Melalui: ' + routeSummary"></p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -310,74 +349,193 @@
 
     <!-- Leaflet JS Script -->
     <script>
-        function trackingMapComponent(ambLat, ambLng, jemputLat, jemputLng, rsLat, rsLng) {
+        function trackingMapComponent(ambLat, ambLng, jemputLat, jemputLng, rsLat, rsLng, orderStatus) {
             return {
                 map: null,
                 ambMarker: null,
                 jemputMarker: null,
                 rsMarker: null,
                 polyline: null,
+                polyline2: null,
+                routeDistance: '',
+                routeEta: '',
+                routeSummary: '',
 
                 initMap() {
-                    this.map = L.map('tracking-map').setView([ambLat, ambLng], 14);
+                    const defaultLat = ambLat || jemputLat || -7.7188;
+                    const defaultLng = ambLng || jemputLng || 109.0159;
+
+                    this.map = L.map('tracking-map', {
+                        zoomControl: true,
+                        attributionControl: true
+                    }).setView([defaultLat, defaultLng], 14);
 
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: '&copy; OpenStreetMap contributors',
                         maxZoom: 19
                     }).addTo(this.map);
 
-                    // Ambulance Marker
-                    this.ambMarker = L.marker([ambLat, ambLng], {
-                        title: 'Posisi Ambulans Saat Ini'
-                    }).addTo(this.map)
-                    .bindPopup('<b>Posisi Ambulans</b><br>Secara realtime dari GPS')
-                    .openPopup();
+                    // Custom Div Icons agar tidak error 404 gambar PNG marker default Leaflet
+                    const ambIcon = L.divIcon({
+                        className: 'custom-amb-icon',
+                        html: `<div style="background: linear-gradient(135deg, #0284C7, #0369A1); width: 38px; height: 38px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 12px rgba(2,132,199,0.5); display: flex; align-items: center; justify-content: center; font-size: 18px;">🚑</div>`,
+                        iconSize: [38, 38],
+                        iconAnchor: [19, 19]
+                    });
+
+                    const jemputIcon = L.divIcon({
+                        className: 'custom-jemput-icon',
+                        html: `<div style="background: linear-gradient(135deg, #3B82F6, #2563EB); width: 34px; height: 34px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 10px rgba(59,130,246,0.4); display: flex; align-items: center; justify-content: center; font-size: 16px;">📍</div>`,
+                        iconSize: [34, 34],
+                        iconAnchor: [17, 34]
+                    });
+
+                    const rsIcon = L.divIcon({
+                        className: 'custom-rs-icon',
+                        html: `<div style="background: linear-gradient(135deg, #10B981, #059669); width: 34px; height: 34px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 10px rgba(16,185,129,0.4); display: flex; align-items: center; justify-content: center; font-size: 16px;">🏥</div>`,
+                        iconSize: [34, 34],
+                        iconAnchor: [17, 34]
+                    });
+
+                    // Ambulance Marker - HANYA ditambahkan jika ambulans sudah ditugaskan/tersedia
+                    if (ambLat && ambLng && ambLat !== 0 && ambLng !== 0) {
+                        this.ambMarker = L.marker([ambLat, ambLng], {
+                            icon: ambIcon,
+                            title: 'Posisi Ambulans Saat Ini'
+                        }).addTo(this.map)
+                        .bindPopup('<b>Posisi Ambulans</b><br>Secara realtime dari satelit GPS')
+                        .openPopup();
+                    }
 
                     // Pickup Marker (Blue)
                     if (jemputLat && jemputLng) {
-                        this.jemputMarker = L.marker([jemputLat, jemputLng]).addTo(this.map)
+                        this.jemputMarker = L.marker([jemputLat, jemputLng], {
+                            icon: jemputIcon
+                        }).addTo(this.map)
                         .bindPopup('<b>Titik Penjemputan Pasien</b>');
                     }
 
                     // Hospital Marker (Green)
                     if (rsLat && rsLng && rsLat !== 0) {
-                        this.rsMarker = L.marker([rsLat, rsLng]).addTo(this.map)
-                        .bindPopup('<b>Rumah Sakit Rujukan</b>');
+                        this.rsMarker = L.marker([rsLat, rsLng], {
+                            icon: rsIcon
+                        }).addTo(this.map)
+                        .bindPopup('<b>Rumah Sakit Rujukan / Tujuan</b>');
                     }
 
-                    this.drawPolyline();
+                    this.drawPolyline(orderStatus);
                     this.fitAllMarkers();
 
                     setTimeout(() => {
-                        this.map.invalidateSize();
-                    }, 300);
+                        if (this.map) {
+                            this.map.invalidateSize();
+                            this.fitAllMarkers();
+                        }
+                    }, 350);
+
+                    setTimeout(() => {
+                        if (this.map) {
+                            this.map.invalidateSize();
+                        }
+                    }, 1000);
                 },
 
                 updateAmbulancePos(newLat, newLng) {
                     if (this.ambMarker) {
                         this.ambMarker.setLatLng([newLat, newLng]);
                         this.map.panTo([newLat, newLng]);
-                        this.drawPolyline();
+                        this.drawPolyline('menuju_lokasi');
                     }
                 },
 
-                drawPolyline() {
-                    if (this.polyline) {
-                        this.map.removeLayer(this.polyline);
+                async fetchOsrmRoute(startLatLng, endLatLng, color, weight, opacity, isPrimary = true) {
+                    try {
+                        const url = `https://router.project-osrm.org/route/v1/driving/${startLatLng.lng},${startLatLng.lat};${endLatLng.lng},${endLatLng.lat}?overview=full&geometries=geojson&steps=true`;
+                        const response = await fetch(url);
+                        const data = await response.json();
+
+                        if (data.code === 'Ok' && data.routes && data.routes.length > 0) {
+                            const route = data.routes[0];
+                            const coords = route.geometry.coordinates.map(c => [c[1], c[0]]);
+
+                            const routeLayer = L.polyline(coords, {
+                                color: color,
+                                weight: weight,
+                                opacity: opacity,
+                                lineCap: 'round',
+                                lineJoin: 'round'
+                            }).addTo(this.map);
+
+                            if (isPrimary) {
+                                const distKm = (route.distance / 1000).toFixed(1) + ' km';
+                                const etaMin = Math.max(1, Math.ceil(route.duration / 60)) + ' Menit';
+                                const summary = (route.legs && route.legs[0] && route.legs[0].summary) ? route.legs[0].summary : 'Jalan Raya Utama Cilacap';
+
+                                this.routeDistance = distKm;
+                                this.routeEta = etaMin;
+                                this.routeSummary = summary;
+                            }
+
+                            return routeLayer;
+                        }
+                    } catch (e) {
+                        console.warn('OSRM routing fallback to straight line:', e);
                     }
 
-                    const points = [];
-                    if (this.ambMarker) points.push(this.ambMarker.getLatLng());
-                    if (this.jemputMarker) points.push(this.jemputMarker.getLatLng());
-                    if (this.rsMarker) points.push(this.rsMarker.getLatLng());
+                    // Fallback jika offline/error: gunakan L.polyline lurus biasa
+                    return L.polyline([startLatLng, endLatLng], {
+                        color: color,
+                        weight: weight,
+                        opacity: opacity,
+                        dashArray: '8, 8'
+                    }).addTo(this.map);
+                },
 
-                    if (points.length > 1) {
-                        this.polyline = L.polyline(points, {
-                            color: '#0284C7',
-                            weight: 4,
-                            opacity: 0.8,
-                            dashArray: '8, 8'
-                        }).addTo(this.map);
+                async drawPolyline(statusOrder) {
+                    if (this.polyline) {
+                        this.map.removeLayer(this.polyline);
+                        this.polyline = null;
+                    }
+                    if (this.polyline2) {
+                        this.map.removeLayer(this.polyline2);
+                        this.polyline2 = null;
+                    }
+
+                    // Kasus 1: Ambulans belum ditugaskan (status 'menunggu' -> tidak ada ambMarker)
+                    // Rute jalan nyata dari Titik Jemput ke Rumah Sakit (Rencana Rute Evakuasi)
+                    if (!this.ambMarker && this.jemputMarker && this.rsMarker) {
+                        this.polyline = await this.fetchOsrmRoute(
+                            this.jemputMarker.getLatLng(),
+                            this.rsMarker.getLatLng(),
+                            '#10B981', 5, 0.9, true
+                        );
+                        return;
+                    }
+
+                    // Kasus 2: Ambulans sedang membawa pasien ke RS
+                    if (statusOrder === 'membawa_pasien' && this.ambMarker && this.rsMarker) {
+                        this.polyline = await this.fetchOsrmRoute(
+                            this.ambMarker.getLatLng(),
+                            this.rsMarker.getLatLng(),
+                            '#0284C7', 5.5, 0.95, true
+                        );
+                        return;
+                    }
+
+                    // Kasus 3: Ambulans menuju lokasi jemput / diproses
+                    if (this.ambMarker && this.jemputMarker) {
+                        this.polyline = await this.fetchOsrmRoute(
+                            this.ambMarker.getLatLng(),
+                            this.jemputMarker.getLatLng(),
+                            '#0284C7', 5.5, 0.95, true
+                        );
+                    }
+                    if (this.jemputMarker && this.rsMarker) {
+                        this.polyline2 = await this.fetchOsrmRoute(
+                            this.jemputMarker.getLatLng(),
+                            this.rsMarker.getLatLng(),
+                            '#10B981', 4, 0.75, false
+                        );
                     }
                 },
 
@@ -388,7 +546,7 @@
                     if (this.rsMarker) bounds.extend(this.rsMarker.getLatLng());
 
                     if (bounds.isValid()) {
-                        this.map.fitBounds(bounds, { padding: [50, 50] });
+                        this.map.fitBounds(bounds, { padding: [60, 60], maxZoom: 15 });
                     }
                 }
             }

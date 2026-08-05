@@ -86,8 +86,10 @@
                 <!-- Footer -->
                 <footer class="bg-white border-t border-slate-200/80 mt-12 py-6 px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-500">
                     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <div class="flex items-center gap-2.5 font-bold text-slate-700">
-                            <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-6 h-6 object-contain">
+                        <div class="flex items-center gap-3 font-bold text-slate-700">
+                            <div class="w-9 h-9 rounded-full bg-white p-1 flex items-center justify-center shadow-sm border border-slate-200/80 overflow-hidden">
+                                <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-full h-full object-contain">
+                            </div>
                             <span>{{ $namaGsc ?? 'Ambulance Siaga' }} • Platform Kolaborasi Layanan Ambulans & Medis</span>
                         </div>
                         <p class="font-medium">

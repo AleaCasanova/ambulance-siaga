@@ -11,7 +11,7 @@
     <!-- Brand / Header Sidebar (Fixed Height) -->
     <div class="flex items-center justify-between h-16 px-6 bg-slate-950 border-b border-slate-800 flex-shrink-0">
         <a href="{{ route('dashboard') }}" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl bg-white p-1 flex items-center justify-center shadow-lg shadow-sky-600/20 group-hover:scale-105 transition-all overflow-hidden">
+            <div class="w-12 h-12 rounded-full bg-white p-1 flex items-center justify-center shadow-lg shadow-sky-600/25 border-2 border-slate-700 group-hover:scale-105 transition-all overflow-hidden">
                 <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-full h-full object-contain">
             </div>
             <div>

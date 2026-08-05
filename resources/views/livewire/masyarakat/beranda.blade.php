@@ -2,8 +2,8 @@
     <!-- Hero Banner (GSC Company Profile Blue Theme) -->
     <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-sky-600 via-cyan-600 to-blue-700 text-white p-8 sm:p-12 mb-10 shadow-xl">
         <div class="relative z-10 max-w-3xl">
-            <div class="flex items-center gap-3 mb-4">
-                <div class="w-14 h-14 rounded-2xl bg-white p-1.5 flex items-center justify-center shadow-lg shadow-black/10 border border-white/20">
+            <div class="flex items-center gap-4 mb-5">
+                <div class="w-20 h-20 rounded-full bg-white p-2 flex items-center justify-center shadow-xl shadow-black/15 border-2 border-white/40 overflow-hidden">
                     <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-full h-full object-contain">
                 </div>
                 <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-white/15 border border-white/20 uppercase tracking-widest backdrop-blur-xs">

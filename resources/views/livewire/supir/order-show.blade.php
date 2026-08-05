@@ -222,7 +222,7 @@
         </div>
 
         <!-- Right Column: Leaflet Map Navigasi -->
-        <div class="lg:col-span-7 flex flex-col lg:sticky lg:top-24 self-start">
+        <div class="lg:col-span-7 flex flex-col lg:sticky lg:top-24 self-start" wire:ignore>
             <div class="bg-white rounded-3xl border border-slate-200/80 p-5 shadow-xs flex-1 flex flex-col min-h-[560px]">
                 <div class="flex items-center justify-between mb-4">
                     <div>
@@ -239,7 +239,24 @@
                 </div>
 
                 <!-- Leaflet Container -->
-                <div id="supir-map" class="w-full h-full min-h-[500px] rounded-2xl border border-slate-200/80 z-10"></div>
+                <div class="relative w-full h-full min-h-[500px] rounded-2xl border border-slate-200/80 overflow-hidden z-10">
+                    <div id="supir-map" class="w-full h-full min-h-[500px]"></div>
+
+                    <!-- Floating Turn-by-Turn Route Info Overlay (Grab / Google Maps style) -->
+                    <div x-show="routeSummary" x-transition
+                         class="absolute top-4 left-4 right-4 sm:right-auto sm:max-w-md z-[1000] bg-white/95 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200/80 shadow-xl flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-red-600 text-white flex items-center justify-center text-lg font-black shrink-0 shadow-md shadow-red-600/30">
+                            🧭
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-2">
+                                <span class="text-sm font-extrabold text-slate-800" x-text="routeEta"></span>
+                                <span class="text-xs font-bold text-red-700 bg-red-50 px-2.5 py-0.5 rounded-full border border-red-100" x-text="routeDistance"></span>
+                            </div>
+                            <p class="text-xs text-slate-500 font-medium truncate mt-0.5" x-text="'Melalui: ' + routeSummary"></p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -254,31 +271,67 @@
                 jemputMarker: null,
                 rsMarker: null,
                 polyline: null,
+                polyline2: null,
+                routeDistance: '',
+                routeEta: '',
+                routeSummary: '',
 
                 initMap() {
-                    this.map = L.map('supir-map').setView([ambLat, ambLng], 14);
+                    const defaultLat = ambLat || jemputLat || -7.7188;
+                    const defaultLng = ambLng || jemputLng || 109.0159;
+
+                    this.map = L.map('supir-map', {
+                        zoomControl: true,
+                        attributionControl: true
+                    }).setView([defaultLat, defaultLng], 14);
 
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: '&copy; OpenStreetMap contributors',
                         maxZoom: 19
                     }).addTo(this.map);
 
+                    const ambIcon = L.divIcon({
+                        className: 'custom-amb-icon',
+                        html: `<div style="background: linear-gradient(135deg, #DC2626, #991B1B); width: 38px; height: 38px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 12px rgba(220,38,38,0.5); display: flex; align-items: center; justify-content: center; font-size: 18px;">🚑</div>`,
+                        iconSize: [38, 38],
+                        iconAnchor: [19, 19]
+                    });
+
+                    const jemputIcon = L.divIcon({
+                        className: 'custom-jemput-icon',
+                        html: `<div style="background: linear-gradient(135deg, #3B82F6, #2563EB); width: 34px; height: 34px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 10px rgba(59,130,246,0.4); display: flex; align-items: center; justify-content: center; font-size: 16px;">📍</div>`,
+                        iconSize: [34, 34],
+                        iconAnchor: [17, 34]
+                    });
+
+                    const rsIcon = L.divIcon({
+                        className: 'custom-rs-icon',
+                        html: `<div style="background: linear-gradient(135deg, #10B981, #059669); width: 34px; height: 34px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 10px rgba(16,185,129,0.4); display: flex; align-items: center; justify-content: center; font-size: 16px;">🏥</div>`,
+                        iconSize: [34, 34],
+                        iconAnchor: [17, 34]
+                    });
+
                     // Driver Ambulance Marker
-                    this.ambMarker = L.marker([ambLat, ambLng], {
+                    this.ambMarker = L.marker([defaultLat, defaultLng], {
+                        icon: ambIcon,
                         title: 'Posisi Ambulans Saya'
                     }).addTo(this.map)
-                    .bindPopup('<b>Posisi Ambulans Saya</b><br>Secara realtime dari GPS')
+                    .bindPopup('<b>Posisi Ambulans Saya</b><br>Secara realtime dari satelit GPS')
                     .openPopup();
 
                     // Pickup Marker
                     if (jemputLat && jemputLng) {
-                        this.jemputMarker = L.marker([jemputLat, jemputLng]).addTo(this.map)
+                        this.jemputMarker = L.marker([jemputLat, jemputLng], {
+                            icon: jemputIcon
+                        }).addTo(this.map)
                         .bindPopup('<b>Titik Jemput Pasien</b>');
                     }
 
                     // Hospital Marker
                     if (rsLat && rsLng && rsLat !== 0) {
-                        this.rsMarker = L.marker([rsLat, rsLng]).addTo(this.map)
+                        this.rsMarker = L.marker([rsLat, rsLng], {
+                            icon: rsIcon
+                        }).addTo(this.map)
                         .bindPopup('<b>Rumah Sakit Rujukan</b>');
                     }
 
@@ -286,8 +339,11 @@
                     this.fitAllMarkers();
 
                     setTimeout(() => {
-                        this.map.invalidateSize();
-                    }, 300);
+                        if (this.map) {
+                            this.map.invalidateSize();
+                            this.fitAllMarkers();
+                        }
+                    }, 350);
                 },
 
                 updateAmbulancePos(newLat, newLng) {
@@ -298,23 +354,71 @@
                     }
                 },
 
-                drawPolyline() {
-                    if (this.polyline) {
-                        this.map.removeLayer(this.polyline);
+                async fetchOsrmRoute(startLatLng, endLatLng, color, weight, opacity, isPrimary = true) {
+                    try {
+                        const url = `https://router.project-osrm.org/route/v1/driving/${startLatLng.lng},${startLatLng.lat};${endLatLng.lng},${endLatLng.lat}?overview=full&geometries=geojson&steps=true`;
+                        const response = await fetch(url);
+                        const data = await response.json();
+
+                        if (data.code === 'Ok' && data.routes && data.routes.length > 0) {
+                            const route = data.routes[0];
+                            const coords = route.geometry.coordinates.map(c => [c[1], c[0]]);
+
+                            const routeLayer = L.polyline(coords, {
+                                color: color,
+                                weight: weight,
+                                opacity: opacity,
+                                lineCap: 'round',
+                                lineJoin: 'round'
+                            }).addTo(this.map);
+
+                            if (isPrimary) {
+                                const distKm = (route.distance / 1000).toFixed(1) + ' km';
+                                const etaMin = Math.max(1, Math.ceil(route.duration / 60)) + ' Menit';
+                                const summary = (route.legs && route.legs[0] && route.legs[0].summary) ? route.legs[0].summary : 'Jalan Raya Utama Cilacap';
+
+                                this.routeDistance = distKm;
+                                this.routeEta = etaMin;
+                                this.routeSummary = summary;
+                            }
+
+                            return routeLayer;
+                        }
+                    } catch (e) {
+                        console.warn('OSRM routing fallback to straight line:', e);
                     }
 
-                    const points = [];
-                    if (this.ambMarker) points.push(this.ambMarker.getLatLng());
-                    if (this.jemputMarker) points.push(this.jemputMarker.getLatLng());
-                    if (this.rsMarker) points.push(this.rsMarker.getLatLng());
+                    return L.polyline([startLatLng, endLatLng], {
+                        color: color,
+                        weight: weight,
+                        opacity: opacity,
+                        dashArray: '8, 8'
+                    }).addTo(this.map);
+                },
 
-                    if (points.length > 1) {
-                        this.polyline = L.polyline(points, {
-                            color: '#DC2626',
-                            weight: 4,
-                            opacity: 0.85,
-                            dashArray: '10, 8'
-                        }).addTo(this.map);
+                async drawPolyline() {
+                    if (this.polyline) {
+                        this.map.removeLayer(this.polyline);
+                        this.polyline = null;
+                    }
+                    if (this.polyline2) {
+                        this.map.removeLayer(this.polyline2);
+                        this.polyline2 = null;
+                    }
+
+                    if (this.ambMarker && this.jemputMarker) {
+                        this.polyline = await this.fetchOsrmRoute(
+                            this.ambMarker.getLatLng(),
+                            this.jemputMarker.getLatLng(),
+                            '#DC2626', 5.5, 0.95, true
+                        );
+                    }
+                    if (this.jemputMarker && this.rsMarker) {
+                        this.polyline2 = await this.fetchOsrmRoute(
+                            this.jemputMarker.getLatLng(),
+                            this.rsMarker.getLatLng(),
+                            '#10B981', 4, 0.8, false
+                        );
                     }
                 },
 
@@ -325,7 +429,7 @@
                     if (this.rsMarker) bounds.extend(this.rsMarker.getLatLng());
 
                     if (bounds.isValid()) {
-                        this.map.fitBounds(bounds, { padding: [50, 50] });
+                        this.map.fitBounds(bounds, { padding: [60, 60], maxZoom: 15 });
                     }
                 }
             }

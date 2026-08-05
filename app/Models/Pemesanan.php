@@ -36,6 +36,7 @@ class Pemesanan extends Model
         'no_hp_kontak',
         'keperluan_penggunaan',
         'status',
+        'is_form_complete',
         'catatan_tambahan',
         'waktu_pesan',
         'waktu_respon',
@@ -51,6 +52,7 @@ class Pemesanan extends Model
             'tujuan_lat' => 'decimal:8',
             'tujuan_lng' => 'decimal:8',
             'tanggal_jemput' => 'date',
+            'is_form_complete' => 'boolean',
             'waktu_pesan' => 'datetime',
             'waktu_respon' => 'datetime',
             'waktu_jemput' => 'datetime',
@@ -132,5 +134,19 @@ class Pemesanan extends Model
             'dibatalkan' => 'rose',
             default => 'slate',
         };
+    }
+
+    /**
+     * Cek apakah pesanan membutuhkan pelengkapan formulir medis
+     */
+    public function needsFormCompletion(): bool
+    {
+        if (in_array($this->status, ['selesai', 'dibatalkan'])) {
+            return false;
+        }
+        if ($this->is_form_complete) {
+            return false;
+        }
+        return empty($this->nik_pasien) || empty($this->usia_pasien) || empty($this->no_hp_kontak) || $this->keperluan_penggunaan === 'IGD Darurat';
     }
 }

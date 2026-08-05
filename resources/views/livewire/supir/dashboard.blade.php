@@ -47,6 +47,37 @@
         </div>
     @endif
 
+    <!-- Peringatan Pesanan Darurat Terbuka (Belum Ada Supir / Siaga Ambil Tugas) -->
+    @if($openOrders && $openOrders->count() > 0 && !$activeOrder)
+        <div class="mb-8 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-2xl border-4 border-amber-300 animate-pulse">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="text-2xl">🚨</span>
+                <h2 class="text-xl sm:text-2xl font-black">Pesanan Darurat Masuk (Belum Ada Armada Ditugaskan)</h2>
+            </div>
+            <p class="text-amber-50 text-sm mb-5">
+                Ada pesanan darurat medis dari masyarakat yang membutuhkan penjemputan segera. Klik tombol di bawah ini untuk mengambil tugas penjemputan.
+            </p>
+            <div class="space-y-3">
+                @foreach($openOrders as $op)
+                    <div class="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                        <div>
+                            <span class="px-2.5 py-0.5 rounded text-xs font-black bg-white text-amber-700 uppercase tracking-wider">
+                                #{{ $op->kode_order }}
+                            </span>
+                            <h3 class="text-lg font-black mt-1">Pasien: {{ $op->nama_pasien }} ({{ $op->usia_pasien ?? '-' }})</h3>
+                            <p class="text-amber-100 text-xs mt-0.5 font-medium">📍 Jemput: {{ $op->lokasi_jemput }} &rarr; 🏥 Tujuan: {{ $op->tujuan_lokasi ?? '-' }}</p>
+                            <p class="text-white text-xs mt-1 font-semibold">Diagnosa: <span class="underline">{{ $op->diagnosa_medis }}</span></p>
+                        </div>
+                        <button type="button" wire:click="takeOrder({{ $op->id }})"
+                                class="w-full sm:w-auto px-6 py-3 rounded-xl bg-white text-amber-700 hover:bg-amber-50 font-extrabold text-sm shadow-lg transition-transform transform hover:scale-105 shrink-0">
+                            🚀 AMBIL TUGAS INI SEKARANG
+                        </button>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endif
+
     <!-- 3 Statistik Supir -->
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
         <!-- SIM -->

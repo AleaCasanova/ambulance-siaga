@@ -2,7 +2,7 @@
     <!-- Header Page -->
     <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div class="flex items-center gap-4">
-            <div class="w-14 h-14 rounded-2xl bg-white p-1.5 flex items-center justify-center shadow-md border border-slate-200/80 flex-shrink-0">
+            <div class="w-20 h-20 rounded-full bg-white p-2 flex items-center justify-center shadow-lg border-2 border-sky-100/80 flex-shrink-0 overflow-hidden">
                 <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-full h-full object-contain">
             </div>
             <div>
@@ -180,16 +180,26 @@
 
                 initMap() {
                     // Initialize Leaflet
-                    this.map = L.map('booking-map').setView([this.lat, this.lng], 14);
+                    this.map = L.map('booking-map', {
+                        zoomControl: true
+                    }).setView([this.lat, this.lng], 14);
 
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: '&copy; OpenStreetMap contributors',
                         maxZoom: 19
                     }).addTo(this.map);
 
+                    const jemputIcon = L.divIcon({
+                        className: 'custom-jemput-icon',
+                        html: `<div style="background: linear-gradient(135deg, #3B82F6, #1D4ED8); width: 38px; height: 38px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 12px rgba(59,130,246,0.5); display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: move;">📍</div>`,
+                        iconSize: [38, 38],
+                        iconAnchor: [19, 38]
+                    });
+
                     // Create Draggable Marker
                     this.marker = L.marker([this.lat, this.lng], {
-                        draggable: true
+                        draggable: true,
+                        icon: jemputIcon
                     }).addTo(this.map)
                     .bindPopup('<b>Titik Penjemputan Pasien</b><br>Geser atau klik peta untuk ubah')
                     .openPopup();
@@ -206,8 +216,10 @@
                     });
 
                     setTimeout(() => {
-                        this.map.invalidateSize();
-                    }, 300);
+                        if (this.map) {
+                            this.map.invalidateSize();
+                        }
+                    }, 350);
 
                     window.addEventListener('resize', () => {
                         if (this.map) {
@@ -250,15 +262,23 @@
                     const rsNama = selectedOpt.getAttribute('data-nama');
 
                     if (rsLat && rsLng) {
+                        const rsIcon = L.divIcon({
+                            className: 'custom-rs-icon',
+                            html: `<div style="background: linear-gradient(135deg, #10B981, #059669); width: 34px; height: 34px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 10px rgba(16,185,129,0.4); display: flex; align-items: center; justify-content: center; font-size: 16px;">🏥</div>`,
+                            iconSize: [34, 34],
+                            iconAnchor: [17, 34]
+                        });
+
                         this.hospitalMarker = L.marker([rsLat, rsLng], {
-                            title: rsNama
+                            title: rsNama,
+                            icon: rsIcon
                         }).addTo(this.map)
                         .bindPopup(`<b>Rumah Sakit Rujukan:</b><br>${rsNama}`)
                         .openPopup();
 
                         // Fit bounds between pickup and hospital
                         const bounds = L.latLngBounds([ [this.lat, this.lng], [rsLat, rsLng] ]);
-                        this.map.fitBounds(bounds, { padding: [50, 50] });
+                        this.map.fitBounds(bounds, { padding: [60, 60], maxZoom: 15 });
                     }
                 }
             }

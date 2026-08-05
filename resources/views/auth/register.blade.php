@@ -7,6 +7,21 @@
         </p>
     </div>
 
+    <!-- Pending Emergency Order Alert -->
+    @if(session('pending_order_code'))
+        <div class="mb-5 p-4 rounded-2xl bg-sky-50 border border-sky-200 text-sky-900 text-left flex items-start gap-3 shadow-sm">
+            <div class="w-7 h-7 rounded-lg bg-sky-600 text-white flex items-center justify-center font-bold flex-shrink-0 text-xs mt-0.5">
+                !
+            </div>
+            <div>
+                <h4 class="font-extrabold text-sm">Pesanan #{{ session('pending_order_code') }} Telah Terkirim!</h4>
+                <p class="text-xs mt-0.5 text-sky-700 leading-relaxed font-medium">
+                    Silakan daftar akun baru di bawah ini agar Anda dapat melengkapi formulir kebutuhan medis pasien.
+                </p>
+            </div>
+        </div>
+    @endif
+
     <form method="POST" action="{{ route('register') }}" class="space-y-4">
         @csrf
 

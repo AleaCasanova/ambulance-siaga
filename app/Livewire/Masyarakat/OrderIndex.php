@@ -12,6 +12,17 @@ class OrderIndex extends Component
 
     public string $statusFilter = '';
 
+    public function mount()
+    {
+        $user = auth()->user();
+        if ($user && $user->hasRole('supir')) {
+            return redirect()->route('supir.dashboard');
+        }
+        if ($user && ($user->hasRole('dispatcher') || $user->hasRole('admin_operasional') || $user->hasRole('superadmin'))) {
+            return redirect()->route('dispatcher.orders.index');
+        }
+    }
+
     public function updatingStatusFilter()
     {
         $this->resetPage();

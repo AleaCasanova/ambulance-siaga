@@ -2,18 +2,29 @@
     $user = auth()->user();
     $avatarUrl = $user?->avatar_url ?? 'https://ui-avatars.com/api/?name=Tamu&color=0284C7&background=E0F2FE&bold=true';
     $userName = $user?->name ?? 'Tamu / Masyarakat';
+
+    $pendingIncompleteOrder = null;
+    if ($user && ($user->hasRole('masyarakat') || !$user->role_id)) {
+        $pendingIncompleteOrder = \App\Models\Pemesanan::where('user_id', $user->id)
+            ->whereNotIn('status', ['selesai', 'dibatalkan'])
+            ->latest('id')
+            ->get()
+            ->first(function ($order) {
+                return $order->needsFormCompletion();
+            });
+    }
 @endphp
 
 <header class="h-20 bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-6 lg:px-8 flex items-center justify-between fixed top-0 right-0 left-0 z-50 shadow-xs transition-all duration-300">
     <!-- Left side: Logo & Brand Title -->
     <div class="flex items-center gap-4">
-        <a href="{{ route('home') }}" class="flex items-center gap-3 group">
-            <div class="w-11 h-11 rounded-2xl bg-white p-1 flex items-center justify-center shadow-md shadow-sky-600/15 border border-slate-100 group-hover:scale-105 transition-all overflow-hidden">
+        <a href="{{ route('home') }}" class="flex items-center gap-3.5 group">
+            <div class="w-14 h-14 rounded-full bg-white p-1 flex items-center justify-center shadow-md shadow-sky-600/20 border-2 border-slate-100 group-hover:scale-105 transition-all overflow-hidden">
                 <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-full h-full object-contain">
             </div>
             <div class="flex flex-col">
-                <span class="font-extrabold text-slate-900 tracking-tight text-lg leading-tight group-hover:text-sky-600 transition-colors">Ambulance Siaga</span>
-                <span class="text-[11px] font-bold text-sky-600 tracking-wider uppercase">Layanan Darurat • Multi-Mitra</span>
+                <span class="font-extrabold text-slate-900 tracking-tight text-xl leading-tight group-hover:text-sky-600 transition-colors">Ambulance Siaga</span>
+                <span class="text-xs font-bold text-sky-600 tracking-wider uppercase">Layanan Darurat • Multi-Mitra</span>
             </div>
         </a>
     </div>
@@ -39,11 +50,22 @@
         </a>
 
         @if($user)
-            <!-- Riwayat Pesanan Saya -->
-            <a href="{{ route('masyarakat.orders.index') }}"
-               class="px-3.5 py-2 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('masyarakat.orders.*') || request()->routeIs('masyarakat.tracking') ? 'text-sky-600 font-extrabold bg-sky-50' : 'text-slate-600 hover:text-sky-600 hover:bg-slate-50' }}">
-                Riwayat & Tracking
-            </a>
+            @if(!$user->isSupir() && !$user->isDispatcher() && !$user->isSuperAdmin() && !$user->isAdminOperasional())
+                <!-- Riwayat Pesanan Saya (Hanya untuk Pasien/Masyarakat) -->
+                <a href="{{ route('masyarakat.orders.index') }}"
+                   class="px-3.5 py-2 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('masyarakat.orders.*') || request()->routeIs('masyarakat.tracking') ? 'text-sky-600 font-extrabold bg-sky-50' : 'text-slate-600 hover:text-sky-600 hover:bg-slate-50' }}">
+                    Riwayat & Tracking
+                </a>
+            @endif
+
+            @if($pendingIncompleteOrder)
+                <a href="{{ route('masyarakat.order.complete', $pendingIncompleteOrder->id) }}"
+                   class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-600 hover:bg-red-700 text-white font-extrabold text-xs shadow-lg shadow-red-600/40 animate-pulse transition-all border-2 border-white transform hover:scale-105 ml-1"
+                   title="Klik untuk melengkapi formulir pesanan darurat Anda">
+                    <span class="w-5 h-5 rounded-full bg-white text-red-600 flex items-center justify-center font-black text-xs animate-bounce">!</span>
+                    <span>⚠️ LENGKAPI FORM DARURAT (#{{ $pendingIncompleteOrder->kode_order }})</span>
+                </a>
+            @endif
 
             @if($user->isSuperAdmin() || $user->isAdminOperasional())
                 <!-- Dropdown Operasional -->
@@ -112,9 +134,13 @@
 
             @if($user->isSupir())
                 <!-- Supir Links -->
+                <a href="{{ route('supir.dashboard') }}"
+                   class="px-3.5 py-2 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('supir.dashboard') ? 'text-sky-600 font-extrabold bg-sky-50' : 'text-slate-600 hover:text-sky-600 hover:bg-slate-50' }}">
+                    Dashboard Supir
+                </a>
                 <a href="{{ route('supir.tugas.index') }}"
-                   class="px-3.5 py-2 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('supir.tugas.*') ? 'text-sky-600 font-extrabold bg-sky-50' : 'text-slate-600 hover:text-sky-600 hover:bg-slate-50' }}">
-                    Daftar Tugas
+                   class="px-3.5 py-2 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('supir.tugas.*') || request()->routeIs('supir.orders.*') ? 'text-sky-600 font-extrabold bg-sky-50' : 'text-slate-600 hover:text-sky-600 hover:bg-slate-50' }}">
+                    Daftar Tugas Saya
                 </a>
             @endif
         @endif
@@ -244,6 +270,17 @@
                 Riwayat & Tracking
             </a>
 
+            @if($pendingIncompleteOrder)
+                <a href="{{ route('masyarakat.order.complete', $pendingIncompleteOrder->id) }}" @click="mobileMenuOpen = false"
+                   class="flex items-center justify-between px-4 py-3.5 my-2 rounded-2xl bg-red-600 text-white font-extrabold text-xs shadow-lg shadow-red-600/40 animate-pulse">
+                    <div class="flex items-center gap-2.5">
+                        <span class="w-6 h-6 rounded-full bg-white text-red-600 flex items-center justify-center font-black text-xs animate-bounce">!</span>
+                        <span>LENGKAPI FORM DARURAT</span>
+                    </div>
+                    <span class="underline font-mono">#{{ $pendingIncompleteOrder->kode_order }} &rarr;</span>
+                </a>
+            @endif
+
             @if($user->isSuperAdmin() || $user->isAdminOperasional())
                 <div class="pt-3 pb-1 px-4 text-xs font-black text-slate-400 uppercase tracking-wider">Operasional</div>
                 <a href="{{ route('admin.orders.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Semua Order</a>
@@ -287,3 +324,42 @@
         @endif
     </div>
 </header>
+
+@if($pendingIncompleteOrder && !request()->routeIs('masyarakat.order.complete'))
+    <!-- Pop-up Modal Peringatan Lengkapi Formulir -->
+    <div x-data="{ showCompleteAlertModal: true }"
+         x-show="showCompleteAlertModal"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0 translate-y-10 scale-95"
+         x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+         class="fixed bottom-6 right-6 z-50 max-w-sm w-full mx-4 sm:mx-0 bg-white rounded-3xl shadow-2xl border-2 border-red-500/90 overflow-hidden">
+
+        <!-- Header Pop-up -->
+        <div class="bg-gradient-to-r from-red-600 via-red-700 to-rose-700 px-5 py-3.5 text-white flex items-center justify-between shadow-xs">
+            <div class="flex items-center gap-2.5">
+                <span class="w-7 h-7 rounded-full bg-white text-red-600 font-black text-sm flex items-center justify-center shadow-md animate-bounce">!</span>
+                <span class="font-extrabold text-xs sm:text-sm tracking-wide uppercase">Peringatan Penting!</span>
+            </div>
+            <button @click="showCompleteAlertModal = false" class="text-white/80 hover:text-white font-bold text-lg px-1" title="Tutup sebentar">&times;</button>
+        </div>
+
+        <!-- Body Pop-up -->
+        <div class="p-5 space-y-3.5 bg-red-50/40">
+            <p class="text-xs font-bold text-slate-800 leading-relaxed">
+                Pesanan Ambulans Darurat <span class="text-red-600 font-black px-1.5 py-0.5 rounded-lg bg-red-100 border border-red-200">#{{ $pendingIncompleteOrder->kode_order }}</span> membutuhkan kelengkapan formulir medis!
+            </p>
+            <p class="text-xs text-slate-600 font-medium leading-relaxed">
+                Agar tim medis & rumah sakit rujukan dapat mempersiapkan penanganan pasien dengan cepat, silakan lengkapi formulir kebutuhan ambulans sekarang.
+            </p>
+            <div class="pt-1 flex items-center gap-2">
+                <a href="{{ route('masyarakat.order.complete', $pendingIncompleteOrder->id) }}"
+                   class="flex-1 py-3 px-4 rounded-xl bg-red-600 hover:bg-red-700 text-white font-extrabold text-xs text-center shadow-lg shadow-red-600/30 transition-all transform active:scale-95 flex items-center justify-center gap-2">
+                    <span>LENGKAPI FORMULIR SEKARANG</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+@endif

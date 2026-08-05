@@ -23,6 +23,7 @@
 
     <!-- Fullscreen Map Container -->
     <div id="fullscreen-monitoring-map"
+         wire:ignore
          class="w-full h-[calc(100vh-64px)] z-10"
          x-data="fullScreenMonitoringComponent(@js($markers))"
          x-init="initMap()"
@@ -65,7 +66,9 @@
                     this.renderMarkers();
 
                     setTimeout(() => {
-                        this.map.invalidateSize();
+                        if (this.map) {
+                            this.map.invalidateSize();
+                        }
                     }, 300);
                 },
 
@@ -78,19 +81,30 @@
 
                         let title = '';
                         let popup = '';
+                        let iconHtml = '';
 
                         if (item.type === 'ambulans') {
                             title = `Ambulans: ${item.kode}`;
                             popup = `<b>Armada: ${item.kode}</b><br>Supir: ${item.supir}<br>Telp: ${item.phone}<br>Status: ${item.status_online ? 'ONLINE' : 'OFFLINE'}`;
+                            iconHtml = `<div style="background: linear-gradient(135deg, #0284C7, #0369A1); width: 34px; height: 34px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 10px rgba(2,132,199,0.5); display: flex; align-items: center; justify-content: center; font-size: 16px;">🚑</div>`;
                         } else if (item.type === 'darurat') {
                             title = `Darurat: ${item.pasien}`;
                             popup = `<b>DARURAT: ${item.kode}</b><br>Pasien: ${item.pasien}<br>Kondisi: ${item.kondisi}<br>Status: ${item.status}`;
+                            iconHtml = `<div style="background: linear-gradient(135deg, #F59E0B, #D97706); width: 34px; height: 34px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 10px rgba(245,158,11,0.5); display: flex; align-items: center; justify-content: center; font-size: 16px;">🚨</div>`;
                         } else if (item.type === 'rumahsakit') {
                             title = `RS: ${item.nama}`;
                             popup = `<b>Rumah Sakit:</b><br>${item.nama}<br>${item.alamat}<br>IGD: ${item.kapasitas}`;
+                            iconHtml = `<div style="background: linear-gradient(135deg, #10B981, #059669); width: 34px; height: 34px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 10px rgba(16,185,129,0.4); display: flex; align-items: center; justify-content: center; font-size: 16px;">🏥</div>`;
                         }
 
-                        const marker = L.marker([item.lat, item.lng], { title }).addTo(this.markersLayer)
+                        const customIcon = L.divIcon({
+                            className: 'custom-monitoring-icon',
+                            html: iconHtml,
+                            iconSize: [34, 34],
+                            iconAnchor: [17, 17]
+                        });
+
+                        const marker = L.marker([item.lat, item.lng], { title, icon: customIcon }).addTo(this.markersLayer)
                             .bindPopup(popup);
 
                         bounds.extend([item.lat, item.lng]);

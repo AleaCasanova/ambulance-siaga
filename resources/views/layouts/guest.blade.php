@@ -27,8 +27,8 @@
 
             <!-- Brand Logo & Header -->
             <div class="mb-6 text-center">
-                <a href="{{ route('home') }}" class="inline-flex items-center gap-3 group">
-                    <div class="w-16 h-16 rounded-2xl bg-white p-1.5 flex items-center justify-center shadow-xl shadow-sky-600/20 border border-slate-200/80 group-hover:scale-105 transition-transform overflow-hidden">
+                <a href="{{ route('home') }}" class="inline-flex items-center gap-4 group">
+                    <div class="w-20 h-20 rounded-full bg-white p-2 flex items-center justify-center shadow-xl shadow-sky-600/25 border-2 border-sky-100 group-hover:scale-105 transition-transform overflow-hidden">
                         <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-full h-full object-contain">
                     </div>
                     <div class="text-left">

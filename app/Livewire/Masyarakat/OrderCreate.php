@@ -118,9 +118,17 @@ class OrderCreate extends Component
 
         $order = $service->createOrder($data, auth()->id());
 
-        session()->flash('success', 'Pesanan ambulans berhasil dikirim! Armada sedang dipersiapkan.');
+        session()->put('pending_order_id', $order->id);
+        session()->put('pending_order_code', $order->kode_order);
+        session()->put('url.intended', route('masyarakat.order.complete', $order->id));
 
-        return redirect()->route('masyarakat.tracking', $order->id);
+        if (!auth()->check()) {
+            session()->flash('info', 'Pesanan ambulans darurat Anda (#' . $order->kode_order . ') berhasil dikirim ke armada! Silakan Login atau Daftar untuk melengkapi formulir kebutuhan medis pasien.');
+            return redirect()->route('login');
+        }
+
+        session()->flash('success', 'Pesanan ambulans darurat berhasil dikirim ke armada! Silakan lengkapi formulir kebutuhan ambulans di bawah ini.');
+        return redirect()->route('masyarakat.order.complete', $order->id);
     }
 
     public function render()

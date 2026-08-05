@@ -69,8 +69,8 @@
             
             <!-- Left Column: Text Description -->
             <div class="lg:col-span-6 space-y-6">
-                <div class="flex items-center gap-3">
-                    <div class="w-14 h-14 rounded-2xl bg-white p-1.5 flex items-center justify-center shadow-lg border border-slate-100">
+                <div class="flex items-center gap-4">
+                    <div class="w-20 h-20 rounded-full bg-white p-2 flex items-center justify-center shadow-xl border-2 border-sky-100 overflow-hidden">
                         <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-full h-full object-contain">
                     </div>
                     <div>
