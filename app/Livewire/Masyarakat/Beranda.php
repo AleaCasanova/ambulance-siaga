@@ -34,6 +34,6 @@ class Beranda extends Component
             'totalRelawan' => $totalRelawan,
             'totalAmbulans' => $totalAmbulans,
             'totalRumahSakit' => $totalRumahSakit,
-        ])->layout('layouts.app');
+        ])->layout('layouts.blank');
     }
 }

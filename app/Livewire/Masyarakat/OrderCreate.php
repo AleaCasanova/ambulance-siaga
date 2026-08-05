@@ -26,6 +26,18 @@ class OrderCreate extends Component
     public ?int $rumah_sakit_id = null;
     public string $catatan_tambahan = '';
 
+    // Camera Verification Properties
+    public ?string $photo_base64 = null;
+    public ?float $photo_latitude = null;
+    public ?float $photo_longitude = null;
+    public ?string $photo_address = null;
+    public ?string $photo_district = null;
+    public ?string $photo_city = null;
+    public ?string $photo_province = null;
+    public ?string $photo_country = null;
+    public ?string $photo_taken_at = null;
+    public ?float $photo_accuracy = null;
+
     protected $rules = [
         'nama_pasien' => 'required|string|max:100',
         'kondisi_pasien' => 'required|string|max:255',
@@ -34,6 +46,17 @@ class OrderCreate extends Component
         'jemput_lng' => 'required|numeric',
         'rumah_sakit_id' => 'nullable|exists:rumah_sakit,id',
         'catatan_tambahan' => 'nullable|string|max:255',
+        'photo_base64' => 'required|string',
+        'photo_latitude' => 'required|numeric',
+        'photo_longitude' => 'required|numeric',
+        'photo_taken_at' => 'required|date',
+    ];
+
+    protected $messages = [
+        'photo_base64.required' => 'Silakan ambil foto langsung di lokasi kejadian beserta GPS aktif sebelum mengirim pesanan.',
+        'photo_latitude.required' => 'Data lokasi (Latitude) dari foto tidak ditemukan.',
+        'photo_longitude.required' => 'Data lokasi (Longitude) dari foto tidak ditemukan.',
+        'photo_taken_at.required' => 'Data waktu (Timestamp) dari foto tidak ditemukan.',
     ];
 
     public function mount()
@@ -88,6 +111,20 @@ class OrderCreate extends Component
 
         $this->validate();
 
+        $photoPath = null;
+        if ($this->photo_base64) {
+            $imageParts = explode(";base64,", $this->photo_base64);
+            $imageTypeAux = explode("image/", $imageParts[0]);
+            $imageType = $imageTypeAux[1] ?? 'jpg';
+            $imageBase64 = base64_decode($imageParts[1]);
+
+            $fileName = 'ORDER_' . date('Ymd_His') . '_' . uniqid() . '.jpg';
+            $filePath = 'order-verification/' . $fileName;
+
+            \Illuminate\Support\Facades\Storage::disk('public')->put($filePath, $imageBase64);
+            $photoPath = $filePath;
+        }
+
         $data = [
             'nama_pasien' => $this->nama_pasien,
             'nik_pasien' => $this->nik_pasien ?: null,
@@ -105,6 +142,16 @@ class OrderCreate extends Component
             'jemput_lng' => $this->jemput_lng,
             'rumah_sakit_id' => $this->rumah_sakit_id,
             'catatan_tambahan' => $this->catatan_tambahan,
+            'photo_path' => $photoPath,
+            'photo_latitude' => $this->photo_latitude,
+            'photo_longitude' => $this->photo_longitude,
+            'photo_address' => $this->photo_address,
+            'photo_district' => $this->photo_district,
+            'photo_city' => $this->photo_city,
+            'photo_province' => $this->photo_province,
+            'photo_country' => $this->photo_country,
+            'photo_taken_at' => $this->photo_taken_at,
+            'photo_accuracy' => $this->photo_accuracy,
         ];
 
         if ($this->rumah_sakit_id) {
@@ -123,8 +170,8 @@ class OrderCreate extends Component
         session()->put('url.intended', route('masyarakat.order.complete', $order->id));
 
         if (!auth()->check()) {
-            session()->flash('info', 'Pesanan ambulans darurat Anda (#' . $order->kode_order . ') berhasil dikirim ke armada! Silakan Login atau Daftar untuk melengkapi formulir kebutuhan medis pasien.');
-            return redirect()->route('login');
+            session()->flash('info', 'Pesanan ambulans darurat Anda (#' . $order->kode_order . ') berhasil dikirim ke armada! Silakan buat akun (Register) atau Login untuk melengkapi formulir kebutuhan medis pasien.');
+            return redirect()->route('register');
         }
 
         session()->flash('success', 'Pesanan ambulans darurat berhasil dikirim ke armada! Silakan lengkapi formulir kebutuhan ambulans di bawah ini.');
@@ -137,6 +184,6 @@ class OrderCreate extends Component
 
         return view('livewire.masyarakat.order-create', [
             'rumahSakits' => $rumahSakits,
-        ]);
+        ])->layout('layouts.blank');
     }
 }

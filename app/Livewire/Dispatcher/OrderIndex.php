@@ -42,6 +42,10 @@ class OrderIndex extends Component
     public ?int $edit_rumah_sakit_id = null;
     public string $edit_status = 'menunggu';
 
+    // Detail Order Modal
+    public bool $showDetailModal = false;
+    public ?Pemesanan $detailOrder = null;
+
     public function updatingStatusFilter() { $this->resetPage(); }
     public function updatingSearch() { $this->resetPage(); }
 
@@ -181,6 +185,19 @@ class OrderIndex extends Component
     {
         $service->updateStatus($orderId, $newStatus, null, auth()->id());
         session()->flash('success', "Status order berhasil diubah ke {$newStatus}.");
+    }
+
+    // 5. VIEW DETAIL ORDER
+    public function openDetailModal($orderId)
+    {
+        $this->detailOrder = Pemesanan::with(['user', 'supir.user', 'ambulans', 'rumahSakit', 'dispatcher'])->findOrFail($orderId);
+        $this->showDetailModal = true;
+    }
+
+    public function closeDetailModal()
+    {
+        $this->showDetailModal = false;
+        $this->detailOrder = null;
     }
 
     public function render()

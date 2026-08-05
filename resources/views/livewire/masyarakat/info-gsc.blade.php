@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="space-y-12">
     <!-- ========================================== -->
     <!-- BAGIAN 1: SEKILAS TENTANG AMBULANCE SIAGA (Sesuai Gambar 1 - GoTo Style) -->
@@ -10,6 +11,17 @@
             <a href="#makna-logo" class="hover:text-white transition-colors whitespace-nowrap">Makna Logo</a>
             <a href="#koordinasi" class="hover:text-white transition-colors whitespace-nowrap">Pusat Koordinasi</a>
         </div>
+=======
+<div>
+    <div class="absolute top-0 left-0 w-full h-80 bg-gradient-to-b from-[#009CA6] to-[#009CA6]/80 -z-10"></div>
+    <x-landing-navbar />
+    <main class="pt-32 pb-24 px-6 lg:px-12 max-w-7xl mx-auto min-h-screen w-full">
+        <!-- Top Section: Hero Banner with Description & 4 Core Values Icons (Matching Reference Image) -->
+    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-sky-600 via-cyan-600 to-teal-600 text-white p-8 sm:p-12 lg:p-16 mb-12 shadow-xl">
+        <!-- Subtle Glow Overlay -->
+        <div class="absolute -right-20 -top-20 w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -left-20 -bottom-20 w-96 h-96 bg-sky-300/15 rounded-full blur-3xl pointer-events-none"></div>
+>>>>>>> f81b92ff1cae7f4e6502e3007d68a4980f7751d0
 
         <!-- Main Hero Content Split Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 p-8 sm:p-12 lg:p-16 items-center">
@@ -80,11 +92,69 @@
                 Ambulance Siaga berkomitmen untuk menjadi jaringan layanan darurat medis berskala nasional yang tidak hanya menjalankan kegiatan koordinasi evakuasi medis dengan landasan kepedulian sosial yang kuat, tetapi juga berperan strategis dalam mendukung kepentingan keselamatan jiwa masyarakat, khususnya dalam memperkuat ketahanan aksesibilitas kesehatan, memastikan ketersediaan armada, serta mendorong keberlanjutan pertolongan darurat.
             </p>
 
+<<<<<<< HEAD
             <ol class="list-decimal list-inside space-y-2.5 text-slate-700 text-sm sm:text-base font-medium pt-2">
                 <li><strong class="text-slate-900">Ketahanan Akses Kesehatan:</strong> memperkuat kemudahan dan kedaulatan akses bantuan medis darurat tanpa kendala biaya bagi seluruh masyarakat.</li>
                 <li><strong class="text-slate-900">Ketersediaan Armada:</strong> mewujudkan sinergi dan integrasi jaringan ambulans multi-mitra guna menjamin pemenuhan kebutuhan evakuasi medis darurat.</li>
                 <li><strong class="text-slate-900">Keberlanjutan & Inovasi:</strong> mendorong pengembangan teknologi tanggap darurat berbasis lokasi sebagai langkah strategis dalam menjaga keselamatan sumber daya manusia.</li>
             </ol>
+=======
+                <!-- 2. Amanah -->
+                <div class="flex flex-col items-center text-center group">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white/10 border border-white/25 flex items-center justify-center mb-4 backdrop-blur-xs group-hover:scale-110 group-hover:bg-white/20 transition-all shadow-md">
+                        <!-- Shield SVG -->
+                        <svg class="w-8 h-8 sm:w-10 sm:h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+                        </svg>
+                    </div>
+                    <span class="text-sm sm:text-base font-extrabold tracking-wide uppercase">Amanah</span>
+                </div>
+
+                <!-- 3. Transparan -->
+                <div class="flex flex-col items-center text-center group">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white/10 border border-white/25 flex items-center justify-center mb-4 backdrop-blur-xs group-hover:scale-110 group-hover:bg-white/20 transition-all shadow-md">
+                        <!-- Handshake SVG -->
+                        <svg class="w-8 h-8 sm:w-10 sm:h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19.5 9.5c-1.03 0-1.9.62-2.29 1.5h-2.92c-.39-.88-1.26-1.5-2.29-1.5s-1.9.62-2.29 1.5H6.79c-.39-.88-1.26-1.5-2.29-1.5C3.12 9.5 2 10.62 2 12s1.12 2.5 2.5 2.5c1.03 0 1.9-.62 2.29-1.5h2.92c.39.88 1.26 1.5 2.29 1.5s1.9-.62 2.29-1.5h2.92c.39.88 1.26 1.5 2.29 1.5 1.38 0 2.5-1.12 2.5-2.5s-1.12-2.5-2.5-2.5z"/>
+                            <path d="M11 2L6 7h12L11 2z" opacity="0.3"/>
+                        </svg>
+                    </div>
+                    <span class="text-sm sm:text-base font-extrabold tracking-wide uppercase">Transparan</span>
+                </div>
+
+                <!-- 4. Tepat Sasaran -->
+                <div class="flex flex-col items-center text-center group">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white/10 border border-white/25 flex items-center justify-center mb-4 backdrop-blur-xs group-hover:scale-110 group-hover:bg-white/20 transition-all shadow-md">
+                        <!-- Target Heart SVG -->
+                        <svg class="w-8 h-8 sm:w-10 sm:h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35zm0-11.85c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                        </svg>
+                    </div>
+                    <span class="text-sm sm:text-base font-extrabold tracking-wide uppercase">Tepat Sasaran</span>
+                </div>
+
+            </div>
+
+            <!-- Impact Statistics -->
+            <div class="mt-12 pt-10 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div class="p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors">
+                    <h3 class="text-3xl font-black text-white mb-1">{{ number_format($totalTerbantu) }}+</h3>
+                    <p class="text-sky-100 text-xs font-bold uppercase tracking-wider">Pasien Terbantu</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors">
+                    <h3 class="text-3xl font-black text-white mb-1">{{ $totalAmbulans }}</h3>
+                    <p class="text-sky-100 text-xs font-bold uppercase tracking-wider">Armada Aktif</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors">
+                    <h3 class="text-3xl font-black text-white mb-1">{{ $totalRelawan }}</h3>
+                    <p class="text-sky-100 text-xs font-bold uppercase tracking-wider">Relawan Medis</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors">
+                    <h3 class="text-3xl font-black text-white mb-1">{{ $totalRumahSakit }}</h3>
+                    <p class="text-sky-100 text-xs font-bold uppercase tracking-wider">Faskes Mitra</p>
+                </div>
+            </div>
+>>>>>>> f81b92ff1cae7f4e6502e3007d68a4980f7751d0
         </div>
 
         <div class="border-t border-slate-100 pt-10"></div>
@@ -109,6 +179,7 @@
         </div>
     </div>
 
+<<<<<<< HEAD
 
     <!-- ========================================== -->
     <!-- BAGIAN 3: MAKNA LOGO (Sesuai Gambar 3 - Pertamina Style) -->
@@ -267,8 +338,39 @@
                 <a href="#" class="hover:text-[#0E8ACD] transition-colors"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
                 <a href="#" class="hover:text-[#0E8ACD] transition-colors"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
                 <a href="#" class="hover:text-[#0E8ACD] transition-colors"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+=======
+    <!-- Additional Contact & Alamat Kantor Card -->
+    <div class="bg-gradient-to-br from-white to-slate-50 rounded-3xl border border-slate-200 p-8 sm:p-10 shadow-lg relative overflow-hidden group">
+        <div class="absolute right-0 top-0 w-64 h-64 bg-sky-100/50 rounded-full blur-3xl -mr-20 -mt-20 transition-all group-hover:scale-110"></div>
+        <div class="relative z-10">
+            <h3 class="text-2xl font-extrabold text-slate-800 mb-8 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                </div>
+                Pusat Koordinasi & Sekretariat
+            </h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="p-6 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                    <span class="text-[11px] font-black text-sky-500 block uppercase tracking-wider mb-2">Alamat Pusat Koordinasi</span>
+                    <p class="text-sm font-bold text-slate-700 leading-relaxed">{{ $alamat }}</p>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-sky-50 border border-sky-100 shadow-sm hover:shadow-md transition-shadow ring-1 ring-sky-600/10">
+                    <span class="text-[11px] font-black text-sky-600 block uppercase tracking-wider mb-2">Telepon & Hotline Darurat</span>
+                    <p class="text-lg font-black text-sky-700">{{ $telepon }}</p>
+                    <span class="inline-block mt-2 text-[10px] font-bold bg-sky-600 text-white px-2 py-0.5 rounded-full">Siaga 24 Jam</span>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                    <span class="text-[11px] font-black text-sky-500 block uppercase tracking-wider mb-2">Email Resmi</span>
+                    <p class="text-sm font-bold text-slate-700">{{ $email }}</p>
+                </div>
+>>>>>>> f81b92ff1cae7f4e6502e3007d68a4980f7751d0
             </div>
         </div>
     </div>
+    </main>
+    <x-landing-footer />
 </div>
 

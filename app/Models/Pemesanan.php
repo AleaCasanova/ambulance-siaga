@@ -42,6 +42,16 @@ class Pemesanan extends Model
         'waktu_respon',
         'waktu_jemput',
         'waktu_selesai',
+        'photo_path',
+        'photo_latitude',
+        'photo_longitude',
+        'photo_address',
+        'photo_district',
+        'photo_city',
+        'photo_province',
+        'photo_country',
+        'photo_taken_at',
+        'photo_accuracy',
     ];
 
     protected function casts(): array
@@ -57,6 +67,10 @@ class Pemesanan extends Model
             'waktu_respon' => 'datetime',
             'waktu_jemput' => 'datetime',
             'waktu_selesai' => 'datetime',
+            'photo_latitude' => 'decimal:8',
+            'photo_longitude' => 'decimal:8',
+            'photo_accuracy' => 'decimal:2',
+            'photo_taken_at' => 'datetime',
         ];
     }
 
