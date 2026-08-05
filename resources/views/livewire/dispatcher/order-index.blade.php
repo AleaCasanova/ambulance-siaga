@@ -115,6 +115,12 @@
                                         </svg>
                                     </a>
 
+                                    <!-- Detail -->
+                                    <button type="button" wire:click="openDetailModal({{ $order->id }})"
+                                            class="px-3 py-1.5 rounded-xl bg-sky-50 hover:bg-sky-100 text-sky-700 font-bold text-xs transition-colors">
+                                        Detail
+                                    </button>
+
                                     <!-- Edit -->
                                     <button type="button" wire:click="openEditModal({{ $order->id }})"
                                             class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors">
@@ -348,6 +354,165 @@
                         </button>
                     </div>
                 </form>
+            </div>
+        </div>
+    @endif
+
+    <!-- MODAL 4: DETAIL ORDER & FOTO VERIFIKASI -->
+    @if($showDetailModal && $detailOrder)
+        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm overflow-y-auto" x-data="{ zoomPhoto: false }">
+            <div class="bg-white rounded-3xl max-w-4xl w-full shadow-2xl border border-slate-200 my-8 flex flex-col max-h-[90vh]">
+                
+                <!-- Modal Header -->
+                <div class="flex items-center justify-between p-6 border-b border-slate-100 bg-slate-50/50 rounded-t-3xl shrink-0">
+                    <div>
+                        <h3 class="text-xl font-extrabold text-slate-800">Detail Pesanan #{{ $detailOrder->kode_order }}</h3>
+                        <p class="text-xs font-semibold text-slate-500 mt-1">Dibuat pada: {{ $detailOrder->created_at->format('d M Y, H:i') }} WIB</p>
+                    </div>
+                    <button wire:click="closeDetailModal" class="p-2 rounded-xl hover:bg-slate-200 text-slate-400 hover:text-slate-600 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="p-6 overflow-y-auto space-y-8">
+                    
+                    <!-- Section: Info Darurat -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
+                                <span class="w-1.5 h-4 bg-sky-500 rounded-full"></span> Info Darurat & Pasien
+                            </h4>
+                            <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 space-y-3">
+                                <div>
+                                    <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Nama Pasien</span>
+                                    <span class="block text-sm font-bold text-slate-800">{{ $detailOrder->nama_pasien }}</span>
+                                </div>
+                                <div>
+                                    <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Kondisi Darurat</span>
+                                    <span class="block text-sm font-semibold text-slate-700">{{ $detailOrder->kondisi_pasien ?: '-' }}</span>
+                                </div>
+                                <div>
+                                    <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Catatan Tambahan</span>
+                                    <span class="block text-sm font-semibold text-slate-700">{{ $detailOrder->catatan_tambahan ?: 'Tidak ada' }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
+                                <span class="w-1.5 h-4 bg-emerald-500 rounded-full"></span> Status & Penugasan
+                            </h4>
+                            <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 space-y-3">
+                                <div>
+                                    <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Status Operasional</span>
+                                    <span class="inline-block mt-1 px-3 py-1 rounded-lg text-xs font-bold bg-slate-200 text-slate-800">{{ $detailOrder->status_label }}</span>
+                                </div>
+                                <div>
+                                    <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Armada Ambulans</span>
+                                    <span class="block text-sm font-bold text-slate-800">{{ $detailOrder->ambulans ? $detailOrder->ambulans->kode_ambulans . ' (' . $detailOrder->ambulans->plat_nomor . ')' : 'Belum ditugaskan' }}</span>
+                                </div>
+                                <div>
+                                    <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">RS Tujuan Rujukan</span>
+                                    <span class="block text-sm font-bold text-sky-700">{{ $detailOrder->tujuan_lokasi ?: 'Ditentukan Dispatcher' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section: Verifikasi Lokasi & Foto -->
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
+                            <span class="w-1.5 h-4 bg-amber-500 rounded-full"></span> Verifikasi Lokasi Pemesan (GPS Camera)
+                        </h4>
+                        
+                        <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+                            @if($detailOrder->photo_path)
+                                <div class="grid grid-cols-1 md:grid-cols-5 divide-y md:divide-y-0 md:divide-x divide-slate-100">
+                                    
+                                    <!-- Foto Section (Col 1-3) -->
+                                    <div class="md:col-span-3 p-4 bg-slate-50 flex flex-col items-center justify-center">
+                                        <div class="relative rounded-xl overflow-hidden shadow-md cursor-pointer group" @click="zoomPhoto = true">
+                                            <img src="{{ asset('storage/' . $detailOrder->photo_path) }}" alt="Foto Verifikasi" class="w-full max-h-[400px] object-contain bg-slate-900">
+                                            <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <span class="px-4 py-2 bg-white/20 backdrop-blur-md rounded-lg text-white font-bold text-sm flex items-center gap-2 border border-white/30">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
+                                                    Perbesar Foto
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Info Meta Section (Col 4-5) -->
+                                    <div class="md:col-span-2 p-5 space-y-4">
+                                        <div>
+                                            <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Status Verifikasi</span>
+                                            <span class="inline-flex items-center gap-1 mt-1 px-2.5 py-1 rounded-md text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                                Terverifikasi Otomatis
+                                            </span>
+                                        </div>
+
+                                        <div>
+                                            <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Waktu Pengambilan</span>
+                                            <span class="block text-sm font-semibold text-slate-800">{{ $detailOrder->photo_taken_at ? \Carbon\Carbon::parse($detailOrder->photo_taken_at)->format('d F Y, H:i:s') : '-' }}</span>
+                                        </div>
+
+                                        <div>
+                                            <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Akurasi GPS</span>
+                                            <span class="block text-sm font-semibold text-slate-800">{{ $detailOrder->photo_accuracy ? $detailOrder->photo_accuracy . ' Meter' : 'Tidak diketahui' }}</span>
+                                        </div>
+
+                                        <div>
+                                            <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Koordinat (Lat, Lng)</span>
+                                            <a href="https://maps.google.com/?q={{ $detailOrder->photo_latitude }},{{ $detailOrder->photo_longitude }}" target="_blank"
+                                               class="inline-flex items-center gap-1 mt-1 text-sm font-bold text-sky-600 hover:text-sky-700 hover:underline">
+                                                {{ $detailOrder->photo_latitude }}, {{ $detailOrder->photo_longitude }}
+                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                                            </a>
+                                        </div>
+
+                                        <div>
+                                            <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Alamat Lengkap (Reverse Geocoding)</span>
+                                            <span class="block text-sm font-semibold text-slate-700 leading-snug">{{ $detailOrder->photo_address ?: '-' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="p-8 text-center bg-slate-50">
+                                    <div class="w-12 h-12 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-3 text-slate-400">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    </div>
+                                    <p class="text-sm font-bold text-slate-600">Foto Verifikasi Tidak Tersedia</p>
+                                    <p class="text-xs text-slate-500 mt-1">Pesanan ini mungkin dibuat sebelum fitur verifikasi foto diaktifkan, atau dibuat secara manual oleh dispatcher.</p>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+
+                </div>
+                
+                <!-- Modal Footer -->
+                <div class="p-5 border-t border-slate-100 bg-slate-50 rounded-b-3xl flex justify-end shrink-0">
+                    <button type="button" wire:click="closeDetailModal" class="px-6 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-sm shadow-md transition-colors">
+                        Tutup Detail
+                    </button>
+                </div>
+            </div>
+
+            <!-- Fullscreen Image Zoom (Alpine.js) -->
+            <div x-show="zoomPhoto" style="display: none;" 
+                 class="fixed inset-0 z-[60] bg-black/95 flex items-center justify-center p-4 cursor-zoom-out backdrop-blur-md"
+                 @click="zoomPhoto = false"
+                 @keydown.escape.window="zoomPhoto = false">
+                @if($detailOrder->photo_path)
+                    <img src="{{ asset('storage/' . $detailOrder->photo_path) }}" class="max-w-full max-h-full object-contain shadow-2xl rounded-lg" @click.stop="">
+                @endif
+                <button type="button" class="absolute top-6 right-6 p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors backdrop-blur-md border border-white/20" @click="zoomPhoto = false">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
             </div>
         </div>
     @endif

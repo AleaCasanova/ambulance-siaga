@@ -1,5 +1,8 @@
 <div>
-    <!-- Top Section: Hero Banner with Description & 4 Core Values Icons (Matching Reference Image) -->
+    <div class="absolute top-0 left-0 w-full h-80 bg-gradient-to-b from-[#009CA6] to-[#009CA6]/80 -z-10"></div>
+    <x-landing-navbar />
+    <main class="pt-32 pb-24 px-6 lg:px-12 max-w-7xl mx-auto min-h-screen w-full">
+        <!-- Top Section: Hero Banner with Description & 4 Core Values Icons (Matching Reference Image) -->
     <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-sky-600 via-cyan-600 to-teal-600 text-white p-8 sm:p-12 lg:p-16 mb-12 shadow-xl">
         <!-- Subtle Glow Overlay -->
         <div class="absolute -right-20 -top-20 w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -59,6 +62,26 @@
                     <span class="text-sm sm:text-base font-extrabold tracking-wide uppercase">Tepat Sasaran</span>
                 </div>
 
+            </div>
+
+            <!-- Impact Statistics -->
+            <div class="mt-12 pt-10 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div class="p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors">
+                    <h3 class="text-3xl font-black text-white mb-1">{{ number_format($totalTerbantu) }}+</h3>
+                    <p class="text-sky-100 text-xs font-bold uppercase tracking-wider">Pasien Terbantu</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors">
+                    <h3 class="text-3xl font-black text-white mb-1">{{ $totalAmbulans }}</h3>
+                    <p class="text-sky-100 text-xs font-bold uppercase tracking-wider">Armada Aktif</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors">
+                    <h3 class="text-3xl font-black text-white mb-1">{{ $totalRelawan }}</h3>
+                    <p class="text-sky-100 text-xs font-bold uppercase tracking-wider">Relawan Medis</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors">
+                    <h3 class="text-3xl font-black text-white mb-1">{{ $totalRumahSakit }}</h3>
+                    <p class="text-sky-100 text-xs font-bold uppercase tracking-wider">Faskes Mitra</p>
+                </div>
             </div>
         </div>
     </div>
@@ -121,27 +144,35 @@
     </div>
 
     <!-- Additional Contact & Alamat Kantor Card -->
-    <div class="bg-white rounded-3xl border border-slate-200/80 p-8 sm:p-10 shadow-xs">
-        <h3 class="text-xl font-extrabold text-slate-800 mb-6 flex items-center gap-2.5">
-            <span class="w-3 h-3 rounded-full bg-sky-600"></span>
-            <span>Pusat Koordinasi & Sekretariat Ambulance Siaga</span>
-        </h3>
+    <div class="bg-gradient-to-br from-white to-slate-50 rounded-3xl border border-slate-200 p-8 sm:p-10 shadow-lg relative overflow-hidden group">
+        <div class="absolute right-0 top-0 w-64 h-64 bg-sky-100/50 rounded-full blur-3xl -mr-20 -mt-20 transition-all group-hover:scale-110"></div>
+        <div class="relative z-10">
+            <h3 class="text-2xl font-extrabold text-slate-800 mb-8 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                </div>
+                Pusat Koordinasi & Sekretariat
+            </h3>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200/60">
-                <span class="text-xs font-bold text-slate-400 block uppercase mb-1">Alamat Pusat Koordinasi</span>
-                <p class="text-sm font-bold text-slate-800">{{ $alamat }}</p>
-            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="p-6 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                    <span class="text-[11px] font-black text-sky-500 block uppercase tracking-wider mb-2">Alamat Pusat Koordinasi</span>
+                    <p class="text-sm font-bold text-slate-700 leading-relaxed">{{ $alamat }}</p>
+                </div>
 
-            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200/60">
-                <span class="text-xs font-bold text-slate-400 block uppercase mb-1">Telepon & Hotline Darurat</span>
-                <p class="text-sm font-extrabold text-sky-600">{{ $telepon }} (24 Jam)</p>
-            </div>
+                <div class="p-6 rounded-2xl bg-sky-50 border border-sky-100 shadow-sm hover:shadow-md transition-shadow ring-1 ring-sky-600/10">
+                    <span class="text-[11px] font-black text-sky-600 block uppercase tracking-wider mb-2">Telepon & Hotline Darurat</span>
+                    <p class="text-lg font-black text-sky-700">{{ $telepon }}</p>
+                    <span class="inline-block mt-2 text-[10px] font-bold bg-sky-600 text-white px-2 py-0.5 rounded-full">Siaga 24 Jam</span>
+                </div>
 
-            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200/60">
-                <span class="text-xs font-bold text-slate-400 block uppercase mb-1">Email Resmi</span>
-                <p class="text-sm font-bold text-slate-800">{{ $email }}</p>
+                <div class="p-6 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                    <span class="text-[11px] font-black text-sky-500 block uppercase tracking-wider mb-2">Email Resmi</span>
+                    <p class="text-sm font-bold text-slate-700">{{ $email }}</p>
+                </div>
             </div>
         </div>
     </div>
+    </main>
+    <x-landing-footer />
 </div>

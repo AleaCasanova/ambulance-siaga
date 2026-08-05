@@ -34,6 +34,6 @@ class InfoGsc extends Component
             'totalRelawan' => $totalRelawan,
             'totalAmbulans' => $totalAmbulans,
             'totalRumahSakit' => $totalRumahSakit,
-        ]);
+        ])->layout('layouts.blank');
     }
 }
