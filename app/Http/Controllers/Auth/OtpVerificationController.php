@@ -44,7 +44,7 @@ class OtpVerificationController extends Controller
 
         $otpRecord = OtpVerification::where('user_id', $user->id)->first();
         $expireSeconds = $otpRecord ? $otpRecord->secondsUntilExpire() : 0;
-        $resendSeconds = $otpRecord ? $otpRecord->secondsUntilResend(60) : 0;
+        $resendSeconds = $otpRecord ? $otpRecord->secondsUntilResend(15) : 0;
 
         // Simpan email ke session agar perpindahan halaman tetap mengingat target
         session(['verification_email' => $user->email]);
@@ -136,8 +136,8 @@ class OtpVerificationController extends Controller
 
         $otpRecord = OtpVerification::where('user_id', $user->id)->first();
 
-        if ($otpRecord && $otpRecord->isCooldownActive(60)) {
-            $remaining = $otpRecord->secondsUntilResend(60);
+        if ($otpRecord && $otpRecord->isCooldownActive(15)) {
+            $remaining = $otpRecord->secondsUntilResend(15);
             return back()->with('error', "Silakan tunggu {$remaining} detik lagi sebelum meminta kode OTP baru.");
         }
 

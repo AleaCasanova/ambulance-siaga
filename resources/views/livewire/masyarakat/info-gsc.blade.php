@@ -245,5 +245,6 @@
         </div>
     </main>
 
+    <x-floating-donasi />
     <x-landing-footer />
 </div>

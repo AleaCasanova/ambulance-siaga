@@ -45,25 +45,36 @@ class OtpVerification extends Model
     /**
      * Cek apakah jeda waktu (cooldown) pengiriman ulang masih aktif.
      */
-    public function isCooldownActive(int $cooldownSeconds = 60): bool
+    public function isCooldownActive(int $cooldownSeconds = 15): bool
     {
         if (!$this->last_sent_at) {
             return false;
         }
+        
+        $elapsed = time() - $this->last_sent_at->timestamp;
+        
+        if ($elapsed < 0) {
+            $elapsed = 0; // Prevent future timezone bugs
+        }
 
-        return Carbon::now()->diffInSeconds($this->last_sent_at) < $cooldownSeconds;
+        return $elapsed < $cooldownSeconds;
     }
 
     /**
      * Hitung sisa detik untuk cooldown kirim ulang.
      */
-    public function secondsUntilResend(int $cooldownSeconds = 60): int
+    public function secondsUntilResend(int $cooldownSeconds = 15): int
     {
         if (!$this->last_sent_at) {
             return 0;
         }
 
-        $elapsed = Carbon::now()->diffInSeconds($this->last_sent_at);
+        $elapsed = time() - $this->last_sent_at->timestamp;
+        
+        if ($elapsed < 0) {
+            $elapsed = 0; // Prevent future timezone bugs
+        }
+
         $remaining = $cooldownSeconds - $elapsed;
 
         return max(0, (int) $remaining);

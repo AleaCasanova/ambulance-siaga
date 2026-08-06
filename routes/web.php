@@ -14,6 +14,7 @@ use App\Livewire\Dispatcher\LiveMonitoring as DispatcherLiveMonitoring;
 use App\Livewire\Dispatcher\OrderIndex as DispatcherOrderIndex;
 use App\Livewire\Masyarakat\Beranda;
 use App\Livewire\Masyarakat\InfoGsc;
+use App\Livewire\Masyarakat\Donasi;
 use App\Livewire\Masyarakat\OrderComplete;
 use App\Livewire\Masyarakat\OrderCreate;
 use App\Livewire\Masyarakat\OrderIndex as MasyarakatOrderIndex;
@@ -33,6 +34,9 @@ Route::get('/', Beranda::class)->name('home');
 
 // Halaman Tentang Kami GSC
 Route::get('/tentang-kami', InfoGsc::class)->name('masyarakat.info');
+
+// Halaman Donasi GSC
+Route::get('/donasi', Donasi::class)->name('donasi');
 
 // Halaman Buat Pesanan Darurat (Dapat diakses langsung)
 Route::get('/order/new', OrderCreate::class)->name('masyarakat.order.create');

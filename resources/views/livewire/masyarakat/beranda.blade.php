@@ -323,5 +323,6 @@
         </div>
     </section>
 
+    <x-floating-donasi />
     <x-landing-footer />
 </div>
