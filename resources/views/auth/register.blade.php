@@ -14,7 +14,7 @@
             <!-- Pending Emergency Order Alert -->
             @if(session('pending_order_code'))
                 <div class="mb-2.5 p-2.5 rounded-lg bg-sky-50 border border-sky-200 text-sky-900 text-left flex items-start gap-2.5 shadow-xs">
-                    <div class="w-5 h-5 rounded-md bg-[#0E8ACD] text-white flex items-center justify-center font-bold flex-shrink-0 text-[10px] mt-0.5 shadow-xs">
+                    <div class="w-5 h-5 rounded-md bg-[#009CA6] text-white flex items-center justify-center font-bold flex-shrink-0 text-[10px] mt-0.5 shadow-xs">
                         !
                     </div>
                     <div>
@@ -100,7 +100,7 @@
                 <!-- Tombol Tindakan Utama: DAFTAR -->
                 <div class="pt-1.5 flex justify-center">
                     <button type="submit"
-                            class="w-full py-2.5 px-5 rounded-lg bg-[#0E8ACD] hover:bg-[#0A6DA8] text-white font-extrabold text-xs sm:text-sm shadow-md shadow-[#0E8ACD]/20 transition-all duration-200 transform active:scale-[0.99] flex items-center justify-center tracking-wider uppercase cursor-pointer">
+                            class="w-full py-2.5 px-5 rounded-lg bg-[#009CA6] hover:bg-[#007b83] text-white font-extrabold text-xs sm:text-sm shadow-md shadow-[#009CA6]/20 transition-all duration-200 transform active:scale-[0.99] flex items-center justify-center tracking-wider uppercase cursor-pointer">
                         DAFTAR
                     </button>
                 </div>
@@ -110,7 +110,7 @@
             <div class="mt-3 text-center">
                 <p class="text-[11px] sm:text-xs font-medium text-slate-600">
                     Sudah memiliki akun?
-                    <a href="{{ route('login') }}" class="font-extrabold text-[#0E8ACD] hover:text-[#0A6DA8] hover:underline ms-1">
+                    <a href="{{ route('login') }}" class="font-extrabold text-[#009CA6] hover:text-[#007b83] hover:underline ms-1">
                         Kembali ke Login
                     </a>
                 </p>
@@ -120,8 +120,8 @@
         <!-- Tautan Kembali ke Beranda -->
         <div class="mt-2.5 text-center">
             <a href="{{ route('home') }}" 
-               class="inline-flex items-center justify-center gap-1.5 text-[11px] sm:text-xs font-bold text-slate-600 hover:text-[#0E8ACD] transition-colors group">
-                <svg class="w-3.5 h-3.5 text-slate-500 group-hover:text-[#0E8ACD] transform group-hover:-translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+               class="inline-flex items-center justify-center gap-1.5 text-[11px] sm:text-xs font-bold text-slate-600 hover:text-[#009CA6] transition-colors group">
+                <svg class="w-3.5 h-3.5 text-slate-500 group-hover:text-[#009CA6] transform group-hover:-translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                 </svg>
                 <span>Kembali ke Beranda Ambulance Siaga</span>

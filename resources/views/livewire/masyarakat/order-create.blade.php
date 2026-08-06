@@ -1,5 +1,5 @@
 <div>
-    <div class="absolute top-0 left-0 w-full h-80 bg-gradient-to-b from-[#009CA6] to-[#009CA6]/80 -z-10"></div>
+    <div class="absolute top-0 left-0 w-full h-80 bg-gradient-to-br from-[#009CA6] to-[#007b83] -z-10"></div>
     <x-landing-navbar />
     <main class="pt-32 pb-24 px-6 lg:px-12 max-w-7xl mx-auto min-h-screen">
         <!-- Header Page -->
@@ -35,7 +35,7 @@
         <!-- Left Column: Form Pemesanan -->
         <div class="lg:col-span-6 bg-white/95 backdrop-blur-md rounded-3xl border border-white/60 p-6 sm:p-8 shadow-2xl shadow-slate-200/50 relative overflow-hidden">
             <!-- Decorative Blob -->
-            <div class="absolute -top-24 -right-24 w-48 h-48 bg-sky-100/60 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="absolute -top-24 -right-24 w-48 h-48 bg-[#009CA6]/15 rounded-full blur-2xl pointer-events-none"></div>
             
             <form wire:submit="submitOrder" class="space-y-6 relative z-10">
 
@@ -46,7 +46,7 @@
                     </label>
                     <input type="text" wire:model="nama_pasien"
                            placeholder="Contoh: Bpk. Hartono / Ibu Halimah"
-                           class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-sky-500 focus:ring-4 focus:ring-sky-500/10 text-sm font-medium transition-all">
+                           class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#009CA6] focus:ring-4 focus:ring-[#009CA6]/10 text-sm font-medium transition-all">
                     @error('nama_pasien') <p class="text-xs text-red-600 font-medium mt-1">{{ $message }}</p> @enderror
                 </div>
 
@@ -57,7 +57,7 @@
                     </label>
                     <textarea wire:model="kondisi_pasien" rows="3"
                               placeholder="Contoh: Sesak nafas berat, butuh bantuan tabung oksigen dan evakuasi segera ke IGD..."
-                              class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-sky-500 focus:ring-4 focus:ring-sky-500/10 text-sm font-medium transition-all"></textarea>
+                              class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#009CA6] focus:ring-4 focus:ring-[#009CA6]/10 text-sm font-medium transition-all"></textarea>
                     @error('kondisi_pasien') <p class="text-xs text-red-600 font-medium mt-1">{{ $message }}</p> @enderror
                 </div>
 
@@ -68,7 +68,7 @@
                     </label>
                     <input type="text" wire:model="lokasi_jemput"
                            placeholder="Contoh: Jl. Gatot Subroto No. 45 (Depan Gerbang Merah / Samping Masjid)"
-                           class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-sky-500 focus:ring-4 focus:ring-sky-500/10 text-sm font-medium transition-all">
+                           class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#009CA6] focus:ring-4 focus:ring-[#009CA6]/10 text-sm font-medium transition-all">
                     @error('lokasi_jemput') <p class="text-xs text-red-600 font-medium mt-1">{{ $message }}</p> @enderror
                 </div>
 
@@ -91,7 +91,7 @@
                     </label>
                     <select wire:model.live="rumah_sakit_id"
                             @change="updateHospitalMarker($event.target.value)"
-                            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-sky-500 focus:ring-4 focus:ring-sky-500/10 text-sm font-medium transition-all">
+                            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#009CA6] focus:ring-4 focus:ring-[#009CA6]/10 text-sm font-medium transition-all">
                         <option value="">-- Pilih RS Rujukan (Atau Biarkan Dispatcher Menentukan) --</option>
                         @foreach($rumahSakits as $rs)
                             <option value="{{ $rs->id }}" data-lat="{{ $rs->lat }}" data-lng="{{ $rs->lng }}" data-nama="{{ $rs->nama }}">
@@ -108,13 +108,13 @@
                     </label>
                     <input type="text" wire:model="catatan_tambahan"
                            placeholder="Contoh: Bawa kursi roda / gerbang rumah samping masjid"
-                           class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-sky-500 focus:ring-4 focus:ring-sky-500/10 text-sm font-medium transition-all">
+                           class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#009CA6] focus:ring-4 focus:ring-[#009CA6]/10 text-sm font-medium transition-all">
                 </div>
 
                 <!-- Camera Verification -->
                 <div x-data="cameraVerificationComponent()" class="p-5 rounded-2xl border-2 border-slate-200 bg-slate-50/50">
                     <div class="flex items-center gap-3 mb-3">
-                        <div class="w-10 h-10 rounded-full bg-sky-100 flex items-center justify-center text-sky-600">
+                        <div class="w-10 h-10 rounded-full bg-[#009CA6]/10 flex items-center justify-center text-[#009CA6]">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -191,7 +191,7 @@
                 <div class="pt-4">
                     <button type="submit"
                             wire:loading.attr="disabled"
-                            class="w-full py-4 rounded-2xl bg-sky-600 hover:bg-sky-700 text-white font-extrabold text-sm sm:text-base shadow-lg shadow-sky-600/30 flex items-center justify-center gap-3 transition-all">
+                            class="w-full py-4 rounded-2xl bg-[#009CA6] hover:bg-[#007b83] text-white font-extrabold text-sm sm:text-base shadow-lg shadow-[#009CA6]/30 flex items-center justify-center gap-3 transition-all">
                         <span wire:loading.remove>KIRIM PESANAN DARURAT SEKARANG</span>
                         <span wire:loading class="flex items-center gap-2">
                             <svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -213,18 +213,18 @@
         <div class="lg:col-span-6 flex flex-col lg:sticky lg:top-24 self-start">
             <div class="bg-white/95 backdrop-blur-md rounded-3xl border border-white/60 p-5 sm:p-6 shadow-2xl shadow-slate-200/50 flex flex-col relative overflow-hidden">
                 <!-- Decorative Blob -->
-                <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-sky-100/60 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-[#009CA6]/15 rounded-full blur-2xl pointer-events-none"></div>
                 
                 <div class="flex items-center justify-between gap-3 mb-4 relative z-10">
                     <div>
                         <h2 class="font-bold text-slate-800 text-sm sm:text-base flex items-center gap-2">
-                            <span class="w-2.5 h-2.5 rounded-full bg-sky-600"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#009CA6]"></span>
                             <span>Peta Penentuan Titik Jemput (Cilacap)</span>
                         </h2>
                         <p class="text-xs text-slate-500 mt-0.5">Klik di mana saja pada peta untuk menentukan koordinat penjemputan.</p>
                     </div>
                     <button type="button" @click="resetToDefault()"
-                            class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-sky-50 hover:text-sky-600 text-slate-700 transition-all flex items-center gap-1.5 flex-shrink-0 border border-slate-200/60 shadow-2xs">
+                            class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-[#009CA6]/10 hover:text-[#009CA6] text-slate-700 transition-all flex items-center gap-1.5 flex-shrink-0 border border-slate-200/60 shadow-2xs">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>

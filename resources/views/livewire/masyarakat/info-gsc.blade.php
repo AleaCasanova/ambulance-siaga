@@ -1,376 +1,249 @@
-<<<<<<< HEAD
-<div class="space-y-12">
-    <!-- ========================================== -->
-    <!-- BAGIAN 1: SEKILAS TENTANG AMBULANCE SIAGA (Sesuai Gambar 1 - GoTo Style) -->
-    <!-- ========================================== -->
-    <div class="relative overflow-hidden rounded-3xl bg-[#0B1728] text-white shadow-2xl border border-slate-800">
-        <!-- Sub-Navigation Header Bar (GoTo Style) -->
-        <div class="border-b border-white/10 px-6 sm:px-10 py-4 flex items-center gap-8 text-xs sm:text-sm font-semibold text-slate-300 overflow-x-auto">
-            <a href="#sekilas" class="text-emerald-400 border-b-2 border-emerald-400 pb-1 whitespace-nowrap font-bold">Cerita Kami</a>
-            <a href="#visi-misi" class="hover:text-white transition-colors whitespace-nowrap">Visi & Misi</a>
-            <a href="#makna-logo" class="hover:text-white transition-colors whitespace-nowrap">Makna Logo</a>
-            <a href="#koordinasi" class="hover:text-white transition-colors whitespace-nowrap">Pusat Koordinasi</a>
-        </div>
-=======
 <div>
-    <div class="absolute top-0 left-0 w-full h-80 bg-gradient-to-b from-[#009CA6] to-[#009CA6]/80 -z-10"></div>
+    <div class="absolute top-0 left-0 w-full h-80 bg-gradient-to-br from-[#009CA6] to-[#007b83] -z-10"></div>
     <x-landing-navbar />
+    
     <main class="pt-32 pb-24 px-6 lg:px-12 max-w-7xl mx-auto min-h-screen w-full">
-        <!-- Top Section: Hero Banner with Description & 4 Core Values Icons (Matching Reference Image) -->
-    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-sky-600 via-cyan-600 to-teal-600 text-white p-8 sm:p-12 lg:p-16 mb-12 shadow-xl">
-        <!-- Subtle Glow Overlay -->
-        <div class="absolute -right-20 -top-20 w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute -left-20 -bottom-20 w-96 h-96 bg-sky-300/15 rounded-full blur-3xl pointer-events-none"></div>
->>>>>>> f81b92ff1cae7f4e6502e3007d68a4980f7751d0
+        <div class="space-y-12">
+            <!-- ========================================== -->
+            <!-- BAGIAN 1: SEKILAS TENTANG AMBULANCE SIAGA -->
+            <!-- ========================================== -->
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#009CA6] to-[#007b83] text-white shadow-2xl border border-white/20">
+                <!-- Decorative Pattern -->
+                <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 32px 32px;"></div>
 
-        <!-- Main Hero Content Split Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 p-8 sm:p-12 lg:p-16 items-center">
-            <!-- Left Column: Illustration Image (GoTo Style Image Frame) -->
-            <div class="lg:col-span-6 relative">
-                <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-white/15 group bg-slate-900">
-                    <img src="{{ asset('images/gsc_community_photo.png') }}" 
-                         alt="Armada & Relawan Ambulance Siaga" 
-                         class="w-full h-[320px] sm:h-[400px] object-cover transform group-hover:scale-105 transition-transform duration-700">
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
-                    <div class="absolute bottom-6 left-6 right-6">
-                        <span class="inline-block px-3 py-1 rounded-full bg-[#0E8ACD] text-white font-extrabold text-[11px] uppercase tracking-wider mb-2">
-                            Layanan Medis Gratis
-                        </span>
-                        <h4 class="text-lg font-bold text-white leading-snug">Jaringan Armada Medis & Relawan Terintegrasi di Seluruh Indonesia</h4>
+                <div class="relative z-10 border-b border-white/20 px-6 sm:px-10 py-4 flex items-center gap-8 text-xs sm:text-sm font-semibold text-sky-100 overflow-x-auto">
+                    <a href="#sekilas" class="text-white border-b-2 border-white pb-1 whitespace-nowrap font-bold">Cerita Kami</a>
+                    <a href="#visi-misi" class="hover:text-white transition-colors whitespace-nowrap">Visi & Misi</a>
+                    <a href="#makna-logo" class="hover:text-white transition-colors whitespace-nowrap">Makna Logo</a>
+                    <a href="#koordinasi" class="hover:text-white transition-colors whitespace-nowrap">Pusat Koordinasi</a>
+                </div>
+
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 p-8 sm:p-12 lg:p-16 items-center">
+                    <div class="lg:col-span-6 relative">
+                        <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-white/20 group bg-white/10">
+                            <img src="{{ asset('images/gsc_community_photo.png') }}" alt="Armada & Relawan Ambulance Siaga" class="w-full h-[320px] sm:h-[400px] object-cover transform group-hover:scale-105 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
+                            <div class="absolute bottom-6 left-6 right-6">
+                                <span class="inline-block px-3 py-1 rounded-full bg-yellow-300 text-slate-800 font-extrabold text-[11px] uppercase tracking-wider mb-2">Layanan Medis Gratis</span>
+                                <h4 class="text-lg font-bold text-white leading-snug">Jaringan Armada Medis & Relawan Terintegrasi di Seluruh Indonesia</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-6 space-y-6">
+                        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight drop-shadow-lg">Sekilas Tentang Ambulance Siaga</h1>
+                        <div class="space-y-4 text-sky-50 text-sm sm:text-base leading-relaxed font-medium">
+                            <p><strong class="text-white font-bold">Ambulance Siaga</strong> adalah ekosistem digital layanan darurat medis dan transportasi ambulans bebas biaya di Indonesia. Misi Ambulance Siaga adalah untuk <em class="text-yellow-300 font-bold not-italic">"mendorong kemajuan pertolongan darurat"</em> dengan menawarkan infrastruktur dan solusi teknologi yang membantu semua orang untuk mengakses dan berkembang dalam penanganan darurat medis.</p>
+                            <p>Ekosistem Ambulance Siaga menyediakan berbagai layanan, termasuk pemesanan ambulans darurat gratis, penugasan supir & tim medis, pelacakan posisi ambulans secara real-time, koordinasi antar rumah sakit rujukan, serta solusi teknologi integrasi jaringan multi-mitra bagi masyarakat yang membutuhkan pertolongan cepat tanpa beban biaya.</p>
+                        </div>
+                        <div class="pt-2">
+                            <a href="#visi-misi" class="inline-flex items-center justify-center px-6 py-3 rounded-full border-2 border-white/50 text-white hover:bg-white hover:text-[#009CA6] font-bold text-sm transition-all duration-200 shadow-lg">Selengkapnya</a>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Right Column: Sekilas Tentang Ambulance Siaga Text -->
-            <div class="lg:col-span-6 space-y-6">
-                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
-                    Sekilas Tentang Ambulance Siaga
-                </h1>
-
-                <div class="space-y-4 text-slate-300 text-sm sm:text-base leading-relaxed font-normal">
-                    <p>
-                        <strong class="text-white font-semibold">Ambulance Siaga</strong> adalah ekosistem digital layanan darurat medis dan transportasi ambulans bebas biaya di Indonesia. Misi Ambulance Siaga adalah untuk <em class="text-emerald-400 font-semibold not-italic">"mendorong kemajuan pertolongan darurat"</em> dengan menawarkan infrastruktur dan solusi teknologi yang membantu semua orang untuk mengakses dan berkembang dalam penanganan darurat medis.
-                    </p>
-                    <p>
-                        Ekosistem Ambulance Siaga menyediakan berbagai layanan, termasuk pemesanan ambulans darurat gratis, penugasan supir & tim medis, pelacakan posisi ambulans secara real-time, koordinasi antar rumah sakit rujukan, serta solusi teknologi integrasi jaringan multi-mitra bagi masyarakat yang membutuhkan pertolongan cepat tanpa beban biaya.
-                    </p>
-                </div>
-
-                <div class="pt-2">
-                    <a href="#visi-misi" 
-                       class="inline-flex items-center justify-center px-6 py-3 rounded-full border border-emerald-400/80 text-emerald-400 hover:bg-emerald-400 hover:text-slate-950 font-extrabold text-sm transition-all duration-200">
-                        Selengkapnya
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- ========================================== -->
-    <!-- BAGIAN 2: VISI & MISI (Sesuai Gambar 2 - Pertamina Style) -->
-    <!-- ========================================== -->
-    <div id="visi-misi" class="bg-white rounded-3xl border border-slate-200/80 p-8 sm:p-12 lg:p-16 shadow-xs space-y-12">
-        <!-- Sub-header Breadcrumb Pertamina Style -->
-        <div class="border-b border-slate-200 pb-4 flex items-center justify-between text-xs sm:text-sm font-semibold text-slate-500 overflow-x-auto gap-6">
-            <span class="hover:text-slate-900 cursor-pointer whitespace-nowrap">Sekilas Ambulance Siaga</span>
-            <span class="hover:text-slate-900 cursor-pointer whitespace-nowrap">Tonggak Sejarah</span>
-            <span class="text-[#0E8ACD] font-extrabold border-b-2 border-[#0E8ACD] pb-4 -mb-4.5 whitespace-nowrap">Visi, Misi, Tata Nilai</span>
-            <span class="hover:text-slate-900 cursor-pointer whitespace-nowrap">Makna Logo</span>
-            <span class="hover:text-slate-900 cursor-pointer whitespace-nowrap font-normal">Struktur Jaringan</span>
-        </div>
-
-        <!-- VISI SECTION -->
-        <div class="space-y-5 max-w-4xl">
-            <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0F2747] tracking-tight">Visi</h2>
-            
-            <p class="text-base sm:text-lg font-bold text-[#0E8ACD] leading-relaxed">
-                Menjadi platform integrasi layanan darurat medis dan transportasi ambulans bebas biaya terdepan di Indonesia yang handal, cepat, dan inklusif bagi seluruh lapisan masyarakat.
-            </p>
-
-            <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
-                Ambulance Siaga berkomitmen untuk menjadi jaringan layanan darurat medis berskala nasional yang tidak hanya menjalankan kegiatan koordinasi evakuasi medis dengan landasan kepedulian sosial yang kuat, tetapi juga berperan strategis dalam mendukung kepentingan keselamatan jiwa masyarakat, khususnya dalam memperkuat ketahanan aksesibilitas kesehatan, memastikan ketersediaan armada, serta mendorong keberlanjutan pertolongan darurat.
-            </p>
-
-<<<<<<< HEAD
-            <ol class="list-decimal list-inside space-y-2.5 text-slate-700 text-sm sm:text-base font-medium pt-2">
-                <li><strong class="text-slate-900">Ketahanan Akses Kesehatan:</strong> memperkuat kemudahan dan kedaulatan akses bantuan medis darurat tanpa kendala biaya bagi seluruh masyarakat.</li>
-                <li><strong class="text-slate-900">Ketersediaan Armada:</strong> mewujudkan sinergi dan integrasi jaringan ambulans multi-mitra guna menjamin pemenuhan kebutuhan evakuasi medis darurat.</li>
-                <li><strong class="text-slate-900">Keberlanjutan & Inovasi:</strong> mendorong pengembangan teknologi tanggap darurat berbasis lokasi sebagai langkah strategis dalam menjaga keselamatan sumber daya manusia.</li>
-            </ol>
-=======
-                <!-- 2. Amanah -->
-                <div class="flex flex-col items-center text-center group">
-                    <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white/10 border border-white/25 flex items-center justify-center mb-4 backdrop-blur-xs group-hover:scale-110 group-hover:bg-white/20 transition-all shadow-md">
-                        <!-- Shield SVG -->
-                        <svg class="w-8 h-8 sm:w-10 sm:h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
-                        </svg>
+            <!-- ========================================== -->
+            <!-- BAGIAN 2: VISI & MISI -->
+            <!-- ========================================== -->
+            <div id="visi-misi" class="pt-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+                    
+                    <!-- Kiri: VISI (Card Solid) -->
+                    <div class="lg:col-span-5">
+                        <div class="relative h-full p-8 sm:p-10 rounded-[2.5rem] bg-gradient-to-br from-[#009CA6] to-[#007b83] text-white shadow-2xl border border-white/20 overflow-hidden group">
+                            <!-- Background Decor -->
+                            <div class="absolute -right-20 -top-20 w-64 h-64 bg-white/10 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-700"></div>
+                            <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-yellow-300/20 rounded-full blur-2xl"></div>
+                            
+                            <div class="relative z-10 flex flex-col h-full">
+                                <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center mb-8 backdrop-blur-sm border border-white/30">
+                                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                </div>
+                                <h2 class="text-3xl sm:text-4xl font-black mb-6 tracking-tight">Visi Kami</h2>
+                                <p class="text-lg sm:text-xl font-bold leading-relaxed mb-6">
+                                    Menjadi platform integrasi layanan darurat medis dan transportasi ambulans bebas biaya terdepan di Indonesia yang handal, cepat, dan inklusif.
+                                </p>
+                                <div class="mt-auto pt-6 border-t border-white/20">
+                                    <p class="text-xs sm:text-sm text-sky-50 leading-relaxed font-medium">
+                                        Memperkuat ketahanan aksesibilitas kesehatan, memastikan ketersediaan armada, serta mendorong keberlanjutan pertolongan darurat berskala nasional.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <span class="text-sm sm:text-base font-extrabold tracking-wide uppercase">Amanah</span>
-                </div>
 
-                <!-- 3. Transparan -->
-                <div class="flex flex-col items-center text-center group">
-                    <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white/10 border border-white/25 flex items-center justify-center mb-4 backdrop-blur-xs group-hover:scale-110 group-hover:bg-white/20 transition-all shadow-md">
-                        <!-- Handshake SVG -->
-                        <svg class="w-8 h-8 sm:w-10 sm:h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M19.5 9.5c-1.03 0-1.9.62-2.29 1.5h-2.92c-.39-.88-1.26-1.5-2.29-1.5s-1.9.62-2.29 1.5H6.79c-.39-.88-1.26-1.5-2.29-1.5C3.12 9.5 2 10.62 2 12s1.12 2.5 2.5 2.5c1.03 0 1.9-.62 2.29-1.5h2.92c.39.88 1.26 1.5 2.29 1.5s1.9-.62 2.29-1.5h2.92c.39.88 1.26 1.5 2.29 1.5 1.38 0 2.5-1.12 2.5-2.5s-1.12-2.5-2.5-2.5z"/>
-                            <path d="M11 2L6 7h12L11 2z" opacity="0.3"/>
-                        </svg>
+                    <!-- Kanan: MISI (List Cards) -->
+                    <div class="lg:col-span-7 bg-white rounded-[2.5rem] border border-slate-200/80 p-8 sm:p-10 shadow-xs flex flex-col justify-center">
+                        <div class="mb-8">
+                            <span class="inline-block px-3 py-1 rounded-full bg-slate-100 text-[#009CA6] font-extrabold text-[11px] uppercase tracking-wider mb-3">Tujuan & Misi</span>
+                            <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight">Menghadirkan Solusi Inovatif</h2>
+                            <p class="text-slate-500 mt-3 text-sm sm:text-base leading-relaxed">Memberi nilai tambah melalui efisiensi koordinasi lapangan dan transparansi tanpa membebankan tarif kepada masyarakat.</p>
+                        </div>
+
+                        <div class="space-y-4">
+                            <!-- Point 1 -->
+                            <div class="group flex gap-5 p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-[#009CA6]/30 hover:shadow-lg hover:shadow-[#009CA6]/5 transition-all duration-300">
+                                <div class="w-12 h-12 rounded-xl bg-white shadow-sm border border-slate-200 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:border-[#009CA6]/30 transition-transform duration-300">
+                                    <svg class="w-6 h-6 text-[#009CA6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 group-hover:text-[#009CA6] transition-colors">Konektivitas Real-Time</h4>
+                                    <p class="text-xs sm:text-sm text-slate-500 mt-1 leading-relaxed">Menghubungkan masyarakat dengan jaringan armada ambulans dari berbagai mitra secara otomatis dan cepat.</p>
+                                </div>
+                            </div>
+                            <!-- Point 2 -->
+                            <div class="group flex gap-5 p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-[#009CA6]/30 hover:shadow-lg hover:shadow-[#009CA6]/5 transition-all duration-300">
+                                <div class="w-12 h-12 rounded-xl bg-white shadow-sm border border-slate-200 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:border-[#009CA6]/30 transition-transform duration-300">
+                                    <svg class="w-6 h-6 text-[#009CA6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 group-hover:text-[#009CA6] transition-colors">Efisiensi Respon Darurat</h4>
+                                    <p class="text-xs sm:text-sm text-slate-500 mt-1 leading-relaxed">Mengoptimalkan kecepatan penanganan melalui manajemen alokasi supir, tim medis, dan RS rujukan terdekat.</p>
+                                </div>
+                            </div>
+                            <!-- Point 3 -->
+                            <div class="group flex gap-5 p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-[#009CA6]/30 hover:shadow-lg hover:shadow-[#009CA6]/5 transition-all duration-300">
+                                <div class="w-12 h-12 rounded-xl bg-white shadow-sm border border-slate-200 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:border-[#009CA6]/30 transition-transform duration-300">
+                                    <svg class="w-6 h-6 text-[#009CA6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 group-hover:text-[#009CA6] transition-colors">Transparansi Layanan Bebas Biaya</h4>
+                                    <p class="text-xs sm:text-sm text-slate-500 mt-1 leading-relaxed">Menjamin kepastian layanan evakuasi tanpa memungut tarif bagi seluruh lapisan masyarakat yang membutuhkan.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <span class="text-sm sm:text-base font-extrabold tracking-wide uppercase">Transparan</span>
-                </div>
 
-                <!-- 4. Tepat Sasaran -->
-                <div class="flex flex-col items-center text-center group">
-                    <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white/10 border border-white/25 flex items-center justify-center mb-4 backdrop-blur-xs group-hover:scale-110 group-hover:bg-white/20 transition-all shadow-md">
-                        <!-- Target Heart SVG -->
-                        <svg class="w-8 h-8 sm:w-10 sm:h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35zm0-11.85c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
-                        </svg>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- BAGIAN 3: MAKNA LOGO -->
+            <!-- ========================================== -->
+            <div id="makna-logo" class="pt-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center bg-white rounded-[2.5rem] border border-slate-200/80 p-6 sm:p-10 shadow-xs">
+                    
+                    <!-- Logo Display -->
+                    <div class="lg:col-span-5 order-2 lg:order-1">
+                        <div class="relative w-full aspect-square rounded-[2rem] bg-gradient-to-br from-slate-50 to-slate-100 shadow-inner border border-slate-200 flex flex-col items-center justify-center p-8 overflow-hidden group">
+                            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,156,166,0.08)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                            <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Resmi Ambulance Siaga" class="relative z-10 w-3/4 h-auto object-contain drop-shadow-xl group-hover:scale-105 transition-transform duration-500">
+                            
+                            <div class="relative z-10 mt-8 text-center">
+                                <span class="block text-xl font-black text-slate-800 tracking-wider uppercase">Ambulance Siaga</span>
+                                <span class="block text-[10px] font-bold text-[#009CA6] uppercase tracking-widest mt-1">Layanan Darurat • Multi-Mitra</span>
+                            </div>
+                        </div>
                     </div>
-                    <span class="text-sm sm:text-base font-extrabold tracking-wide uppercase">Tepat Sasaran</span>
-                </div>
 
-            </div>
+                    <!-- Penjelasan Logo -->
+                    <div class="lg:col-span-7 order-1 lg:order-2 space-y-8">
+                        <div>
+                            <span class="inline-block px-3 py-1 rounded-full bg-sky-50 text-[#009CA6] font-extrabold text-[11px] uppercase tracking-wider mb-3">Identitas Visual</span>
+                            <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight">Makna Logo & Simbol</h2>
+                            <p class="text-slate-500 mt-3 text-sm sm:text-base leading-relaxed">Setiap elemen dan warna dirancang dengan penuh pertimbangan untuk merepresentasikan nilai kepedulian, keikhlasan, dan profesionalisme pelayanan.</p>
+                        </div>
 
-            <!-- Impact Statistics -->
-            <div class="mt-12 pt-10 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                <div class="p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors">
-                    <h3 class="text-3xl font-black text-white mb-1">{{ number_format($totalTerbantu) }}+</h3>
-                    <p class="text-sky-100 text-xs font-bold uppercase tracking-wider">Pasien Terbantu</p>
-                </div>
-                <div class="p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors">
-                    <h3 class="text-3xl font-black text-white mb-1">{{ $totalAmbulans }}</h3>
-                    <p class="text-sky-100 text-xs font-bold uppercase tracking-wider">Armada Aktif</p>
-                </div>
-                <div class="p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors">
-                    <h3 class="text-3xl font-black text-white mb-1">{{ $totalRelawan }}</h3>
-                    <p class="text-sky-100 text-xs font-bold uppercase tracking-wider">Relawan Medis</p>
-                </div>
-                <div class="p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors">
-                    <h3 class="text-3xl font-black text-white mb-1">{{ $totalRumahSakit }}</h3>
-                    <p class="text-sky-100 text-xs font-bold uppercase tracking-wider">Faskes Mitra</p>
-                </div>
-            </div>
->>>>>>> f81b92ff1cae7f4e6502e3007d68a4980f7751d0
-        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <!-- Warna Teal -->
+                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-[#009CA6]/30 hover:shadow-lg hover:shadow-[#009CA6]/5 transition-all">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span class="w-5 h-5 rounded-full bg-[#009CA6] shadow-sm shadow-[#009CA6]/40 border-2 border-white"></span>
+                                    <h4 class="font-bold text-slate-800 text-sm">Cyan / Teal</h4>
+                                </div>
+                                <p class="text-xs text-slate-500 leading-relaxed">Keandalan, dapat dipercaya, profesionalisme, serta inovasi teknologi digital dalam merespon kedaruratan.</p>
+                            </div>
+                            
+                            <!-- Warna Putih -->
+                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-slate-300 hover:shadow-lg transition-all">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span class="w-5 h-5 rounded-full bg-white shadow-sm border-2 border-slate-200"></span>
+                                    <h4 class="font-bold text-slate-800 text-sm">Putih Bersih</h4>
+                                </div>
+                                <p class="text-xs text-slate-500 leading-relaxed">Kemurnian niat, ketulusan pengabdian, higienitas medis, dan ketegasan layanan tanpa pungutan biaya.</p>
+                            </div>
 
-        <div class="border-t border-slate-100 pt-10"></div>
+                            <!-- Simbol Plus -->
+                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-[#009CA6]/30 hover:shadow-lg hover:shadow-[#009CA6]/5 transition-all">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-6 h-6 rounded bg-[#009CA6]/10 flex items-center justify-center text-[#009CA6] font-black text-lg">+</div>
+                                    <h4 class="font-bold text-slate-800 text-sm">Cross / Plus</h4>
+                                </div>
+                                <p class="text-xs text-slate-500 leading-relaxed">Melambangkan pertolongan medis darurat yang sepenuhnya berpusat pada kesehatan masyarakat.</p>
+                            </div>
 
-        <!-- MISI SECTION -->
-        <div class="space-y-5 max-w-4xl">
-            <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0F2747] tracking-tight">Misi</h2>
-            
-            <p class="text-base sm:text-lg font-bold text-[#0E8ACD] leading-relaxed">
-                Menyediakan layanan darurat medis melalui solusi inovatif yang memberi nilai tambah untuk masyarakat.
-            </p>
-
-            <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
-                Misi untuk menyediakan pertolongan medis melalui solusi inovatif yang memberi nilai tambah bagi masyarakat mencerminkan komitmen Ambulance Siaga dalam menghadirkan layanan darurat yang andal, berkelanjutan, dan relevan dengan dinamika perkembangan industri teknologi informasi dan kesehatan. Upaya tersebut dilakukan melalui fokus pada pilar efisiensi koordinasi lapangan serta transparansi tanpa beban biaya.
-            </p>
-
-            <ol class="list-decimal list-inside space-y-2.5 text-slate-700 text-sm sm:text-base font-medium pt-2">
-                <li><strong class="text-slate-900">Konektivitas Real-Time:</strong> Menghubungkan masyarakat yang membutuhkan pertolongan medis darurat dengan jaringan armada ambulans dari berbagai mitra secara otomatis dan cepat.</li>
-                <li><strong class="text-slate-900">Efisiensi Respon Darurat:</strong> Mengoptimalkan kecepatan respon penanganan melalui manajemen alokasi supir, fasilitator medis, dan rumah sakit rujukan terdekat.</li>
-                <li><strong class="text-slate-900">Transparansi Layanan:</strong> Menjamin transparansi dan kepastian layanan evakuasi tanpa memungut tarif atau beban biaya bagi masyarakat yang membutuhkan.</li>
-            </ol>
-        </div>
-    </div>
-
-<<<<<<< HEAD
-
-    <!-- ========================================== -->
-    <!-- BAGIAN 3: MAKNA LOGO (Sesuai Gambar 3 - Pertamina Style) -->
-    <!-- ========================================== -->
-    <div id="makna-logo" class="bg-white rounded-3xl border border-slate-200/80 p-8 sm:p-12 lg:p-16 shadow-xs space-y-8">
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0F2747] tracking-tight">Makna Logo</h2>
-
-        <!-- Teks Penjelasan Warna -->
-        <div class="space-y-3 max-w-4xl text-slate-700 text-sm sm:text-base leading-relaxed">
-            <p class="font-semibold text-slate-900">Makna dari logo Ambulance Siaga adalah:</p>
-            <ol class="list-decimal list-inside space-y-2 font-medium">
-                <li><strong class="text-[#0E8ACD]">Warna biru primary (#0E8ACD)</strong> memiliki arti andal, dapat dipercaya, profesional, dan bertanggung jawab dalam menangani setiap kondisi darurat medis.</li>
-                <li><strong class="text-[#1E9DE5]">Warna biru muda/cyan (#7FD3FF)</strong> memiliki arti inovasi teknologi digital, transparansi layanan, dan respon bantuan yang cepat.</li>
-                <li><strong class="text-slate-800">Warna putih (#FFFFFF)</strong> memiliki arti kemurnian niat, ketulusan pengabdian, higienitas medis, serta ketegasan pelayanan tanpa memungut biaya.</li>
-            </ol>
-        </div>
-
-        <!-- Teks Penjelasan Simbol Grafis -->
-        <div class="space-y-3 max-w-4xl text-slate-700 text-sm sm:text-base leading-relaxed pt-2">
-            <p class="font-semibold text-slate-900">Simbol grafis memiliki arti:</p>
-            <ol class="list-decimal list-inside space-y-2 font-medium">
-                <li><strong class="text-slate-900">Bentuk Star of Life (Bintang Kehidupan Medis):</strong> menggambarkan 6 tahap mata rantai pertolongan medis darurat (Deteksi Dini, Pelaporan Cepat, Respon Awal, Perawatan di Tempat, Perawatan dalam Perjalanan, dan Transfer ke Rumah Sakit Rujukan).</li>
-                <li><strong class="text-slate-900">Bentuk Ilustrasi Kendaraan Ambulans:</strong> menggambarkan kesiapsiagaan 24 jam, akselerasi mobilitas tinggi, serta kehandalan armada dalam mencapai lokasi darurat secara tepat waktu.</li>
-            </ol>
-        </div>
-
-        <!-- Image Graphic Showcase (Gambar 3 Style Logo Display) -->
-        <div class="pt-8 flex flex-col items-center justify-center text-center">
-            <div class="w-48 sm:w-64 h-auto p-6 bg-slate-50 rounded-3xl border border-slate-200 shadow-inner mb-4">
-                <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Resmi Ambulance Siaga" class="w-full h-auto object-contain mx-auto">
-            </div>
-            <span class="text-lg font-black text-[#0F2747] tracking-wider uppercase">AMBULANCE SIAGA</span>
-            <span class="text-xs font-bold text-[#0E8ACD] uppercase tracking-widest mt-1">Layanan Darurat • Multi-Mitra</span>
-        </div>
-    </div>
-
-
-    <!-- ========================================== -->
-    <!-- BAGIAN 4: PUSAT KOORDINASI & SEKRETARIAT (Sesuai Gambar 5) -->
-    <!-- ========================================== -->
-    <div id="koordinasi" class="bg-white rounded-3xl border border-slate-200/80 p-8 sm:p-10 shadow-xs">
-        <h3 class="text-xl font-extrabold text-[#0F2747] mb-6 flex items-center gap-2.5">
-            <span class="w-3.5 h-3.5 rounded-full bg-[#0E8ACD]"></span>
-            <span>Pusat Koordinasi & Sekretariat Ambulance Siaga</span>
-        </h3>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Card 1: Alamat Pusat Koordinasi -->
-            <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/70 hover:bg-white hover:border-[#0E8ACD]/30 transition-all">
-                <span class="text-xs font-extrabold text-slate-400 block uppercase tracking-wider mb-2">ALAMAT PUSAT KOORDINASI</span>
-                <p class="text-sm font-bold text-[#0F2747] leading-relaxed">{{ $alamat }}</p>
-            </div>
-
-            <!-- Card 2: Telepon & Hotline Darurat -->
-            <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/70 hover:bg-white hover:border-[#0E8ACD]/30 transition-all">
-                <span class="text-xs font-extrabold text-slate-400 block uppercase tracking-wider mb-2">TELEPON & HOTLINE DARURAT</span>
-                <p class="text-sm font-black text-[#0E8ACD]">{{ $telepon }} (24 Jam)</p>
-            </div>
-
-            <!-- Card 3: Email Resmi -->
-            <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/70 hover:bg-white hover:border-[#0E8ACD]/30 transition-all">
-                <span class="text-xs font-extrabold text-slate-400 block uppercase tracking-wider mb-2">EMAIL RESMI</span>
-                <p class="text-sm font-bold text-[#0F2747]">{{ $email }}</p>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- ========================================== -->
-    <!-- BAGIAN 5: CORPORATE FOOTER (Sesuai Gambar 4 - Pertamina Style Footer) -->
-    <!-- ========================================== -->
-    <div class="bg-white rounded-3xl border border-slate-200/80 p-8 sm:p-12 shadow-xs">
-        <!-- Top Logo & Address Header -->
-        <div class="flex flex-col items-center text-center pb-10 border-b border-slate-100">
-            <div class="w-16 h-16 rounded-full bg-white p-1.5 flex items-center justify-center shadow-lg border border-slate-100 overflow-hidden mb-3">
-                <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-full h-full object-contain">
-            </div>
-            <h4 class="text-lg font-black text-[#0F2747] tracking-tight">AMBULANCE SIAGA</h4>
-            <p class="text-xs font-semibold text-slate-500 mt-1">
-                <strong>Address:</strong> Pusat Koordinasi Layanan Ambulance Siaga, Indonesia
-            </p>
-            <p class="text-xs font-semibold text-slate-500 mt-0.5">
-                <strong>Email:</strong> info@ambulancesiaga.org
-            </p>
-        </div>
-
-        <!-- Footer Multi-Column Links (Gambar 4 Style) -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 py-10 text-xs text-slate-600 font-medium border-b border-slate-100">
-            <!-- Col 1: Announcement -->
-            <div class="space-y-3">
-                <h5 class="font-extrabold text-slate-900 text-sm">Announcement</h5>
-                <ul class="space-y-2">
-                    <li><a href="#" class="hover:text-[#0E8ACD] transition-colors">Informasi Siaga</a></li>
-                    <li><a href="#" class="hover:text-[#0E8ACD] transition-colors">Pengadaan Armada</a></li>
-                    <li><a href="#" class="hover:text-[#0E8ACD] transition-colors">Pengumuman Resmi</a></li>
-                    <li><a href="#" class="hover:text-[#0E8ACD] transition-colors">Kemitraan Sosial</a></li>
-                    <li><a href="#" class="hover:text-[#0E8ACD] transition-colors">Karir & Relawan</a></li>
-                </ul>
-            </div>
-
-            <!-- Col 2: Network -->
-            <div class="space-y-3">
-                <h5 class="font-extrabold text-slate-900 text-sm">Network</h5>
-                <ul class="space-y-2">
-                    <li><a href="#" class="hover:text-[#0E8ACD] transition-colors">Jaringan Mitra RS</a></li>
-                    <li><a href="#" class="hover:text-[#0E8ACD] transition-colors">Armada Ambulans Desa</a></li>
-                    <li><a href="#" class="hover:text-[#0E8ACD] transition-colors">Relawan Medis 24/7</a></li>
-                    <li><a href="#" class="hover:text-[#0E8ACD] transition-colors">Posko Koordinasi Kota</a></li>
-                    <li><a href="#" class="hover:text-[#0E8ACD] transition-colors">Mitra Kemanusiaan</a></li>
-                </ul>
-            </div>
-
-            <!-- Col 3: AP & Services -->
-            <div class="space-y-3">
-                <h5 class="font-extrabold text-slate-900 text-sm">Layanan & Mitra</h5>
-                <ul class="space-y-2">
-                    <li><a href="#" class="hover:text-[#0E8ACD] transition-colors">Evakuasi Medis Darurat</a></li>
-                    <li><a href="#" class="hover:text-[#0E8ACD] transition-colors">Ambulans Jenazah</a></li>
-                    <li><a href="#" class="hover:text-[#0E8ACD] transition-colors">Layanan Pendamping Medis</a></li>
-                    <li><a href="#" class="hover:text-[#0E8ACD] transition-colors">Antar-Jemput Pasien</a></li>
-                    <li><a href="#" class="hover:text-[#0E8ACD] transition-colors">Siaga Bencana Alam</a></li>
-                </ul>
-            </div>
-
-            <!-- Col 4: Tools -->
-            <div class="space-y-3">
-                <h5 class="font-extrabold text-slate-900 text-sm">Tools</h5>
-                <ul class="space-y-2">
-                    <li><a href="{{ route('masyarakat.order.create') }}" class="hover:text-[#0E8ACD] transition-colors">Pesan Ambulans Online</a></li>
-                    <li><a href="#" class="hover:text-[#0E8ACD] transition-colors">Live Tracking GPS</a></li>
-                    <li><a href="#" class="hover:text-[#0E8ACD] transition-colors">Tata Kelola Layanan</a></li>
-                    <li><a href="#" class="hover:text-[#0E8ACD] transition-colors">Keterbukaan Informasi</a></li>
-                </ul>
-            </div>
-
-            <!-- Col 5: Kontak Kami & Call Center -->
-            <div class="space-y-3">
-                <h5 class="font-extrabold text-slate-900 text-sm">Kontak Kami</h5>
-                <div class="p-3 rounded-2xl bg-sky-50 border border-sky-100 flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-[#0E8ACD] text-white flex items-center justify-center font-black text-xs shadow-xs">
-                        119
-                    </div>
-                    <div>
-                        <span class="text-[10px] font-bold text-sky-800 uppercase block">HOTLINE 24 JAM</span>
-                        <span class="text-xs font-extrabold text-[#0F2747]">0812-3456-7890</span>
+                            <!-- Simbol Ambulans -->
+                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-[#009CA6]/30 hover:shadow-lg hover:shadow-[#009CA6]/5 transition-all">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-6 h-6 rounded bg-[#009CA6]/10 flex items-center justify-center text-[#009CA6]">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1 .4-1 1v10c0 .6.4 1 1 1h2m0 0a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"></path></svg>
+                                    </div>
+                                    <h4 class="font-bold text-slate-800 text-sm">Ilustrasi Kendaraan</h4>
+                                </div>
+                                <p class="text-xs text-slate-500 leading-relaxed">Menggambarkan kesiapsiagaan 24 jam penuh, mobilitas tingkat tinggi, dan pelindung bagi umat.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Bottom Copyright & Social Icons Row -->
-        <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-semibold text-slate-500">
-            <p>&copy; {{ date('Y') }} Ambulance Siaga. Platform Layanan Darurat untuk Berbagai Mitra. Dikembangkan oleh GSC.</p>
+            <!-- ========================================== -->
+            <!-- BAGIAN 4: PUSAT KOORDINASI & SEKRETARIAT -->
+            <!-- ========================================== -->
+            <div id="koordinasi" class="pt-8 pb-8">
+                <div class="relative bg-[#0F2747] rounded-[2.5rem] p-8 sm:p-12 shadow-2xl overflow-hidden">
+                    <!-- Background Graphics -->
+                    <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 32px 32px;"></div>
+                    <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-[#009CA6]/40 rounded-full blur-3xl"></div>
+                    
+                    <div class="relative z-10 flex flex-col lg:flex-row gap-8 lg:items-center lg:justify-between mb-10">
+                        <div>
+                            <h3 class="text-2xl sm:text-3xl font-black text-white tracking-tight mb-2">Pusat Koordinasi & Sekretariat</h3>
+                            <p class="text-sky-200 text-sm font-medium">Hubungi kami untuk informasi kemitraan, keluhan, atau layanan darurat 24 jam.</p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <a href="tel:{{ preg_replace('/[^0-9]/', '', $telepon) }}" class="inline-flex items-center gap-3 px-6 py-3.5 rounded-full bg-white hover:bg-slate-50 text-[#0F2747] font-extrabold text-sm transition-all shadow-lg shadow-white/10 group">
+                                <span class="relative flex h-3 w-3">
+                                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#009CA6] opacity-75"></span>
+                                  <span class="relative inline-flex rounded-full h-3 w-3 bg-[#009CA6]"></span>
+                                </span>
+                                Hubungi Hotline
+                            </a>
+                        </div>
+                    </div>
 
-            <div class="flex items-center gap-4 text-slate-400">
-                <a href="#" class="hover:text-[#0E8ACD] transition-colors"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
-                <a href="#" class="hover:text-[#0E8ACD] transition-colors"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
-                <a href="#" class="hover:text-[#0E8ACD] transition-colors"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
-=======
-    <!-- Additional Contact & Alamat Kantor Card -->
-    <div class="bg-gradient-to-br from-white to-slate-50 rounded-3xl border border-slate-200 p-8 sm:p-10 shadow-lg relative overflow-hidden group">
-        <div class="absolute right-0 top-0 w-64 h-64 bg-sky-100/50 rounded-full blur-3xl -mr-20 -mt-20 transition-all group-hover:scale-110"></div>
-        <div class="relative z-10">
-            <h3 class="text-2xl font-extrabold text-slate-800 mb-8 flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                    <div class="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+                        <!-- Alamat -->
+                        <div class="p-6 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md hover:bg-white/20 transition-all group">
+                            <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white mb-4">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            </div>
+                            <span class="text-[10px] font-extrabold text-sky-200 block uppercase tracking-wider mb-1.5">Alamat Kantor Pusat</span>
+                            <p class="text-sm font-bold text-white leading-relaxed">{{ $alamat }}</p>
+                        </div>
+                        <!-- Telepon -->
+                        <div class="p-6 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md hover:bg-white/20 transition-all group">
+                            <div class="w-10 h-10 rounded-xl bg-[#009CA6] flex items-center justify-center text-white mb-4 shadow-lg shadow-[#009CA6]/30">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                            </div>
+                            <span class="text-[10px] font-extrabold text-sky-200 block uppercase tracking-wider mb-1.5">Telepon & Darurat (24 Jam)</span>
+                            <p class="text-lg font-black text-white">{{ $telepon }}</p>
+                        </div>
+                        <!-- Email -->
+                        <div class="p-6 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md hover:bg-white/20 transition-all group">
+                            <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white mb-4">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            </div>
+                            <span class="text-[10px] font-extrabold text-sky-200 block uppercase tracking-wider mb-1.5">Alamat Email Resmi</span>
+                            <p class="text-sm font-bold text-white">{{ $email }}</p>
+                        </div>
+                    </div>
                 </div>
-                Pusat Koordinasi & Sekretariat
-            </h3>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="p-6 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
-                    <span class="text-[11px] font-black text-sky-500 block uppercase tracking-wider mb-2">Alamat Pusat Koordinasi</span>
-                    <p class="text-sm font-bold text-slate-700 leading-relaxed">{{ $alamat }}</p>
-                </div>
-
-                <div class="p-6 rounded-2xl bg-sky-50 border border-sky-100 shadow-sm hover:shadow-md transition-shadow ring-1 ring-sky-600/10">
-                    <span class="text-[11px] font-black text-sky-600 block uppercase tracking-wider mb-2">Telepon & Hotline Darurat</span>
-                    <p class="text-lg font-black text-sky-700">{{ $telepon }}</p>
-                    <span class="inline-block mt-2 text-[10px] font-bold bg-sky-600 text-white px-2 py-0.5 rounded-full">Siaga 24 Jam</span>
-                </div>
-
-                <div class="p-6 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
-                    <span class="text-[11px] font-black text-sky-500 block uppercase tracking-wider mb-2">Email Resmi</span>
-                    <p class="text-sm font-bold text-slate-700">{{ $email }}</p>
-                </div>
->>>>>>> f81b92ff1cae7f4e6502e3007d68a4980f7751d0
             </div>
+
         </div>
-    </div>
     </main>
+
     <x-landing-footer />
 </div>
-

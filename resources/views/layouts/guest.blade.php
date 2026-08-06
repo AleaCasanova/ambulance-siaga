@@ -29,7 +29,7 @@
         <div class="min-h-screen lg:h-screen flex flex-col lg:flex-row">
             
             <!-- PANEL KIRI: AREA BRANDING (50% Lebar - Presisi Fit Viewport) -->
-            <div class="relative w-full lg:w-1/2 bg-gradient-to-br from-[#0A5E94] via-[#0E8ACD] to-[#0A5E94] text-white flex flex-col justify-between p-6 sm:p-8 lg:p-10 overflow-hidden min-h-[480px] lg:h-full">
+            <div class="relative w-full lg:w-1/2 bg-gradient-to-br from-[#009CA6] via-[#008f97] to-[#007b83] text-white flex flex-col justify-between p-6 sm:p-8 lg:p-10 overflow-hidden min-h-[480px] lg:h-full">
                 
                 <!-- ELEMEN DEKORATIF BACKGROUND -->
                 <div class="absolute -right-12 top-1/4 w-[450px] h-[450px] opacity-[0.08] pointer-events-none select-none text-white">
@@ -39,30 +39,30 @@
                     </svg>
                 </div>
 
-                <div class="absolute top-8 right-8 opacity-30 pointer-events-none">
+                <div class="absolute top-8 right-8 opacity-30 pointer-events-none text-white">
                     <svg width="80" height="80" viewBox="0 0 100 100" fill="none">
                         <pattern id="dot-grid" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
-                            <circle cx="3" cy="3" r="2" fill="#7FD3FF" />
+                            <circle cx="3" cy="3" r="2" fill="currentColor" />
                         </pattern>
                         <rect width="100" height="100" fill="url(#dot-grid)" />
                     </svg>
                 </div>
-                <div class="absolute bottom-10 right-8 opacity-30 pointer-events-none">
+                <div class="absolute bottom-10 right-8 opacity-30 pointer-events-none text-white">
                     <svg width="100" height="80" viewBox="0 0 120 100" fill="none">
                         <rect width="120" height="100" fill="url(#dot-grid)" />
                     </svg>
                 </div>
 
-                <div class="absolute top-1/4 left-6 opacity-25 text-[#7FD3FF] pointer-events-none animate-pulse">
+                <div class="absolute top-1/4 left-6 opacity-25 text-white pointer-events-none animate-pulse">
                     <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M19 11h-6V5a1 1 0 00-2 0v6H5a1 1 0 000 2h6v6a1 1 0 002 0v-6h6a1 1 0 000-2z"/>
                     </svg>
                 </div>
 
-                <div class="absolute -bottom-20 -left-20 w-80 h-80 bg-[#1E9DE5]/30 rounded-full blur-3xl pointer-events-none"></div>
-                <div class="absolute top-1/3 right-0 w-72 h-72 bg-[#7FD3FF]/20 rounded-full blur-3xl pointer-events-none"></div>
-                <svg class="absolute bottom-0 left-0 right-0 w-full h-36 opacity-20 pointer-events-none" viewBox="0 0 500 150" preserveAspectRatio="none">
-                    <path d="M0,100 C150,180 350,0 500,100 L500,150 L0,150 Z" fill="#7FD3FF"></path>
+                <div class="absolute -bottom-20 -left-20 w-80 h-80 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute top-1/3 right-0 w-72 h-72 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
+                <svg class="absolute bottom-0 left-0 right-0 w-full h-36 opacity-10 pointer-events-none" viewBox="0 0 500 150" preserveAspectRatio="none">
+                    <path d="M0,100 C150,180 350,0 500,100 L500,150 L0,150 Z" fill="white"></path>
                 </svg>
 
                 <div class="absolute bottom-0 left-0 right-0 h-24 opacity-15 pointer-events-none overflow-hidden">
@@ -74,13 +74,13 @@
                 <!-- CONTENT PANEL KIRI -->
                 <!-- Top Brand Header -->
                 <div class="relative z-10">
-                    <a href="{{ route('home') }}" class="inline-flex items-center gap-3 group">
-                        <div class="w-10 h-10 rounded-full bg-white p-1 flex items-center justify-center shadow-md shadow-black/10 border border-white/50 group-hover:scale-105 transition-transform overflow-hidden">
+                    <a href="{{ route('home') }}" class="inline-flex items-center gap-4 group">
+                        <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white p-1.5 flex items-center justify-center shadow-md shadow-black/10 border border-white/50 group-hover:scale-105 transition-transform overflow-hidden">
                             <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-full h-full object-contain">
                         </div>
                         <div>
-                            <span class="text-lg font-extrabold text-white tracking-tight block leading-tight">Ambulance Siaga</span>
-                            <span class="text-[9px] font-bold text-[#7FD3FF] uppercase tracking-widest block">LAYANAN DARURAT • MULTI-MITRA</span>
+                            <span class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight block leading-tight">Ambulance Siaga</span>
+                            <span class="text-[10px] sm:text-xs font-bold text-sky-200 uppercase tracking-widest block mt-0.5">LAYANAN DARURAT • MULTI-MITRA</span>
                         </div>
                     </a>
                 </div>
@@ -89,18 +89,18 @@
                 <div class="relative z-10 my-auto py-3 flex flex-col items-center justify-center text-left w-full">
                     <!-- Banner Promosi Ambulance Melayang -->
                     <div class="relative w-full max-w-[280px] sm:max-w-xs lg:max-w-[320px] mx-auto mb-3 group">
-                        <div class="absolute inset-0 bg-[#7FD3FF]/25 blur-2xl rounded-full transform group-hover:scale-105 transition-transform"></div>
-                        <img src="{{ asset('images/ambulance_van_banner.png') }}" alt="Banner Ambulance Siaga" class="relative z-10 w-full h-auto object-contain rounded-2xl drop-shadow-[0_15px_25px_rgba(0,0,0,0.3)]">
+                        <div class="absolute inset-0 bg-white/20 blur-2xl rounded-full transform group-hover:scale-105 transition-transform"></div>
+                        <img src="{{ asset('images/ambulance_van_banner.png?v=2') }}" alt="Banner Ambulance Siaga" class="relative z-10 w-full h-auto object-contain rounded-2xl drop-shadow-[0_15px_25px_rgba(0,0,0,0.3)]">
                     </div>
 
                     <!-- Judul Besar & Deskripsi -->
                     <div class="text-left w-full max-w-sm lg:max-w-md">
                         <h1 class="text-xl sm:text-2xl lg:text-3xl font-black text-white tracking-tight leading-tight uppercase font-sans">
                             SISTEM PEMESANAN<br>
-                            <span class="text-[#7FD3FF]">AMBULANCE</span><br>
+                            <span class="text-yellow-300">AMBULANCE</span><br>
                             TANPA TARIF
                         </h1>
-                        <div class="w-12 h-1 bg-[#7FD3FF] rounded-full my-2.5"></div>
+                        <div class="w-12 h-1 bg-yellow-300 rounded-full my-2.5"></div>
                         <p class="text-xs text-white/85 leading-relaxed font-normal">
                             Platform ini membantu masyarakat mendapatkan layanan ambulans secara cepat, tepat, dan tanpa biaya. Ambulance Siaga menghubungkan masyarakat dengan berbagai mitra ambulans agar bantuan dapat tiba lebih cepat saat dibutuhkan.
                         </p>

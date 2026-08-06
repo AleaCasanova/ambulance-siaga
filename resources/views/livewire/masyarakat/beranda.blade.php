@@ -178,7 +178,7 @@
             <div class="absolute inset-0 opacity-10" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, white 10px, white 20px);"></div>
             
             <div class="md:w-1/2 h-80 md:h-auto relative z-10 p-6 md:p-8">
-                <img src="https://images.unsplash.com/photo-1584982751601-97d8cb0f66fc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Tentang GSC" class="w-full h-full object-cover rounded-[2rem] shadow-xl">
+                <img src="{{ asset('images/ambulance_building.png') }}" alt="Gedung Ambulance Siaga" class="w-full h-full object-cover rounded-[2rem] shadow-xl">
             </div>
             <div class="md:w-1/2 p-10 lg:p-16 text-white flex flex-col justify-center z-10">
                 <span class="text-yellow-300 font-black tracking-widest text-sm mb-3 block uppercase">Tentang GSC</span>
@@ -187,11 +187,85 @@
                     {{ $tentang ?? 'GSC (Gerak Sedekah Cilacap) adalah lembaga filantrophy yang bergerak di bidang sosial, kemanusiaan, dan keagamaan. Kami berkomitmen untuk menjadi jembatan antara para dermawan dan masyarakat yang membutuhkan, termasuk menghadirkan layanan armada ambulans darurat.' }}
                 </p>
                 <div>
-                    <a href="#" class="inline-flex items-center gap-2 bg-white text-[#009CA6] px-8 py-4 rounded-full font-bold hover:bg-sky-50 transition hover:scale-105 shadow-lg">
+                    <a href="{{ route('masyarakat.info') }}" class="inline-flex items-center gap-2 bg-white text-[#009CA6] px-8 py-4 rounded-full font-bold hover:bg-sky-50 transition hover:scale-105 shadow-lg">
                         Kenali Lebih Jauh
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                     </a>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works / Alur Pemesanan -->
+    <section class="py-24 px-6 lg:px-12 bg-slate-50 relative overflow-hidden">
+        <!-- Decorative bg -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#009CA6]/5 rounded-full blur-3xl"></div>
+        
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-[#009CA6] font-black tracking-widest text-sm mb-3 block uppercase">Alur Layanan</span>
+                <h2 class="text-3xl md:text-[2.5rem] font-black text-slate-900 mb-6 leading-tight">Bagaimana Cara Mendapatkan Bantuan Ambulans?</h2>
+                <p class="text-slate-500 font-medium text-lg leading-relaxed">
+                    Kami merancang sistem yang cepat dan terintegrasi untuk memastikan setiap keadaan darurat mendapatkan respon penanganan medis dengan segera.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 relative">
+                <!-- Connecting Line for LG screens -->
+                <div class="hidden lg:block absolute top-12 left-[12%] right-[12%] h-1 bg-slate-200 rounded-full z-0">
+                    <div class="absolute top-0 left-0 h-full bg-[#009CA6]/30 w-full rounded-full"></div>
+                </div>
+
+                <!-- Step 1 -->
+                <div class="relative z-10 flex flex-col items-center text-center group cursor-default">
+                    <div class="w-24 h-24 rounded-full bg-white border-[6px] border-slate-50 shadow-xl flex items-center justify-center relative mb-6 group-hover:scale-110 group-hover:border-[#009CA6]/20 transition-all duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-br from-[#009CA6] to-[#007b83] rounded-full scale-0 group-hover:scale-100 transition-transform duration-300 -z-10"></div>
+                        <span class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-yellow-400 text-slate-900 font-black flex items-center justify-center text-sm shadow-md">1</span>
+                        <svg class="w-10 h-10 text-[#009CA6] group-hover:text-white transition-colors duration-300 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-black text-slate-800 mb-3 group-hover:text-[#009CA6] transition-colors">Pesan Darurat</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed font-medium px-2">Buka website, isi titik lokasi dan informasi ringkas pasien, lalu tekan tombol minta bantuan darurat.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="relative z-10 flex flex-col items-center text-center group cursor-default">
+                    <div class="w-24 h-24 rounded-full bg-white border-[6px] border-slate-50 shadow-xl flex items-center justify-center relative mb-6 group-hover:scale-110 group-hover:border-[#009CA6]/20 transition-all duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-br from-[#009CA6] to-[#007b83] rounded-full scale-0 group-hover:scale-100 transition-transform duration-300 -z-10"></div>
+                        <span class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-yellow-400 text-slate-900 font-black flex items-center justify-center text-sm shadow-md">2</span>
+                        <svg class="w-10 h-10 text-[#009CA6] group-hover:text-white transition-colors duration-300 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-black text-slate-800 mb-3 group-hover:text-[#009CA6] transition-colors">Verifikasi Cepat</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed font-medium px-2">Pusat panggilan (Dispatcher) akan segera merespon dan memverifikasi pesanan masuk Anda.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="relative z-10 flex flex-col items-center text-center group cursor-default">
+                    <div class="w-24 h-24 rounded-full bg-white border-[6px] border-slate-50 shadow-xl flex items-center justify-center relative mb-6 group-hover:scale-110 group-hover:border-[#009CA6]/20 transition-all duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-br from-[#009CA6] to-[#007b83] rounded-full scale-0 group-hover:scale-100 transition-transform duration-300 -z-10"></div>
+                        <span class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-yellow-400 text-slate-900 font-black flex items-center justify-center text-sm shadow-md">3</span>
+                        <svg class="w-10 h-10 text-[#009CA6] group-hover:text-white transition-colors duration-300 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-black text-slate-800 mb-3 group-hover:text-[#009CA6] transition-colors">Armada Meluncur</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed font-medium px-2">Ambulans terdekat akan ditugaskan. Anda dapat melacak posisi ambulans secara <i>real-time</i> dari HP.</p>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="relative z-10 flex flex-col items-center text-center group cursor-default">
+                    <div class="w-24 h-24 rounded-full bg-white border-[6px] border-slate-50 shadow-xl flex items-center justify-center relative mb-6 group-hover:scale-110 group-hover:border-[#009CA6]/20 transition-all duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-br from-[#009CA6] to-[#007b83] rounded-full scale-0 group-hover:scale-100 transition-transform duration-300 -z-10"></div>
+                        <span class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-yellow-400 text-slate-900 font-black flex items-center justify-center text-sm shadow-md">4</span>
+                        <svg class="w-10 h-10 text-[#009CA6] group-hover:text-white transition-colors duration-300 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-black text-slate-800 mb-3 group-hover:text-[#009CA6] transition-colors">Pertolongan Tiba</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed font-medium px-2">Tim relawan kami tiba di lokasi untuk melakukan evakuasi medis darurat tanpa dipungut biaya apapun.</p>
+                </div>
+            </div>
+            
+            <div class="mt-20 text-center">
+                <a href="{{ route('masyarakat.order.create') }}" class="inline-flex items-center gap-3 bg-[#009CA6] text-white px-10 py-5 rounded-full font-black text-lg hover:bg-[#007b83] hover:shadow-[0_10px_40px_rgba(0,156,166,0.4)] transition-all hover:-translate-y-1 group">
+                    Coba Pesan Ambulans Sekarang
+                    <svg class="w-6 h-6 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </a>
             </div>
         </div>
     </section>
@@ -226,15 +300,25 @@
     </section>
 
     <!-- Partners Section -->
-    <section class="py-16 px-6 bg-white border-t border-slate-200">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
-            <span class="text-slate-400 font-black uppercase tracking-widest text-sm text-center shrink-0">Didukung Oleh Mitra Kebaikan</span>
-            <div class="flex flex-wrap justify-center items-center gap-8 lg:gap-16 opacity-60 grayscale hover:grayscale-0 transition duration-500">
-                <div class="text-2xl font-black text-green-700 tracking-tighter">BAZNAS</div>
-                <div class="text-2xl font-black text-orange-500 flex items-center gap-2"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3L1 11.4l1.2 1.6L4 11.6V21h16v-9.4l1.8 1.4 1.2-1.6L12 3zm-2 15h-4v-4h4v4zm6 0h-4v-4h4v4z"></path></svg> <span class="tracking-tighter">Rumah Zakat</span></div>
-                <div class="text-2xl font-black text-orange-400 tracking-tighter">lazis<span class="text-orange-600">mu</span></div>
-                <div class="text-2xl font-black text-green-600 tracking-tighter flex items-center gap-1"><span class="w-6 h-6 bg-green-600 rounded-sm inline-block"></span> DOMPET<br>DHUAFA</div>
-                <div class="text-2xl font-black text-blue-500 tracking-tighter">kitabisa</div>
+    <section class="py-20 px-6 bg-white border-t border-slate-200">
+        <div class="max-w-7xl mx-auto flex flex-col items-center justify-center gap-10">
+            <h4 class="text-slate-400 font-extrabold uppercase tracking-[0.2em] text-sm text-center">
+                Didukung Oleh Mitra Kebaikan
+            </h4>
+            <div class="flex flex-wrap justify-center items-center gap-10 md:gap-16 lg:gap-20 opacity-60 hover:opacity-100 grayscale hover:grayscale-0 transition-all duration-500">
+                <div class="text-3xl font-black text-green-700 tracking-tighter hover:scale-105 transition-transform cursor-pointer">BAZNAS</div>
+                <div class="text-3xl font-black text-orange-500 flex items-center gap-3 hover:scale-105 transition-transform cursor-pointer">
+                    <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3L1 11.4l1.2 1.6L4 11.6V21h16v-9.4l1.8 1.4 1.2-1.6L12 3zm-2 15h-4v-4h4v4zm6 0h-4v-4h4v4z"></path></svg> 
+                    <span class="tracking-tighter">Rumah Zakat</span>
+                </div>
+                <div class="text-3xl font-black text-orange-400 tracking-tighter hover:scale-105 transition-transform cursor-pointer">
+                    lazis<span class="text-orange-600">mu</span>
+                </div>
+                <div class="text-3xl font-black text-green-600 tracking-tighter flex items-center gap-2 hover:scale-105 transition-transform leading-none cursor-pointer">
+                    <span class="w-7 h-7 bg-green-600 rounded-sm inline-block"></span> 
+                    <span>DOMPET<br>DHUAFA</span>
+                </div>
+                <div class="text-3xl font-black text-blue-500 tracking-tighter hover:scale-105 transition-transform cursor-pointer">kitabisa</div>
             </div>
         </div>
     </section>
