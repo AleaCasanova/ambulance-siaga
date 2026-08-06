@@ -71,6 +71,6 @@ class OrderIndex extends Component
 
         return view('livewire.masyarakat.order-index', [
             'orders' => $orders,
-        ]);
+        ])->layout('layouts.blank');
     }
 }

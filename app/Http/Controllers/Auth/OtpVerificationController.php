@@ -81,8 +81,7 @@ class OtpVerificationController extends Controller
         }
 
         if ($user->hasVerifiedEmail()) {
-            Auth::login($user);
-            return redirect()->route('dashboard')->with('status', 'Email Anda sudah terverifikasi.');
+            return redirect()->route('login')->with('status', 'Email Anda sudah terverifikasi. Silakan login menggunakan email dan password Anda.');
         }
 
         $otpRecord = OtpVerification::where('user_id', $user->id)->first();
@@ -109,10 +108,8 @@ class OtpVerificationController extends Controller
         // Bersihkan session penampung email
         session()->forget(['verification_email', 'unverified_email']);
 
-        // Loginkan pengguna secara otomatis
-        Auth::login($user);
-
-        return redirect()->route('dashboard')->with('status', 'Email Anda berhasil terverifikasi! Selamat datang di Ambulance Siaga.');
+        // Arahkan ke halaman login (tanpa login otomatis)
+        return redirect()->route('login')->with('status', 'Verifikasi berhasil! Silakan login menggunakan email dan kata sandi Anda.');
     }
 
     /**

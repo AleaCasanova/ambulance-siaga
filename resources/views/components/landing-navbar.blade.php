@@ -18,7 +18,32 @@
 
         @if (Route::has('login'))
             @auth
-                <a href="{{ url('/dashboard') }}" class="bg-white text-[#009CA6] px-6 py-2.5 rounded-full font-bold hover:bg-sky-50 transition shadow-lg text-sm">Masuk Dashboard</a>
+                @if(auth()->user()->hasRole('masyarakat'))
+                    <a href="{{ route('masyarakat.orders.index') }}" class="text-white font-bold hover:text-sky-200 transition text-sm hidden md:block">Riwayat Pesanan</a>
+                @endif
+                <div x-data="{ open: false }" class="relative inline-block text-left">
+                    <button @click="open = !open" type="button" class="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white px-4 py-2 rounded-full font-bold transition shadow-sm text-sm">
+                        <div class="w-6 h-6 rounded-full bg-white text-[#009CA6] flex items-center justify-center font-black text-xs uppercase">
+                            {{ substr(auth()->user()->name, 0, 1) }}
+                        </div>
+                        <span class="hidden sm:block">{{ explode(' ', auth()->user()->name)[0] }}</span>
+                        <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+
+                    <div x-show="open" @click.away="open = false" x-transition class="absolute right-0 mt-2 w-48 rounded-xl shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-slate-100 focus:outline-none overflow-hidden" style="display: none;">
+                        @if(auth()->user()->hasRole('masyarakat'))
+                            <a href="{{ route('masyarakat.orders.index') }}" class="block px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#009CA6] font-bold transition">Dasbor Saya</a>
+                        @else
+                            <a href="{{ url('/dashboard') }}" class="block px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#009CA6] font-bold transition">Dasbor Petugas</a>
+                        @endif
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="block w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-red-50 font-bold transition">
+                                Keluar (Logout)
+                            </button>
+                        </form>
+                    </div>
+                </div>
             @else
                 <a href="{{ route('login') }}" class="text-white font-bold hover:text-sky-200 transition text-sm">Login</a>
                 @if (Route::has('register'))
