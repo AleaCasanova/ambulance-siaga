@@ -6,13 +6,14 @@ use Livewire\Component;
 
 class Donasi extends Component
 {
+    public $sapaan = 'Bapak';
     public $nama;
     public $isAnonim = false;
     public $email;
     public $whatsapp;
     public $pesan;
     
-    public $nominal = 50000;
+    public $nominal = 100000;
     public $nominalLainnya;
     
     public $metodePembayaran = 'qris';
