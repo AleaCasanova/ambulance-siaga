@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\SendOtpMail;
+use App\Models\OtpVerification;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
@@ -44,14 +46,23 @@ class RegisteredUserController extends Controller
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
             'role_id' => $masyarakatRole?->id,
+            'email_verified_at' => null,
         ]);
 
         event(new Registered($user));
 
-        // Mencegah auto-login setelah pendaftaran seperti permintaan pengguna
-        // Auth::login($user);
+        // Buat kode OTP 6-digit dan kirimkan via email
+        $otpData = OtpVerification::generateForUser($user, 5);
 
-        return redirect()->route('login')->with('status', 'Pendaftaran akun berhasil! Silakan Login untuk melanjutkan.');
+        try {
+            Mail::to($user->email)->send(new SendOtpMail($user, $otpData['plain_otp'], 5));
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error("Gagal mengirimkan email OTP registrasi: " . $e->getMessage());
+        }
+
+        // Simpan email di session untuk halaman OTP
+        session(['verification_email' => $user->email]);
+
+        return redirect()->route('verification.otp.show')->with('status', 'Pendaftaran akun berhasil! Silakan periksa email Anda dan masukkan kode OTP 6-digit untuk mengaktifkan akun.');
     }
 }
-

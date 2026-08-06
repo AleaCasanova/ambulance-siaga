@@ -50,6 +50,18 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        $user = Auth::user();
+
+        // Pengecekan status verifikasi email
+        if (!$user->hasVerifiedEmail()) {
+            Auth::logout();
+            session(['unverified_email' => $user->email]);
+
+            throw ValidationException::withMessages([
+                'email' => 'Akun Anda belum diverifikasi. Silakan cek email Anda dan masukkan kode OTP untuk mengaktifkan akun.',
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 

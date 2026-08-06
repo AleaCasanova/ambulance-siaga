@@ -29,6 +29,28 @@
             <!-- Session Status -->
             <x-auth-session-status class="mb-3" :status="session('status')" />
 
+            <!-- Unverified Account Prompt Alert -->
+            @if(session('unverified_email'))
+                <div class="mb-3 p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-left flex items-start gap-2.5 shadow-xs">
+                    <div class="w-6 h-6 rounded-md bg-amber-500 text-white flex items-center justify-center font-bold flex-shrink-0 text-xs mt-0.5 shadow-xs">
+                        ⚠️
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-extrabold text-xs text-amber-950">Akun Belum Terverifikasi</h4>
+                        <p class="text-[11px] mt-0.5 text-amber-800 leading-relaxed font-semibold">
+                            Akun Anda dengan email <strong>{{ session('unverified_email') }}</strong> belum diverifikasi. Silakan masukkan kode OTP.
+                        </p>
+                        <a href="{{ route('verification.otp.show', ['email' => session('unverified_email')]) }}"
+                           class="mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#009CA6] hover:bg-[#007b83] text-white font-extrabold text-[10px] tracking-wider uppercase transition-all shadow-xs">
+                            <span>Verifikasi OTP Sekarang</span>
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            @endif
+
             <form method="POST" action="{{ route('login') }}" class="space-y-2.5">
                 @csrf
 
