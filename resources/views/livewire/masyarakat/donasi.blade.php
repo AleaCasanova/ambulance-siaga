@@ -237,7 +237,7 @@
                         </div>
 
                         <!-- CTA Button -->
-                        <button type="submit" class="w-full bg-[#8DC63F] text-white py-4 rounded-xl font-bold text-lg hover:bg-[#7ebd34] transition-all flex justify-center items-center gap-2 group mt-2">
+                        <button type="submit" class="w-full bg-[#009CA6] text-white py-4 rounded-xl font-bold text-lg hover:bg-[#007b83] transition-all flex justify-center items-center gap-2 group mt-2 shadow-md hover:shadow-lg">
                             Kirim Donasi @if($nominal != 'lainnya' && $nominal) - Rp {{ number_format($nominal, 0, ',', '.') }} @elseif($nominal == 'lainnya' && $nominalLainnya) - Rp {{ number_format($nominalLainnya, 0, ',', '.') }} @endif
                             <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                         </button>
@@ -423,16 +423,131 @@
         </div>
     </section>
 
-    <!-- Bottom CTA -->
-    <section class="py-20 px-6 lg:px-12 bg-white text-center">
-        <div class="max-w-3xl mx-auto bg-gradient-to-br from-slate-900 to-slate-800 rounded-[3rem] p-10 md:p-16 shadow-2xl relative overflow-hidden text-white">
-            <div class="absolute inset-0 opacity-10" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, white 10px, white 20px);"></div>
-            <div class="relative z-10">
-                <h2 class="text-3xl md:text-4xl font-black mb-4">Setiap Rupiah yang Anda Donasikan Sangat Berarti</h2>
-                <p class="text-slate-300 font-medium text-lg mb-10 max-w-xl mx-auto">Satu aksi kebaikan Anda hari ini, bisa jadi adalah jawaban atas doa mereka yang sedang dalam kesulitan darurat medis.</p>
-                <button onclick="document.getElementById('form-donasi').scrollIntoView({behavior: 'smooth'})" class="bg-[#009CA6] text-white px-10 py-5 rounded-full font-black text-lg hover:bg-[#007b83] transition-all shadow-[0_10px_30px_rgba(0,156,166,0.4)] hover:-translate-y-1 hover:scale-105 inline-block">
-                    Mulai Donasi Sekarang
-                </button>
+    <!-- Bottom CTA Redesign (Gallery) -->
+    <section class="relative py-24 px-6 lg:px-12 bg-white overflow-hidden">
+        
+        <!-- Soft Blue Gradient Background -->
+        <div class="absolute inset-0 bg-gradient-to-b from-sky-50/40 via-white to-white pointer-events-none"></div>
+
+        <!-- Soft Glow Behind Gallery (Right side) -->
+        <div class="absolute right-0 top-1/2 -translate-y-1/2 w-[500px] md:w-[700px] h-[500px] md:h-[700px] bg-gradient-to-tr from-[#009CA6]/5 to-sky-300/5 rounded-full blur-[80px] pointer-events-none"></div>
+
+        <!-- Star of Life Watermark (Top Left) -->
+        <div class="absolute -left-10 -top-10 pointer-events-none rotate-12 text-[#009CA6]" style="opacity: 0.04;">
+            <svg class="w-48 h-48 md:w-72 md:h-72" viewBox="0 0 512 512" fill="currentColor">
+                <path d="M213.3 22.5h85.4v149.3l129.3-74.6 42.7 73.9-129.3 74.6 129.3 74.6-42.7 73.9-129.3-74.6v149.3h-85.4V319.6l-129.3 74.6-42.7-73.9 129.3-74.6-129.3-74.6 42.7-73.9 129.3 74.6V22.5z"/>
+            </svg>
+        </div>
+
+        <!-- ECG Line Watermark (Bottom Right) -->
+        <div class="absolute -right-5 bottom-5 pointer-events-none text-[#009CA6]" style="opacity: 0.05;">
+            <svg class="w-72 md:w-96 h-24 md:h-32" viewBox="0 0 512 150" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M0,75 L50,75 L70,60 L90,75 L120,75 L150,20 L180,130 L210,75 L250,75 L270,55 L290,75 L512,75" />
+            </svg>
+        </div>
+        
+        <div class="max-w-7xl mx-auto relative z-10" x-data="{
+            activeImage: 0,
+            images: [
+                {
+                    src: 'https://images.unsplash.com/photo-1587559070757-f72a388edbba?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                    thumb: 'https://images.unsplash.com/photo-1587559070757-f72a388edbba?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
+                    title: 'Armada Siaga 24 Jam',
+                    desc: 'Ambulance Siaga selalu siap siaga 24 jam untuk melayani masyarakat yang membutuhkan evakuasi medis darurat.'
+                },
+                {
+                    src: 'https://images.unsplash.com/photo-1576091160550-2173ff9e5ee5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                    thumb: 'https://images.unsplash.com/photo-1576091160550-2173ff9e5ee5?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
+                    title: 'Tim Medis Profesional',
+                    desc: 'Didukung oleh tenaga medis yang terlatih dan berpengalaman dalam menangani berbagai situasi kegawatdaruratan.'
+                },
+                {
+                    src: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                    thumb: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
+                    title: 'Penanganan Pasien Terpadu',
+                    desc: 'Pelayanan yang mengutamakan keselamatan dan kenyamanan pasien selama perjalanan menuju fasilitas kesehatan.'
+                },
+                {
+                    src: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                    thumb: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
+                    title: 'Fasilitas Medis Lengkap',
+                    desc: 'Interior ambulance dilengkapi dengan peralatan medis berstandar untuk memantau dan menstabilkan kondisi pasien.'
+                },
+                {
+                    src: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                    thumb: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
+                    title: 'Dedikasi Relawan Kemanusiaan',
+                    desc: 'Para relawan bekerja tanpa pamrih, menyalurkan amanah donatur langsung kepada masyarakat prasejahtera.'
+                }
+            ]
+        }">
+            <div class="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
+                
+                <!-- Left Column (Text & CTA) -->
+                <div class="w-full lg:w-[40%] flex flex-col justify-center text-center lg:text-left">
+                    <h2 class="text-3xl md:text-4xl lg:text-[2.5rem] font-black text-slate-800 leading-[1.3] mb-8">
+                        Satu aksi kebaikan Anda hari ini, bisa jadi adalah jawaban atas doa mereka yang sedang dalam kesulitan darurat medis.
+                    </h2>
+                    <div class="w-20 h-1.5 bg-[#009CA6] rounded-full mb-10 mx-auto lg:mx-0"></div>
+                    <div class="flex justify-center lg:justify-start">
+                        <button onclick="document.getElementById('form-donasi').scrollIntoView({behavior: 'smooth'})" class="bg-[#009CA6] text-white px-10 py-5 rounded-full font-bold text-lg hover:bg-[#007b83] transition-all duration-300 shadow-[0_10px_25px_rgba(0,156,166,0.3)] hover:shadow-[0_15px_35px_rgba(0,156,166,0.4)] hover:-translate-y-1.5 flex items-center gap-3 w-fit group">
+                            Donasi Sekarang
+                            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Column (Interactive Gallery) -->
+                <div class="w-full lg:w-[60%]">
+                    <div class="bg-white/80 backdrop-blur-sm rounded-[2rem] p-5 sm:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.03)] border border-white/50">
+                        
+                        <!-- Main Image Container -->
+                        <div class="relative w-full aspect-video rounded-[1.5rem] overflow-hidden mb-6 bg-slate-100 shadow-inner group">
+                            <template x-for="(image, index) in images" :key="index">
+                                <img x-show="activeImage === index" 
+                                     x-transition:enter="transition ease-out duration-500" 
+                                     x-transition:enter-start="opacity-0 scale-[1.05]" 
+                                     x-transition:enter-end="opacity-100 scale-100" 
+                                     :src="image.src" 
+                                     :alt="image.title"
+                                     class="absolute inset-0 w-full h-full object-cover" x-cloak>
+                            </template>
+                        </div>
+
+                        <!-- Caption -->
+                        <div class="mb-6 px-2 min-h-[4.5rem]">
+                            <h3 class="text-xl font-bold text-slate-800 mb-2" x-text="images[activeImage].title"></h3>
+                            <p class="text-slate-500 leading-relaxed text-sm" x-text="images[activeImage].desc"></p>
+                        </div>
+
+                        <!-- Thumbnails -->
+                        <div class="flex gap-4 overflow-x-auto pb-6 pt-4 px-2 custom-scrollbar snap-x">
+                            <template x-for="(image, index) in images" :key="index">
+                                <div @click="activeImage = index" 
+                                     class="relative w-20 md:w-28 aspect-video rounded-xl overflow-hidden cursor-pointer shrink-0 snap-center border-[3px] transition-all duration-300 group/thumb hover:-translate-y-2 hover:scale-[1.06] hover:shadow-[0_12px_25px_rgba(0,0,0,0.15)]"
+                                     :class="activeImage === index ? 'border-[#009CA6] shadow-[0_8px_20px_rgba(0,156,166,0.3)] scale-[1.05] z-10' : 'border-transparent opacity-75 hover:opacity-100 hover:border-[#009CA6]/30'">
+                                    
+                                    <img :src="image.thumb" :alt="image.title" class="w-full h-full object-cover transition-transform duration-500" :class="activeImage === index ? 'scale-110' : 'group-hover/thumb:scale-110'">
+                                    
+                                    <!-- Hover Overlay -->
+                                    <div class="absolute inset-0 bg-[#009CA6]/50 opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-300 flex items-center justify-center overflow-hidden backdrop-blur-[2px]">
+                                        <!-- Plus Icon (Animated from bottom) -->
+                                        <div class="flex items-center justify-center transform translate-y-12 group-hover/thumb:translate-y-0 transition-transform duration-500 ease-out">
+                                            <div class="bg-white p-2 rounded-full shadow-lg">
+                                                <svg class="w-6 h-6 text-[#009CA6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"></path></svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Active State Inner Gradient -->
+                                    <div class="absolute inset-0 bg-gradient-to-t from-[#009CA6]/40 to-transparent opacity-0 transition-opacity duration-300 pointer-events-none" :class="activeImage === index ? 'opacity-100' : ''"></div>
+                                </div>
+                            </template>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
