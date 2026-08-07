@@ -1,7 +1,7 @@
 <section class="space-y-6">
     <header>
         <div class="flex items-center gap-2 mb-2">
-            <span class="px-2.5 py-1 rounded-full text-xs font-extrabold bg-sky-100 text-sky-700 uppercase tracking-wider">
+            <span class="px-2.5 py-1 rounded-full text-xs font-extrabold bg-primary-100 text-primary-700 uppercase tracking-wider">
                 Keamanan Akun
             </span>
         </div>
@@ -23,7 +23,7 @@
                 Kata Sandi Saat Ini
             </label>
             <input id="update_password_current_password" name="current_password" type="password"
-                   class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 text-sm font-medium transition-all"
+                   class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium transition-all"
                    autocomplete="current-password" />
             @error('current_password', 'updatePassword')
                 <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p>
@@ -35,7 +35,7 @@
                 Kata Sandi Baru
             </label>
             <input id="update_password_password" name="password" type="password"
-                   class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 text-sm font-medium transition-all"
+                   class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium transition-all"
                    autocomplete="new-password" />
             @error('password', 'updatePassword')
                 <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p>
@@ -47,7 +47,7 @@
                 Konfirmasi Kata Sandi Baru
             </label>
             <input id="update_password_password_confirmation" name="password_confirmation" type="password"
-                   class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 text-sm font-medium transition-all"
+                   class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium transition-all"
                    autocomplete="new-password" />
             @error('password_confirmation', 'updatePassword')
                 <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p>
@@ -56,7 +56,7 @@
 
         <div class="flex items-center gap-4 pt-4 border-t border-slate-100">
             <button type="submit"
-                    class="px-6 py-3 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-extrabold text-sm shadow-md shadow-sky-600/30 transition-all">
+                    class="px-6 py-3 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-extrabold text-sm shadow-md shadow-primary-600/30 transition-all">
                 PERBARUI KATA SANDI
             </button>
 

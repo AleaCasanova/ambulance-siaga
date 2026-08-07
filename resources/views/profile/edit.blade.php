@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-sky-600"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-primary-600"></span>
             <h2 class="font-extrabold text-xl text-slate-800 leading-tight">
                 {{ __('Pengaturan Akun & Profil') }}
             </h2>

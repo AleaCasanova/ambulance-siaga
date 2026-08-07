@@ -1,7 +1,7 @@
 <section class="space-y-6">
     <header>
         <div class="flex items-center gap-2 mb-2">
-            <span class="px-2.5 py-1 rounded-full text-xs font-extrabold bg-sky-100 text-sky-700 uppercase tracking-wider">
+            <span class="px-2.5 py-1 rounded-full text-xs font-extrabold bg-primary-100 text-primary-700 uppercase tracking-wider">
                 Data Diri & Identitas
             </span>
         </div>
@@ -26,10 +26,10 @@
             <!-- Nama Lengkap -->
             <div>
                 <label for="name" class="block text-sm font-bold text-slate-700 mb-1.5">
-                    Nama Lengkap <span class="text-sky-600">*</span>
+                    Nama Lengkap <span class="text-primary-600">*</span>
                 </label>
                 <input id="name" name="name" type="text"
-                       class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 text-sm font-medium transition-all"
+                       class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium transition-all"
                        value="{{ old('name', $user->name) }}" required autofocus autocomplete="name" />
                 @error('name') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
             </div>
@@ -37,10 +37,10 @@
             <!-- Alamat Email -->
             <div>
                 <label for="email" class="block text-sm font-bold text-slate-700 mb-1.5">
-                    Alamat Email <span class="text-sky-600">*</span>
+                    Alamat Email <span class="text-primary-600">*</span>
                 </label>
                 <input id="email" name="email" type="email"
-                       class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 text-sm font-medium transition-all"
+                       class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium transition-all"
                        value="{{ old('email', $user->email) }}" required autocomplete="username" />
                 @error('email') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
 
@@ -48,7 +48,7 @@
                     <div class="mt-2">
                         <p class="text-xs text-slate-600">
                             Email Anda belum diverifikasi.
-                            <button form="send-verification" class="underline font-bold text-sky-600 hover:text-sky-700">
+                            <button form="send-verification" class="underline font-bold text-primary-600 hover:text-primary-700">
                                 Klik di sini untuk mengirim ulang email verifikasi.
                             </button>
                         </p>
@@ -69,7 +69,7 @@
                 </label>
                 <input id="phone" name="phone" type="text"
                        placeholder="0812-3456-7890"
-                       class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 text-sm font-medium transition-all"
+                       class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium transition-all"
                        value="{{ old('phone', $user->phone) }}" />
                 @error('phone') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
             </div>
@@ -78,10 +78,10 @@
 
         <!-- FORM DINAMIS BERDASARKAN ROLE -->
         @if($user->isSupir())
-            <div class="mt-6 p-6 rounded-3xl bg-sky-50/70 border border-sky-100 space-y-6">
-                <div class="flex items-center gap-2 pb-3 border-b border-sky-200/60">
-                    <span class="w-2.5 h-2.5 rounded-full bg-sky-600"></span>
-                    <h3 class="text-sm font-extrabold text-sky-900 uppercase tracking-wider">Informasi Lembaga Mitra & Armada Supir</h3>
+            <div class="mt-6 p-6 rounded-3xl bg-primary-50/70 border border-primary-100 space-y-6">
+                <div class="flex items-center gap-2 pb-3 border-b border-primary-200/60">
+                    <span class="w-2.5 h-2.5 rounded-full bg-primary-600"></span>
+                    <h3 class="text-sm font-extrabold text-primary-900 uppercase tracking-wider">Informasi Lembaga Mitra & Armada Supir</h3>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -91,7 +91,7 @@
                         </label>
                         <input id="nama_lembaga" name="nama_lembaga" type="text"
                                placeholder="Contoh: PMI Cilacap / LAZ Peduli / RS Mitra"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 text-sm font-medium bg-white transition-all"
+                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
                                value="{{ old('nama_lembaga', $user->supir?->nama_lembaga) }}" />
                         @error('nama_lembaga') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
                     </div>
@@ -102,7 +102,7 @@
                         </label>
                         <input id="nama_penanggung_jawab" name="nama_penanggung_jawab" type="text"
                                placeholder="Nama PJ Armada"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 text-sm font-medium bg-white transition-all"
+                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
                                value="{{ old('nama_penanggung_jawab', $user->supir?->nama_penanggung_jawab) }}" />
                         @error('nama_penanggung_jawab') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
                     </div>
@@ -113,7 +113,7 @@
                         </label>
                         <input id="no_wa" name="no_wa" type="text"
                                placeholder="0812xxxxxx (WhatsApp)"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 text-sm font-medium bg-white transition-all"
+                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
                                value="{{ old('no_wa', $user->supir?->no_wa) }}" />
                         @error('no_wa') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
                     </div>
@@ -124,7 +124,7 @@
                         </label>
                         <input id="alamat_unit" name="alamat_unit" type="text"
                                placeholder="Alamat penempatan unit ambulans"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 text-sm font-medium bg-white transition-all"
+                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
                                value="{{ old('alamat_unit', $user->supir?->alamat_unit) }}" />
                         @error('alamat_unit') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
                     </div>
@@ -135,7 +135,7 @@
                         </label>
                         <input id="merk_kendaraan" name="merk_kendaraan" type="text"
                                placeholder="Contoh: Toyota HiAce Commuter / Suzuki APV"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 text-sm font-medium bg-white transition-all"
+                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
                                value="{{ old('merk_kendaraan', $user->supir?->merk_kendaraan) }}" />
                         @error('merk_kendaraan') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
                     </div>
@@ -146,7 +146,7 @@
                         </label>
                         <input id="plat_nomor" name="plat_nomor" type="text"
                                placeholder="Contoh: R 9988 ZZ"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 text-sm font-medium bg-white transition-all"
+                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
                                value="{{ old('plat_nomor', $user->supir?->plat_nomor) }}" />
                         @error('plat_nomor') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
                     </div>
@@ -157,7 +157,7 @@
                         </label>
                         <input id="nomor_sim" name="nomor_sim" type="text"
                                placeholder="Nomor SIM Driver"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 text-sm font-medium bg-white transition-all"
+                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
                                value="{{ old('nomor_sim', $user->supir?->nomor_sim) }}" />
                         @error('nomor_sim') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
                     </div>
@@ -168,7 +168,7 @@
                         </label>
                         <input id="nomor_stnk" name="nomor_stnk" type="text"
                                placeholder="Nomor STNK"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 text-sm font-medium bg-white transition-all"
+                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
                                value="{{ old('nomor_stnk', $user->supir?->nomor_stnk) }}" />
                         @error('nomor_stnk') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
                     </div>
@@ -192,7 +192,7 @@
                         </label>
                         <input id="nik" name="nik" type="text" maxlength="16"
                                placeholder="330101xxxxxxxxxx"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 text-sm font-medium bg-white transition-all"
+                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
                                value="{{ old('nik', $user->masyarakat?->nik) }}" />
                         @error('nik') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
                     </div>
@@ -202,7 +202,7 @@
                             Tanggal Lahir
                         </label>
                         <input id="tanggal_lahir" name="tanggal_lahir" type="date"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 text-sm font-medium bg-white transition-all"
+                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
                                value="{{ old('tanggal_lahir', $user->masyarakat?->tanggal_lahir?->format('Y-m-d')) }}" />
                         @error('tanggal_lahir') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
                     </div>
@@ -212,7 +212,7 @@
                             Jenis Kelamin
                         </label>
                         <select id="jenis_kelamin" name="jenis_kelamin"
-                                class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 text-sm font-medium bg-white transition-all">
+                                class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all">
                             <option value="">-- Pilih Jenis Kelamin --</option>
                             <option value="L" {{ old('jenis_kelamin', $user->masyarakat?->jenis_kelamin) === 'L' ? 'selected' : '' }}>Laki-laki (Pria)</option>
                             <option value="P" {{ old('jenis_kelamin', $user->masyarakat?->jenis_kelamin) === 'P' ? 'selected' : '' }}>Perempuan (Wanita)</option>
@@ -226,7 +226,7 @@
                         </label>
                         <input id="kontak_darurat" name="kontak_darurat" type="text"
                                placeholder="0813-xxxx-xxxx (Keluarga/Kerabat)"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 text-sm font-medium bg-white transition-all"
+                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
                                value="{{ old('kontak_darurat', $user->masyarakat?->kontak_darurat) }}" />
                         @error('kontak_darurat') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
                     </div>
@@ -237,7 +237,7 @@
                         </label>
                         <textarea id="alamat" name="alamat" rows="3"
                                   placeholder="Contoh: Jl. Gatot Subroto No. 45, Sidanegara, Cilacap"
-                                  class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 text-sm font-medium bg-white transition-all">{{ old('alamat', $user->masyarakat?->alamat) }}</textarea>
+                                  class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all">{{ old('alamat', $user->masyarakat?->alamat) }}</textarea>
                         @error('alamat') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
                     </div>
                 </div>
@@ -246,7 +246,7 @@
 
         <div class="flex items-center gap-4 pt-4 border-t border-slate-100">
             <button type="submit"
-                    class="px-6 py-3 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-extrabold text-sm shadow-md shadow-sky-600/30 transition-all">
+                    class="px-6 py-3 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-extrabold text-sm shadow-md shadow-primary-600/30 transition-all">
                 SIMPAN PERUBAHAN
             </button>
 

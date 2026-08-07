@@ -37,7 +37,7 @@
             <div class="mt-6">
                 <label for="password" class="block text-sm font-bold text-slate-700 mb-1.5">Kata Sandi Anda</label>
                 <input id="password" name="password" type="password"
-                       class="w-full sm:w-3/4 px-4 py-3 rounded-xl border border-slate-300 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 text-sm font-medium transition-all"
+                       class="w-full sm:w-3/4 px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium transition-all"
                        placeholder="Masukkan kata sandi untuk konfirmasi..." />
 
                 @error('password', 'userDeletion')
