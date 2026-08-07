@@ -1,11 +1,13 @@
 <div>
     <x-landing-navbar />
 
-    <section class="relative bg-gradient-to-br from-[#009CA6] to-[#007b83] pt-32 pb-24 px-6 lg:px-12 min-h-screen">
+    <div class="absolute top-0 left-0 w-full h-80 bg-gradient-to-br from-primary-600 to-primary-700 -z-10">
         <!-- Decorative Pattern -->
         <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 32px 32px;"></div>
+    </div>
 
-        <div class="max-w-7xl mx-auto relative z-10">
+    <main class="pt-32 pb-24 px-6 lg:px-12 max-w-7xl mx-auto min-h-screen">
+        <div class="relative z-10">
             <!-- Header -->
             <div class="mb-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
                 <div>
@@ -13,14 +15,14 @@
                         Riwayat & Monitoring
                     </span>
                     <h1 class="text-3xl sm:text-4xl font-black text-white tracking-tight drop-shadow-md">Daftar Pesanan Ambulans Saya</h1>
-                    <p class="text-sky-100 text-sm sm:text-base mt-2 font-medium">Pantau perjalanan armada ambulans yang Anda pesan secara langsung via satelit.</p>
+                    <p class="text-primary-100 text-sm sm:text-base mt-2 font-medium">Pantau perjalanan armada ambulans yang Anda pesan secara langsung via satelit.</p>
                 </div>
 
                 <div class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
                     <select wire:model.live="statusFilter"
                             class="w-full sm:w-auto px-4 py-3 rounded-xl border-0 bg-white/10 backdrop-blur text-white text-sm font-bold focus:ring-2 focus:ring-white/50 shadow-lg cursor-pointer">
                         <option value="" class="text-slate-800">Semua Status</option>
-                        <option value="menunggu" class="text-slate-800">Menunggu Dispatcher</option>
+                        <option value="menunggu" class="text-slate-800">Menunggu Operator</option>
                         <option value="diproses" class="text-slate-800">Ditugaskan (Diproses)</option>
                         <option value="menuju_lokasi" class="text-slate-800">Menuju Lokasi Jemput</option>
                         <option value="membawa_pasien" class="text-slate-800">Membawa Pasien ke RS</option>
@@ -28,7 +30,7 @@
                         <option value="dibatalkan" class="text-slate-800">Dibatalkan</option>
                     </select>
                     <a href="{{ route('masyarakat.order.create') }}"
-                       class="w-full sm:w-auto inline-flex justify-center items-center gap-2 px-6 py-3 rounded-xl bg-white text-[#009CA6] font-black text-sm shadow-xl hover:bg-sky-50 transition-all hover:scale-105">
+                       class="w-full sm:w-auto inline-flex justify-center items-center gap-2 px-6 py-3 rounded-xl bg-white text-[#009CA6] font-black text-sm shadow-xl hover:bg-primary-50 transition-all hover:scale-105">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
                         </svg>
@@ -54,10 +56,10 @@
                                 </div>
                                 <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider shadow-sm
                                     @if($order->status === 'menunggu') bg-amber-100 text-amber-700 border border-amber-200
-                                    @elseif(in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien'])) bg-blue-100 text-blue-700 border border-blue-200 animate-pulse
+                                    @elseif(in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien'])) bg-primary-100 text-primary-700 border border-primary-200 animate-pulse
                                     @elseif($order->status === 'selesai') bg-emerald-100 text-emerald-700 border border-emerald-200
                                     @else bg-slate-100 text-slate-600 border border-slate-200 @endif">
-                                    <span class="w-2 h-2 rounded-full @if(in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien'])) bg-blue-600 animate-ping @else bg-current @endif"></span>
+                                    <span class="w-2 h-2 rounded-full @if(in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien'])) bg-primary-600 animate-ping @else bg-current @endif"></span>
                                     <span>{{ $order->status_label }}</span>
                                 </span>
                             </div>
@@ -65,7 +67,7 @@
                             <!-- Patient & Pickup Info -->
                             <div class="space-y-3 mb-5 text-sm">
                                 <div class="flex items-start gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-sky-50 text-sky-500 flex items-center justify-center shrink-0">
+                                    <div class="w-8 h-8 rounded-full bg-primary-50 text-primary-500 flex items-center justify-center shrink-0">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                                     </div>
                                     <div>
@@ -78,7 +80,7 @@
                                 </div>
 
                                 <div class="flex items-start gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center shrink-0">
+                                    <div class="w-8 h-8 rounded-full bg-primary-50 text-primary-500 flex items-center justify-center shrink-0">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
                                     </div>
                                     <div>
@@ -145,7 +147,7 @@
                             </svg>
                         </div>
                         <h3 class="font-black text-white text-2xl mb-2">Belum Ada Riwayat Pesanan</h3>
-                        <p class="text-sky-100 text-base max-w-md mx-auto mb-8 font-medium">Jika terjadi situasi darurat medis, jangan ragu untuk memesan ambulans dari jaringan Ambulance Siaga gratis 24 jam.</p>
+                        <p class="text-primary-100 text-base max-w-md mx-auto mb-8 font-medium">Jika terjadi situasi darurat medis, jangan ragu untuk memesan ambulans dari jaringan Ambulance Siaga gratis 24 jam.</p>
                         <a href="{{ route('masyarakat.order.create') }}"
                            class="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-[#009CA6] hover:bg-slate-50 font-black text-sm shadow-xl hover:shadow-2xl hover:scale-105 transition-all">
                             <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"/></svg>
@@ -162,7 +164,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </main>
 
     <x-landing-footer />
 </div>

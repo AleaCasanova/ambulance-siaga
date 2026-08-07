@@ -10,7 +10,7 @@
             </div>
             <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Halo, {{ auth()->user()->name }}!</h1>
             <p class="text-slate-200 text-sm mt-1 max-w-xl">
-                {{ $isOnline ? 'Anda siap menerima penugasan evakuasi medis darurat dari Dispatcher Ambulance Siaga.' : 'Aktifkan status Anda menjadi ONLINE untuk mulai menerima pesanan ambulans.' }}
+                {{ $isOnline ? 'Anda siap menerima penugasan evakuasi medis darurat dari Operator Ambulance Siaga.' : 'Aktifkan status Anda menjadi ONLINE untuk mulai menerima pesanan ambulans.' }}
             </p>
         </div>
 

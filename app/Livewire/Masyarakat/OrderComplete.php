@@ -161,6 +161,6 @@ class OrderComplete extends Component
 
         return view('livewire.masyarakat.order-complete', [
             'rumahSakits' => $rumahSakits,
-        ]);
+        ])->layout('layouts.blank');
     }
 }

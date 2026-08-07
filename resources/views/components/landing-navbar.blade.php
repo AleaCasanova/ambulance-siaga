@@ -32,10 +32,11 @@
 
                     <div x-show="open" @click.away="open = false" x-transition class="absolute right-0 mt-2 w-48 rounded-xl shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-slate-100 focus:outline-none overflow-hidden" style="display: none;">
                         @if(auth()->user()->hasRole('masyarakat'))
-                            <a href="{{ route('masyarakat.orders.index') }}" class="block px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#009CA6] font-bold transition">Dasbor Saya</a>
+                            <a href="{{ route('masyarakat.orders.index') }}" class="block px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 hover:text-primary-600 font-bold transition">Dasbor Saya</a>
                         @else
-                            <a href="{{ url('/dashboard') }}" class="block px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#009CA6] font-bold transition">Dasbor Petugas</a>
+                            <a href="{{ url('/dashboard') }}" class="block px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 hover:text-primary-600 font-bold transition">Dasbor Petugas</a>
                         @endif
+                        <a href="{{ route('profile.edit') }}" class="block px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 hover:text-primary-600 font-bold transition">Profil Saya</a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit" class="block w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-red-50 font-bold transition">

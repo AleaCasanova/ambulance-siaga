@@ -88,21 +88,38 @@
                 <!-- Middle Banner Graphic & Text -->
                 <div class="relative z-10 my-auto py-3 flex flex-col items-center justify-center text-left w-full">
                     <!-- Banner Promosi Ambulance Melayang -->
-                    <div class="relative w-full max-w-[280px] sm:max-w-xs lg:max-w-[320px] mx-auto mb-3 group">
-                        <div class="absolute inset-0 bg-white/20 blur-2xl rounded-full transform group-hover:scale-105 transition-transform"></div>
-                        <img src="{{ asset('images/ambulance_van_banner.png?v=2') }}" alt="Banner Ambulance Siaga" class="relative z-10 w-full h-auto object-contain rounded-2xl drop-shadow-[0_15px_25px_rgba(0,0,0,0.3)]">
+                    <div class="relative w-full max-w-[360px] sm:max-w-[400px] lg:max-w-[480px] mx-auto mb-6 group">
+                        <div class="absolute inset-0 bg-white/20 blur-3xl rounded-full transform group-hover:scale-105 transition-transform"></div>
+                        <img src="{{ asset('images/ambulance_van_banner.png?v=2') }}" alt="Banner Ambulance Siaga" class="relative z-10 w-full h-auto object-cover rounded-[2rem] border-4 border-white/20 shadow-2xl drop-shadow-[0_20px_30px_rgba(0,0,0,0.4)]">
                     </div>
 
-                    <!-- Judul Besar & Deskripsi -->
-                    <div class="text-left w-full max-w-sm lg:max-w-md">
-                        <h1 class="text-xl sm:text-2xl lg:text-3xl font-black text-white tracking-tight leading-tight uppercase font-sans">
-                            SISTEM PEMESANAN<br>
-                            <span class="text-yellow-300">AMBULANCE</span><br>
-                            TANPA TARIF
+                    <!-- Judul Besar & Deskripsi (Interactive Variant) -->
+                    <div class="text-left w-full max-w-[360px] sm:max-w-[400px] lg:max-w-[480px] group cursor-default">
+                        
+                        <!-- Badge Interaktif -->
+                        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 text-[10px] sm:text-xs font-bold text-sky-50 uppercase tracking-widest mb-4 backdrop-blur-md shadow-lg hover:bg-white/20 transition-all duration-300 transform group-hover:-translate-y-1">
+                            <span class="relative flex h-2 w-2">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                            </span>
+                            Layanan Darurat 24 Jam
+                        </div>
+
+                        <!-- Variasi Tipografi Judul (Lebih Besar & Menonjol) -->
+                        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-[1.05] mb-6">
+                            <span class="block text-white font-extrabold group-hover:text-sky-100 transition-colors duration-300">Sistem Pemesanan</span>
+                            
+                            <span class="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-400 to-amber-500 my-2 drop-shadow-md group-hover:scale-[1.04] origin-left transition-transform duration-300 uppercase text-4xl sm:text-5xl lg:text-[4rem] leading-none" style="background-image: linear-gradient(to right, #fde047, #facc15, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">AMBULANCE</span>
+                            
+                            <span class="inline-block bg-white px-4 py-1.5 rounded-xl mt-1 shadow-[0_10px_25px_rgba(0,0,0,0.3)] transform group-hover:-rotate-3 group-hover:scale-105 transition-all duration-300 uppercase tracking-wider text-xl sm:text-2xl" style="color: #009CA6;">TANPA TARIF</span>
                         </h1>
-                        <div class="w-12 h-1 bg-yellow-300 rounded-full my-2.5"></div>
-                        <p class="text-xs text-white/85 leading-relaxed font-normal">
-                            Platform ini membantu masyarakat mendapatkan layanan ambulans secara cepat, tepat, dan tanpa biaya. Ambulance Siaga menghubungkan masyarakat dengan berbagai mitra ambulans agar bantuan dapat tiba lebih cepat saat dibutuhkan.
+                        
+                        <!-- Garis Dekoratif Interaktif -->
+                        <div class="w-12 h-1.5 bg-gradient-to-r from-yellow-300 to-amber-500 rounded-full mb-4 group-hover:w-24 transition-all duration-500 ease-out"></div>
+                        
+                        <!-- Deskripsi dengan tipografi elegan & background glassmorphism -->
+                        <p class="text-xs sm:text-sm text-sky-50 leading-relaxed font-medium bg-black/10 p-4 rounded-xl border border-white/5 backdrop-blur-sm shadow-inner group-hover:bg-black/20 group-hover:border-white/10 transition-all duration-300">
+                            Platform terpadu yang membantu masyarakat mendapatkan layanan ambulans secara <strong class="text-white font-extrabold">cepat, tepat, dan tanpa biaya</strong>. Kami menghubungkan Anda dengan berbagai mitra agar bantuan tiba seketika.
                         </p>
                     </div>
                 </div>

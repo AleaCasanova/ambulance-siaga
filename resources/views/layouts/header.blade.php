@@ -15,16 +15,16 @@
     }
 @endphp
 
-<header class="h-20 bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-6 lg:px-8 flex items-center justify-between fixed top-0 right-0 left-0 z-50 shadow-xs transition-all duration-300">
+<header class="h-20 bg-primary-700/90 backdrop-blur-md border-b border-white/10 px-4 sm:px-6 lg:px-8 flex items-center justify-between fixed top-0 right-0 left-0 z-50 shadow-xs transition-all duration-300">
     <!-- Left side: Logo & Brand Title -->
     <div class="flex items-center gap-4">
         <a href="{{ route('home') }}" class="flex items-center gap-3.5 group">
-            <div class="w-14 h-14 rounded-full bg-white p-1 flex items-center justify-center shadow-md shadow-sky-600/20 border-2 border-slate-100 group-hover:scale-105 transition-all overflow-hidden">
+            <div class="w-14 h-14 rounded-full bg-white p-1 flex items-center justify-center shadow-lg group-hover:scale-105 transition-all overflow-hidden">
                 <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-full h-full object-contain">
             </div>
             <div class="flex flex-col">
-                <span class="font-extrabold text-slate-900 tracking-tight text-xl leading-tight group-hover:text-sky-600 transition-colors">Ambulance Siaga</span>
-                <span class="text-xs font-bold text-sky-600 tracking-wider uppercase">Layanan Darurat • Multi-Mitra</span>
+                <span class="font-extrabold text-white font-black text-xl tracking-tight leading-none group-hover:text-primary-100 transition-colors">Ambulance Siaga</span>
+                <span class="text-primary-100 text-[10px] font-bold tracking-widest uppercase mt-0.5">Layanan Darurat • Multi-Mitra</span>
             </div>
         </a>
     </div>
@@ -33,19 +33,19 @@
     <nav class="hidden lg:flex items-center gap-2 xl:gap-3">
         <!-- Beranda -->
         <a href="{{ route('home') }}"
-           class="px-3.5 py-2 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('home') || request()->routeIs('dashboard') ? 'text-sky-600 font-extrabold bg-sky-50' : 'text-slate-600 hover:text-sky-600 hover:bg-slate-50' }}">
+           class="px-3.5 py-2 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('home') || request()->routeIs('dashboard') ? 'text-white font-extrabold bg-white/20' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
             Beranda
         </a>
 
         <!-- Tentang Kami / Informasi GSC -->
         <a href="{{ route('masyarakat.info') }}"
-           class="px-3.5 py-2 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('masyarakat.info') ? 'text-sky-600 font-extrabold bg-sky-50' : 'text-slate-600 hover:text-sky-600 hover:bg-slate-50' }}">
+           class="px-3.5 py-2 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('masyarakat.info') ? 'text-white font-extrabold bg-white/20' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
             Tentang Kami
         </a>
 
         <!-- Layanan Kami (Pesan Ambulans) -->
         <a href="{{ route('masyarakat.order.create') }}"
-           class="px-3.5 py-2 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('masyarakat.order.create') ? 'text-sky-600 font-extrabold bg-sky-50' : 'text-slate-600 hover:text-sky-600 hover:bg-slate-50' }}">
+           class="px-3.5 py-2 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('masyarakat.order.create') ? 'text-white font-extrabold bg-white/20' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
             Layanan Kami
         </a>
 
@@ -53,7 +53,7 @@
             @if(!$user->isSupir() && !$user->isDispatcher() && !$user->isSuperAdmin() && !$user->isAdminOperasional())
                 <!-- Riwayat Pesanan Saya (Hanya untuk Pasien/Masyarakat) -->
                 <a href="{{ route('masyarakat.orders.index') }}"
-                   class="px-3.5 py-2 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('masyarakat.orders.*') || request()->routeIs('masyarakat.tracking') ? 'text-sky-600 font-extrabold bg-sky-50' : 'text-slate-600 hover:text-sky-600 hover:bg-slate-50' }}">
+                   class="px-3.5 py-2 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('masyarakat.orders.*') || request()->routeIs('masyarakat.tracking') ? 'text-white font-extrabold bg-white/20' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
                     Riwayat & Tracking
                 </a>
             @endif
@@ -71,9 +71,9 @@
                 <!-- Dropdown Operasional -->
                 <div class="relative" x-data="{ dropOps: false }">
                     <button @click="dropOps = !dropOps" @click.outside="dropOps = false"
-                            class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-sky-600 hover:bg-slate-50 transition-all {{ request()->routeIs('admin.orders.*') || request()->routeIs('admin.ambulans.*') || request()->routeIs('admin.supir.*') || request()->routeIs('admin.rumahsakit.*') || request()->routeIs('admin.jadwal.*') ? 'text-sky-600 font-extrabold bg-sky-50' : '' }}">
+                            class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold text-white/80 hover:text-white hover:bg-white/10 transition-all {{ request()->routeIs('admin.orders.*') || request()->routeIs('admin.ambulans.*') || request()->routeIs('admin.supir.*') || request()->routeIs('admin.rumahsakit.*') || request()->routeIs('admin.jadwal.*') ? 'text-white font-extrabold bg-white/20' : '' }}">
                         <span>Operasional</span>
-                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
@@ -97,9 +97,9 @@
                 <!-- Dropdown Manajemen -->
                 <div class="relative" x-data="{ dropMgmt: false }">
                     <button @click="dropMgmt = !dropMgmt" @click.outside="dropMgmt = false"
-                            class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-sky-600 hover:bg-slate-50 transition-all {{ request()->routeIs('admin.users.*') || request()->routeIs('admin.laporan.*') || request()->routeIs('admin.audit.*') || request()->routeIs('admin.settings.*') ? 'text-sky-600 font-extrabold bg-sky-50' : '' }}">
+                            class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold text-white/80 hover:text-white hover:bg-white/10 transition-all {{ request()->routeIs('admin.users.*') || request()->routeIs('admin.laporan.*') || request()->routeIs('admin.audit.*') || request()->routeIs('admin.settings.*') ? 'text-white font-extrabold bg-white/20' : '' }}">
                         <span>Manajemen</span>
-                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
@@ -123,11 +123,11 @@
             @if($user->isDispatcher())
                 <!-- Dispatcher Links -->
                 <a href="{{ route('dispatcher.orders.index') }}"
-                   class="px-3.5 py-2 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('dispatcher.orders.*') ? 'text-sky-600 font-extrabold bg-sky-50' : 'text-slate-600 hover:text-sky-600 hover:bg-slate-50' }}">
+                   class="px-3.5 py-2 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('dispatcher.orders.*') ? 'text-white font-extrabold bg-white/20' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
                     Order Masuk
                 </a>
                 <a href="{{ route('dispatcher.monitoring') }}"
-                   class="px-3.5 py-2 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('dispatcher.monitoring') ? 'text-sky-600 font-extrabold bg-sky-50' : 'text-slate-600 hover:text-sky-600 hover:bg-slate-50' }}">
+                   class="px-3.5 py-2 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('dispatcher.monitoring') ? 'text-white font-extrabold bg-white/20' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
                     Live Monitoring
                 </a>
             @endif
@@ -135,11 +135,11 @@
             @if($user->isSupir())
                 <!-- Supir Links -->
                 <a href="{{ route('supir.dashboard') }}"
-                   class="px-3.5 py-2 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('supir.dashboard') ? 'text-sky-600 font-extrabold bg-sky-50' : 'text-slate-600 hover:text-sky-600 hover:bg-slate-50' }}">
+                   class="px-3.5 py-2 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('supir.dashboard') ? 'text-white font-extrabold bg-white/20' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
                     Dashboard Supir
                 </a>
                 <a href="{{ route('supir.tugas.index') }}"
-                   class="px-3.5 py-2 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('supir.tugas.*') || request()->routeIs('supir.orders.*') ? 'text-sky-600 font-extrabold bg-sky-50' : 'text-slate-600 hover:text-sky-600 hover:bg-slate-50' }}">
+                   class="px-3.5 py-2 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('supir.tugas.*') || request()->routeIs('supir.orders.*') ? 'text-white font-extrabold bg-white/20' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
                     Daftar Tugas Saya
                 </a>
             @endif
@@ -166,10 +166,10 @@
         @if($user)
             <div class="relative" x-data="{ open: false }">
                 <button @click="open = !open" @click.outside="open = false"
-                        class="flex items-center gap-2 text-sm font-medium text-slate-700 hover:text-slate-900 focus:outline-none">
-                    <img src="{{ $avatarUrl }}" alt="{{ $userName }}" class="w-9 h-9 rounded-full object-cover border-2 border-sky-500/30">
+                        class="flex items-center gap-2 text-sm font-medium text-white/90 hover:text-white focus:outline-none">
+                    <img src="{{ $avatarUrl }}" alt="{{ $userName }}" class="w-9 h-9 rounded-full object-cover border-2 border-white/30">
                     <span class="hidden md:inline-block max-w-[130px] truncate font-bold">{{ $userName }}</span>
-                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-4 h-4 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                     </svg>
                 </button>
@@ -226,7 +226,7 @@
 
         <!-- Hamburger Toggle (Mobile < lg) -->
         <button @click="mobileMenuOpen = !mobileMenuOpen"
-                class="lg:hidden p-2 text-slate-600 hover:text-sky-600 hover:bg-slate-100 rounded-xl focus:outline-none transition-colors"
+                class="lg:hidden p-2 text-white hover:text-primary-100 hover:bg-white/10 rounded-xl focus:outline-none transition-colors"
                 title="Buka Menu Navigasi">
             <svg x-show="!mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>

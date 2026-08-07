@@ -59,9 +59,9 @@
                             <td class="py-4 px-6">
                                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold
                                     @if($amb->status === 'Tersedia') bg-emerald-100 text-emerald-700
-                                    @elseif($amb->status === 'Bertugas') bg-blue-100 text-blue-700
+                                    @elseif($amb->status === 'Bertugas') bg-primary-100 text-primary-700
                                     @else bg-amber-100 text-amber-700 @endif">
-                                    <span class="w-2 h-2 rounded-full @if($amb->status === 'Tersedia') bg-emerald-500 @elseif($amb->status === 'Bertugas') bg-blue-600 animate-ping @else bg-amber-500 @endif"></span>
+                                    <span class="w-2 h-2 rounded-full @if($amb->status === 'Tersedia') bg-emerald-500 @elseif($amb->status === 'Bertugas') bg-primary-600 animate-ping @else bg-amber-500 @endif"></span>
                                     <span>{{ $amb->status }}</span>
                                 </span>
                             </td>

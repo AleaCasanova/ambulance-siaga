@@ -48,7 +48,7 @@
             @forelse($notifications as $notif)
                 <div wire:click="markAsRead({{ $notif->id }})"
                      class="px-4 py-3 hover:bg-slate-50 cursor-pointer transition-colors flex items-start gap-3 {{ !$notif->is_read ? 'bg-sky-50/40' : '' }}">
-                    <div class="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center {{ $notif->type === 'danger' ? 'bg-red-100 text-red-600' : ($notif->type === 'success' ? 'bg-emerald-100 text-emerald-600' : 'bg-blue-100 text-blue-600') }}">
+                    <div class="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center {{ $notif->type === 'danger' ? 'bg-red-100 text-red-600' : ($notif->type === 'success' ? 'bg-emerald-100 text-emerald-600' : 'bg-primary-100 text-primary-600') }}">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>

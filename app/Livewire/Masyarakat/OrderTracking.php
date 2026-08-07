@@ -66,6 +66,6 @@ class OrderTracking extends Component
             'order' => $order,
             'currentLat' => $currentLat,
             'currentLng' => $currentLng,
-        ]);
+        ])->layout('layouts.blank');
     }
 }

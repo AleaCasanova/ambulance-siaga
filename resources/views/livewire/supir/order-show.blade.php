@@ -4,8 +4,8 @@
         <div>
             <div class="flex items-center gap-2 mb-1">
                 <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">PENUGASAN AKTIF SUPIR</span>
-                <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-extrabold bg-blue-100 text-blue-700">
-                    <span class="w-2 h-2 rounded-full bg-blue-600 animate-ping"></span>
+                <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-extrabold bg-primary-100 text-primary-700">
+                    <span class="w-2 h-2 rounded-full bg-primary-600 animate-ping"></span>
                     <span>{{ $order->status_label }}</span>
                 </span>
             </div>

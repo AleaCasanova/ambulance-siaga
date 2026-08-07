@@ -6,7 +6,7 @@
                 <span class="w-2 h-2 rounded-full bg-sky-600 animate-ping"></span>
                 Pusat Kendali Ambulance Siaga
             </span>
-            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">Dashboard Dispatcher</h1>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">Dashboard Operator</h1>
             <p class="text-slate-500 text-sm mt-1">Pantau pesanan darurat masuk dan tugaskan armada ambulans tercepat di wilayah Cilacap.</p>
         </div>
 
@@ -72,11 +72,11 @@
         <!-- 4. Supir Online -->
         <div class="p-6 rounded-3xl bg-white border border-slate-200/80 shadow-xs flex items-center justify-between">
             <div>
-                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider block mb-1">Supir Online</span>
+                <span class="text-xs font-bold text-primary-600 uppercase tracking-wider block mb-1">Supir Online</span>
                 <span class="text-3xl font-black text-slate-800">{{ $stats['supir_online'] }}</span>
                 <span class="text-xs text-slate-400 block mt-1">Supir aktif di lapangan</span>
             </div>
-            <div class="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold border border-blue-100">
+            <div class="w-14 h-14 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center font-bold border border-primary-100">
                 <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
                 </svg>

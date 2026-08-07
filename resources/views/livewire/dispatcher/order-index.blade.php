@@ -416,7 +416,7 @@
                                 </div>
                                 <div>
                                     <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">RS Tujuan Rujukan</span>
-                                    <span class="block text-sm font-bold text-sky-700">{{ $detailOrder->tujuan_lokasi ?: 'Ditentukan Dispatcher' }}</span>
+                                    <span class="block text-sm font-bold text-sky-700">{{ $detailOrder->tujuan_lokasi ?: 'Ditentukan Operator' }}</span>
                                 </div>
                             </div>
                         </div>
@@ -486,7 +486,7 @@
                                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                     </div>
                                     <p class="text-sm font-bold text-slate-600">Foto Verifikasi Tidak Tersedia</p>
-                                    <p class="text-xs text-slate-500 mt-1">Pesanan ini mungkin dibuat sebelum fitur verifikasi foto diaktifkan, atau dibuat secara manual oleh dispatcher.</p>
+                                    <p class="text-xs text-slate-500 mt-1">Pesanan ini mungkin dibuat sebelum fitur verifikasi foto diaktifkan, atau dibuat secara manual oleh operator.</p>
                                 </div>
                             @endif
                         </div>

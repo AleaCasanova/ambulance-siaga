@@ -1,24 +1,33 @@
-<div wire:poll.4s>
-    <!-- Top Bar -->
+<div>
+    <x-landing-navbar />
+    
+    <div class="absolute top-0 left-0 w-full h-80 bg-gradient-to-br from-primary-600 to-primary-700 -z-10">
+        <!-- Decorative Pattern -->
+        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 32px 32px;"></div>
+    </div>
+    
+    <main class="pt-32 pb-24 px-6 lg:px-12 max-w-7xl mx-auto min-h-screen">
+        <div class="relative z-10" wire:poll.4s>
+            <!-- Top Bar -->
     <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div class="flex items-center gap-4">
-            <div class="w-20 h-20 rounded-full bg-white p-2 flex items-center justify-center shadow-lg border-2 border-sky-100/80 flex-shrink-0 overflow-hidden">
+            <div class="w-20 h-20 rounded-full bg-white p-2 flex items-center justify-center shadow-lg border-2 border-primary-100/80 flex-shrink-0 overflow-hidden">
                 <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-full h-full object-contain">
             </div>
             <div>
                 <div class="flex items-center gap-3 mb-1">
-                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">TRACKING REALTIME</span>
+                    <span class="text-xs font-bold text-primary-100 uppercase tracking-wider">TRACKING REALTIME</span>
                     <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-extrabold
                         @if($order->status === 'menunggu') bg-amber-100 text-amber-700
-                        @elseif(in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien'])) bg-blue-100 text-blue-700 animate-pulse
+                        @elseif(in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien'])) bg-primary-100 text-primary-700 animate-pulse
                         @elseif($order->status === 'selesai') bg-emerald-100 text-emerald-700
                         @else bg-slate-100 text-slate-600 @endif">
-                        <span class="w-2 h-2 rounded-full @if(in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien'])) bg-blue-600 animate-ping @else bg-current @endif"></span>
+                        <span class="w-2 h-2 rounded-full @if(in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien'])) bg-primary-600 animate-ping @else bg-current @endif"></span>
                         <span>{{ $order->status_label }}</span>
                     </span>
                 </div>
-                <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">Order #{{ $order->kode_order }}</h1>
-                <p class="text-slate-500 text-sm mt-0.5">Pasien: <strong class="text-slate-700">{{ $order->nama_pasien }}</strong> • Dibuat: {{ $order->waktu_pesan ? $order->waktu_pesan->translatedFormat('d M Y, H:i:s') : '-' }}</p>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight drop-shadow-md">Order #{{ $order->kode_order }}</h1>
+                <p class="text-primary-100 text-sm mt-0.5">Pasien: <strong class="text-white">{{ $order->nama_pasien }}</strong> • Dibuat: {{ $order->waktu_pesan ? $order->waktu_pesan->translatedFormat('d M Y, H:i:s') : '-' }}</p>
             </div>
         </div>
 
@@ -26,7 +35,7 @@
             @if(in_array($order->status, ['menuju_lokasi', 'membawa_pasien']))
                 <button type="button" wire:click="simulateGpsStep"
                         class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-md transition-all">
-                    <svg class="w-4 h-4 text-sky-400 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-4 h-4 text-primary-400 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                     <span>Simulasikan Pergerakan GPS</span>
@@ -35,8 +44,8 @@
 
             @if(auth()->check())
                 <a href="{{ route('masyarakat.order.complete', $order->id) }}"
-                   class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-sky-50 border border-sky-200 text-sky-700 hover:bg-sky-100 font-bold text-xs shadow-xs transition-all">
-                    <svg class="w-4 h-4 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                   class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary-50 border border-primary-200 text-primary-700 hover:bg-primary-100 font-bold text-xs shadow-xs transition-all">
+                    <svg class="w-4 h-4 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                     </svg>
                     <span>Lengkapi / Edit Formulir Medis</span>
@@ -44,7 +53,7 @@
             @endif
 
             <a href="{{ route('masyarakat.orders.index') }}"
-               class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-700 text-xs font-bold hover:bg-slate-50 transition-colors">
+               class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-transparent text-primary-600 text-xs font-bold hover:bg-primary-50 transition-colors shadow-lg">
                 <span>&larr; Kembali ke Daftar</span>
             </a>
         </div>
@@ -54,7 +63,7 @@
     <div class="bg-white rounded-3xl border border-slate-200/80 p-6 mb-8 shadow-xs overflow-x-auto">
         @php
             $steps = [
-                ['key' => 'menunggu', 'label' => 'Menunggu Dispatcher', 'icon' => '1'],
+                ['key' => 'menunggu', 'label' => 'Menunggu Operator', 'icon' => '1'],
                 ['key' => 'diproses', 'label' => 'Ambulans Ditugaskan', 'icon' => '2'],
                 ['key' => 'menuju_lokasi', 'label' => 'Menuju Lokasi Jemput', 'icon' => '3'],
                 ['key' => 'membawa_pasien', 'label' => 'Menuju Rumah Sakit', 'icon' => '4'],
@@ -74,12 +83,12 @@
                 <div class="flex flex-col items-center flex-1 relative">
                     <!-- Connector line -->
                     @if($idx < 4)
-                        <div class="absolute top-5 left-1/2 w-full h-1 {{ $idx < $currentIdx ? 'bg-sky-600' : 'bg-slate-200' }} -z-0"></div>
+                        <div class="absolute top-5 left-1/2 w-full h-1 {{ $idx < $currentIdx ? 'bg-primary-600' : 'bg-slate-200' }} -z-0"></div>
                     @endif
 
                     <!-- Step Circle -->
                     <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm z-10 transition-colors
-                        {{ $idx <= $currentIdx ? 'bg-sky-600 text-white shadow-lg shadow-sky-600/30' : 'bg-slate-200 text-slate-500' }}">
+                        {{ $idx <= $currentIdx ? 'bg-primary-600 text-white shadow-lg shadow-primary-600/30' : 'bg-slate-200 text-slate-500' }}">
                         @if($idx < $currentIdx)
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
@@ -109,11 +118,11 @@
             @if($order->supir && $order->ambulans)
                 <div class="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-xs">
                     <div class="flex items-center gap-4 mb-4 pb-4 border-b border-slate-100">
-                        <div class="w-14 h-14 rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center text-sky-600 font-extrabold text-xl shadow-inner">
+                        <div class="w-14 h-14 rounded-2xl bg-primary-50 border border-primary-100 flex items-center justify-center text-primary-600 font-extrabold text-xl shadow-inner">
                             AMB
                         </div>
                         <div>
-                            <span class="inline-block px-2.5 py-0.5 rounded text-[11px] font-bold bg-sky-100 text-sky-700 mb-0.5">
+                            <span class="inline-block px-2.5 py-0.5 rounded text-[11px] font-bold bg-primary-100 text-primary-700 mb-0.5">
                                 {{ $order->ambulans->kode_ambulans }} • {{ $order->supir->nama_lembaga ?: 'Mitra Ambulance Siaga' }}
                             </span>
                             <h3 class="font-bold text-slate-800 text-lg leading-tight">{{ $order->supir->user->name }}</h3>
@@ -147,7 +156,7 @@
             @else
                 <div class="bg-amber-50 rounded-3xl border border-amber-200 p-6 text-center">
                     <p class="text-sm font-bold text-amber-800 mb-1">Ambulans Belum Ditugaskan</p>
-                    <p class="text-xs text-amber-700">Dispatcher sedang memproses dan mencarikan armada ambulans terdekat dari jaringan mitra Ambulance Siaga untuk penjemputan.</p>
+                    <p class="text-xs text-amber-700">Operator sedang memproses dan mencarikan armada ambulans terdekat dari jaringan mitra Ambulance Siaga untuk penjemputan.</p>
                 </div>
             @endif
 
@@ -180,7 +189,7 @@
                 <div class="space-y-2 text-xs">
                     <div class="flex justify-between py-1 border-b border-slate-50">
                         <span class="text-slate-500">Keperluan:</span>
-                        <span class="font-extrabold text-sky-600">{{ $order->keperluan_penggunaan ?: 'IGD Darurat' }}</span>
+                        <span class="font-extrabold text-primary-600">{{ $order->keperluan_penggunaan ?: 'IGD Darurat' }}</span>
                     </div>
                     <div class="flex justify-between py-1 border-b border-slate-50">
                         <span class="text-slate-500">Hari / Tanggal Jemput:</span>
@@ -204,14 +213,14 @@
             <!-- Riwayat Status Perjalanan -->
             <div class="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-xs">
                 <h3 class="font-bold text-slate-800 text-base mb-4 flex items-center gap-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-sky-600"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-primary-600"></span>
                     <span>Log Aktivitas Perjalanan</span>
                 </h3>
 
                 <div class="space-y-4">
                     @foreach($order->statusPerjalanan->sortByDesc('created_at') as $statusItem)
                         <div class="flex items-start gap-3 text-xs">
-                            <div class="w-2 h-2 rounded-full bg-sky-600 mt-1.5 flex-shrink-0"></div>
+                            <div class="w-2 h-2 rounded-full bg-primary-600 mt-1.5 flex-shrink-0"></div>
                             <div class="flex-1">
                                 <div class="flex items-center justify-between">
                                     <span class="font-extrabold text-slate-800 uppercase tracking-wide">{{ str_replace('_', ' ', $statusItem->status) }}</span>
@@ -261,7 +270,7 @@
                 <div class="flex items-center justify-between mb-4">
                     <div>
                         <h2 class="font-bold text-slate-800 text-base flex items-center gap-2">
-                            <span class="w-2.5 h-2.5 rounded-full bg-sky-600 animate-ping"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-primary-600 animate-ping"></span>
                             <span>Peta Satelit Live Monitoring Ambulans</span>
                         </h2>
                         <p class="text-xs text-slate-500">Koordinat otomatis diperbarui secara realtime dari GPS ambulans.</p>
@@ -279,13 +288,13 @@
                     <!-- Floating Route Info Overlay (Grab / Google Maps style) -->
                     <div x-show="routeSummary" x-transition
                          class="absolute top-4 left-4 right-4 sm:right-auto sm:max-w-md z-[1000] bg-white/95 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200/80 shadow-xl flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-sky-600 text-white flex items-center justify-center text-lg font-black shrink-0 shadow-md shadow-sky-600/30">
+                        <div class="w-10 h-10 rounded-xl bg-primary-600 text-white flex items-center justify-center text-lg font-black shrink-0 shadow-md shadow-primary-600/30">
                             🧭
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center gap-2">
                                 <span class="text-sm font-extrabold text-slate-800" x-text="routeEta"></span>
-                                <span class="text-xs font-bold text-sky-700 bg-sky-50 px-2.5 py-0.5 rounded-full border border-sky-100" x-text="routeDistance"></span>
+                                <span class="text-xs font-bold text-primary-700 bg-primary-50 px-2.5 py-0.5 rounded-full border border-primary-100" x-text="routeDistance"></span>
                             </div>
                             <p class="text-xs text-slate-500 font-medium truncate mt-0.5" x-text="'Melalui: ' + routeSummary"></p>
                         </div>
@@ -329,12 +338,12 @@
                         <label class="block text-xs font-bold text-slate-700 mb-1.5">Ulasan / Testimoni Anda</label>
                         <textarea wire:model="ulasan" rows="3"
                                   placeholder="Tulis ulasan tentang kecepatan, keramahtamahan supir, dll..."
-                                  class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 text-sm font-medium"></textarea>
+                                  class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium"></textarea>
                     </div>
 
                     <div class="flex gap-3 pt-2">
                         <button type="submit"
-                                class="flex-1 py-3.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-extrabold text-sm shadow-lg shadow-sky-600/30 transition-all">
+                                class="flex-1 py-3.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-extrabold text-sm shadow-lg shadow-primary-600/30 transition-all">
                             KIRIM ULASAN
                         </button>
                         <button type="button" wire:click="$set('showRatingModal', false)"
@@ -552,4 +561,47 @@
             }
         }
     </script>
+        </div>
+    </main>
+    
+    <x-landing-footer />
+
+    @if(!$order->is_form_complete)
+        <!-- Pop-up Modal Peringatan Lengkapi Formulir -->
+        <div x-data="{ showCompleteAlertModal: true }"
+             x-show="showCompleteAlertModal"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 translate-y-10 scale-95"
+             x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+             class="fixed bottom-6 right-6 z-50 max-w-sm w-full mx-4 sm:mx-0 bg-white rounded-3xl shadow-2xl border-2 border-amber-400/90 overflow-hidden">
+
+            <!-- Header Pop-up -->
+            <div class="bg-gradient-to-r from-amber-500 to-amber-600 px-5 py-3.5 text-white flex items-center justify-between shadow-xs">
+                <div class="flex items-center gap-2.5">
+                    <span class="w-7 h-7 rounded-full bg-white text-amber-600 font-black text-sm flex items-center justify-center shadow-md animate-bounce">!</span>
+                    <span class="font-extrabold text-xs sm:text-sm tracking-wide uppercase">Tindakan Diperlukan!</span>
+                </div>
+                <button @click="showCompleteAlertModal = false" class="text-white/80 hover:text-white font-bold text-lg px-1" title="Tutup sebentar">&times;</button>
+            </div>
+
+            <!-- Body Pop-up -->
+            <div class="p-5 space-y-3.5 bg-amber-50/40">
+                <p class="text-xs font-bold text-slate-800 leading-relaxed">
+                    Pesanan Ambulans Darurat <span class="text-amber-700 font-black px-1.5 py-0.5 rounded-lg bg-amber-100 border border-amber-200">#{{ $order->kode_order }}</span> membutuhkan kelengkapan formulir medis!
+                </p>
+                <p class="text-xs text-slate-600 font-medium leading-relaxed">
+                    Agar tim medis & rumah sakit rujukan dapat mempersiapkan penanganan dengan cepat, silakan lengkapi formulir kebutuhan ambulans sekarang.
+                </p>
+                <div class="pt-1 flex items-center gap-2">
+                    <a href="{{ route('masyarakat.order.complete', $order->id) }}"
+                       class="flex-1 py-3 px-4 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs text-center shadow-lg shadow-amber-600/30 transition-all transform active:scale-95 flex items-center justify-center gap-2">
+                        <span>LENGKAPI FORM SEKARANG</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>

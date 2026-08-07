@@ -41,9 +41,9 @@
             <div>
                 <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">Armada Ambulans</span>
                 <span class="text-3xl font-black text-slate-800">{{ $stats['total_ambulans'] }}</span>
-                <span class="text-xs text-blue-600 font-bold block mt-1">🚚 Siap siaga 24/7</span>
+                <span class="text-xs text-primary-600 font-bold block mt-1">🚚 Siap siaga 24/7</span>
             </div>
-            <div class="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold border border-blue-100">
+            <div class="w-14 h-14 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center font-bold border border-primary-100">
                 <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                 </svg>
@@ -113,8 +113,8 @@
                     <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
                     <span>Menunggu: {{ $chartStatus['Menunggu'] }}</span>
                 </div>
-                <div class="flex items-center gap-1.5 text-blue-700">
-                    <span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
+                <div class="flex items-center gap-1.5 text-primary-700">
+                    <span class="w-2.5 h-2.5 rounded-full bg-primary-600"></span>
                     <span>Diproses: {{ $chartStatus['Diproses'] }}</span>
                 </div>
                 <div class="flex items-center gap-1.5 text-emerald-700">
@@ -145,7 +145,7 @@
                             <div class="flex items-center gap-2 mb-0.5">
                                 <span class="font-black text-slate-800">{{ $o->kode_order }}</span>
                                 <span class="px-2 py-0.5 rounded text-[10px] font-extrabold
-                                    {{ $o->status === 'selesai' ? 'bg-emerald-100 text-emerald-700' : 'bg-blue-100 text-blue-700' }}">
+                                    {{ $o->status === 'selesai' ? 'bg-emerald-100 text-emerald-700' : 'bg-primary-100 text-primary-700' }}">
                                     {{ $o->status_label }}
                                 </span>
                             </div>

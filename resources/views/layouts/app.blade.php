@@ -36,13 +36,18 @@
         </style>
     </head>
     <body class="font-sans antialiased bg-slate-50 text-slate-800">
-        <div class="min-h-screen flex flex-col" x-data="{ mobileMenuOpen: false }">
+        <div class="min-h-screen flex flex-col relative" x-data="{ mobileMenuOpen: false }">
+
+            <!-- Global Teal Background -->
+            <div class="absolute top-0 left-0 w-full h-80 bg-gradient-to-br from-primary-600 to-primary-700 -z-10">
+                <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 32px 32px;"></div>
+            </div>
 
             <!-- Top Header Navbar -->
             @include('layouts.header')
 
             <!-- Main Application Area -->
-            <div class="pt-20 flex-1 flex flex-col w-full transition-all duration-300 ease-in-out">
+            <div class="pt-32 flex-1 flex flex-col w-full transition-all duration-300 ease-in-out z-10">
                 <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
                     <!-- Flash Message Toast Alert -->
                     @if(session('success'))
@@ -84,19 +89,7 @@
                 </main>
 
                 <!-- Footer -->
-                <footer class="bg-white border-t border-slate-200/80 mt-12 py-6 px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-500">
-                    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <div class="flex items-center gap-3 font-bold text-slate-700">
-                            <div class="w-9 h-9 rounded-full bg-white p-1 flex items-center justify-center shadow-sm border border-slate-200/80 overflow-hidden">
-                                <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-full h-full object-contain">
-                            </div>
-                            <span>{{ $namaGsc ?? 'Ambulance Siaga' }} • Platform Kolaborasi Layanan Ambulans & Medis</span>
-                        </div>
-                        <p class="font-medium">
-                            &copy; {{ date('Y') }} Ambulance Siaga. Platform Layanan Darurat untuk Masyarakat & Berbagai Mitra. Dikembangkan oleh GSC.
-                        </p>
-                    </div>
-                </footer>
+                <x-landing-footer />
             </div>
 
         </div>
