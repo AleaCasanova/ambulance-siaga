@@ -32,9 +32,12 @@ class LogAktivitasIndex extends Component
 
         if ($this->search) {
             $query->where(function ($q) {
-                $q->where('action', 'like', '%' . $this->search . '%')
+                $q->where('activity', 'like', '%' . $this->search . '%')
                   ->orWhere('description', 'like', '%' . $this->search . '%')
-                  ->orWhere('ip_address', 'like', '%' . $this->search . '%');
+                  ->orWhere('ip_address', 'like', '%' . $this->search . '%')
+                  ->orWhereHas('user', function ($userQuery) {
+                      $userQuery->where('name', 'like', '%' . $this->search . '%');
+                  });
             });
         }
 

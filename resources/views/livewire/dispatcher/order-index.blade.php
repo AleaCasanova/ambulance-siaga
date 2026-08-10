@@ -44,31 +44,31 @@
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-slate-50/80 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                        <th class="py-4 px-6">Kode & Waktu</th>
-                        <th class="py-4 px-6">Pasien & Darurat</th>
-                        <th class="py-4 px-6">Lokasi Jemput</th>
-                        <th class="py-4 px-6">Armada & Supir</th>
-                        <th class="py-4 px-6">Status</th>
-                        <th class="py-4 px-6 text-right">Aksi Operasional</th>
+                        <th class="py-3 px-4">Kode & Waktu</th>
+                        <th class="py-3 px-4">Pasien & Darurat</th>
+                        <th class="py-3 px-4">Lokasi Jemput</th>
+                        <th class="py-3 px-4">Armada & Supir</th>
+                        <th class="py-3 px-4">Status</th>
+                        <th class="py-3 px-4 text-right">Aksi Operasional</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 text-sm">
                     @forelse($orders as $order)
                         <tr class="hover:bg-slate-50/50 transition-colors">
                             <!-- Kode -->
-                            <td class="py-4 px-6">
+                            <td class="py-3 px-4">
                                 <span class="font-extrabold text-slate-800 block">{{ $order->kode_order }}</span>
                                 <span class="text-xs text-slate-500 block">{{ $order->created_at->format('d M Y, H:i') }} WIB</span>
                             </td>
 
                             <!-- Pasien -->
-                            <td class="py-4 px-6">
+                            <td class="py-3 px-4">
                                 <span class="font-extrabold text-slate-800 block">{{ $order->nama_pasien }}</span>
                                 <span class="text-xs text-slate-500 block line-clamp-1">{{ $order->kondisi_pasien ?: '-' }}</span>
                             </td>
 
                             <!-- Lokasi -->
-                            <td class="py-4 px-6">
+                            <td class="py-3 px-4">
                                 <span class="font-semibold text-slate-700 block text-xs max-w-xs truncate" title="{{ $order->lokasi_jemput }}">
                                     {{ $order->lokasi_jemput }}
                                 </span>
@@ -78,7 +78,7 @@
                             </td>
 
                             <!-- Armada & Supir -->
-                            <td class="py-4 px-6">
+                            <td class="py-3 px-4">
                                 @if($order->ambulans && $order->supir)
                                     <div class="text-xs">
                                         <span class="font-bold text-slate-800 block">{{ $order->ambulans->kode_ambulans }} ({{ $order->ambulans->plat_nomor }})</span>
@@ -92,7 +92,7 @@
                             </td>
 
                             <!-- Status -->
-                            <td class="py-4 px-6">
+                            <td class="py-3 px-4">
                                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold
                                     @if($order->status === 'menunggu') bg-amber-100 text-amber-800 border border-amber-300
                                     @elseif(in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien'])) bg-sky-100 text-sky-700 border border-sky-200 animate-pulse
@@ -104,11 +104,11 @@
                             </td>
 
                             <!-- Aksi -->
-                            <td class="py-4 px-6 text-right">
-                                <div class="flex items-center justify-end gap-1.5 flex-wrap">
+                            <td class="py-3 px-4 text-right">
+                                <div class="flex items-center justify-end gap-1.5 flex-nowrap whitespace-nowrap">
                                     <!-- Link Tracking -->
                                     <a href="{{ route('masyarakat.tracking', $order->id) }}" target="_blank"
-                                       class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors" title="Lihat Peta Realtime">
+                                       class="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors border border-slate-200" title="Lihat Peta Realtime">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
@@ -117,26 +117,26 @@
 
                                     <!-- Detail -->
                                     <button type="button" wire:click="openDetailModal({{ $order->id }})"
-                                            class="px-3 py-1.5 rounded-xl bg-sky-50 hover:bg-sky-100 text-sky-700 font-bold text-xs transition-colors">
+                                            class="px-2.5 py-1 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 font-semibold text-[11px] transition-colors">
                                         Detail
                                     </button>
 
                                     <!-- Edit -->
                                     <button type="button" wire:click="openEditModal({{ $order->id }})"
-                                            class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors">
+                                            class="px-2.5 py-1 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 font-semibold text-[11px] transition-colors">
                                         Edit
                                     </button>
 
                                     <!-- Tugaskan / Selesai -->
                                     @if($order->status === 'menunggu')
                                         <button type="button" wire:click="openAssignModal({{ $order->id }})"
-                                                class="px-3.5 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-extrabold text-xs shadow-md shadow-sky-600/30 transition-all">
+                                                class="px-2.5 py-1 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-bold text-[11px] shadow-sm transition-colors">
                                             Tugaskan
                                         </button>
                                     @elseif(in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien']))
                                         <button type="button" wire:click="updateStatus({{ $order->id }}, 'selesai')"
                                                 wire:confirm="Tandai pesanan ini selesai ditangani di RS?"
-                                                class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-colors">
+                                                class="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] shadow-sm transition-colors">
                                             Selesai
                                         </button>
                                     @endif
@@ -144,7 +144,7 @@
                                     <!-- Hapus -->
                                     <button type="button" wire:click="deleteOrder({{ $order->id }})"
                                             wire:confirm="Yakin ingin menghapus pesanan ini dari database?"
-                                            class="px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 font-bold text-xs transition-colors">
+                                            class="px-2.5 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 font-semibold text-[11px] transition-colors">
                                         Hapus
                                     </button>
                                 </div>
