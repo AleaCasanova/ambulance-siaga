@@ -1,12 +1,16 @@
 <div>
     <!-- Header Page -->
-    <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 print:hidden">
-        <div>
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-slate-200 text-slate-700 uppercase tracking-wider mb-2">
+    <div class="mb-8 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 print:hidden">
+        <div class="flex-1">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-white/20 text-white uppercase tracking-wider mb-2.5 shadow-sm border border-white/20 backdrop-blur-md">
                 Audit Operasional Medis
             </span>
-            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">Laporan Pemesanan & Evakuasi</h1>
-            <p class="text-slate-500 text-sm mt-1">Rekapitulasi riwayat pesanan ambulans berdasarkan rentang tanggal dan status.</p>
+            <h1 class="text-2xl sm:text-[32px] font-extrabold text-white tracking-tight drop-shadow-md leading-tight">
+                Laporan Pemesanan & Evakuasi
+            </h1>
+            <p class="text-white/90 text-[15px] sm:text-base mt-2 font-medium leading-relaxed drop-shadow-sm max-w-2xl">
+                Rekapitulasi riwayat pesanan ambulans berdasarkan rentang tanggal dan status.
+            </p>
         </div>
 
         <div class="flex flex-wrap items-center gap-2">

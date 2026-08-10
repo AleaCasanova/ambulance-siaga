@@ -49,7 +49,7 @@
                         <th class="py-3 px-4">Lokasi Jemput</th>
                         <th class="py-3 px-4">Armada & Supir</th>
                         <th class="py-3 px-4">Status</th>
-                        <th class="py-3 px-4 text-right">Aksi Operasional</th>
+                        <th class="py-3 px-4 text-right" style="white-space: nowrap;">Aksi Operasional</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 text-sm">
@@ -104,11 +104,11 @@
                             </td>
 
                             <!-- Aksi -->
-                            <td class="py-3 px-4 text-right">
-                                <div class="flex items-center justify-end gap-1.5 flex-nowrap whitespace-nowrap">
+                            <td class="py-3 px-4 text-right" style="white-space: nowrap;">
+                                <div class="flex items-center justify-end gap-1.5" style="flex-wrap: nowrap;">
                                     <!-- Link Tracking -->
                                     <a href="{{ route('masyarakat.tracking', $order->id) }}" target="_blank"
-                                       class="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors border border-slate-200" title="Lihat Peta Realtime">
+                                       class="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors border border-slate-200" title="Lihat Peta Realtime" style="flex-shrink: 0;">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
@@ -117,26 +117,26 @@
 
                                     <!-- Detail -->
                                     <button type="button" wire:click="openDetailModal({{ $order->id }})"
-                                            class="px-2.5 py-1 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 font-semibold text-[11px] transition-colors">
+                                            class="px-2.5 py-1 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 font-semibold text-[11px] transition-colors" style="flex-shrink: 0;">
                                         Detail
                                     </button>
 
                                     <!-- Edit -->
                                     <button type="button" wire:click="openEditModal({{ $order->id }})"
-                                            class="px-2.5 py-1 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 font-semibold text-[11px] transition-colors">
+                                            class="px-2.5 py-1 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 font-semibold text-[11px] transition-colors" style="flex-shrink: 0;">
                                         Edit
                                     </button>
 
                                     <!-- Tugaskan / Selesai -->
                                     @if($order->status === 'menunggu')
                                         <button type="button" wire:click="openAssignModal({{ $order->id }})"
-                                                class="px-2.5 py-1 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-bold text-[11px] shadow-sm transition-colors">
+                                                class="px-2.5 py-1 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-bold text-[11px] shadow-sm transition-colors" style="flex-shrink: 0;">
                                             Tugaskan
                                         </button>
                                     @elseif(in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien']))
                                         <button type="button" wire:click="updateStatus({{ $order->id }}, 'selesai')"
                                                 wire:confirm="Tandai pesanan ini selesai ditangani di RS?"
-                                                class="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] shadow-sm transition-colors">
+                                                class="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] shadow-sm transition-colors" style="flex-shrink: 0;">
                                             Selesai
                                         </button>
                                     @endif
@@ -144,7 +144,7 @@
                                     <!-- Hapus -->
                                     <button type="button" wire:click="deleteOrder({{ $order->id }})"
                                             wire:confirm="Yakin ingin menghapus pesanan ini dari database?"
-                                            class="px-2.5 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 font-semibold text-[11px] transition-colors">
+                                            class="px-2.5 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 font-semibold text-[11px] transition-colors" style="flex-shrink: 0;">
                                         Hapus
                                     </button>
                                 </div>

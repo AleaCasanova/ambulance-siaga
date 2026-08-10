@@ -1,12 +1,16 @@
 <div>
     <!-- Header -->
-    <div class="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-sky-100 text-sky-700 uppercase tracking-wider mb-2">
+    <div class="mb-8 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+        <div class="flex-1">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-white/20 text-white uppercase tracking-wider mb-2.5 shadow-sm border border-white/20 backdrop-blur-md">
                 Pusat Kendali Eksekutif
             </span>
-            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">Dashboard Eksekutif Ambulance Siaga</h1>
-            <p class="text-slate-500 text-sm mt-1">Pantau statistik evakuasi, efisiensi armada, dan aktivitas pengguna sistem secara real-time.</p>
+            <h1 class="text-2xl sm:text-[32px] font-extrabold text-white tracking-tight drop-shadow-md leading-tight">
+                Dashboard Eksekutif Ambulance Siaga
+            </h1>
+            <p class="text-white/90 text-[15px] sm:text-base mt-2 font-medium leading-relaxed drop-shadow-sm max-w-2xl">
+                Pantau statistik evakuasi, efisiensi armada, dan aktivitas pengguna sistem secara real-time.
+            </p>
         </div>
 
         <div class="flex items-center gap-3">
