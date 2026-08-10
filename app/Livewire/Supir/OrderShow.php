@@ -11,9 +11,59 @@ class OrderShow extends Component
 {
     public int $orderId;
 
+    /** Status GPS tracking aktif/nonaktif dari browser supir */
+    public bool $gpsActive = false;
+
     public function mount($id)
     {
         $this->orderId = $id;
+    }
+
+    /**
+     * Toggle GPS tracking aktif/nonaktif.
+     * Saat diaktifkan, JavaScript di view akan mulai watchPosition().
+     */
+    public function toggleGpsTracking()
+    {
+        $this->gpsActive = !$this->gpsActive;
+
+        if ($this->gpsActive) {
+            $this->dispatch('gps-tracking-start');
+            session()->flash('info', '🛰️ GPS Tracking diaktifkan. Posisi ambulans akan dikirim otomatis.');
+        } else {
+            $this->dispatch('gps-tracking-stop');
+            session()->flash('info', 'GPS Tracking dinonaktifkan.');
+        }
+    }
+
+    /**
+     * Menerima koordinat GPS nyata dari browser supir (dipanggil oleh JS navigator.geolocation).
+     * Koordinat langsung disimpan ke tabel tracking_gps dan update lokasi supir.
+     */
+    public function updateGpsLocation(TrackingService $service, float $lat, float $lng, float $kecepatan = 0, int $heading = 0)
+    {
+        $order = Pemesanan::with('supir')->find($this->orderId);
+
+        if (!$order || !$order->supir_id) {
+            return;
+        }
+
+        // Hanya record GPS jika order sedang berjalan
+        if (!in_array($order->status, ['menuju_lokasi', 'membawa_pasien', 'diproses'])) {
+            return;
+        }
+
+        $service->recordLocation(
+            $this->orderId,
+            $order->supir_id,
+            round($lat, 7),
+            round($lng, 7),
+            (int) $kecepatan,
+            $heading
+        );
+
+        // Broadcast ke semua client yang sedang melihat tracking order ini
+        $this->dispatch('gps-updated');
     }
 
     public function updateStatus(PemesananService $service, $newStatus)
@@ -31,6 +81,10 @@ class OrderShow extends Component
         session()->flash('success', "Status tugas diperbarui ke: " . strtoupper(str_replace('_', ' ', $newStatus)));
     }
 
+    /**
+     * Simulasi GPS — hanya untuk keperluan demo/testing.
+     * Di production, gunakan GPS nyata via toggleGpsTracking().
+     */
     public function simulateGpsStep(TrackingService $service)
     {
         $service->simulateMovement($this->orderId);
@@ -53,7 +107,7 @@ class OrderShow extends Component
         $currentLng = $order->latestTracking ? (float) $order->latestTracking->lng : ($order->supir->lokasi_terakhir_lng ?? 109.0159);
 
         return view('livewire.supir.order-show', [
-            'order' => $order,
+            'order'      => $order,
             'currentLat' => $currentLat,
             'currentLng' => $currentLng,
         ]);

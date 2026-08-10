@@ -119,20 +119,50 @@
                     </button>
                 </div>
 
-                <!-- Tombol Simulasi GPS (Uji Coba & Demo) -->
-                @if(in_array($order->status, ['menuju_lokasi', 'membawa_pasien']))
-                    <div class="mt-6 pt-6 border-t border-slate-100">
+                <!-- GPS Tracking & Simulasi -->
+                @if(in_array($order->status, ['menuju_lokasi', 'membawa_pasien', 'diproses']))
+                    <div class="mt-6 pt-6 border-t border-slate-100 space-y-3"
+                         x-data="gpsTracker(@this)">
+
+                        {{-- Tombol GPS Nyata --}}
+                        <div x-show="!gpsSupported" class="p-3 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-800 font-semibold text-center">
+                            ⚠️ Browser tidak mendukung GPS / tidak memiliki izin lokasi.
+                        </div>
+
+                        <button type="button"
+                                x-show="gpsSupported"
+                                @click="toggleGps()"
+                                :class="gpsActive
+                                    ? 'bg-emerald-600 hover:bg-emerald-700 shadow-emerald-600/30'
+                                    : 'bg-sky-600 hover:bg-sky-700 shadow-sky-600/30'"
+                                class="w-full py-3.5 rounded-xl text-white font-extrabold text-xs shadow-lg transition-all flex items-center justify-center gap-2">
+                            <span x-show="!gpsActive">
+                                <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                                🛰️ AKTIFKAN GPS TRACKING NYATA
+                            </span>
+                            <span x-show="gpsActive" class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
+                                GPS AKTIF — Mengirim Koordinat Otomatis
+                            </span>
+                        </button>
+
+                        <div x-show="gpsActive" class="text-center text-[11px] text-emerald-700 font-semibold bg-emerald-50 rounded-lg px-3 py-2 border border-emerald-200">
+                            📍 Koordinat GPS dikirim otomatis setiap posisi berubah.
+                            <span x-text="lastCoords ? '(' + lastCoords + ')' : ''"></span>
+                        </div>
+
+                        {{-- Tombol Simulasi (untuk demo/dev) --}}
                         <button type="button"
                                 wire:click="simulateGpsStep"
-                                class="w-full py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2">
-                            <svg class="w-4 h-4 text-red-500 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                class="w-full py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-600 font-semibold text-xs transition-all flex items-center justify-center gap-2">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
-                            <span>SIMULASIKAN PERGERAKAN GPS (18% JALUR)</span>
+                            <span>Simulasi GPS (Mode Demo)</span>
                         </button>
-                        <p class="text-center text-[11px] text-slate-400 mt-2">
-                            Klik tombol di atas untuk menyimulasikan ambulans bergerak menuju tujuan pada peta satelit.
-                        </p>
                     </div>
                 @endif
             </div>
@@ -290,6 +320,9 @@
                         maxZoom: 19
                     }).addTo(this.map);
 
+                    // Expose instance ke window agar GPS tracker JS bisa update marker langsung
+                    window.supirMapInstance = this;
+
                     const ambIcon = L.divIcon({
                         className: 'custom-amb-icon',
                         html: `<div style="background: linear-gradient(135deg, #DC2626, #991B1B); width: 38px; height: 38px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 12px rgba(220,38,38,0.5); display: flex; align-items: center; justify-content: center; font-size: 18px;">🚑</div>`,
@@ -433,6 +466,81 @@
                     }
                 }
             }
+        }
+    </script>
+
+    {{-- ====== GPS TRACKING JAVASCRIPT ====== --}}
+    <script>
+        function gpsTracker(livewireComponent) {
+            return {
+                gpsActive: false,
+                gpsSupported: 'geolocation' in navigator,
+                watchId: null,
+                lastCoords: null,
+
+                toggleGps() {
+                    if (this.gpsActive) {
+                        this.stopGps();
+                    } else {
+                        this.startGps();
+                    }
+                },
+
+                startGps() {
+                    if (!this.gpsSupported) return;
+
+                    const options = {
+                        enableHighAccuracy: true,
+                        timeout: 15000,
+                        maximumAge: 5000
+                    };
+
+                    this.watchId = navigator.geolocation.watchPosition(
+                        (position) => this.onPositionUpdate(position),
+                        (error) => this.onPositionError(error),
+                        options
+                    );
+
+                    this.gpsActive = true;
+                    livewireComponent.call('toggleGpsTracking');
+                },
+
+                stopGps() {
+                    if (this.watchId !== null) {
+                        navigator.geolocation.clearWatch(this.watchId);
+                        this.watchId = null;
+                    }
+                    this.gpsActive = false;
+                    this.lastCoords = null;
+                    livewireComponent.call('toggleGpsTracking');
+                },
+
+                onPositionUpdate(position) {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    const speed = position.coords.speed ? Math.round(position.coords.speed * 3.6) : 0; // m/s -> km/h
+                    const heading = position.coords.heading ? Math.round(position.coords.heading) : 0;
+
+                    this.lastCoords = lat.toFixed(5) + ', ' + lng.toFixed(5);
+
+                    // Kirim ke Livewire — update DB tracking_gps
+                    livewireComponent.call('updateGpsLocation', lat, lng, speed, heading);
+
+                    // Update marker di peta Leaflet secara langsung (tanpa nunggu Livewire)
+                    if (window.supirMapInstance && window.supirMapInstance.ambMarker) {
+                        window.supirMapInstance.ambMarker.setLatLng([lat, lng]);
+                        window.supirMapInstance.map.panTo([lat, lng]);
+                    }
+                },
+
+                onPositionError(error) {
+                    console.warn('[GPS Error]', error.message);
+                    if (error.code === error.PERMISSION_DENIED) {
+                        alert('Izin lokasi ditolak. Aktifkan izin lokasi di pengaturan browser Anda.');
+                        this.stopGps();
+                    }
+                }
+            };
         }
     </script>
 </div>

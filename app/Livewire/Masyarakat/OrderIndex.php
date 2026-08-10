@@ -18,8 +18,8 @@ class OrderIndex extends Component
         if ($user && $user->hasRole('supir')) {
             return redirect()->route('supir.dashboard');
         }
-        if ($user && ($user->hasRole('dispatcher') || $user->hasRole('admin_operasional') || $user->hasRole('superadmin'))) {
-            return redirect()->route('dispatcher.orders.index');
+        if ($user && ($user->hasRole('operator') || $user->hasRole('admin'))) {
+            return redirect()->route('operator.orders.index');
         }
     }
 

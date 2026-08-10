@@ -56,8 +56,8 @@ class PemesananService
             ]);
 
             // AUTO-DISPATCH INTEGRASI: Hubungkan pesanan baru secara otomatis ke role Supir agar langsung masuk ke Daftar Tugas
-            $onlineSupir = Supir::where('status_online', 1)->first() ?? Supir::first();
-            $availableAmb = Ambulans::where('status', 'Tersedia')->first() ?? Ambulans::first();
+            $onlineSupir = Supir::where('status_online', 1)->first();
+            $availableAmb = Ambulans::where('status', 'Tersedia')->first();
 
             if ($onlineSupir && $availableAmb) {
                 $order->update([
@@ -97,15 +97,15 @@ class PemesananService
 
             AuditLogService::log('CREATE_ORDER', 'Pemesanan', "Membuat pesanan ambulans baru: {$kodeOrder}", $userId);
 
-            // Kirim notifikasi ke semua Dispatcher dan Admin
-            $dispatchers = User::whereHas('role', fn($q) => $q->whereIn('name', ['dispatcher', 'admin_operasional', 'superadmin']))->get();
-            foreach ($dispatchers as $dsp) {
+            // Beritahu operator & admin bahwa ada order baru yang butuh di-assign
+            $operators = User::whereHas('role', fn($q) => $q->whereIn('name', ['operator', 'admin']))->get();
+            foreach ($operators as $operator) {
                 Notifikasi::create([
-                    'user_id' => $dsp->id,
+                    'user_id' => $operator->id,
                     'title' => 'Order Ambulans Darurat Baru',
                     'message' => "Order #{$kodeOrder} atas nama {$data['nama_pasien']} menunggu penugasan armada.",
                     'type' => 'danger',
-                    'url' => route('dispatcher.order.index'),
+                    'url' => route('operator.orders.index'),
                 ]);
             }
 

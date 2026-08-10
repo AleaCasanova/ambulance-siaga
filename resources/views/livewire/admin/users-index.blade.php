@@ -66,9 +66,8 @@
                             </td>
                             <td class="py-4 px-6">
                                 <span class="inline-block px-3 py-1 rounded-full text-xs font-bold
-                                    @if($user->isSuperAdmin()) bg-sky-100 text-sky-700
-                                    @elseif($user->isAdminOperasional()) bg-primary-100 text-primary-700
-                                    @elseif($user->isDispatcher()) bg-purple-100 text-purple-700
+                                    @if($user->isAdmin()) bg-sky-100 text-sky-700
+                                    @elseif($user->isOperator()) bg-purple-100 text-purple-700
                                     @elseif($user->isSupir()) bg-emerald-100 text-emerald-700
                                     @else bg-slate-100 text-slate-700 @endif">
                                     {{ $user->role_label }}

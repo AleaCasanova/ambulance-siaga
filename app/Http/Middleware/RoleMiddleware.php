@@ -21,8 +21,8 @@ class RoleMiddleware
 
         $user = auth()->user();
 
-        // Superadmin bypass all restrictions or check against allowed roles
-        if ($user->hasRole('superadmin')) {
+        // Admin bypass semua restriction (akses penuh)
+        if ($user->hasRole('admin')) {
             return $next($request);
         }
 

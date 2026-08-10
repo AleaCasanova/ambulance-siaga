@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Dispatcher;
+namespace App\Livewire\Operator;
 
 use App\Models\Ambulans;
 use App\Models\Pemesanan;
@@ -21,10 +21,10 @@ class Dashboard extends Component
 
     public function openAssignModal($orderId)
     {
-        $this->selectedOrderId = $orderId;
+        $this->selectedOrderId    = $orderId;
         $this->selectedAmbulansId = null;
-        $this->selectedSupirId = null;
-        $this->showAssignModal = true;
+        $this->selectedSupirId    = null;
+        $this->showAssignModal    = true;
     }
 
     public function closeAssignModal()
@@ -36,9 +36,9 @@ class Dashboard extends Component
     public function assignOrder(PemesananService $service)
     {
         $this->validate([
-            'selectedOrderId' => 'required|exists:pemesanan,id',
+            'selectedOrderId'    => 'required|exists:pemesanan,id',
             'selectedAmbulansId' => 'required|exists:ambulans,id',
-            'selectedSupirId' => 'required|exists:supir,id',
+            'selectedSupirId'    => 'required|exists:supir,id',
         ]);
 
         $service->assignAmbulanceAndDriver(
@@ -55,8 +55,8 @@ class Dashboard extends Component
     public function render()
     {
         $stats = [
-            'menunggu' => Pemesanan::where('status', 'menunggu')->count(),
-            'aktif' => Pemesanan::whereIn('status', ['diproses', 'menuju_lokasi', 'membawa_pasien'])->count(),
+            'menunggu'     => Pemesanan::where('status', 'menunggu')->count(),
+            'aktif'        => Pemesanan::whereIn('status', ['diproses', 'menuju_lokasi', 'membawa_pasien'])->count(),
             'amb_tersedia' => Ambulans::where('status', 'Tersedia')->count(),
             'supir_online' => Supir::where('status_online', true)->count(),
         ];
@@ -72,7 +72,7 @@ class Dashboard extends Component
             ->get();
 
         $availableAmbulances = Ambulans::where('status', 'Tersedia')->get();
-        $onlineSupirs = Supir::with('user')->where('status_online', true)->get();
+        $onlineSupirs        = Supir::with('user')->where('status_online', true)->get();
 
         // Data map untuk seluruh armada dan order aktif
         $mapMarkers = [];
@@ -81,46 +81,46 @@ class Dashboard extends Component
             $lat = $ao->latestTracking ? (float) $ao->latestTracking->lat : ($ao->supir->lokasi_terakhir_lat ?? -7.7188);
             $lng = $ao->latestTracking ? (float) $ao->latestTracking->lng : ($ao->supir->lokasi_terakhir_lng ?? 109.0159);
             $mapMarkers[] = [
-                'type' => 'ambulans',
-                'id' => $ao->id,
-                'kode' => $ao->ambulans?->kode_ambulans ?? 'AMB',
-                'supir' => $ao->supir?->user->name ?? '-',
+                'type'   => 'ambulans',
+                'id'     => $ao->id,
+                'kode'   => $ao->ambulans?->kode_ambulans ?? 'AMB',
+                'supir'  => $ao->supir?->user->name ?? '-',
                 'pasien' => $ao->nama_pasien,
                 'status' => $ao->status_label,
-                'lat' => $lat,
-                'lng' => $lng,
+                'lat'    => $lat,
+                'lng'    => $lng,
             ];
 
             // Tambahkan juga marker jemput pasien
             $mapMarkers[] = [
-                'type' => 'jemput',
-                'id' => $ao->id,
+                'type'   => 'jemput',
+                'id'     => $ao->id,
                 'pasien' => $ao->nama_pasien,
                 'lokasi' => $ao->lokasi_jemput,
-                'lat' => (float) $ao->jemput_lat,
-                'lng' => (float) $ao->jemput_lng,
+                'lat'    => (float) $ao->jemput_lat,
+                'lng'    => (float) $ao->jemput_lng,
             ];
         }
 
         foreach ($ordersMenunggu as $om) {
             $mapMarkers[] = [
-                'type' => 'darurat',
-                'id' => $om->id,
-                'kode' => $om->kode_order,
+                'type'   => 'darurat',
+                'id'     => $om->id,
+                'kode'   => $om->kode_order,
                 'pasien' => $om->nama_pasien,
                 'lokasi' => $om->lokasi_jemput,
-                'lat' => (float) $om->jemput_lat,
-                'lng' => (float) $om->jemput_lng,
+                'lat'    => (float) $om->jemput_lat,
+                'lng'    => (float) $om->jemput_lng,
             ];
         }
 
-        return view('livewire.dispatcher.dashboard', [
-            'stats' => $stats,
-            'ordersMenunggu' => $ordersMenunggu,
-            'activeOrders' => $activeOrders,
+        return view('livewire.operator.dashboard', [
+            'stats'              => $stats,
+            'ordersMenunggu'     => $ordersMenunggu,
+            'activeOrders'       => $activeOrders,
             'availableAmbulances' => $availableAmbulances,
-            'onlineSupirs' => $onlineSupirs,
-            'mapMarkers' => $mapMarkers,
+            'onlineSupirs'       => $onlineSupirs,
+            'mapMarkers'         => $mapMarkers,
         ]);
     }
 }

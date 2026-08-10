@@ -175,7 +175,7 @@
                 </div>
             </div>
 
-        @elseif(!$user->isSupir() && !$user->isDispatcher() && !$user->isAdminOperasional())
+        @elseif(!$user->isSupir() && !$user->isOperator() && !$user->isAdmin())
             <div class="mt-6 p-6 rounded-3xl bg-slate-50/70 border border-slate-200 space-y-6">
                 <div class="flex items-center gap-2 pb-3 border-b border-slate-200">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>

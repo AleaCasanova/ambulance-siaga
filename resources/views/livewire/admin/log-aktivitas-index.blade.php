@@ -14,7 +14,7 @@
                    placeholder="Cari aktivitas, deskripsi, atau IP..."
                    class="px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 shadow-xs">
 
-            @if(auth()->user()->isSuperAdmin())
+            @if(auth()->user()->isAdmin())
                 <button type="button" wire:click="clearOldLogs"
                         wire:confirm="Yakin ingin membersihkan seluruh riwayat log aktivitas sistem dari database?"
                         class="px-4 py-2.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 font-bold text-xs transition-colors border border-red-200">

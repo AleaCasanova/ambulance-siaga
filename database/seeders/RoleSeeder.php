@@ -11,28 +11,23 @@ class RoleSeeder extends Seeder
     {
         $roles = [
             [
-                'name' => 'superadmin',
-                'label' => 'Super Admin',
-                'description' => 'Akses penuh ke seluruh konfigurasi sistem dan manajemen pengguna',
+                'name'        => 'admin',
+                'label'       => 'Admin',
+                'description' => 'Akses penuh ke seluruh sistem: manajemen pengguna, armada, laporan, dan konfigurasi',
             ],
             [
-                'name' => 'admin_operasional',
-                'label' => 'Admin Operasional',
-                'description' => 'Mengelola armada ambulans, supir, rumah sakit, dan laporan',
-            ],
-            [
-                'name' => 'dispatcher',
-                'label' => 'Dispatcher',
+                'name'        => 'operator',
+                'label'       => 'Operator',
                 'description' => 'Menerima order masyarakat, menugaskan supir & ambulans, monitoring perjalanan',
             ],
             [
-                'name' => 'supir',
-                'label' => 'Supir Ambulans',
-                'description' => 'Menerima tugas dari dispatcher, navigasi medis, update status & GPS',
+                'name'        => 'supir',
+                'label'       => 'Supir Ambulans',
+                'description' => 'Menerima tugas dari operator, navigasi medis, update status & GPS',
             ],
             [
-                'name' => 'masyarakat',
-                'label' => 'Masyarakat',
+                'name'        => 'masyarakat',
+                'label'       => 'Masyarakat',
                 'description' => 'Memesan ambulans darurat, tracking posisi secara realtime, memberi ulasan',
             ],
         ];

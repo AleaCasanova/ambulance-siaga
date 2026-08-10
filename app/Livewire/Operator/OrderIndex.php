@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Dispatcher;
+namespace App\Livewire\Operator;
 
 use App\Models\Ambulans;
 use App\Models\Pemesanan;
@@ -222,7 +222,7 @@ class OrderIndex extends Component
         $onlineSupirs = Supir::with('user')->where('status_online', true)->get();
         $rumahSakits = RumahSakit::orderBy('nama')->get();
 
-        return view('livewire.dispatcher.order-index', [
+        return view('livewire.operator.order-index', [
             'orders' => $orders,
             'availableAmbulances' => $availableAmbulances,
             'onlineSupirs' => $onlineSupirs,

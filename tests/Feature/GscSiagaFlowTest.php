@@ -10,20 +10,27 @@ use App\Models\User;
 use App\Services\PemesananService;
 use App\Services\RatingService;
 use App\Services\TrackingService;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class GscSiagaFlowTest extends TestCase
 {
-    use DatabaseTransactions;
+    use RefreshDatabase;
+
+    protected $seed = true;
+
     public function test_end_to_end_order_flow_works_correctly(): void
     {
         // 1. Cek User & Armada dari Seeder
         $userMasyarakat = User::whereHas('role', fn ($q) => $q->where('name', 'masyarakat'))->firstOrFail();
-        $userDispatcher = User::whereHas('role', fn ($q) => $q->where('name', 'dispatcher'))->firstOrFail();
+        $userOperator = User::whereHas('role', fn ($q) => $q->where('name', 'operator'))->firstOrFail();
         $supir = Supir::firstOrFail();
         $ambulans = Ambulans::firstOrFail();
         $rumahSakit = RumahSakit::firstOrFail();
+
+        // Disable auto-dispatch for this test by making ALL ambulances and supirs unavailable temporarily
+        Ambulans::query()->update(['status' => 'Ditugaskan']);
+        Supir::query()->update(['status_online' => 0]);
 
         $service = app(PemesananService::class);
         $trackingService = app(TrackingService::class);
@@ -45,14 +52,18 @@ class GscSiagaFlowTest extends TestCase
 
         $this->assertNotNull($order);
         $this->assertEquals('menunggu', $order->status);
-        $this->assertStringStartsWith('GSC-', $order->kode_order);
+        $this->assertStringStartsWith('AMB-ORD-', $order->kode_order);
 
-        // 3. Dispatcher Menugaskan Ambulans & Supir
+        // Make it available again for manual assignment
+        $ambulans->update(['status' => 'Tersedia']);
+        $supir->update(['status_online' => 1]);
+
+        // 3. Operator Menugaskan Ambulans & Supir
         $assignedOrder = $service->assignAmbulanceAndDriver(
             $order->id,
             $ambulans->id,
             $supir->id,
-            $userDispatcher->id
+            $userOperator->id
         );
 
         $this->assertEquals('diproses', $assignedOrder->status);
@@ -92,8 +103,8 @@ class GscSiagaFlowTest extends TestCase
 
     public function test_all_livewire_pages_render_successfully(): void
     {
-        $superAdmin = User::whereHas('role', fn ($q) => $q->where('name', 'superadmin'))->firstOrFail();
-        $dispatcher = User::whereHas('role', fn ($q) => $q->where('name', 'dispatcher'))->firstOrFail();
+        $admin = User::whereHas('role', fn ($q) => $q->where('name', 'admin'))->firstOrFail();
+        $operator = User::whereHas('role', fn ($q) => $q->where('name', 'operator'))->firstOrFail();
         $supirUser = User::whereHas('role', fn ($q) => $q->where('name', 'supir'))->firstOrFail();
         $masyarakat = User::whereHas('role', fn ($q) => $q->where('name', 'masyarakat'))->firstOrFail();
 
@@ -102,22 +113,22 @@ class GscSiagaFlowTest extends TestCase
         $this->actingAs($masyarakat)->get(route('masyarakat.order.create'))->assertStatus(200);
         $this->actingAs($masyarakat)->get(route('masyarakat.order.index'))->assertStatus(200);
 
-        // 2. Dispatcher Pages
-        $this->actingAs($dispatcher)->get(route('dispatcher.dashboard'))->assertStatus(200);
-        $this->actingAs($dispatcher)->get(route('dispatcher.orders'))->assertStatus(200);
-        $this->actingAs($dispatcher)->get(route('dispatcher.monitoring'))->assertStatus(200);
+        // 2. Operator Pages
+        $this->actingAs($operator)->get(route('operator.dashboard'))->assertStatus(200);
+        $this->actingAs($operator)->get(route('operator.orders'))->assertStatus(200);
+        $this->actingAs($operator)->get(route('operator.monitoring'))->assertStatus(200);
 
         // 3. Supir Pages
         $this->actingAs($supirUser)->get(route('supir.dashboard'))->assertStatus(200);
 
         // 4. Admin Pages
-        $this->actingAs($superAdmin)->get(route('admin.dashboard'))->assertStatus(200);
-        $this->actingAs($superAdmin)->get(route('admin.users.index'))->assertStatus(200);
-        $this->actingAs($superAdmin)->get(route('admin.ambulans.index'))->assertStatus(200);
-        $this->actingAs($superAdmin)->get(route('admin.rumahsakit.index'))->assertStatus(200);
-        $this->actingAs($superAdmin)->get(route('admin.laporan.index'))->assertStatus(200);
-        $this->actingAs($superAdmin)->get(route('admin.logs.index'))->assertStatus(200);
-        $this->actingAs($superAdmin)->get(route('admin.settings.index'))->assertStatus(200);
+        $this->actingAs($admin)->get(route('admin.dashboard'))->assertStatus(200);
+        $this->actingAs($admin)->get(route('admin.users.index'))->assertStatus(200);
+        $this->actingAs($admin)->get(route('admin.ambulans.index'))->assertStatus(200);
+        $this->actingAs($admin)->get(route('admin.rumahsakit.index'))->assertStatus(200);
+        $this->actingAs($admin)->get(route('admin.laporan.index'))->assertStatus(200);
+        $this->actingAs($admin)->get(route('admin.logs.index'))->assertStatus(200);
+        $this->actingAs($admin)->get(route('admin.settings.index'))->assertStatus(200);
 
         // 5. Guest Pages (Tanpa Login / Non-Authenticated)
         auth()->logout();

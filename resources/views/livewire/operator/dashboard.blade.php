@@ -11,14 +11,14 @@
         </div>
 
         <div class="flex items-center gap-3">
-            <a href="{{ route('dispatcher.monitoring') }}"
+            <a href="{{ route('operator.monitoring') }}"
                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-sky-600 text-white font-bold text-sm shadow-md transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
                 </svg>
                 <span>Peta Layar Penuh</span>
             </a>
-            <a href="{{ route('dispatcher.orders.index') }}"
+            <a href="{{ route('operator.orders.index') }}"
                class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-700 text-sm font-semibold hover:bg-slate-50 transition-colors">
                 <span>Semua Order</span>
             </a>
@@ -86,7 +86,7 @@
 
     <!-- Main Grid: Pesanan Darurat Masuk (Left) & Live Map (Right) -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8"
-         x-data="dispatcherDashboardMap(@js($mapMarkers))"
+         x-data="operatorDashboardMap(@js($mapMarkers))"
          x-init="initMap()"
          @map-markers-updated.window="updateMarkers($event.detail.markers)">
 
@@ -187,7 +187,7 @@
                 </div>
 
                 <!-- Leaflet Container -->
-                <div id="dispatcher-map" class="w-full h-full min-h-[520px] rounded-2xl border border-slate-200/80 z-10"></div>
+                <div id="operator-map" class="w-full h-full min-h-[520px] rounded-2xl border border-slate-200/80 z-10"></div>
             </div>
         </div>
 
@@ -267,16 +267,16 @@
         </div>
     @endif
 
-    <!-- Leaflet Script for Dispatcher Map -->
+    <!-- Leaflet Script for Operator Map -->
     <script>
-        function dispatcherDashboardMap(initialMarkers) {
+        function operatorDashboardMap(initialMarkers) {
             return {
                 map: null,
                 markersLayer: null,
                 markersData: initialMarkers,
 
                 initMap() {
-                    this.map = L.map('dispatcher-map').setView([-7.7188, 109.0159], 13);
+                    this.map = L.map('operator-map').setView([-7.7188, 109.0159], 13);
 
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: '&copy; OpenStreetMap contributors',

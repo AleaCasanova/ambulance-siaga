@@ -14,7 +14,7 @@
         </div>
 
         <div class="flex items-center gap-2 pointer-events-auto">
-            <a href="{{ route('dispatcher.dashboard') }}"
+            <a href="{{ route('operator.dashboard') }}"
                class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-sky-600 text-white font-bold text-xs shadow-lg transition-all flex items-center gap-2">
                 <span>&larr; Kembali ke Dashboard</span>
             </a>

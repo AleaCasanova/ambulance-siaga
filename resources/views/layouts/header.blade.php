@@ -53,7 +53,7 @@
         </a>
 
         @if($user)
-            @if(!$user->isSupir() && !$user->isDispatcher() && !$user->isSuperAdmin() && !$user->isAdminOperasional())
+            @if(!$user->isSupir() && !$user->isOperator() && !$user->isAdmin())
                 <!-- Riwayat Pesanan Saya (Hanya untuk Pasien/Masyarakat) -->
                 <a href="{{ route('masyarakat.orders.index') }}"
                    class="px-3.5 py-2 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('masyarakat.orders.*') || request()->routeIs('masyarakat.tracking') ? 'text-white font-extrabold bg-white/20' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
@@ -70,7 +70,7 @@
                 </a>
             @endif
 
-            @if($user->isSuperAdmin() || $user->isAdminOperasional())
+            @if($user->isAdmin())
                 <!-- Dropdown Operasional -->
                 <div class="relative" x-data="{ dropOps: false }">
                     <button @click="dropOps = !dropOps" @click.outside="dropOps = false"
@@ -123,15 +123,15 @@
                 </div>
             @endif
 
-            @if($user->isDispatcher())
-                <!-- Dispatcher Links -->
-                <a href="{{ route('dispatcher.orders.index') }}"
-                   class="px-3.5 py-2 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('dispatcher.orders.*') ? 'text-white font-extrabold bg-white/20' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
-                    Order Masuk
+            @if($user->isOperator())
+                <!-- Operator Links -->
+                <a href="{{ route('operator.orders.index') }}"
+                   class="px-3.5 py-2 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('operator.orders.*') ? 'text-white font-extrabold bg-white/20' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                    📦 Order Masuk
                 </a>
-                <a href="{{ route('dispatcher.monitoring') }}"
-                   class="px-3.5 py-2 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('dispatcher.monitoring') ? 'text-white font-extrabold bg-white/20' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
-                    Live Monitoring
+                <a href="{{ route('operator.monitoring') }}"
+                   class="px-3.5 py-2 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('operator.monitoring') ? 'text-white font-extrabold bg-white/20' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                    📡 Monitoring
                 </a>
             @endif
 
@@ -284,9 +284,9 @@
                 </a>
             @endif
 
-            @if($user->isSuperAdmin() || $user->isAdminOperasional())
+            @if($user->isAdmin())
                 <div class="pt-3 pb-1 px-4 text-xs font-black text-slate-400 uppercase tracking-wider">Operasional</div>
-                <a href="{{ route('admin.orders.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Semua Order</a>
+                <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Dashboard Admin</a>
                 <a href="{{ route('admin.ambulans.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Armada Ambulans</a>
                 <a href="{{ route('admin.supir.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Supir Ambulans</a>
                 <a href="{{ route('admin.rumahsakit.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Rumah Sakit</a>
@@ -299,10 +299,10 @@
                 <a href="{{ route('admin.settings.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Pengaturan Sistem</a>
             @endif
 
-            @if($user->isDispatcher())
-                <div class="pt-3 pb-1 px-4 text-xs font-black text-slate-400 uppercase tracking-wider">Pusat Kendali</div>
-                <a href="{{ route('dispatcher.orders.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Order Masuk</a>
-                <a href="{{ route('dispatcher.monitoring') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Live Monitoring</a>
+            @if($user->isOperator())
+                <div class="px-4 py-2 text-xs font-bold text-slate-400 uppercase tracking-wider">Modul Operator</div>
+                <a href="{{ route('operator.orders.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Order Masuk</a>
+                <a href="{{ route('operator.monitoring') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Live Monitoring</a>
             @endif
 
             @if($user->isSupir())

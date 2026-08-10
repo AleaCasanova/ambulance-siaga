@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LaporanExportController;
 use App\Http\Controllers\ProfileController;
 use App\Livewire\Admin\AmbulansIndex as AdminAmbulansIndex;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
@@ -9,9 +10,9 @@ use App\Livewire\Admin\LogAktivitasIndex as AdminLogAktivitasIndex;
 use App\Livewire\Admin\RumahSakitIndex as AdminRumahSakitIndex;
 use App\Livewire\Admin\SettingIndex as AdminSettingIndex;
 use App\Livewire\Admin\UsersIndex as AdminUsersIndex;
-use App\Livewire\Dispatcher\Dashboard as DispatcherDashboard;
-use App\Livewire\Dispatcher\LiveMonitoring as DispatcherLiveMonitoring;
-use App\Livewire\Dispatcher\OrderIndex as DispatcherOrderIndex;
+use App\Livewire\Operator\Dashboard as OperatorDashboard;
+use App\Livewire\Operator\LiveMonitoring as OperatorLiveMonitoring;
+use App\Livewire\Operator\OrderIndex as OperatorOrderIndex;
 use App\Livewire\Masyarakat\Beranda;
 use App\Livewire\Masyarakat\InfoGsc;
 use App\Livewire\Masyarakat\Donasi;
@@ -47,10 +48,11 @@ Route::get('/order/{id}/tracking', OrderTracking::class)->name('masyarakat.track
 Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
     $user = auth()->user();
 
-    if ($user->hasRole('superadmin') || $user->hasRole('admin_operasional')) {
+    // Redirect dashboard based on role
+    if ($user->hasRole('admin')) {
         return redirect()->route('admin.dashboard');
-    } elseif ($user->hasRole('dispatcher')) {
-        return redirect()->route('dispatcher.dashboard');
+    } elseif ($user->hasRole('operator')) {
+        return redirect()->route('operator.dashboard');
     } elseif ($user->hasRole('supir')) {
         return redirect()->route('supir.dashboard');
     }
@@ -71,13 +73,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/orders-list', MasyarakatOrderIndex::class)->name('orders.index');
     });
 
-    // 2. MODUL DISPATCHER (Role: superadmin, dispatcher)
-    Route::middleware('role:dispatcher')->prefix('dispatcher')->name('dispatcher.')->group(function () {
-        Route::get('/dashboard', DispatcherDashboard::class)->name('dashboard');
-        Route::get('/orders', DispatcherOrderIndex::class)->name('orders');
-        Route::get('/orders-index', DispatcherOrderIndex::class)->name('order.index');
-        Route::get('/orders-list', DispatcherOrderIndex::class)->name('orders.index');
-        Route::get('/monitoring', DispatcherLiveMonitoring::class)->name('monitoring');
+    // 2. MODUL OPERATOR
+    Route::middleware('role:operator')->prefix('operator')->name('operator.')->group(function () {
+        Route::get('/dashboard', OperatorDashboard::class)->name('dashboard');
+        Route::get('/orders', OperatorOrderIndex::class)->name('orders');
+        Route::get('/orders-index', OperatorOrderIndex::class)->name('order.index');
+        Route::get('/orders-list', OperatorOrderIndex::class)->name('orders.index');
+        Route::get('/monitoring', OperatorLiveMonitoring::class)->name('monitoring');
     });
 
     // 3. MODUL SUPIR AMBULANS (Role: superadmin, supir)
@@ -88,8 +90,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/tugas/{id}', SupirOrderShow::class)->name('tugas.detail');
     });
 
-    // 4. MODUL ADMIN (Role: superadmin, admin_operasional)
-    Route::middleware('role:admin_operasional')->prefix('admin')->name('admin.')->group(function () {
+    // 4. MODUL ADMIN
+    Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', AdminDashboard::class)->name('dashboard');
         Route::get('/users', AdminUsersIndex::class)->name('users.index');
         Route::get('/supir', AdminUsersIndex::class)->name('supir.index');
@@ -97,7 +99,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/jadwal', AdminJadwalIndex::class)->name('jadwal.index');
         Route::get('/rumahsakit', AdminRumahSakitIndex::class)->name('rumahsakit.index');
         Route::get('/laporan', AdminLaporanIndex::class)->name('laporan.index');
-        Route::get('/orders', DispatcherOrderIndex::class)->name('orders.index');
+        Route::get('/laporan/export-pdf', [LaporanExportController::class, 'exportPdf'])->name('laporan.export.pdf');
+        Route::get('/laporan/export-excel', [LaporanExportController::class, 'exportExcel'])->name('laporan.export.excel');
+        Route::get('/orders', OperatorOrderIndex::class)->name('orders.index');
         Route::get('/logs', AdminLogAktivitasIndex::class)->name('logs.index');
         Route::get('/audit', AdminLogAktivitasIndex::class)->name('audit.index');
         Route::get('/settings', AdminSettingIndex::class)->name('settings.index');
