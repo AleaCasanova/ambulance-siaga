@@ -39,13 +39,47 @@
             <h4 class="text-white font-bold mb-6 uppercase tracking-wider text-sm flex items-center gap-2">
                 <span class="w-2 h-2 rounded-full bg-[#009CA6]"></span> Menu Navigasi
             </h4>
+            @php
+                $user = auth()->user();
+                $footerLinks = [];
+                
+                if (!$user || $user->hasRole('masyarakat') || !$user->role_id) {
+                    $footerLinks = [
+                        ['url' => route('home'), 'label' => 'Beranda Utama'],
+                        ['url' => route('masyarakat.order.create'), 'label' => 'Layanan Darurat'],
+                        ['url' => route('masyarakat.orders.index'), 'label' => 'Riwayat & Tracking'],
+                        ['url' => route('masyarakat.info'), 'label' => 'Tentang Kami'],
+                    ];
+                    if (!$user && Route::has('login')) {
+                        $footerLinks[] = ['url' => route('login'), 'label' => 'Portal Petugas'];
+                    }
+                } elseif ($user->isSupir()) {
+                    $footerLinks = [
+                        ['url' => route('supir.dashboard'), 'label' => 'Dashboard Supir'],
+                        ['url' => route('supir.tugas.index'), 'label' => 'Pesanan Saya'],
+                        ['url' => '#', 'label' => 'Perjalanan Aktif'],
+                        ['url' => route('masyarakat.info'), 'label' => 'Tentang Kami'],
+                    ];
+                } elseif ($user->isOperator()) {
+                    $footerLinks = [
+                        ['url' => route('operator.dashboard'), 'label' => 'Dashboard Operator'],
+                        ['url' => route('operator.orders.index'), 'label' => 'Permintaan Ambulance'],
+                        ['url' => route('operator.monitoring'), 'label' => 'Tracking Aktif'],
+                        ['url' => route('masyarakat.info'), 'label' => 'Tentang Kami'],
+                    ];
+                } elseif ($user->isAdmin()) {
+                    $footerLinks = [
+                        ['url' => route('admin.dashboard'), 'label' => 'Dashboard Admin'],
+                        ['url' => route('admin.orders.index'), 'label' => 'Semua Order'],
+                        ['url' => route('admin.users.index'), 'label' => 'Kelola Pengguna'],
+                        ['url' => route('admin.laporan.index'), 'label' => 'Laporan Sistem'],
+                    ];
+                }
+            @endphp
             <ul class="space-y-4 font-medium text-sm">
-                <li><a href="{{ route('home') }}" class="flex items-center gap-2 text-sky-100/70 hover:text-white transition-all hover:translate-x-1 group"><svg class="w-4 h-4 text-sky-200/40 group-hover:text-[#009CA6] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg> Beranda Utama</a></li>
-                <li><a href="{{ route('masyarakat.order.create') }}" class="flex items-center gap-2 text-sky-100/70 hover:text-white transition-all hover:translate-x-1 group"><svg class="w-4 h-4 text-sky-200/40 group-hover:text-[#009CA6] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg> Layanan Darurat</a></li>
-                <li><a href="{{ route('masyarakat.info') }}" class="flex items-center gap-2 text-sky-100/70 hover:text-white transition-all hover:translate-x-1 group"><svg class="w-4 h-4 text-sky-200/40 group-hover:text-[#009CA6] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg> Tentang GSC</a></li>
-                @if(Route::has('login'))
-                <li><a href="{{ route('login') }}" class="flex items-center gap-2 text-sky-100/70 hover:text-white transition-all hover:translate-x-1 group"><svg class="w-4 h-4 text-sky-200/40 group-hover:text-[#009CA6] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg> Portal Petugas</a></li>
-                @endif
+                @foreach($footerLinks as $link)
+                <li><a href="{{ $link['url'] }}" class="flex items-center gap-2 text-sky-100/70 hover:text-white transition-all hover:translate-x-1 group"><svg class="w-4 h-4 text-sky-200/40 group-hover:text-[#009CA6] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg> {{ $link['label'] }}</a></li>
+                @endforeach
             </ul>
         </div>
 

@@ -27,7 +27,11 @@
 </head>
 <body class="antialiased text-slate-800 bg-slate-50 selection:bg-[#009CA6] selection:text-white">
 
-    {{ $slot }}
+    @include('layouts.header')
+    
+    <main>
+        {{ $slot }}
+    </main>
 
     @livewireScripts
 </body>

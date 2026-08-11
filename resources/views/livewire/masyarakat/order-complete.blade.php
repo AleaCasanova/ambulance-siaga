@@ -1,5 +1,5 @@
 <div>
-    <x-landing-navbar />
+
     
     <div class="absolute top-0 left-0 w-full h-80 bg-gradient-to-br from-primary-600 to-primary-700 -z-10">
         <!-- Decorative Pattern -->

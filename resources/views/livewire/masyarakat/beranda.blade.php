@@ -1,5 +1,5 @@
 <div>
-    <x-landing-navbar />
+
 
     <!-- Hero Section -->
     <section class="relative bg-gradient-to-br from-[#009CA6] to-[#007b83] pt-40 pb-48 px-6 lg:px-12 overflow-hidden">
