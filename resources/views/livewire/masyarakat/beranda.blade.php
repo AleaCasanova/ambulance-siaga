@@ -2,9 +2,12 @@
 
 
     <!-- Hero Section -->
-    <section class="relative bg-gradient-to-br from-[#009CA6] to-[#007b83] pt-40 pb-48 px-6 lg:px-12 overflow-hidden">
-        <!-- Decorative Pattern -->
-        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 32px 32px;"></div>
+    <section class="relative pt-40 pb-48 px-6 lg:px-12 overflow-hidden bg-[#009CA6]" style="background-image: url('{{ asset('images/beranda_utama_bg.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+        <!-- Gradient Overlay: Mix of Cyan and White -->
+        <div class="absolute inset-0 bg-gradient-to-r from-[#009CA6] via-[#009CA6]/80 to-white/60 mix-blend-multiply"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-[#009CA6] via-[#009CA6]/80 to-white/60"></div>
+        <!-- Bottom Fade to White -->
+        <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-slate-50 to-transparent"></div>
 
         <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 relative z-10">
             <!-- Left Text -->
@@ -40,10 +43,10 @@
                 <div class="absolute right-0 top-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-white/20 rounded-full blur-3xl"></div>
                 
                 <!-- Image 1 -->
-                <img src="https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="absolute top-0 right-12 w-[280px] h-[280px] object-cover rounded-[3rem] shadow-2xl border-4 border-white/30 z-10 hover:-translate-y-2 transition-transform duration-500" alt="Medis 1">
+                <img src="{{ asset('images/beranda_utama_thumb.jpg') }}" class="absolute top-0 right-12 w-[280px] h-[280px] rounded-[3rem] shadow-2xl border-4 border-white/30 z-10 hover:-translate-y-2 transition-transform duration-500" style="object-fit: cover; object-position: center;" alt="Medis 1">
                 
                 <!-- Image 2 -->
-                <img src="https://images.unsplash.com/photo-1583324113626-70df0f4deaab?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="absolute bottom-4 right-48 w-[220px] h-[220px] object-cover rounded-[2.5rem] shadow-2xl border-4 border-white/30 z-20 hover:-translate-y-2 transition-transform duration-500" alt="Ambulans">
+                <img src="{{ asset('images/ambulance_thumb.jpg') }}" class="absolute bottom-4 right-48 w-[220px] h-[220px] rounded-[2.5rem] shadow-2xl border-4 border-white/30 z-20 hover:-translate-y-2 transition-transform duration-500" style="object-fit: cover; object-position: center;" alt="Ambulans">
                 
                 <!-- Floating badge -->
                 <div class="absolute bottom-20 right-0 bg-white p-4 rounded-2xl shadow-2xl z-30 flex items-center gap-4 w-60 border border-slate-100 animate-pulse">
