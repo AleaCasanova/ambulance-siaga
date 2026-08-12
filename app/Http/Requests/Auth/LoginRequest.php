@@ -62,6 +62,15 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        // Pengecekan status aktif akun (menunggu verifikasi admin atau dinonaktifkan)
+        if (!$user->is_active) {
+            Auth::logout();
+
+            throw ValidationException::withMessages([
+                'email' => 'Akun Anda sedang menunggu verifikasi admin atau telah dinonaktifkan.',
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 

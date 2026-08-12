@@ -9,6 +9,8 @@ use App\Http\Controllers\Auth\OtpVerificationController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\RegisteredSupirController;
+use App\Http\Controllers\Auth\RegisteredMitraController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +31,16 @@ Route::middleware('guest')->group(function () {
         ->name('register');
 
     Route::post('register', [RegisteredUserController::class, 'store']);
+
+    Route::get('register-supir', [RegisteredSupirController::class, 'create'])
+        ->name('register.supir');
+
+    Route::post('register-supir', [RegisteredSupirController::class, 'store']);
+
+    Route::get('register-mitra', [RegisteredMitraController::class, 'create'])
+        ->name('register.mitra');
+
+    Route::post('register-mitra', [RegisteredMitraController::class, 'store']);
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');

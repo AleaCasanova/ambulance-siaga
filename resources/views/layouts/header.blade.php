@@ -50,6 +50,18 @@
             <a href="{{ route('masyarakat.order.create') }}" class="{{ $navBase }} {{ request()->routeIs('masyarakat.order.create') ? $navActive : $navInactive }}">
                 Layanan Kami
             </a>
+
+            <!-- Dropdown Mitra (Guest) -->
+            <div class="relative" x-data="{ dropMitra: false }">
+                <button @click="dropMitra = !dropMitra" @click.outside="dropMitra = false" class="flex items-center gap-1 {{ $navBase }} {{ request()->routeIs('mitra.*') ? $navActive : $navInactive }}" :class="{ '!text-white !after:scale-x-100': dropMitra }">
+                    <span>Jadilah Mitra Kami</span>
+                    <svg class="w-3.5 h-3.5 transition-transform" :class="{ 'rotate-180': dropMitra }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <div x-show="dropMitra" x-transition.opacity.duration.200ms class="absolute left-0 mt-3 w-64 bg-white rounded-xl shadow-lg border border-slate-100 p-2 z-50" style="display: none;">
+                    <a href="{{ route('mitra.pengemudi') }}" class="block px-4 py-3 rounded-lg text-sm text-slate-700 hover:text-[#009CA6] hover:bg-sky-50 font-bold transition-all">Pengemudi Ambulans</a>
+                    <a href="{{ route('mitra.armada') }}" class="block px-4 py-3 rounded-lg text-sm text-slate-700 hover:text-[#009CA6] hover:bg-sky-50 font-bold transition-all">Mitra Ambulans / Pemilik Armada</a>
+                </div>
+            </div>
         @else
             @if($user->hasRole('masyarakat') || !$user->role_id)
                 <!-- MENU MASYARAKAT -->
@@ -62,6 +74,18 @@
                 <a href="{{ route('masyarakat.orders.index') }}" class="{{ $navBase }} {{ request()->routeIs('masyarakat.orders.*') || request()->routeIs('masyarakat.tracking') ? $navActive : $navInactive }}">
                     Riwayat & Tracking
                 </a>
+
+                <!-- Dropdown Mitra (Masyarakat) -->
+                <div class="relative" x-data="{ dropMitraUser: false }">
+                    <button @click="dropMitraUser = !dropMitraUser" @click.outside="dropMitraUser = false" class="flex items-center gap-1 {{ $navBase }} {{ request()->routeIs('mitra.*') ? $navActive : $navInactive }}" :class="{ '!text-white !after:scale-x-100': dropMitraUser }">
+                        <span>Jadilah Mitra Kami</span>
+                        <svg class="w-3.5 h-3.5 transition-transform" :class="{ 'rotate-180': dropMitraUser }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div x-show="dropMitraUser" x-transition.opacity.duration.200ms class="absolute left-0 mt-3 w-64 bg-white rounded-xl shadow-lg border border-slate-100 p-2 z-50" style="display: none;">
+                        <a href="{{ route('mitra.pengemudi') }}" class="block px-4 py-3 rounded-lg text-sm text-slate-700 hover:text-[#009CA6] hover:bg-sky-50 font-bold transition-all">Pengemudi Ambulans</a>
+                        <a href="{{ route('mitra.armada') }}" class="block px-4 py-3 rounded-lg text-sm text-slate-700 hover:text-[#009CA6] hover:bg-sky-50 font-bold transition-all">Mitra Ambulans / Pemilik Armada</a>
+                    </div>
+                </div>
 
                 @if($pendingIncompleteOrder)
                     <a href="{{ route('masyarakat.order.complete', $pendingIncompleteOrder->id) }}" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs shadow-lg shadow-amber-500/40 animate-pulse transition-all border-2 border-white transform hover:scale-105 ml-3">
@@ -264,6 +288,18 @@
                class="block px-4 py-3 rounded-xl font-bold text-sm {{ request()->routeIs('masyarakat.order.create') ? 'bg-sky-50 text-sky-600' : 'text-slate-700 hover:bg-slate-50' }}">
                 Layanan Kami
             </a>
+
+            <!-- Mobile Dropdown Mitra (Guest) -->
+            <div x-data="{ openMitraMobile: false }" class="mb-2">
+                <button @click="openMitraMobile = !openMitraMobile" class="w-full flex items-center justify-between px-4 py-3 rounded-xl font-bold text-sm text-slate-700 hover:bg-slate-50">
+                    <span>Jadilah Mitra Kami</span>
+                    <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': openMitraMobile }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <div x-show="openMitraMobile" x-collapse class="pl-4 pr-2 py-1 space-y-1">
+                    <a href="{{ route('mitra.pengemudi') }}" @click="mobileMenuOpen = false" class="block px-4 py-2.5 rounded-lg text-sm font-semibold {{ request()->routeIs('mitra.pengemudi') ? 'bg-sky-50 text-sky-600' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50' }}">Pengemudi Ambulans</a>
+                    <a href="{{ route('mitra.armada') }}" @click="mobileMenuOpen = false" class="block px-4 py-2.5 rounded-lg text-sm font-semibold {{ request()->routeIs('mitra.armada') ? 'bg-sky-50 text-sky-600' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50' }}">Mitra Ambulans / Pemilik Armada</a>
+                </div>
+            </div>
             <div class="border-t border-slate-100 my-3"></div>
             <a href="{{ route('login') }}" class="block text-center w-full py-3 rounded-xl bg-sky-600 text-white font-extrabold text-sm shadow-md mb-2">
                 Login Akun
@@ -285,6 +321,18 @@
                    class="block px-4 py-3 rounded-xl font-bold text-sm {{ request()->routeIs('masyarakat.orders.*') || request()->routeIs('masyarakat.tracking') ? 'bg-sky-50 text-sky-600' : 'text-slate-700 hover:bg-slate-50' }}">
                     Riwayat & Tracking
                 </a>
+
+                <!-- Mobile Dropdown Mitra (Masyarakat) -->
+                <div x-data="{ openMitraMobileUser: false }" class="mb-2">
+                    <button @click="openMitraMobileUser = !openMitraMobileUser" class="w-full flex items-center justify-between px-4 py-3 rounded-xl font-bold text-sm text-slate-700 hover:bg-slate-50">
+                        <span>Jadilah Mitra Kami</span>
+                        <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': openMitraMobileUser }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div x-show="openMitraMobileUser" x-collapse class="pl-4 pr-2 py-1 space-y-1">
+                        <a href="{{ route('mitra.pengemudi') }}" @click="mobileMenuOpen = false" class="block px-4 py-2.5 rounded-lg text-sm font-semibold {{ request()->routeIs('mitra.pengemudi') ? 'bg-sky-50 text-sky-600' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50' }}">Pengemudi Ambulans</a>
+                        <a href="{{ route('mitra.armada') }}" @click="mobileMenuOpen = false" class="block px-4 py-2.5 rounded-lg text-sm font-semibold {{ request()->routeIs('mitra.armada') ? 'bg-sky-50 text-sky-600' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50' }}">Mitra Ambulans / Pemilik Armada</a>
+                    </div>
+                </div>
             @endif
 
             @if($user->isSupir())
