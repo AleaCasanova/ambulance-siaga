@@ -1,5 +1,8 @@
 <div>
-    <div class="absolute top-0 left-0 w-full h-80 bg-gradient-to-br from-[#009CA6] to-[#007b83] -z-10"></div>
+    <div class="absolute top-0 left-0 w-full h-96 bg-primary-700 -z-10 overflow-hidden" style="background-image: url('{{ asset('images/beranda_utama_bg.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+        <div class="absolute inset-0 bg-primary-700 mix-blend-multiply opacity-50"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-primary-600/90 to-primary-800/90"></div>
+    </div>
 
     
     <main class="pt-32 pb-24 px-6 lg:px-12 max-w-7xl mx-auto min-h-screen w-full">
@@ -7,7 +10,7 @@
             <!-- ========================================== -->
             <!-- BAGIAN 1: SEKILAS TENTANG AMBULANCE SIAGA -->
             <!-- ========================================== -->
-            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#009CA6] to-[#007b83] text-white shadow-2xl border border-white/20">
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary-600 to-primary-700 text-white shadow-2xl border border-white/20">
                 <!-- Decorative Pattern -->
                 <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 32px 32px;"></div>
 
@@ -37,7 +40,7 @@
                             <p>Ekosistem Ambulance Siaga menyediakan berbagai layanan, termasuk pemesanan ambulans darurat gratis, penugasan supir & tim medis, pelacakan posisi ambulans secara real-time, koordinasi antar rumah sakit rujukan, serta solusi teknologi integrasi jaringan multi-mitra bagi masyarakat yang membutuhkan pertolongan cepat tanpa beban biaya.</p>
                         </div>
                         <div class="pt-2">
-                            <a href="#visi-misi" class="inline-flex items-center justify-center px-6 py-3 rounded-full border-2 border-white/50 text-white hover:bg-white hover:text-[#009CA6] font-bold text-sm transition-all duration-200 shadow-lg">Selengkapnya</a>
+                            <a href="#visi-misi" class="inline-flex items-center justify-center px-6 py-3 rounded-full border-2 border-white/50 text-white hover:bg-white hover:text-primary-600 font-bold text-sm transition-all duration-200 shadow-lg">Selengkapnya</a>
                         </div>
                     </div>
                 </div>
@@ -51,7 +54,7 @@
                     
                     <!-- Kiri: VISI (Card Solid) -->
                     <div class="lg:col-span-5">
-                        <div class="relative h-full p-8 sm:p-10 rounded-[2.5rem] bg-gradient-to-br from-[#009CA6] to-[#007b83] text-white shadow-2xl border border-white/20 overflow-hidden group">
+                        <div class="relative h-full p-8 sm:p-10 rounded-[2.5rem] bg-gradient-to-br from-primary-600 to-primary-700 text-white shadow-2xl border border-white/20 overflow-hidden group">
                             <!-- Background Decor -->
                             <div class="absolute -right-20 -top-20 w-64 h-64 bg-white/10 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-700"></div>
                             <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-yellow-300/20 rounded-full blur-2xl"></div>
@@ -76,39 +79,39 @@
                     <!-- Kanan: MISI (List Cards) -->
                     <div class="lg:col-span-7 bg-white rounded-[2.5rem] border border-slate-200/80 p-8 sm:p-10 shadow-xs flex flex-col justify-center">
                         <div class="mb-8">
-                            <span class="inline-block px-3 py-1 rounded-full bg-slate-100 text-[#009CA6] font-extrabold text-[11px] uppercase tracking-wider mb-3">Tujuan & Misi</span>
+                            <span class="inline-block px-3 py-1 rounded-full bg-slate-100 text-primary-600 font-extrabold text-[11px] uppercase tracking-wider mb-3">Tujuan & Misi</span>
                             <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight">Menghadirkan Solusi Inovatif</h2>
                             <p class="text-slate-500 mt-3 text-sm sm:text-base leading-relaxed">Memberi nilai tambah melalui efisiensi koordinasi lapangan dan transparansi tanpa membebankan tarif kepada masyarakat.</p>
                         </div>
 
                         <div class="space-y-4">
                             <!-- Point 1 -->
-                            <div class="group flex gap-5 p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-[#009CA6]/30 hover:shadow-lg hover:shadow-[#009CA6]/5 transition-all duration-300">
-                                <div class="w-12 h-12 rounded-xl bg-white shadow-sm border border-slate-200 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:border-[#009CA6]/30 transition-transform duration-300">
-                                    <svg class="w-6 h-6 text-[#009CA6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            <div class="group flex gap-5 p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-primary-600/30 hover:shadow-lg hover:shadow-[#009CA6]/5 transition-all duration-300">
+                                <div class="w-12 h-12 rounded-xl bg-white shadow-sm border border-slate-200 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:border-primary-600/30 transition-transform duration-300">
+                                    <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-slate-800 group-hover:text-[#009CA6] transition-colors">Konektivitas Real-Time</h4>
+                                    <h4 class="font-bold text-slate-800 group-hover:text-primary-600 transition-colors">Konektivitas Real-Time</h4>
                                     <p class="text-xs sm:text-sm text-slate-500 mt-1 leading-relaxed">Menghubungkan masyarakat dengan jaringan armada ambulans dari berbagai mitra secara otomatis dan cepat.</p>
                                 </div>
                             </div>
                             <!-- Point 2 -->
-                            <div class="group flex gap-5 p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-[#009CA6]/30 hover:shadow-lg hover:shadow-[#009CA6]/5 transition-all duration-300">
-                                <div class="w-12 h-12 rounded-xl bg-white shadow-sm border border-slate-200 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:border-[#009CA6]/30 transition-transform duration-300">
-                                    <svg class="w-6 h-6 text-[#009CA6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <div class="group flex gap-5 p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-primary-600/30 hover:shadow-lg hover:shadow-[#009CA6]/5 transition-all duration-300">
+                                <div class="w-12 h-12 rounded-xl bg-white shadow-sm border border-slate-200 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:border-primary-600/30 transition-transform duration-300">
+                                    <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-slate-800 group-hover:text-[#009CA6] transition-colors">Efisiensi Respon Darurat</h4>
+                                    <h4 class="font-bold text-slate-800 group-hover:text-primary-600 transition-colors">Efisiensi Respon Darurat</h4>
                                     <p class="text-xs sm:text-sm text-slate-500 mt-1 leading-relaxed">Mengoptimalkan kecepatan penanganan melalui manajemen alokasi supir, tim medis, dan RS rujukan terdekat.</p>
                                 </div>
                             </div>
                             <!-- Point 3 -->
-                            <div class="group flex gap-5 p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-[#009CA6]/30 hover:shadow-lg hover:shadow-[#009CA6]/5 transition-all duration-300">
-                                <div class="w-12 h-12 rounded-xl bg-white shadow-sm border border-slate-200 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:border-[#009CA6]/30 transition-transform duration-300">
-                                    <svg class="w-6 h-6 text-[#009CA6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                            <div class="group flex gap-5 p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-primary-600/30 hover:shadow-lg hover:shadow-[#009CA6]/5 transition-all duration-300">
+                                <div class="w-12 h-12 rounded-xl bg-white shadow-sm border border-slate-200 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:border-primary-600/30 transition-transform duration-300">
+                                    <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-slate-800 group-hover:text-[#009CA6] transition-colors">Transparansi Layanan Bebas Biaya</h4>
+                                    <h4 class="font-bold text-slate-800 group-hover:text-primary-600 transition-colors">Transparansi Layanan Bebas Biaya</h4>
                                     <p class="text-xs sm:text-sm text-slate-500 mt-1 leading-relaxed">Menjamin kepastian layanan evakuasi tanpa memungut tarif bagi seluruh lapisan masyarakat yang membutuhkan.</p>
                                 </div>
                             </div>
@@ -132,7 +135,7 @@
                             
                             <div class="relative z-10 mt-8 text-center">
                                 <span class="block text-xl font-black text-slate-800 tracking-wider uppercase">Ambulance Siaga</span>
-                                <span class="block text-[10px] font-bold text-[#009CA6] uppercase tracking-widest mt-1">Layanan Darurat • Multi-Mitra</span>
+                                <span class="block text-[10px] font-bold text-primary-600 uppercase tracking-widest mt-1">Layanan Darurat • Multi-Mitra</span>
                             </div>
                         </div>
                     </div>
@@ -140,16 +143,16 @@
                     <!-- Penjelasan Logo -->
                     <div class="lg:col-span-7 order-1 lg:order-2 space-y-8">
                         <div>
-                            <span class="inline-block px-3 py-1 rounded-full bg-sky-50 text-[#009CA6] font-extrabold text-[11px] uppercase tracking-wider mb-3">Identitas Visual</span>
+                            <span class="inline-block px-3 py-1 rounded-full bg-sky-50 text-primary-600 font-extrabold text-[11px] uppercase tracking-wider mb-3">Identitas Visual</span>
                             <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight">Makna Logo & Simbol</h2>
                             <p class="text-slate-500 mt-3 text-sm sm:text-base leading-relaxed">Setiap elemen dan warna dirancang dengan penuh pertimbangan untuk merepresentasikan nilai kepedulian, keikhlasan, dan profesionalisme pelayanan.</p>
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                             <!-- Warna Teal -->
-                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-[#009CA6]/30 hover:shadow-lg hover:shadow-[#009CA6]/5 transition-all">
+                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-primary-600/30 hover:shadow-lg hover:shadow-[#009CA6]/5 transition-all">
                                 <div class="flex items-center gap-3 mb-3">
-                                    <span class="w-5 h-5 rounded-full bg-[#009CA6] shadow-sm shadow-[#009CA6]/40 border-2 border-white"></span>
+                                    <span class="w-5 h-5 rounded-full bg-primary-600 shadow-sm shadow-[#009CA6]/40 border-2 border-white"></span>
                                     <h4 class="font-bold text-slate-800 text-sm">Cyan / Teal</h4>
                                 </div>
                                 <p class="text-xs text-slate-500 leading-relaxed">Keandalan, dapat dipercaya, profesionalisme, serta inovasi teknologi digital dalam merespon kedaruratan.</p>
@@ -165,18 +168,18 @@
                             </div>
 
                             <!-- Simbol Plus -->
-                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-[#009CA6]/30 hover:shadow-lg hover:shadow-[#009CA6]/5 transition-all">
+                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-primary-600/30 hover:shadow-lg hover:shadow-[#009CA6]/5 transition-all">
                                 <div class="flex items-center gap-3 mb-3">
-                                    <div class="w-6 h-6 rounded bg-[#009CA6]/10 flex items-center justify-center text-[#009CA6] font-black text-lg">+</div>
+                                    <div class="w-6 h-6 rounded bg-primary-600/10 flex items-center justify-center text-primary-600 font-black text-lg">+</div>
                                     <h4 class="font-bold text-slate-800 text-sm">Cross / Plus</h4>
                                 </div>
                                 <p class="text-xs text-slate-500 leading-relaxed">Melambangkan pertolongan medis darurat yang sepenuhnya berpusat pada kesehatan masyarakat.</p>
                             </div>
 
                             <!-- Simbol Ambulans -->
-                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-[#009CA6]/30 hover:shadow-lg hover:shadow-[#009CA6]/5 transition-all">
+                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-primary-600/30 hover:shadow-lg hover:shadow-[#009CA6]/5 transition-all">
                                 <div class="flex items-center gap-3 mb-3">
-                                    <div class="w-6 h-6 rounded bg-[#009CA6]/10 flex items-center justify-center text-[#009CA6]">
+                                    <div class="w-6 h-6 rounded bg-primary-600/10 flex items-center justify-center text-primary-600">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1 .4-1 1v10c0 .6.4 1 1 1h2m0 0a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"></path></svg>
                                     </div>
                                     <h4 class="font-bold text-slate-800 text-sm">Ilustrasi Kendaraan</h4>
@@ -195,7 +198,7 @@
                 <div class="relative bg-[#0F2747] rounded-[2.5rem] p-8 sm:p-12 shadow-2xl overflow-hidden">
                     <!-- Background Graphics -->
                     <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 32px 32px;"></div>
-                    <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-[#009CA6]/40 rounded-full blur-3xl"></div>
+                    <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-primary-600/40 rounded-full blur-3xl"></div>
                     
                     <div class="relative z-10 flex flex-col lg:flex-row gap-8 lg:items-center lg:justify-between mb-10">
                         <div>
@@ -205,8 +208,8 @@
                         <div class="flex-shrink-0">
                             <a href="tel:{{ preg_replace('/[^0-9]/', '', $telepon) }}" class="inline-flex items-center gap-3 px-6 py-3.5 rounded-full bg-white hover:bg-slate-50 text-[#0F2747] font-extrabold text-sm transition-all shadow-lg shadow-white/10 group">
                                 <span class="relative flex h-3 w-3">
-                                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#009CA6] opacity-75"></span>
-                                  <span class="relative inline-flex rounded-full h-3 w-3 bg-[#009CA6]"></span>
+                                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-600 opacity-75"></span>
+                                  <span class="relative inline-flex rounded-full h-3 w-3 bg-primary-600"></span>
                                 </span>
                                 Hubungi Hotline
                             </a>
@@ -224,7 +227,7 @@
                         </div>
                         <!-- Telepon -->
                         <div class="p-6 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md hover:bg-white/20 transition-all group">
-                            <div class="w-10 h-10 rounded-xl bg-[#009CA6] flex items-center justify-center text-white mb-4 shadow-lg shadow-[#009CA6]/30">
+                            <div class="w-10 h-10 rounded-xl bg-primary-600 flex items-center justify-center text-white mb-4 shadow-lg shadow-[#009CA6]/30">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                             </div>
                             <span class="text-[10px] font-extrabold text-sky-200 block uppercase tracking-wider mb-1.5">Telepon & Darurat (24 Jam)</span>

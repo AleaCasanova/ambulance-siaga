@@ -125,7 +125,7 @@
                 <!-- Tombol Tindakan Utama: DAFTAR -->
                 <div class="pt-3 flex justify-center">
                     <button type="submit"
-                            class="w-full py-2.5 px-5 rounded-lg bg-[#009CA6] hover:bg-[#007b83] text-white font-extrabold text-xs sm:text-sm shadow-md shadow-[#009CA6]/20 transition-all duration-200 transform active:scale-[0.99] flex items-center justify-center tracking-wider uppercase cursor-pointer">
+                            class="w-full py-2.5 px-5 rounded-lg bg-primary-600 hover:bg-primary-700 text-white font-extrabold text-xs sm:text-sm shadow-md shadow-[#009CA6]/20 transition-all duration-200 transform active:scale-[0.99] flex items-center justify-center tracking-wider uppercase cursor-pointer">
                         DAFTAR SEBAGAI PENGEMUDI
                     </button>
                 </div>
@@ -135,13 +135,13 @@
             <div class="mt-3 text-center flex flex-col gap-2">
                 <p class="text-[11px] sm:text-xs font-medium text-slate-600">
                     Bukan mendaftar sebagai pengemudi?
-                    <a href="{{ route('register') }}" class="font-extrabold text-[#009CA6] hover:text-[#007b83] hover:underline ms-1">
+                    <a href="{{ route('register') }}" class="font-extrabold text-primary-600 hover:text-[#007b83] hover:underline ms-1">
                         Daftar sebagai Masyarakat
                     </a>
                 </p>
                 <p class="text-[11px] sm:text-xs font-medium text-slate-600">
                     Sudah memiliki akun?
-                    <a href="{{ route('login') }}" class="font-extrabold text-[#009CA6] hover:text-[#007b83] hover:underline ms-1">
+                    <a href="{{ route('login') }}" class="font-extrabold text-primary-600 hover:text-[#007b83] hover:underline ms-1">
                         Kembali ke Login
                     </a>
                 </p>
@@ -151,8 +151,8 @@
         <!-- Tautan Kembali ke Beranda -->
         <div class="mt-2.5 text-center">
             <a href="{{ route('home') }}" 
-               class="inline-flex items-center justify-center gap-1.5 text-[11px] sm:text-xs font-bold text-slate-600 hover:text-[#009CA6] transition-colors group">
-                <svg class="w-3.5 h-3.5 text-slate-500 group-hover:text-[#009CA6] transform group-hover:-translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+               class="inline-flex items-center justify-center gap-1.5 text-[11px] sm:text-xs font-bold text-slate-600 hover:text-primary-600 transition-colors group">
+                <svg class="w-3.5 h-3.5 text-slate-500 group-hover:text-primary-600 transform group-hover:-translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                 </svg>
                 <span>Kembali ke Beranda Ambulance Siaga</span>

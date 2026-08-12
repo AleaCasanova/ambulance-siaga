@@ -25,7 +25,7 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
     </style>
 </head>
-<body class="antialiased text-slate-800 bg-slate-50 selection:bg-[#009CA6] selection:text-white">
+<body class="antialiased text-slate-800 bg-slate-50 selection:bg-primary-600 selection:text-white">
 
     @include('layouts.header')
     

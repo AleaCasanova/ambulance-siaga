@@ -1,6 +1,6 @@
 <div class="fixed bottom-6 right-6 z-50 animate-bounce-slow group">
     <!-- Outer glow / shadow effect behind the card -->
-    <div class="absolute -inset-2 bg-gradient-to-r from-[#009CA6] to-sky-400 rounded-[2rem] blur opacity-30 group-hover:opacity-50 transition duration-500"></div>
+    <div class="absolute -inset-2 bg-gradient-to-r from-primary-600 to-sky-400 rounded-[2rem] blur opacity-30 group-hover:opacity-50 transition duration-500"></div>
     
     <div class="relative bg-white/90 backdrop-blur-sm border border-white/50 p-4 rounded-3xl shadow-2xl flex items-center gap-4 hover:scale-105 hover:-translate-y-2 transition-all duration-300 w-72 sm:w-80">
         
@@ -14,7 +14,7 @@
         <div class="flex-1 flex flex-col justify-center">
             <h4 class="text-slate-800 font-black text-[15px] leading-tight mb-1">Ayo Donasi!</h4>
             <p class="text-slate-500 text-[11px] leading-snug mb-2 font-medium">Bersama kita bantu lebih banyak pasien mendapatkan layanan ambulans.</p>
-            <a href="{{ route('donasi') }}" class="inline-flex items-center justify-center gap-1.5 bg-gradient-to-r from-[#009CA6] to-[#007b83] text-white px-3 py-1.5 rounded-xl font-bold text-xs hover:shadow-lg hover:shadow-[#009CA6]/30 transition-all group/btn w-full">
+            <a href="{{ route('donasi') }}" class="inline-flex items-center justify-center gap-1.5 bg-gradient-to-r from-primary-600 to-primary-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs hover:shadow-lg hover:shadow-[#009CA6]/30 transition-all group/btn w-full">
                 Donasi Sekarang
                 <svg class="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
             </a>

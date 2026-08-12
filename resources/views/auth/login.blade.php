@@ -14,7 +14,7 @@
             <!-- Pending Emergency Order Alert -->
             @if(session('pending_order_code'))
                 <div class="mb-3 p-2.5 rounded-lg bg-sky-50 border border-sky-200 text-sky-900 text-left flex items-start gap-2.5 shadow-xs">
-                    <div class="w-5 h-5 rounded-md bg-[#009CA6] text-white flex items-center justify-center font-bold flex-shrink-0 text-[10px] mt-0.5 shadow-xs">
+                    <div class="w-5 h-5 rounded-md bg-primary-600 text-white flex items-center justify-center font-bold flex-shrink-0 text-[10px] mt-0.5 shadow-xs">
                         !
                     </div>
                     <div>
@@ -41,7 +41,7 @@
                             Akun Anda dengan email <strong>{{ session('unverified_email') }}</strong> belum diverifikasi. Silakan masukkan kode OTP.
                         </p>
                         <a href="{{ route('verification.otp.show', ['email' => session('unverified_email')]) }}"
-                           class="mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#009CA6] hover:bg-[#007b83] text-white font-extrabold text-[10px] tracking-wider uppercase transition-all shadow-xs">
+                           class="mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-600 hover:bg-primary-700 text-white font-extrabold text-[10px] tracking-wider uppercase transition-all shadow-xs">
                             <span>Verifikasi OTP Sekarang</span>
                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
@@ -72,7 +72,7 @@
                             Kata Sandi (Password)
                         </label>
                         @if (Route::has('password.request'))
-                            <a class="text-[10px] font-bold text-[#009CA6] hover:text-[#007b83] hover:underline transition-colors" href="{{ route('password.request') }}">
+                            <a class="text-[10px] font-bold text-primary-600 hover:text-[#007b83] hover:underline transition-colors" href="{{ route('password.request') }}">
                                 Lupa sandi?
                             </a>
                         @endif
@@ -98,7 +98,7 @@
                 <div class="flex items-center justify-between pt-0.5">
                     <label for="remember_me" class="inline-flex items-center cursor-pointer select-none">
                         <input id="remember_me" type="checkbox" name="remember"
-                               class="w-3.5 h-3.5 rounded border-slate-300 text-[#009CA6] focus:ring-[#009CA6]">
+                               class="w-3.5 h-3.5 rounded border-slate-300 text-primary-600 focus:ring-[#009CA6]">
                         <span class="ms-1.5 text-xs font-semibold text-slate-600">Ingat sesi saya</span>
                     </label>
                 </div>
@@ -106,7 +106,7 @@
                 <!-- Submit Button: LOGIN -->
                 <div class="pt-1.5 flex justify-center">
                     <button type="submit"
-                            class="w-full py-2.5 px-5 rounded-lg bg-[#009CA6] hover:bg-[#007b83] text-white font-extrabold text-xs sm:text-sm shadow-md shadow-[#009CA6]/20 transition-all duration-200 transform active:scale-[0.99] flex items-center justify-center tracking-wider uppercase cursor-pointer">
+                            class="w-full py-2.5 px-5 rounded-lg bg-primary-600 hover:bg-primary-700 text-white font-extrabold text-xs sm:text-sm shadow-md shadow-[#009CA6]/20 transition-all duration-200 transform active:scale-[0.99] flex items-center justify-center tracking-wider uppercase cursor-pointer">
                         LOGIN
                     </button>
                 </div>
@@ -116,7 +116,7 @@
             <div class="mt-4 text-center">
                 <p class="text-[11px] sm:text-xs font-medium text-slate-600 mb-4">
                     Belum memiliki akun?
-                    <a href="{{ route('register') }}" class="font-extrabold text-[#009CA6] hover:text-[#007b83] hover:underline ms-1">
+                    <a href="{{ route('register') }}" class="font-extrabold text-primary-600 hover:text-[#007b83] hover:underline ms-1">
                         Daftar Akun
                     </a>
                 </p>
@@ -136,7 +136,7 @@
                     <p class="text-[11px] font-semibold text-slate-600">
                         Ingin bergabung sebagai Pengemudi Ambulans?
                     </p>
-                    <a href="{{ route('register.supir') }}" class="inline-flex items-center gap-1.5 px-4 py-2 mt-1 rounded-lg border border-sky-200 bg-sky-50 hover:bg-sky-100 text-[#009CA6] font-extrabold text-[11px] uppercase tracking-wider transition-colors shadow-sm">
+                    <a href="{{ route('register.supir') }}" class="inline-flex items-center gap-1.5 px-4 py-2 mt-1 rounded-lg border border-sky-200 bg-sky-50 hover:bg-sky-100 text-primary-600 font-extrabold text-[11px] uppercase tracking-wider transition-colors shadow-sm">
                         <span>🚑</span>
                         Daftar sebagai Pengemudi
                     </a>
@@ -147,8 +147,8 @@
         <!-- Tautan Kembali ke Beranda -->
         <div class="mt-3 text-center">
             <a href="{{ route('home') }}" 
-               class="inline-flex items-center justify-center gap-1.5 text-[11px] sm:text-xs font-bold text-slate-600 hover:text-[#009CA6] transition-colors group">
-                <svg class="w-3.5 h-3.5 text-slate-500 group-hover:text-[#009CA6] transform group-hover:-translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+               class="inline-flex items-center justify-center gap-1.5 text-[11px] sm:text-xs font-bold text-slate-600 hover:text-primary-600 transition-colors group">
+                <svg class="w-3.5 h-3.5 text-slate-500 group-hover:text-primary-600 transform group-hover:-translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                 </svg>
                 <span>Kembali ke Beranda Ambulance Siaga</span>

@@ -30,7 +30,7 @@
                         <option value="dibatalkan" class="text-slate-800">Dibatalkan</option>
                     </select>
                     <a href="{{ route('masyarakat.order.create') }}"
-                       class="w-full sm:w-auto inline-flex justify-center items-center gap-2 px-6 py-3 rounded-xl bg-white text-[#009CA6] font-black text-sm shadow-xl hover:bg-primary-50 transition-all hover:scale-105">
+                       class="w-full sm:w-auto inline-flex justify-center items-center gap-2 px-6 py-3 rounded-xl bg-white text-primary-600 font-black text-sm shadow-xl hover:bg-primary-50 transition-all hover:scale-105">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
                         </svg>
@@ -119,7 +119,7 @@
                         <!-- Footer Action Buttons -->
                         <div class="pt-5 mt-auto border-t border-slate-100 flex items-center justify-between gap-3">
                             <a href="{{ route('masyarakat.tracking', $order->id) }}"
-                               class="flex-1 py-3 rounded-xl bg-slate-900 hover:bg-[#009CA6] text-white text-center font-black text-xs transition-colors shadow-md flex justify-center items-center gap-2 group/btn">
+                               class="flex-1 py-3 rounded-xl bg-slate-900 hover:bg-primary-600 text-white text-center font-black text-xs transition-colors shadow-md flex justify-center items-center gap-2 group/btn">
                                <svg class="w-4 h-4 group-hover/btn:animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
                                 PANTAU GPS REALTIME
                             </a>
@@ -141,7 +141,7 @@
                     </div>
                 @empty
                     <div class="md:col-span-2 py-20 text-center bg-white/10 backdrop-blur-md rounded-[3rem] border border-white/20 p-8 shadow-2xl">
-                        <div class="w-20 h-20 rounded-full bg-white text-[#009CA6] flex items-center justify-center mx-auto mb-6 shadow-xl">
+                        <div class="w-20 h-20 rounded-full bg-white text-primary-600 flex items-center justify-center mx-auto mb-6 shadow-xl">
                             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                             </svg>
@@ -149,7 +149,7 @@
                         <h3 class="font-black text-white text-2xl mb-2">Belum Ada Riwayat Pesanan</h3>
                         <p class="text-primary-100 text-base max-w-md mx-auto mb-8 font-medium">Jika terjadi situasi darurat medis, jangan ragu untuk memesan ambulans dari jaringan Ambulance Siaga gratis 24 jam.</p>
                         <a href="{{ route('masyarakat.order.create') }}"
-                           class="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-[#009CA6] hover:bg-slate-50 font-black text-sm shadow-xl hover:shadow-2xl hover:scale-105 transition-all">
+                           class="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-primary-600 hover:bg-slate-50 font-black text-sm shadow-xl hover:shadow-2xl hover:scale-105 transition-all">
                             <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"/></svg>
                             <span>PESAN AMBULANS SEKARANG</span>
                         </a>
