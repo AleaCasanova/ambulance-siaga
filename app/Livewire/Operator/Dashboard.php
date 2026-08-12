@@ -19,12 +19,41 @@ class Dashboard extends Component
     public ?int $selectedAmbulansId = null;
     public ?int $selectedSupirId = null;
 
+    // Data for Map inside Assign Modal
+    public ?array $assignOrderData = null;
+    public array $assignDriversData = [];
+
     public function openAssignModal($orderId)
     {
+        $order = Pemesanan::find($orderId);
+        if ($order) {
+            $this->assignOrderData = [
+                'lat' => (float) $order->jemput_lat,
+                'lng' => (float) $order->jemput_lng,
+                'nama' => $order->nama_pasien
+            ];
+        }
+
+        $this->assignDriversData = Supir::with('user')
+            ->where('status_online', true)
+            ->get()
+            ->map(function($s) {
+                return [
+                    'id' => $s->id,
+                    'ambulans_id' => null,
+                    'nama' => $s->user ? $s->user->name : 'Supir',
+                    'kode_ambulans' => 'Driver Siaga',
+                    'lat' => (float) ($s->lokasi_terakhir_lat ?? -7.7188),
+                    'lng' => (float) ($s->lokasi_terakhir_lng ?? 109.0159),
+                ];
+            })->toArray();
+
         $this->selectedOrderId    = $orderId;
         $this->selectedAmbulansId = null;
         $this->selectedSupirId    = null;
         $this->showAssignModal    = true;
+        
+        $this->dispatch('assign-modal-opened');
     }
 
     public function closeAssignModal()

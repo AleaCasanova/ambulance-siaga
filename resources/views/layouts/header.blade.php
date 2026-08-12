@@ -102,7 +102,7 @@
                 <a href="{{ route('supir.tugas.index') }}" class="{{ $navBase }} {{ request()->routeIs('supir.tugas.*') ? $navActive : $navInactive }}">
                     Pesanan Saya
                 </a>
-                <a href="#" class="{{ $navBase }} {{ $navInactive }}">
+                <a href="{{ route('supir.perjalanan.aktif') }}" class="{{ $navBase }} {{ request()->routeIs('supir.perjalanan.aktif') || request()->routeIs('supir.orders.show') ? $navActive : $navInactive }}">
                     Perjalanan Aktif
                 </a>
             @endif

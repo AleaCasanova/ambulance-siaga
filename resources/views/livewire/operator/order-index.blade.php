@@ -184,6 +184,23 @@
                     </button>
                 </div>
 
+                <!-- Map Radar Penugasan -->
+                @if($assignOrderData)
+                <div x-data="assignMapAlpine(@js($assignOrderData), @js($assignDriversData))" 
+                     @select-driver.window="$wire.set('selectedSupirId', $event.detail.supir); $wire.set('selectedAmbulansId', $event.detail.amb);"
+                     class="mb-6">
+                    <p class="text-sm font-bold text-slate-700 mb-2">Peta Radar Armada Siaga</p>
+                    <div class="p-1 border-2 border-slate-200 rounded-2xl bg-white shadow-sm">
+                        <div x-ref="mapContainer" class="h-64 w-full rounded-xl z-0" wire:ignore></div>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-2 flex items-center gap-2">
+                        <span>📍 Merah: Pasien</span>
+                        <span>|</span>
+                        <span>🚑 Hijau: Ambulans Siaga (Klik untuk tugaskan)</span>
+                    </p>
+                </div>
+                @endif
+
                 <form wire:submit="assignOrder" class="space-y-5">
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-2">Pilih Unit Ambulans Siaga</label>
@@ -520,4 +537,66 @@
             </div>
         </div>
     @endif
+
+    <!-- Leaflet Script for Assign Map -->
+    <script>
+        document.addEventListener('alpine:init', () => {
+            if (!Alpine.data('assignMapAlpine')) {
+                Alpine.data('assignMapAlpine', (orderData, driversData) => ({
+                    map: null,
+                    init() {
+                        setTimeout(() => {
+                            if (!this.$refs.mapContainer) return;
+                            
+                            this.map = L.map(this.$refs.mapContainer).setView([orderData.lat, orderData.lng], 13);
+                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                attribution: '&copy; OpenStreetMap',
+                                maxZoom: 19
+                            }).addTo(this.map);
+
+                            const bounds = L.latLngBounds([]);
+
+                            // Titik Pasien (Merah)
+                            const patientIcon = L.divIcon({
+                                className: 'custom-div-icon',
+                                html: `<div style="font-size: 24px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); text-align: center; margin-top:-10px;">📍</div>`,
+                                iconSize: [30, 30],
+                                iconAnchor: [15, 30]
+                            });
+                            L.marker([orderData.lat, orderData.lng], {icon: patientIcon}).addTo(this.map)
+                                .bindPopup(`<b>📍 Lokasi Pasien</b><br>${orderData.nama}`);
+                            bounds.extend([orderData.lat, orderData.lng]);
+
+                            // Titik Armada (Hijau)
+                            driversData.forEach(d => {
+                                const driverIcon = L.divIcon({
+                                    className: 'custom-div-icon',
+                                    html: `<div style="background-color: #10b981; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 10px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: bold;"></div>`,
+                                    iconSize: [20, 20],
+                                    iconAnchor: [10, 10]
+                                });
+                                
+                                const marker = L.marker([d.lat, d.lng], {icon: driverIcon}).addTo(this.map);
+                                marker.bindPopup(`
+                                    <div class="text-center">
+                                        <b class="text-slate-800">${d.nama}</b><br>
+                                        <span class="text-xs text-slate-500">${d.kode_ambulans}</span><br>
+                                        <button type="button" class="mt-2 w-full text-xs font-bold bg-sky-600 text-white px-3 py-1.5 rounded-lg shadow hover:bg-sky-700" 
+                                                onclick="window.dispatchEvent(new CustomEvent('select-driver', {detail: {supir: ${d.id}, amb: ${d.ambulans_id || 'null'}}}))">
+                                            Pilih Supir Ini
+                                        </button>
+                                    </div>
+                                `);
+                                bounds.extend([d.lat, d.lng]);
+                            });
+
+                            if (bounds.isValid()) {
+                                this.map.fitBounds(bounds, { padding: [30, 30] });
+                            }
+                        }, 200);
+                    }
+                }));
+            }
+        });
+    </script>
 </div>
