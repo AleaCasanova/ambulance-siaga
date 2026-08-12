@@ -114,12 +114,33 @@
 
             <!-- Teks Registrasi -->
             <div class="mt-4 text-center">
-                <p class="text-[11px] sm:text-xs font-medium text-slate-600">
+                <p class="text-[11px] sm:text-xs font-medium text-slate-600 mb-4">
                     Belum memiliki akun?
                     <a href="{{ route('register') }}" class="font-extrabold text-[#009CA6] hover:text-[#007b83] hover:underline ms-1">
                         Daftar Akun
                     </a>
                 </p>
+
+                <!-- Separator -->
+                <div class="relative flex items-center justify-center my-4">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-slate-200"></div>
+                    </div>
+                    <div class="relative bg-white px-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
+                        atau
+                    </div>
+                </div>
+
+                <!-- Driver Registration CTA -->
+                <div class="mt-4 flex flex-col items-center gap-1.5">
+                    <p class="text-[11px] font-semibold text-slate-600">
+                        Ingin bergabung sebagai Pengemudi Ambulans?
+                    </p>
+                    <a href="{{ route('register.supir') }}" class="inline-flex items-center gap-1.5 px-4 py-2 mt-1 rounded-lg border border-sky-200 bg-sky-50 hover:bg-sky-100 text-[#009CA6] font-extrabold text-[11px] uppercase tracking-wider transition-colors shadow-sm">
+                        <span>🚑</span>
+                        Daftar sebagai Pengemudi
+                    </a>
+                </div>
             </div>
         </div>
 

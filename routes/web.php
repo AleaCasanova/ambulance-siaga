@@ -16,6 +16,8 @@ use App\Livewire\Operator\OrderIndex as OperatorOrderIndex;
 use App\Livewire\Masyarakat\Beranda;
 use App\Livewire\Masyarakat\InfoGsc;
 use App\Livewire\Masyarakat\Donasi;
+use App\Livewire\Masyarakat\MitraPengemudi;
+use App\Livewire\Masyarakat\MitraArmada;
 use App\Livewire\Masyarakat\OrderComplete;
 use App\Livewire\Masyarakat\OrderCreate;
 use App\Livewire\Masyarakat\OrderIndex as MasyarakatOrderIndex;
@@ -38,6 +40,10 @@ Route::get('/tentang-kami', InfoGsc::class)->name('masyarakat.info');
 
 // Halaman Donasi GSC
 Route::get('/donasi', Donasi::class)->name('donasi');
+
+// Halaman Kemitraan
+Route::get('/mitra/pengemudi', MitraPengemudi::class)->name('mitra.pengemudi');
+Route::get('/mitra/armada', MitraArmada::class)->name('mitra.armada');
 
 // Halaman Buat Pesanan Darurat (Dapat diakses langsung)
 Route::get('/order/new', OrderCreate::class)->name('masyarakat.order.create');

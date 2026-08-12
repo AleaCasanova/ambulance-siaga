@@ -299,6 +299,79 @@
         </div>
     </section>
 
+    <!-- Bergabung Bersama Kami Section -->
+    <section class="py-24 px-6 lg:px-12 bg-gradient-to-b from-white to-sky-50/50 relative overflow-hidden">
+        <!-- Subtle Star of Life Watermark Background -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] opacity-[0.02] pointer-events-none flex items-center justify-center">
+            <svg viewBox="0 0 100 100" fill="currentColor" class="w-full h-full text-[#009CA6]">
+                <path d="M 40 10 L 60 10 L 60 40 L 90 40 L 90 60 L 60 60 L 60 90 L 40 90 L 40 60 L 10 60 L 10 40 L 40 40 Z" transform="rotate(45 50 50)"/>
+                <path d="M 40 10 L 60 10 L 60 40 L 90 40 L 90 60 L 60 60 L 60 90 L 40 90 L 40 60 L 10 60 L 10 40 L 40 40 Z"/>
+            </svg>
+        </div>
+
+        <!-- Subtle ECG Line Decoration -->
+        <div class="absolute top-1/4 left-0 w-full h-24 opacity-10 pointer-events-none">
+            <svg preserveAspectRatio="none" viewBox="0 0 100 24" class="w-full h-full stroke-[#009CA6]" fill="none" stroke-width="0.2">
+                <polyline points="0,12 20,12 22,5 24,19 26,12 100,12" />
+            </svg>
+        </div>
+
+        <div class="max-w-7xl mx-auto relative z-10 text-center flex flex-col items-center">
+            <span class="inline-block bg-[#009CA6]/10 text-[#009CA6] font-black tracking-widest text-xs px-4 py-1.5 rounded-full mb-4 uppercase">
+                Bergabung Bersama Kami
+            </span>
+            <h2 class="text-3xl md:text-[2.5rem] font-black text-slate-900 mb-6 leading-tight">
+                Jadilah Bagian dari Ambulance Siaga
+            </h2>
+            <p class="text-slate-500 font-medium text-lg leading-relaxed max-w-2xl mx-auto mb-16">
+                Bantu menghadirkan layanan darurat yang cepat, aman, dan terintegrasi bagi masyarakat dengan bergabung bersama jaringan Ambulance Siaga.
+            </p>
+
+            <!-- Focal Point: Ambulance Image & Halo -->
+            <div class="relative w-full max-w-lg mx-auto mb-16">
+                <!-- Soft Halo -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 md:w-80 md:h-80 bg-sky-200/40 rounded-full blur-3xl animate-pulse"></div>
+                <!-- Ambulance Image -->
+                <img src="https://images.unsplash.com/photo-1583324113626-70df0f4deaab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Ambulance Siaga" class="relative z-10 w-full max-w-[280px] md:max-w-sm mx-auto rounded-3xl shadow-2xl border-4 border-white transform hover:scale-105 transition-transform duration-500 object-cover h-[250px]">
+            </div>
+
+            <!-- 3 Steps Visual -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 w-full max-w-4xl mx-auto relative mb-16">
+                <!-- Connecting Line (Desktop) -->
+                <div class="hidden md:block absolute top-8 left-[15%] right-[15%] h-0.5 bg-slate-200 z-0"></div>
+
+                <!-- Step 1 -->
+                <div class="relative z-10 flex flex-col items-center text-center bg-white/60 backdrop-blur-sm p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-16 h-16 rounded-full bg-[#009CA6] text-white flex items-center justify-center font-black text-xl mb-4 shadow-lg shadow-[#009CA6]/30 border-4 border-white">1</div>
+                    <h3 class="font-black text-slate-800 mb-2">DAFTAR</h3>
+                    <p class="text-sm text-slate-500 font-medium">Lengkapi data pendaftaran</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="relative z-10 flex flex-col items-center text-center bg-white/60 backdrop-blur-sm p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-16 h-16 rounded-full bg-yellow-400 text-slate-900 flex items-center justify-center font-black text-xl mb-4 shadow-lg shadow-yellow-400/30 border-4 border-white">2</div>
+                    <h3 class="font-black text-slate-800 mb-2">VERIFIKASI</h3>
+                    <p class="text-sm text-slate-500 font-medium">Data diperiksa dan diverifikasi oleh admin</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="relative z-10 flex flex-col items-center text-center bg-white/60 backdrop-blur-sm p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-16 h-16 rounded-full bg-emerald-500 text-white flex items-center justify-center font-black text-xl mb-4 shadow-lg shadow-emerald-500/30 border-4 border-white">3</div>
+                    <h3 class="font-black text-slate-800 mb-2">SIAP BERGABUNG</h3>
+                    <p class="text-sm text-slate-500 font-medium">Mulai menjadi bagian dari jaringan Ambulance Siaga</p>
+                </div>
+            </div>
+
+            <!-- CTA Button -->
+            <a href="{{ route('register.supir') }}" class="group relative inline-flex items-center justify-center gap-3 bg-[#009CA6] text-white px-10 py-5 rounded-full font-black text-lg hover:bg-[#007b83] transition-all duration-300 shadow-[0_10px_30px_rgba(0,156,166,0.3)] hover:-translate-y-1 hover:shadow-[0_15px_40px_rgba(0,156,166,0.4)]">
+                Daftar sebagai Pengemudi Ambulans
+                <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+
     <!-- Partners Section -->
     <section class="py-20 px-6 bg-white border-t border-slate-200">
         <div class="max-w-7xl mx-auto flex flex-col items-center justify-center gap-10">
