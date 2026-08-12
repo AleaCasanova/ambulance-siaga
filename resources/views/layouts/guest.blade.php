@@ -29,7 +29,7 @@
         <div class="min-h-screen lg:h-screen flex flex-col lg:flex-row">
             
             <!-- PANEL KIRI: AREA BRANDING (50% Lebar - Presisi Fit Viewport) -->
-            <div class="relative w-full lg:w-1/2 bg-gradient-to-br from-[#009CA6] via-[#008f97] to-[#007b83] text-white flex flex-col justify-between p-6 sm:p-8 lg:p-10 overflow-hidden min-h-[480px] lg:h-full">
+            <div class="relative w-full lg:w-1/2 bg-gradient-to-br from-primary-600 via-[#008f97] to-primary-700 text-white flex flex-col justify-between p-6 sm:p-8 lg:p-10 overflow-hidden min-h-[480px] lg:h-full">
                 
                 <!-- ELEMEN DEKORATIF BACKGROUND -->
                 <div class="absolute -right-12 top-1/4 w-[450px] h-[450px] opacity-[0.08] pointer-events-none select-none text-white">

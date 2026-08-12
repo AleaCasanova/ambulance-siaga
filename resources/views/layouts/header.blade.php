@@ -58,8 +58,8 @@
                     <svg class="w-3.5 h-3.5 transition-transform" :class="{ 'rotate-180': dropMitra }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                 </button>
                 <div x-show="dropMitra" x-transition.opacity.duration.200ms class="absolute left-0 mt-3 w-64 bg-white rounded-xl shadow-lg border border-slate-100 p-2 z-50" style="display: none;">
-                    <a href="{{ route('mitra.pengemudi') }}" class="block px-4 py-3 rounded-lg text-sm text-slate-700 hover:text-[#009CA6] hover:bg-sky-50 font-bold transition-all">Pengemudi Ambulans</a>
-                    <a href="{{ route('mitra.armada') }}" class="block px-4 py-3 rounded-lg text-sm text-slate-700 hover:text-[#009CA6] hover:bg-sky-50 font-bold transition-all">Mitra Ambulans / Pemilik Armada</a>
+                    <a href="{{ route('mitra.pengemudi') }}" class="block px-4 py-3 rounded-lg text-sm text-slate-700 hover:text-primary-600 hover:bg-sky-50 font-bold transition-all">Pengemudi Ambulans</a>
+                    <a href="{{ route('mitra.armada') }}" class="block px-4 py-3 rounded-lg text-sm text-slate-700 hover:text-primary-600 hover:bg-sky-50 font-bold transition-all">Mitra Ambulans / Pemilik Armada</a>
                 </div>
             </div>
         @else
@@ -82,8 +82,8 @@
                         <svg class="w-3.5 h-3.5 transition-transform" :class="{ 'rotate-180': dropMitraUser }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                     </button>
                     <div x-show="dropMitraUser" x-transition.opacity.duration.200ms class="absolute left-0 mt-3 w-64 bg-white rounded-xl shadow-lg border border-slate-100 p-2 z-50" style="display: none;">
-                        <a href="{{ route('mitra.pengemudi') }}" class="block px-4 py-3 rounded-lg text-sm text-slate-700 hover:text-[#009CA6] hover:bg-sky-50 font-bold transition-all">Pengemudi Ambulans</a>
-                        <a href="{{ route('mitra.armada') }}" class="block px-4 py-3 rounded-lg text-sm text-slate-700 hover:text-[#009CA6] hover:bg-sky-50 font-bold transition-all">Mitra Ambulans / Pemilik Armada</a>
+                        <a href="{{ route('mitra.pengemudi') }}" class="block px-4 py-3 rounded-lg text-sm text-slate-700 hover:text-primary-600 hover:bg-sky-50 font-bold transition-all">Pengemudi Ambulans</a>
+                        <a href="{{ route('mitra.armada') }}" class="block px-4 py-3 rounded-lg text-sm text-slate-700 hover:text-primary-600 hover:bg-sky-50 font-bold transition-all">Mitra Ambulans / Pemilik Armada</a>
                     </div>
                 </div>
 

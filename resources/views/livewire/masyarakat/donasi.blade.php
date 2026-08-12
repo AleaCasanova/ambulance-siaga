@@ -2,7 +2,7 @@
 
 
     <!-- Hero Section -->
-    <section class="relative bg-gradient-to-br from-[#009CA6] to-[#007b83] pt-40 pb-20 px-6 lg:px-12 overflow-hidden">
+    <section class="relative bg-gradient-to-br from-primary-600 to-primary-700 pt-40 pb-20 px-6 lg:px-12 overflow-hidden">
         <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 32px 32px;"></div>
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12 relative z-10">
             <div class="md:w-1/2 text-white z-10 text-center md:text-left">
@@ -17,7 +17,7 @@
                     Ribuan pasien gawat darurat dan keluarga kurang mampu menanti uluran tangan Anda. Donasi Anda menjadi energi operasional Ambulance Siaga 24 Jam.
                 </p>
                 <div class="flex gap-4 justify-center md:justify-start">
-                    <button onclick="document.getElementById('form-donasi').scrollIntoView({behavior: 'smooth'})" class="bg-white text-[#009CA6] px-8 py-4 rounded-full font-bold text-lg hover:bg-slate-50 transition-all shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:scale-105 flex items-center gap-2">
+                    <button onclick="document.getElementById('form-donasi').scrollIntoView({behavior: 'smooth'})" class="bg-white text-primary-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-slate-50 transition-all shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:scale-105 flex items-center gap-2">
                         Donasi Sekarang
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
                     </button>
@@ -37,7 +37,7 @@
             <!-- Left: Donation Form -->
             <div class="lg:w-[55%]">
                 <div class="bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgb(0,0,0,0.05)] border border-slate-100 p-8 sm:p-12 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-[#009CA6]/5 rounded-bl-full -z-0"></div>
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-primary-600/5 rounded-bl-full -z-0"></div>
                     
                     <h2 class="text-3xl font-black text-slate-800 mb-2 relative z-10">Mulai Berdonasi</h2>
                     <p class="text-slate-500 mb-8 font-medium relative z-10">Pilih nominal atau masukkan nominal donasi terbaik Anda.</p>
@@ -91,7 +91,7 @@
                             <button @click="openMetode = true" type="button" class="w-full flex items-center justify-between p-4 bg-sky-50/50 border border-sky-100 rounded-xl hover:bg-sky-50 transition-colors">
                                 <div class="flex items-center gap-4">
                                     <div class="bg-white p-2 rounded-lg shadow-sm border border-slate-100">
-                                        <svg class="w-6 h-6 text-[#009CA6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                                        <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
                                     </div>
                                     <span class="text-sm font-medium text-slate-700">
                                         @if($metodePembayaran == 'qris') QRIS
@@ -222,7 +222,7 @@
                                 <span class="text-[13px] font-medium text-slate-600">Sembunyikan nama saya (Orang Baik)</span>
                                 <label class="relative inline-flex items-center cursor-pointer">
                                     <input type="checkbox" wire:model.live="isAnonim" class="sr-only peer">
-                                    <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#009CA6]"></div>
+                                    <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
                                 </label>
                             </div>
                             <div class="mb-8">
@@ -237,7 +237,7 @@
                         </div>
 
                         <!-- CTA Button -->
-                        <button type="submit" class="w-full bg-[#009CA6] text-white py-4 rounded-xl font-bold text-lg hover:bg-[#007b83] transition-all flex justify-center items-center gap-2 group mt-2 shadow-md hover:shadow-lg">
+                        <button type="submit" class="w-full bg-primary-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-primary-700 transition-all flex justify-center items-center gap-2 group mt-2 shadow-md hover:shadow-lg">
                             Kirim Donasi @if($nominal != 'lainnya' && $nominal) - Rp {{ number_format($nominal, 0, ',', '.') }} @elseif($nominal == 'lainnya' && $nominalLainnya) - Rp {{ number_format($nominalLainnya, 0, ',', '.') }} @endif
                             <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                         </button>
@@ -249,7 +249,7 @@
             <div class="lg:w-[45%] flex flex-col gap-10">
                 <!-- Usage Cards Section -->
                 <div>
-                    <span class="text-[#009CA6] font-black tracking-widest text-xs mb-2 block uppercase">Transparansi</span>
+                    <span class="text-primary-600 font-black tracking-widest text-xs mb-2 block uppercase">Transparansi</span>
                     <h3 class="text-2xl font-black text-slate-800 mb-6">Donasi Anda Digunakan Untuk:</h3>
                     
                     <div class="space-y-4">
@@ -286,7 +286,7 @@
                 </div>
 
                 <!-- Animated Stats Counter -->
-                <div class="bg-[#009CA6] rounded-3xl p-8 text-white relative overflow-hidden" x-data="{ count: 0 }" x-init="setTimeout(() => { let start = 0; let end = 2665; let duration = 2000; let timer = setInterval(() => { start += Math.ceil(end/50); if(start >= end) { count = end; clearInterval(timer); } else { count = start; } }, 40); }, 500)">
+                <div class="bg-primary-600 rounded-3xl p-8 text-white relative overflow-hidden" x-data="{ count: 0 }" x-init="setTimeout(() => { let start = 0; let end = 2665; let duration = 2000; let timer = setInterval(() => { start += Math.ceil(end/50); if(start >= end) { count = end; clearInterval(timer); } else { count = start; } }, 40); }, 500)">
                     <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
                     <div class="grid grid-cols-2 gap-8 relative z-10">
                         <div>
@@ -330,7 +330,7 @@
                             <p class="text-xs text-slate-400">10 Menit yang lalu</p>
                         </div>
                     </div>
-                    <p class="text-sm font-bold text-[#009CA6] mb-2">Berdonasi Rp 50.000</p>
+                    <p class="text-sm font-bold text-primary-600 mb-2">Berdonasi Rp 50.000</p>
                     <p class="text-xs text-slate-500 italic">"Semoga bermanfaat untuk yang membutuhkan."</p>
                 </div>
                 
@@ -342,7 +342,7 @@
                             <p class="text-xs text-slate-400">1 Jam yang lalu</p>
                         </div>
                     </div>
-                    <p class="text-sm font-bold text-[#009CA6] mb-2">Berdonasi Rp 100.000</p>
+                    <p class="text-sm font-bold text-primary-600 mb-2">Berdonasi Rp 100.000</p>
                     <p class="text-xs text-slate-500 italic">"Semoga program ini terus berjalan."</p>
                 </div>
 
@@ -354,7 +354,7 @@
                             <p class="text-xs text-slate-400">3 Jam yang lalu</p>
                         </div>
                     </div>
-                    <p class="text-sm font-bold text-[#009CA6] mb-2">Berdonasi Rp 25.000</p>
+                    <p class="text-sm font-bold text-primary-600 mb-2">Berdonasi Rp 25.000</p>
                     <p class="text-xs text-slate-500 italic">"Aamiin yarabbal alamin"</p>
                 </div>
 
@@ -366,13 +366,13 @@
                             <p class="text-xs text-slate-400">5 Jam yang lalu</p>
                         </div>
                     </div>
-                    <p class="text-sm font-bold text-[#009CA6] mb-2">Berdonasi Rp 200.000</p>
+                    <p class="text-sm font-bold text-primary-600 mb-2">Berdonasi Rp 200.000</p>
                     <p class="text-xs text-slate-500 italic">"Sehat selalu untuk para relawan"</p>
                 </div>
             </div>
             
             <div class="text-center mt-8">
-                <button class="text-slate-500 font-bold text-sm hover:text-[#009CA6] transition">Lihat Donatur Lainnya</button>
+                <button class="text-slate-500 font-bold text-sm hover:text-primary-600 transition">Lihat Donatur Lainnya</button>
             </div>
         </div>
     </section>
@@ -430,17 +430,17 @@
         <div class="absolute inset-0 bg-gradient-to-b from-sky-50/40 via-white to-white pointer-events-none"></div>
 
         <!-- Soft Glow Behind Gallery (Right side) -->
-        <div class="absolute right-0 top-1/2 -translate-y-1/2 w-[500px] md:w-[700px] h-[500px] md:h-[700px] bg-gradient-to-tr from-[#009CA6]/5 to-sky-300/5 rounded-full blur-[80px] pointer-events-none"></div>
+        <div class="absolute right-0 top-1/2 -translate-y-1/2 w-[500px] md:w-[700px] h-[500px] md:h-[700px] bg-gradient-to-tr from-primary-600/5 to-sky-300/5 rounded-full blur-[80px] pointer-events-none"></div>
 
         <!-- Star of Life Watermark (Top Left) -->
-        <div class="absolute -left-10 -top-10 pointer-events-none rotate-12 text-[#009CA6]" style="opacity: 0.04;">
+        <div class="absolute -left-10 -top-10 pointer-events-none rotate-12 text-primary-600" style="opacity: 0.04;">
             <svg class="w-48 h-48 md:w-72 md:h-72" viewBox="0 0 512 512" fill="currentColor">
                 <path d="M213.3 22.5h85.4v149.3l129.3-74.6 42.7 73.9-129.3 74.6 129.3 74.6-42.7 73.9-129.3-74.6v149.3h-85.4V319.6l-129.3 74.6-42.7-73.9 129.3-74.6-129.3-74.6 42.7-73.9 129.3 74.6V22.5z"/>
             </svg>
         </div>
 
         <!-- ECG Line Watermark (Bottom Right) -->
-        <div class="absolute -right-5 bottom-5 pointer-events-none text-[#009CA6]" style="opacity: 0.05;">
+        <div class="absolute -right-5 bottom-5 pointer-events-none text-primary-600" style="opacity: 0.05;">
             <svg class="w-72 md:w-96 h-24 md:h-32" viewBox="0 0 512 150" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M0,75 L50,75 L70,60 L90,75 L120,75 L150,20 L180,130 L210,75 L250,75 L270,55 L290,75 L512,75" />
             </svg>
@@ -488,9 +488,9 @@
                     <h2 class="text-3xl md:text-4xl lg:text-[2.5rem] font-black text-slate-800 leading-[1.3] mb-8">
                         Satu aksi kebaikan Anda hari ini, bisa jadi adalah jawaban atas doa mereka yang sedang dalam kesulitan darurat medis.
                     </h2>
-                    <div class="w-20 h-1.5 bg-[#009CA6] rounded-full mb-10 mx-auto lg:mx-0"></div>
+                    <div class="w-20 h-1.5 bg-primary-600 rounded-full mb-10 mx-auto lg:mx-0"></div>
                     <div class="flex justify-center lg:justify-start">
-                        <button onclick="document.getElementById('form-donasi').scrollIntoView({behavior: 'smooth'})" class="bg-[#009CA6] text-white px-10 py-5 rounded-full font-bold text-lg hover:bg-[#007b83] transition-all duration-300 shadow-[0_10px_25px_rgba(0,156,166,0.3)] hover:shadow-[0_15px_35px_rgba(0,156,166,0.4)] hover:-translate-y-1.5 flex items-center gap-3 w-fit group">
+                        <button onclick="document.getElementById('form-donasi').scrollIntoView({behavior: 'smooth'})" class="bg-primary-600 text-white px-10 py-5 rounded-full font-bold text-lg hover:bg-primary-700 transition-all duration-300 shadow-[0_10px_25px_rgba(0,156,166,0.3)] hover:shadow-[0_15px_35px_rgba(0,156,166,0.4)] hover:-translate-y-1.5 flex items-center gap-3 w-fit group">
                             Donasi Sekarang
                             <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                         </button>
@@ -525,22 +525,22 @@
                             <template x-for="(image, index) in images" :key="index">
                                 <div @click="activeImage = index" 
                                      class="relative w-20 md:w-28 aspect-video rounded-xl overflow-hidden cursor-pointer shrink-0 snap-center border-[3px] transition-all duration-300 group/thumb hover:-translate-y-2 hover:scale-[1.06] hover:shadow-[0_12px_25px_rgba(0,0,0,0.15)]"
-                                     :class="activeImage === index ? 'border-[#009CA6] shadow-[0_8px_20px_rgba(0,156,166,0.3)] scale-[1.05] z-10' : 'border-transparent opacity-75 hover:opacity-100 hover:border-[#009CA6]/30'">
+                                     :class="activeImage === index ? 'border-primary-600 shadow-[0_8px_20px_rgba(0,156,166,0.3)] scale-[1.05] z-10' : 'border-transparent opacity-75 hover:opacity-100 hover:border-primary-600/30'">
                                     
                                     <img :src="image.thumb" :alt="image.title" class="w-full h-full object-cover transition-transform duration-500" :class="activeImage === index ? 'scale-110' : 'group-hover/thumb:scale-110'">
                                     
                                     <!-- Hover Overlay -->
-                                    <div class="absolute inset-0 bg-[#009CA6]/50 opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-300 flex items-center justify-center overflow-hidden backdrop-blur-[2px]">
+                                    <div class="absolute inset-0 bg-primary-600/50 opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-300 flex items-center justify-center overflow-hidden backdrop-blur-[2px]">
                                         <!-- Plus Icon (Animated from bottom) -->
                                         <div class="flex items-center justify-center transform translate-y-12 group-hover/thumb:translate-y-0 transition-transform duration-500 ease-out">
                                             <div class="bg-white p-2 rounded-full shadow-lg">
-                                                <svg class="w-6 h-6 text-[#009CA6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"></path></svg>
+                                                <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"></path></svg>
                                             </div>
                                         </div>
                                     </div>
                                     
                                     <!-- Active State Inner Gradient -->
-                                    <div class="absolute inset-0 bg-gradient-to-t from-[#009CA6]/40 to-transparent opacity-0 transition-opacity duration-300 pointer-events-none" :class="activeImage === index ? 'opacity-100' : ''"></div>
+                                    <div class="absolute inset-0 bg-gradient-to-t from-primary-600/40 to-transparent opacity-0 transition-opacity duration-300 pointer-events-none" :class="activeImage === index ? 'opacity-100' : ''"></div>
                                 </div>
                             </template>
                         </div>

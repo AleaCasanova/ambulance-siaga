@@ -1,5 +1,8 @@
 <div>
-    <div class="absolute top-0 left-0 w-full h-80 bg-gradient-to-br from-primary-600 to-primary-700 -z-10"></div>
+    <div class="absolute top-0 left-0 w-full h-96 bg-primary-700 -z-10 overflow-hidden" style="background-image: url('{{ asset('images/beranda_utama_bg.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+        <div class="absolute inset-0 bg-primary-700 mix-blend-multiply opacity-50"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-primary-600/90 to-primary-800/90"></div>
+    </div>
 
     <main class="pt-32 pb-24 px-6 lg:px-12 max-w-7xl mx-auto min-h-screen">
         <!-- Header Page -->
