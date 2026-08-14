@@ -148,10 +148,6 @@
             </a>
         </div>
 
-        <!-- Copyright Global -->
-        <p class="mt-1 text-[10px] font-semibold text-slate-400 text-center">
-            &copy; {{ date('Y') }} Ambulance Siaga. Platform Layanan Darurat untuk Berbagai Mitra. Dikembangkan oleh GSC.
-        </p>
     </div>
 
     <script>

@@ -132,13 +132,15 @@
                 </div>
 
                 <!-- Driver Registration CTA -->
-                <div class="mt-4 flex flex-col items-center gap-1.5">
+                <div class="mt-4 flex flex-col items-center gap-2">
                     <p class="text-[11px] font-semibold text-slate-600">
                         Ingin bergabung sebagai Pengemudi Ambulans?
                     </p>
-                    <a href="{{ route('register.supir') }}" class="inline-flex items-center gap-1.5 px-4 py-2 mt-1 rounded-lg border border-sky-200 bg-sky-50 hover:bg-sky-100 text-primary-600 font-extrabold text-[11px] uppercase tracking-wider transition-colors shadow-sm">
-                        <span>🚑</span>
-                        Daftar sebagai Pengemudi
+                    <a href="{{ route('register.supir') }}" class="group w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border-2 border-slate-200 bg-white hover:border-primary-600 hover:bg-primary-50/50 text-slate-700 hover:text-primary-700 font-extrabold text-[11px] uppercase tracking-wider transition-all shadow-sm">
+                        Daftar Sebagai Pengemudi
+                        <svg class="w-4 h-4 text-slate-400 group-hover:text-primary-600 transform group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                        </svg>
                     </a>
                 </div>
             </div>
@@ -155,10 +157,6 @@
             </a>
         </div>
 
-        <!-- Copyright Global -->
-        <p class="mt-1.5 text-[10px] font-semibold text-slate-400 text-center">
-            &copy; {{ date('Y') }} Ambulance Siaga. Platform Layanan Darurat untuk Berbagai Mitra. Dikembangkan oleh GSC.
-        </p>
     </div>
 
     <script>
