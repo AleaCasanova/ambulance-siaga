@@ -13,6 +13,7 @@ class Ambulans extends Model
     protected $table = 'ambulans';
 
     protected $fillable = [
+        'mitra_id',
         'kode_ambulans',
         'plat_nomor',
         'jenis_ambulans',
@@ -21,6 +22,11 @@ class Ambulans extends Model
         'perlengkapan_medis',
         'catatan',
     ];
+
+    public function mitra()
+    {
+        return $this->belongsTo(Mitra::class, 'mitra_id');
+    }
 
     public function pemesanan()
     {

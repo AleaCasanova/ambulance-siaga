@@ -26,10 +26,10 @@
         </style>
     </head>
     <body class="font-sans text-slate-800 antialiased bg-[#F4F7FA] min-h-screen lg:h-screen lg:overflow-hidden">
-        <div class="min-h-screen lg:h-screen flex flex-col lg:flex-row">
+        <div class="min-h-screen lg:h-screen flex flex-col lg:flex-row relative">
             
-            <!-- PANEL KIRI: AREA BRANDING (50% Lebar - Presisi Fit Viewport) -->
-            <div class="relative w-full lg:w-1/2 bg-gradient-to-br from-primary-600 via-[#008f97] to-primary-700 text-white flex flex-col justify-between p-6 sm:p-8 lg:p-10 overflow-hidden min-h-[480px] lg:h-full">
+            <!-- PANEL KIRI: AREA BRANDING (70% Lebar - Presisi Fit Viewport) -->
+            <div class="relative w-full lg:w-[70%] bg-gradient-to-br from-primary-600 via-[#008f97] to-primary-700 text-white flex flex-col justify-between p-6 sm:p-8 lg:p-10 overflow-hidden min-h-[480px] lg:h-full">
                 
                 <!-- ELEMEN DEKORATIF BACKGROUND -->
                 <div class="absolute -right-12 top-1/4 w-[450px] h-[450px] opacity-[0.08] pointer-events-none select-none text-white">
@@ -72,69 +72,64 @@
                 </div>
 
                 <!-- CONTENT PANEL KIRI -->
-                <!-- Top Brand Header -->
-                <div class="relative z-10">
-                    <a href="{{ route('home') }}" class="inline-flex items-center gap-4 group">
-                        <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white p-1.5 flex items-center justify-center shadow-md shadow-black/10 border border-white/50 group-hover:scale-105 transition-transform overflow-hidden">
-                            <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-full h-full object-contain">
-                        </div>
-                        <div>
-                            <span class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight block leading-tight">Ambulance Siaga</span>
-                            <span class="text-[10px] sm:text-xs font-bold text-sky-200 uppercase tracking-widest block mt-0.5">LAYANAN DARURAT • MULTI-MITRA</span>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Middle Banner Graphic & Text -->
-                <div class="relative z-10 my-auto py-3 flex flex-col items-center justify-center text-left w-full">
-                    <!-- Banner Promosi Ambulance Melayang -->
-                    <div class="relative w-full max-w-[360px] sm:max-w-[400px] lg:max-w-[480px] mx-auto mb-6 group">
-                        <div class="absolute inset-0 bg-white/20 blur-3xl rounded-full transform group-hover:scale-105 transition-transform"></div>
-                        <img src="{{ asset('images/ambulance_van_banner.png?v=2') }}" alt="Banner Ambulance Siaga" class="relative z-10 w-full h-auto object-cover rounded-[2rem] border-4 border-white/20 shadow-2xl drop-shadow-[0_20px_30px_rgba(0,0,0,0.4)]">
+                <div class="relative z-10 flex flex-col h-full w-full pr-[8%] lg:pr-[12%] pb-4">
+                    <!-- Top Brand Header -->
+                    <div>
+                        <a href="{{ route('home') }}" class="inline-flex items-center gap-4 group">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white p-1.5 flex items-center justify-center shadow-md shadow-black/10 border border-white/50 group-hover:scale-105 transition-transform overflow-hidden">
+                                <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-full h-full object-contain">
+                            </div>
+                            <div>
+                                <span class="text-xl sm:text-2xl font-extrabold text-white tracking-tight block leading-tight">Ambulance Siaga</span>
+                                <span class="text-[9px] sm:text-[10px] font-bold text-sky-200 uppercase tracking-widest block mt-0.5">LAYANAN DARURAT • MULTI-MITRA</span>
+                            </div>
+                        </a>
                     </div>
 
-                    <!-- Judul Besar & Deskripsi (Interactive Variant) -->
-                    <div class="text-left w-full max-w-[360px] sm:max-w-[400px] lg:max-w-[480px] group cursor-default">
-                        
-                        <!-- Badge Interaktif -->
-                        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 text-[10px] sm:text-xs font-bold text-sky-50 uppercase tracking-widest mb-4 backdrop-blur-md shadow-lg hover:bg-white/20 transition-all duration-300 transform group-hover:-translate-y-1">
+                    <!-- Middle Content Section -->
+                    <div class="mt-8 lg:mt-12 relative flex-1">
+                        <!-- Badge Interaktif (Moved to top) -->
+                        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 text-[10px] sm:text-xs font-bold text-sky-50 uppercase tracking-widest mb-4 backdrop-blur-md shadow-lg w-max">
                             <span class="relative flex h-2 w-2">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-yellow-500"></span>
                             </span>
                             Layanan Darurat 24 Jam
                         </div>
 
-                        <!-- Variasi Tipografi Judul (Lebih Besar & Menonjol) -->
-                        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-[1.05] mb-6">
-                            <span class="block text-white font-extrabold group-hover:text-sky-100 transition-colors duration-300">Sistem Pemesanan</span>
-                            
-                            <span class="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-400 to-amber-500 my-2 drop-shadow-md group-hover:scale-[1.04] origin-left transition-transform duration-300 uppercase text-4xl sm:text-5xl lg:text-[4rem] leading-none" style="background-image: linear-gradient(to right, #fde047, #facc15, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">AMBULANCE</span>
-                            
-                            <span class="inline-block bg-white px-4 py-1.5 rounded-xl mt-1 shadow-[0_10px_25px_rgba(0,0,0,0.3)] transform group-hover:-rotate-3 group-hover:scale-105 transition-all duration-300 uppercase tracking-wider text-xl sm:text-2xl" style="color: #009CA6;">TANPA TARIF</span>
+                        <!-- Variasi Tipografi Judul -->
+                        <h1 class="text-4xl sm:text-5xl lg:text-[3.5rem] font-black tracking-tight leading-[1.05] mb-4">
+                            <span class="block text-white font-extrabold transition-colors duration-300">Sistem Pemesanan</span>
+                            <span class="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-400 to-amber-500 my-1 drop-shadow-md uppercase text-5xl sm:text-6xl lg:text-[4.5rem] leading-none" style="background-image: linear-gradient(to right, #fde047, #facc15, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">AMBULANCE</span>
+                            <span class="inline-block bg-white px-5 py-2 rounded-xl mt-2 shadow-[0_10px_25px_rgba(0,0,0,0.3)] uppercase tracking-wider text-2xl sm:text-3xl font-extrabold" style="color: #009CA6;">TANPA TARIF</span>
                         </h1>
-                        
-                        <!-- Garis Dekoratif Interaktif -->
-                        <div class="w-12 h-1.5 bg-gradient-to-r from-yellow-300 to-amber-500 rounded-full mb-4 group-hover:w-24 transition-all duration-500 ease-out"></div>
-                        
-                        <!-- Deskripsi dengan tipografi elegan & background glassmorphism -->
-                        <p class="text-xs sm:text-sm text-sky-50 leading-relaxed font-medium bg-black/10 p-4 rounded-xl border border-white/5 backdrop-blur-sm shadow-inner group-hover:bg-black/20 group-hover:border-white/10 transition-all duration-300">
-                            Platform terpadu yang membantu masyarakat mendapatkan layanan ambulans secara <strong class="text-white font-extrabold">cepat, tepat, dan tanpa biaya</strong>. Kami menghubungkan Anda dengan berbagai mitra agar bantuan tiba seketika.
+
+                        <!-- Gambar Ambulance Blended (Cinematic effect) -->
+                        <div class="absolute right-[-5%] top-[10%] w-[100%] h-[120%] z-0 pointer-events-none" style="mask-image: radial-gradient(ellipse at 80% 60%, black 35%, transparent 70%); -webkit-mask-image: radial-gradient(ellipse at 80% 60%, black 35%, transparent 70%);">
+                            <img src="{{ asset('images/ambulance_thumb2.JPG') }}" alt="Ambulance Siaga" class="w-full h-full object-cover object-[center_70%] opacity-95 transform scale-[1.4] origin-[80%_60%]">
+                        </div>
+                    </div>
+
+                    <!-- Bottom Info Platform (Replacing 3 Features Card) -->
+                    <div class="relative z-20 mt-8 xl:mt-auto w-full max-w-xl pb-4 pr-4">
+                        <p class="text-sm sm:text-base lg:text-lg text-sky-50 leading-relaxed font-medium drop-shadow-md">
+                            Platform terpadu yang membantu masyarakat mendapatkan layanan ambulans secara <strong class="text-white font-black tracking-wide">cepat, tepat, dan tanpa biaya</strong>. Kami menghubungkan Anda dengan berbagai mitra agar bantuan tiba seketika.
                         </p>
                     </div>
                 </div>
-
-                <!-- Bottom Footer Tagline -->
-                <div class="relative z-10 pt-2 flex items-center justify-between text-[10px] text-sky-200/80 font-medium border-t border-white/10">
-                    <span>Siaga Darurat Medis 24/7</span>
-                    <span>Bebas Biaya • Multi-Mitra</span>
-                </div>
             </div>
 
+            <!-- Dekade Curve Separator (Absolute in center) -->
+            <svg class="hidden lg:block absolute top-0 bottom-0 right-[30%] -mr-1 h-full w-48 xl:w-64 text-[#F4F7FA] z-20 drop-shadow-[-15px_0_15px_rgba(0,0,0,0.06)] pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none" fill="currentColor">
+                <path d="M100 0 C 70 0 30 100 0 100 L 100 100 Z" />
+            </svg>
+
             <!-- PANEL KANAN: AREA FORM & CONTENT (Fit 100vh Without Scroll) -->
-            <div class="w-full lg:w-1/2 bg-[#F4F7FA] flex flex-col justify-between p-4 sm:p-6 lg:p-8 min-h-screen lg:h-full lg:overflow-y-auto">
-                <div class="my-auto flex flex-col items-center justify-center w-full py-2">
-                    {{ $slot }}
+            <div class="relative w-full lg:w-[30%] bg-[#F4F7FA] flex flex-col min-h-screen lg:h-full z-30 pointer-events-none">
+                <div class="lg:absolute lg:top-0 lg:right-0 lg:bottom-0 lg:w-[50vw] flex flex-col justify-between p-4 sm:p-6 lg:p-8 lg:overflow-y-auto pointer-events-auto">
+                    <div class="relative z-40 my-auto flex flex-col items-center justify-center w-full py-2 lg:-translate-x-8 xl:-translate-x-12">
+                        {{ $slot }}
+                    </div>
                 </div>
             </div>
 

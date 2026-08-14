@@ -111,6 +111,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasRole('masyarakat');
     }
 
+    public function isMitra(): bool
+    {
+        return $this->hasRole('mitra');
+    }
+
+    public function mitra()
+    {
+        return $this->hasOne(Mitra::class, 'user_id');
+    }
+
     public function getRoleNameAttribute(): string
     {
         return $this->role?->name ?? 'unknown';

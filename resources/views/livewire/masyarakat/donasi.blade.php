@@ -440,18 +440,16 @@
                 let token = event?.[0]?.token || event?.token; // Safe extraction of token
                 snap.pay(token, {
                     onSuccess: function(result){
-                        alert("Pembayaran berhasil!");
                         window.location.href = '/donasi';
                     },
                     onPending: function(result){
-                        alert("Menunggu pembayaran Anda!");
                         window.location.href = '/donasi';
                     },
                     onError: function(result){
-                        alert("Pembayaran gagal!");
+                        console.log('Pembayaran gagal', result);
                     },
                     onClose: function(){
-                        alert('Anda menutup popup sebelum menyelesaikan pembayaran.');
+                        console.log('Popup ditutup sebelum pembayaran selesai');
                     }
                 });
             });

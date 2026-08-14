@@ -187,56 +187,70 @@
     </section>
 
     <!-- About Section -->
-    <section id="tentang" class="py-24 px-6 lg:px-12 bg-white relative overflow-hidden">
-        <!-- Decorative Background Blobs -->
-        <div class="absolute top-0 right-0 -mr-40 -mt-40 w-96 h-96 bg-primary-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none"></div>
-        <div class="absolute bottom-0 left-0 -ml-40 -mb-40 w-96 h-96 bg-emerald-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none"></div>
-
-        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16 lg:gap-24 relative z-10">
+    <section id="tentang" class="py-24 px-6 lg:px-12 bg-white">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
             <!-- Image Side -->
-            <div class="w-full lg:w-1/2 relative">
-                <!-- Abstract shape behind image -->
-                <div class="absolute -top-6 -left-6 w-32 h-32 bg-primary-200 rounded-full mix-blend-multiply filter blur-2xl opacity-70 z-0"></div>
-                
-                <!-- Main Image -->
-                <div class="relative rounded-3xl overflow-hidden shadow-2xl transform transition duration-500 hover:scale-[1.02] z-10 border-4 border-white">
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/30 to-transparent z-10 pointer-events-none"></div>
-                    <img src="{{ asset('images/ambulance_building.png') }}" alt="Gedung Ambulance Siaga" class="w-full h-[450px] object-cover relative z-0">
-                </div>
-                
-                <!-- Floating Stats/Badge -->
-                <div class="absolute -bottom-8 -right-8 bg-white p-5 rounded-2xl shadow-xl border border-slate-50 z-20 hidden md:flex items-center gap-4 transform hover:-translate-y-2 transition-transform duration-300">
-                    <div class="w-14 h-14 bg-primary-50 rounded-full flex items-center justify-center text-primary-600">
-                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    </div>
-                    <div class="pr-2">
-                        <p class="text-3xl font-black text-slate-800">24<span class="text-primary-600 text-lg">/7</span></p>
-                        <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mt-0.5">Siaga Darurat</p>
+            <div class="w-full lg:w-1/2">
+                <div class="relative">
+                    <img src="{{ asset('images/ambulance_building.png') }}" alt="Gedung Ambulance Siaga" class="w-full h-[400px] md:h-[500px] object-cover rounded-2xl shadow-sm">
+                    
+                    <!-- Integrated Stat Box -->
+                    <div class="absolute -bottom-6 -right-6 bg-white p-6 rounded-2xl shadow-lg border border-slate-100 flex items-center gap-4 hidden md:flex">
+                        <div class="w-14 h-14 bg-sky-50 rounded-full flex items-center justify-center text-primary-600">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <div class="pr-4">
+                            <p class="text-2xl font-bold text-slate-800">24/7</p>
+                            <p class="text-sm font-medium text-slate-500">Siaga Darurat</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Content Side -->
             <div class="w-full lg:w-1/2 flex flex-col justify-center">
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-50 border border-primary-100 w-max mb-6">
-                    <span class="w-2 h-2 rounded-full bg-primary-600 animate-pulse"></span>
-                    <span class="text-primary-600 font-bold tracking-widest text-xs uppercase">Tentang GSC</span>
+                <div class="mb-3">
+                    <span class="text-primary-600 font-bold tracking-wider text-sm uppercase">Tentang GSC</span>
                 </div>
                 
-                <h2 class="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-tight">
-                    Lembaga Filantrophy Profesional untuk <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-emerald-500">Kesejahteraan Masyarakat</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-6 leading-tight">
+                    Lembaga Filantrophy Profesional untuk Kesejahteraan Masyarakat
                 </h2>
                 
-                <p class="text-slate-500 mb-10 leading-relaxed text-lg">
+                <p class="text-slate-600 mb-8 leading-relaxed text-lg">
                     {{ $tentang ?? 'GSC (Gerak Sedekah Cilacap) adalah lembaga filantrophy yang bergerak di bidang sosial, kemanusiaan, dan keagamaan. Kami berkomitmen untuk menjadi jembatan antara para dermawan dan masyarakat yang membutuhkan, termasuk menghadirkan layanan armada ambulans darurat.' }}
                 </p>
                 
-                <div>
-                    <a href="{{ route('masyarakat.info') }}" class="group inline-flex items-center gap-3 bg-primary-600 text-white px-8 py-4 rounded-full font-bold hover:bg-primary-700 transition-all duration-300 shadow-lg shadow-primary-600/30 hover:shadow-xl hover:-translate-y-1">
-                        Kenali Lebih Jauh
-                        <div class="bg-white/20 p-1.5 rounded-full group-hover:bg-white group-hover:text-primary-700 transition-colors">
-                            <svg class="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+                    <div class="flex items-center gap-3">
+                        <div class="w-6 h-6 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                         </div>
+                        <p class="text-slate-700 font-medium text-sm">Pelayanan Cepat Tanggap</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-6 h-6 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <p class="text-slate-700 font-medium text-sm">Terpercaya & Transparan</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-6 h-6 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <p class="text-slate-700 font-medium text-sm">Tim Medis Profesional</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-6 h-6 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <p class="text-slate-700 font-medium text-sm">Layanan Gratis 100%</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <a href="{{ route('masyarakat.info') }}" class="inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold rounded-lg text-white bg-primary-600 hover:bg-primary-700 transition-colors shadow-sm">
+                        Kenali Lebih Jauh
                     </a>
                 </div>
             </div>
@@ -406,29 +420,35 @@
             </div>
 
             <!-- 3 Steps Visual -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 w-full max-w-4xl mx-auto relative mb-16">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full max-w-4xl mx-auto relative mb-16 mt-8">
                 <!-- Connecting Line (Desktop) -->
-                <div class="hidden md:block absolute top-8 left-[15%] right-[15%] h-0.5 bg-slate-200 z-0"></div>
+                <div class="hidden md:block absolute top-10 left-[20%] right-[20%] h-[2px] bg-slate-100 z-0"></div>
 
                 <!-- Step 1 -->
-                <div class="relative z-10 flex flex-col items-center text-center bg-white p-6 rounded-2xl border border-slate-100 shadow-xl hover:shadow-2xl transition-shadow">
-                    <div class="w-16 h-16 rounded-full bg-primary-600 text-white flex items-center justify-center font-black text-xl mb-4 shadow-lg shadow-[#009CA6]/30 border-4 border-white">1</div>
-                    <h3 class="font-black text-slate-800 mb-2">DAFTAR</h3>
-                    <p class="text-sm text-slate-600 font-medium">Lengkapi data pendaftaran</p>
+                <div class="relative z-10 flex flex-col items-center text-center bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+                    <div class="w-16 h-16 rounded-full bg-sky-50 text-primary-600 flex items-center justify-center font-black text-2xl mb-5 ring-4 ring-white group-hover:bg-primary-600 group-hover:text-white transition-colors duration-300">
+                        1
+                    </div>
+                    <h3 class="font-bold text-slate-800 text-lg mb-2">DAFTAR</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">Lengkapi data pendaftaran Anda secara detail melalui formulir pendaftaran.</p>
                 </div>
 
                 <!-- Step 2 -->
-                <div class="relative z-10 flex flex-col items-center text-center bg-white p-6 rounded-2xl border border-slate-100 shadow-xl hover:shadow-2xl transition-shadow">
-                    <div class="w-16 h-16 rounded-full bg-yellow-400 text-slate-900 flex items-center justify-center font-black text-xl mb-4 shadow-lg shadow-yellow-400/30 border-4 border-white">2</div>
-                    <h3 class="font-black text-slate-800 mb-2">VERIFIKASI</h3>
-                    <p class="text-sm text-slate-600 font-medium">Data diperiksa dan diverifikasi oleh admin</p>
+                <div class="relative z-10 flex flex-col items-center text-center bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+                    <div class="w-16 h-16 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center font-black text-2xl mb-5 ring-4 ring-white group-hover:bg-amber-500 group-hover:text-white transition-colors duration-300">
+                        2
+                    </div>
+                    <h3 class="font-bold text-slate-800 text-lg mb-2">VERIFIKASI</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">Tim kami akan melakukan pengecekan dan validasi atas data yang dikirim.</p>
                 </div>
 
                 <!-- Step 3 -->
-                <div class="relative z-10 flex flex-col items-center text-center bg-white p-6 rounded-2xl border border-slate-100 shadow-xl hover:shadow-2xl transition-shadow">
-                    <div class="w-16 h-16 rounded-full bg-emerald-500 text-white flex items-center justify-center font-black text-xl mb-4 shadow-lg shadow-emerald-500/30 border-4 border-white">3</div>
-                    <h3 class="font-black text-slate-800 mb-2">SIAP BERGABUNG</h3>
-                    <p class="text-sm text-slate-600 font-medium">Mulai menjadi bagian dari jaringan Ambulance Siaga</p>
+                <div class="relative z-10 flex flex-col items-center text-center bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+                    <div class="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center font-black text-2xl mb-5 ring-4 ring-white group-hover:bg-emerald-500 group-hover:text-white transition-colors duration-300">
+                        3
+                    </div>
+                    <h3 class="font-bold text-slate-800 text-lg mb-2">SIAP BERGABUNG</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">Selamat! Anda resmi menjadi bagian dari jaringan relawan Ambulance Siaga.</p>
                 </div>
             </div>
 

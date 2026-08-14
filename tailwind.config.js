@@ -27,6 +27,14 @@ export default {
                     800: '#00626a',
                     900: '#005057',
                 }
+            },
+            keyframes: {
+                shimmer: {
+                    '100%': { transform: 'translateX(100%)' },
+                }
+            },
+            animation: {
+                shimmer: 'shimmer 1.5s infinite',
             }
         },
     },

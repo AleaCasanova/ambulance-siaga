@@ -233,6 +233,13 @@
                 </div>
             </div>
 
+            <!-- Live Chat Komunikasi Darurat -->
+            @if(in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien']))
+                <div class="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-xs h-[500px]">
+                    <livewire:chat-box :pemesananId="$order->id" />
+                </div>
+            @endif
+
             <!-- Rating Card jika sudah selesai -->
             @if($order->rating)
                 <div class="bg-emerald-50 rounded-3xl border border-emerald-200 p-6">

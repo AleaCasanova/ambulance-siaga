@@ -87,6 +87,19 @@ class PemesananService
             $amb = Ambulans::findOrFail($ambulansId);
             $supir = Supir::findOrFail($supirId);
 
+            // Validasi Supir
+            if (!$supir->status_online) {
+                throw new \Exception("Supir {$supir->user->name} sedang dalam status OFFLINE dan tidak bisa ditugaskan.");
+            }
+
+            $activeTrip = Pemesanan::where('supir_id', $supirId)
+                ->whereIn('status', ['diproses', 'menuju_lokasi', 'membawa_pasien'])
+                ->first();
+                
+            if ($activeTrip) {
+                throw new \Exception("Supir {$supir->user->name} sedang bertugas pada Order #{$activeTrip->kode_order}.");
+            }
+
             $order->update([
                 'ambulans_id' => $ambulansId,
                 'supir_id' => $supirId,

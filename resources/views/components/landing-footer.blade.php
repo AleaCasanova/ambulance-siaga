@@ -8,7 +8,7 @@
         <!-- Brand & About -->
         <div class="lg:col-span-5 pr-0 lg:pr-12">
             <div class="flex items-center gap-4 mb-6">
-                <div class="w-14 h-14 bg-white rounded-full p-2 flex items-center justify-center shadow-lg shadow-white/5">
+                <div class="w-14 h-14 bg-white rounded-full p-1 flex items-center justify-center shadow-lg shadow-white/5 overflow-hidden">
                     <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo" class="w-full h-full object-contain">
                 </div>
                 <div>
@@ -43,21 +43,25 @@
                 $user = auth()->user();
                 $footerLinks = [];
                 
-                if (!$user || $user->hasRole('masyarakat') || !$user->role_id) {
+                if (!$user) {
+                    // Guest (Belum Login)
                     $footerLinks = [
-                        ['url' => route('home'), 'label' => 'Beranda Utama'],
-                        ['url' => route('masyarakat.order.create'), 'label' => 'Layanan Darurat'],
+                        ['url' => route('home'), 'label' => 'Beranda'],
+                        ['url' => route('masyarakat.info'), 'label' => 'Tentang Kami'],
+                        ['url' => route('masyarakat.order.create'), 'label' => 'Layanan Kami'],
+                    ];
+                } elseif ($user->hasRole('masyarakat') || !$user->role_id) {
+                    // Masyarakat (Sudah Login)
+                    $footerLinks = [
+                        ['url' => route('home'), 'label' => 'Beranda'],
+                        ['url' => route('masyarakat.order.create'), 'label' => 'Pesan Ambulance'],
                         ['url' => route('masyarakat.orders.index'), 'label' => 'Riwayat & Tracking'],
                         ['url' => route('masyarakat.info'), 'label' => 'Tentang Kami'],
                     ];
-                    if (!$user && Route::has('login')) {
-                        $footerLinks[] = ['url' => route('login'), 'label' => 'Portal Petugas'];
-                    }
                 } elseif ($user->isSupir()) {
                     $footerLinks = [
                         ['url' => route('supir.dashboard'), 'label' => 'Dashboard Supir'],
                         ['url' => route('supir.tugas.index'), 'label' => 'Pesanan Saya'],
-                        ['url' => '#', 'label' => 'Perjalanan Aktif'],
                         ['url' => route('masyarakat.info'), 'label' => 'Tentang Kami'],
                     ];
                 } elseif ($user->isOperator()) {
@@ -117,8 +121,8 @@
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between pt-8 border-t border-white/10 font-medium text-xs md:text-sm relative z-10 gap-4">
         <p class="text-sky-100/50">&copy; {{ date('Y') }} {{ \App\Models\SettingAplikasi::getVal('nama_organisasi', 'LAZ Gerak Sedekah Cilacap') }}. Seluruh hak cipta dilindungi.</p>
         <div class="flex items-center gap-6 text-sky-100/50">
-            <a href="#" class="hover:text-white transition-colors">Kebijakan Privasi</a>
-            <a href="#" class="hover:text-white transition-colors">Syarat & Ketentuan</a>
+            <a href="javascript:void(0)" class="hover:text-white transition-colors">Kebijakan Privasi</a>
+            <a href="javascript:void(0)" class="hover:text-white transition-colors">Syarat & Ketentuan</a>
         </div>
     </div>
 </footer>

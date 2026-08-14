@@ -14,10 +14,8 @@ class Supir extends Model
 
     protected $fillable = [
         'user_id',
-        'nama_lembaga',
-        'nama_penanggung_jawab',
+        'mitra_id',
         'no_wa',
-        'alamat_unit',
         'merk_kendaraan',
         'plat_nomor',
         'nomor_sim',
@@ -43,6 +41,11 @@ class Supir extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function mitra()
+    {
+        return $this->belongsTo(Mitra::class, 'mitra_id');
     }
 
     public function pemesanan()
