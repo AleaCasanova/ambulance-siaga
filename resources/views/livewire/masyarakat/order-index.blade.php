@@ -1,9 +1,9 @@
 <div>
 
 
-    <div class="absolute top-0 left-0 w-full h-80 bg-gradient-to-br from-primary-600 to-primary-700 -z-10">
-        <!-- Decorative Pattern -->
-        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 32px 32px;"></div>
+    <div class="absolute top-0 left-0 w-full h-80 bg-primary-700 -z-10 overflow-hidden" style="background-image: url('{{ asset('images/beranda_utama_bg.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+        <div class="absolute inset-0 bg-primary-700 mix-blend-multiply opacity-50"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-primary-600/90 to-primary-800/90"></div>
     </div>
 
     <main class="pt-32 pb-24 px-6 lg:px-12 max-w-7xl mx-auto min-h-screen">
@@ -140,17 +140,17 @@
                         </div>
                     </div>
                 @empty
-                    <div class="md:col-span-2 py-20 text-center bg-white/10 backdrop-blur-md rounded-[3rem] border border-white/20 p-8 shadow-2xl">
-                        <div class="w-20 h-20 rounded-full bg-white text-primary-600 flex items-center justify-center mx-auto mb-6 shadow-xl">
+                    <div class="md:col-span-2 py-16 sm:py-24 text-center bg-white rounded-[2rem] border border-slate-100 p-8 shadow-xl shadow-slate-200/50">
+                        <div class="w-20 h-20 rounded-full bg-slate-50 text-slate-400 flex items-center justify-center mx-auto mb-6 shadow-sm border border-slate-100">
                             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                             </svg>
                         </div>
-                        <h3 class="font-black text-white text-2xl mb-2">Belum Ada Riwayat Pesanan</h3>
-                        <p class="text-primary-100 text-base max-w-md mx-auto mb-8 font-medium">Jika terjadi situasi darurat medis, jangan ragu untuk memesan ambulans dari jaringan Ambulance Siaga gratis 24 jam.</p>
+                        <h3 class="font-black text-slate-800 text-2xl sm:text-3xl mb-3">Belum Ada Riwayat Pesanan</h3>
+                        <p class="text-slate-500 text-base max-w-md mx-auto mb-8 font-medium leading-relaxed">Jika terjadi situasi darurat medis, jangan ragu untuk memesan ambulans dari jaringan Ambulance Siaga gratis 24 jam.</p>
                         <a href="{{ route('masyarakat.order.create') }}"
-                           class="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-primary-600 hover:bg-slate-50 font-black text-sm shadow-xl hover:shadow-2xl hover:scale-105 transition-all">
-                            <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"/></svg>
+                           class="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-primary-600 text-white hover:bg-primary-700 font-black text-sm shadow-lg shadow-primary-600/30 hover:shadow-xl hover:shadow-primary-600/40 hover:-translate-y-1 transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"/></svg>
                             <span>PESAN AMBULANS SEKARANG</span>
                         </a>
                     </div>

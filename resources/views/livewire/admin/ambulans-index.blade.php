@@ -22,8 +22,9 @@
                     class="px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm font-semibold focus:border-sky-500 focus:ring-2 focus:ring-sky-200 shadow-xs">
                 <option value="">-- Semua Status --</option>
                 <option value="Tersedia">Tersedia (Siaga)</option>
-                <option value="Bertugas">Sedang Bertugas</option>
-                <option value="Perbaikan">Perbaikan / Service</option>
+                <option value="Ditugaskan">Sedang Ditugaskan</option>
+                <option value="Perawatan">Perawatan / Service</option>
+                <option value="Tidak Aktif">Tidak Aktif</option>
             </select>
 
             <button type="button" wire:click="openCreateModal"
@@ -63,9 +64,9 @@
                             <td class="py-4 px-6">
                                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold
                                     @if($amb->status === 'Tersedia') bg-emerald-100 text-emerald-700
-                                    @elseif($amb->status === 'Bertugas') bg-primary-100 text-primary-700
+                                    @elseif($amb->status === 'Ditugaskan') bg-primary-100 text-primary-700
                                     @else bg-amber-100 text-amber-700 @endif">
-                                    <span class="w-2 h-2 rounded-full @if($amb->status === 'Tersedia') bg-emerald-500 @elseif($amb->status === 'Bertugas') bg-primary-600 animate-ping @else bg-amber-500 @endif"></span>
+                                    <span class="w-2 h-2 rounded-full @if($amb->status === 'Tersedia') bg-emerald-500 @elseif($amb->status === 'Ditugaskan') bg-primary-600 animate-ping @else bg-amber-500 @endif"></span>
                                     <span>{{ $amb->status }}</span>
                                 </span>
                             </td>
@@ -149,8 +150,9 @@
                         <select wire:model="status" required
                                 class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-semibold focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
                             <option value="Tersedia">Tersedia (Siaga Menerima Tugas)</option>
-                            <option value="Bertugas">Sedang Bertugas</option>
-                            <option value="Perbaikan">Perbaikan / Service</option>
+                            <option value="Ditugaskan">Sedang Ditugaskan</option>
+                            <option value="Perawatan">Perawatan / Service</option>
+                            <option value="Tidak Aktif">Tidak Aktif</option>
                         </select>
                         @error('status') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
                     </div>

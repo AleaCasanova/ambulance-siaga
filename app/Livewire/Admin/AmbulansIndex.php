@@ -28,7 +28,7 @@ class AmbulansIndex extends Component
         'kode_ambulans' => 'required|string|max:50',
         'plat_nomor' => 'required|string|max:50',
         'jenis_ambulans' => 'required|string|max:100',
-        'status' => 'required|in:Tersedia,Bertugas,Perbaikan',
+        'status' => 'required|in:Tersedia,Ditugaskan,Perawatan,Tidak Aktif',
         'perlengkapan_medis' => 'nullable|string|max:500',
     ];
 

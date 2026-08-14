@@ -186,8 +186,10 @@
                     </button>
                 </div>
 
-                <!-- Leaflet Container -->
-                <div id="operator-map" class="w-full h-full min-h-[520px] rounded-2xl border border-slate-200/80 z-10"></div>
+                <!-- Leaflet Container (wire:ignore prevents map destruction on poll) -->
+                <div wire:ignore class="w-full h-full min-h-[520px] rounded-2xl border border-slate-200/80 z-10 overflow-hidden">
+                    <div id="operator-map" class="w-full h-full min-h-[520px]"></div>
+                </div>
             </div>
         </div>
 
@@ -293,6 +295,8 @@
                 markersData: initialMarkers,
 
                 initMap() {
+                    if (this.map) return; // Mencegah error 'Map container is already initialized'
+
                     this.map = L.map('operator-map').setView([-7.7188, 109.0159], 13);
 
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
