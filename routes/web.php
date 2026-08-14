@@ -26,11 +26,16 @@ use App\Livewire\Supir\Dashboard as SupirDashboard;
 use App\Livewire\Supir\OrderShow as SupirOrderShow;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\MidtransController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes GSC SIAGA - Yayasan Gerak Sedekah Cilacap
 |--------------------------------------------------------------------------
 */
+
+// Webhook Midtrans
+Route::post('/midtrans/callback', [MidtransController::class, 'callback']);
 
 // Halaman utama: Beranda GSC SIAGA
 Route::get('/', Beranda::class)->name('home');

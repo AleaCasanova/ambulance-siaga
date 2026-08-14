@@ -42,7 +42,7 @@
                     <h2 class="text-3xl font-black text-slate-800 mb-2 relative z-10">Mulai Berdonasi</h2>
                     <p class="text-slate-500 mb-8 font-medium relative z-10">Pilih nominal atau masukkan nominal donasi terbaik Anda.</p>
 
-                    <form class="relative z-10">
+                    <form wire:submit.prevent="kirimDonasi" class="relative z-10">
                         <!-- Nominal Selection -->
                         <div class="mb-6">
                             <label class="block text-sm font-medium text-slate-700 mb-3">Donasi Terbaik Anda</label>
@@ -86,131 +86,6 @@
                             @endif
                         </div>
 
-                        <!-- Payment Method Modal Button -->
-                        <div x-data="{ openMetode: false }" class="mb-8">
-                            <button @click="openMetode = true" type="button" class="w-full flex items-center justify-between p-4 bg-sky-50/50 border border-sky-100 rounded-xl hover:bg-sky-50 transition-colors">
-                                <div class="flex items-center gap-4">
-                                    <div class="bg-white p-2 rounded-lg shadow-sm border border-slate-100">
-                                        <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
-                                    </div>
-                                    <span class="text-sm font-medium text-slate-700">
-                                        @if($metodePembayaran == 'qris') QRIS
-                                        @elseif($metodePembayaran == 'gopay') Gopay
-                                        @elseif($metodePembayaran == 'shopeepay') ShopeePay
-                                        @elseif($metodePembayaran == 'dana') DANA
-                                        @elseif($metodePembayaran == 'ovo') OVO
-                                        @elseif($metodePembayaran == 'bni') VA Bank BNI
-                                        @elseif($metodePembayaran == 'cimb') VA Bank CIMB Niaga
-                                        @elseif($metodePembayaran == 'bsi') Transfer Bank Syariah Indonesia
-                                        @elseif($metodePembayaran == 'bca') Transfer Bank BCA
-                                        @elseif($metodePembayaran == 'mandiri') Transfer Bank Mandiri
-                                        @elseif($metodePembayaran == 'bri') Transfer Bank BRI
-                                        @else Metode Pembayaran @endif
-                                    </span>
-                                </div>
-                                <div class="bg-white px-3 py-1.5 rounded-md border border-slate-200 text-xs font-medium text-slate-600 flex items-center gap-1 shadow-sm">
-                                    Pilih <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                                </div>
-                            </button>
-
-                            <!-- Modal Metode Pembayaran -->
-                            <div x-show="openMetode" x-cloak class="fixed inset-0 z-50 flex items-end justify-center sm:items-center">
-                                <div x-show="openMetode" x-transition.opacity class="fixed inset-0 bg-black/50" @click="openMetode = false"></div>
-                                <div x-show="openMetode" 
-                                     x-transition:enter="transition ease-out duration-300 transform" 
-                                     x-transition:enter-start="translate-y-full sm:translate-y-0 sm:scale-95" 
-                                     x-transition:enter-end="translate-y-0 sm:scale-100" 
-                                     x-transition:leave="transition ease-in duration-200 transform" 
-                                     x-transition:leave-start="translate-y-0 sm:scale-100" 
-                                     x-transition:leave-end="translate-y-full sm:translate-y-0 sm:scale-95" 
-                                     class="relative bg-white w-full max-w-md mx-auto h-[85vh] sm:h-auto sm:max-h-[85vh] rounded-t-3xl sm:rounded-3xl shadow-2xl flex flex-col">
-                                    
-                                    <!-- Modal Header -->
-                                    <div class="bg-[#0092ff] text-white p-4 rounded-t-3xl sm:rounded-t-3xl flex items-center justify-between">
-                                        <h3 class="text-lg font-bold w-full text-center">Metode Pembayaran</h3>
-                                        <button type="button" @click="openMetode = false" class="absolute right-4 text-white hover:bg-white/20 p-1 rounded-full transition">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                                        </button>
-                                    </div>
-                                    
-                                    <!-- Modal Body (Scrollable) -->
-                                    <div class="overflow-y-auto flex-1 p-0 pb-6 custom-scrollbar">
-                                        
-                                        <!-- Pembayaran Instan -->
-                                        <div class="bg-sky-50/50 py-2.5 px-5 text-[11px] font-bold text-slate-600">Pembayaran Instan</div>
-                                        <div class="divide-y divide-slate-100">
-                                            <label class="flex items-center gap-5 px-5 py-3 hover:bg-slate-50 cursor-pointer transition-colors" @click="openMetode = false">
-                                                <input type="radio" wire:model.live="metodePembayaran" value="qris" class="hidden">
-                                                <div class="w-16 font-black italic text-lg text-slate-800">QRIS</div>
-                                                <span class="text-sm font-medium text-slate-700">QRIS</span>
-                                            </label>
-                                            <label class="flex items-center gap-5 px-5 py-3 hover:bg-slate-50 cursor-pointer transition-colors" @click="openMetode = false">
-                                                <input type="radio" wire:model.live="metodePembayaran" value="gopay" class="hidden">
-                                                <div class="w-16 font-black text-[#00AED6] text-lg tracking-tighter">Gopay</div>
-                                                <span class="text-sm font-medium text-slate-700">Gopay</span>
-                                            </label>
-                                            <label class="flex items-center gap-5 px-5 py-3 hover:bg-slate-50 cursor-pointer transition-colors" @click="openMetode = false">
-                                                <input type="radio" wire:model.live="metodePembayaran" value="shopeepay" class="hidden">
-                                                <div class="w-16 font-black text-[#EE4D2D] text-sm leading-tight">ShopeePay</div>
-                                                <span class="text-sm font-medium text-slate-700">ShopeePay</span>
-                                            </label>
-                                            <label class="flex items-center gap-5 px-5 py-3 hover:bg-slate-50 cursor-pointer transition-colors" @click="openMetode = false">
-                                                <input type="radio" wire:model.live="metodePembayaran" value="dana" class="hidden">
-                                                <div class="w-16 font-black text-[#118EEA] text-lg tracking-tight">DANA</div>
-                                                <span class="text-sm font-medium text-slate-700">DANA</span>
-                                            </label>
-                                            <label class="flex items-center gap-5 px-5 py-3 hover:bg-slate-50 cursor-pointer transition-colors" @click="openMetode = false">
-                                                <input type="radio" wire:model.live="metodePembayaran" value="ovo" class="hidden">
-                                                <div class="w-16 font-black text-[#4C2A86] text-lg tracking-widest">OVO</div>
-                                                <span class="text-sm font-medium text-slate-700">OVO</span>
-                                            </label>
-                                        </div>
-
-                                        <!-- Virtual Account -->
-                                        <div class="bg-sky-50/50 py-2.5 px-5 text-[11px] font-bold text-slate-600 mt-2">Virtual Account</div>
-                                        <div class="divide-y divide-slate-100">
-                                            <label class="flex items-center gap-5 px-5 py-3 hover:bg-slate-50 cursor-pointer transition-colors" @click="openMetode = false">
-                                                <input type="radio" wire:model.live="metodePembayaran" value="bni" class="hidden">
-                                                <div class="w-16 font-black text-[#006699] text-xl tracking-tight">BNI</div>
-                                                <span class="text-sm font-medium text-slate-700">VA Bank BNI</span>
-                                            </label>
-                                            <label class="flex items-center gap-5 px-5 py-3 hover:bg-slate-50 cursor-pointer transition-colors" @click="openMetode = false">
-                                                <input type="radio" wire:model.live="metodePembayaran" value="cimb" class="hidden">
-                                                <div class="w-16 font-black text-[#E4002B] text-xs leading-none">CIMB NIAGA</div>
-                                                <span class="text-sm font-medium text-slate-700">VA Bank CIMB Niaga</span>
-                                            </label>
-                                        </div>
-
-                                        <!-- Transfer Bank -->
-                                        <div class="bg-sky-50/50 py-2.5 px-5 text-[11px] font-bold text-slate-600 mt-2">Transfer Bank</div>
-                                        <div class="divide-y divide-slate-100">
-                                            <label class="flex items-center gap-5 px-5 py-3 hover:bg-slate-50 cursor-pointer transition-colors" @click="openMetode = false">
-                                                <input type="radio" wire:model.live="metodePembayaran" value="bsi" class="hidden">
-                                                <div class="w-16 font-black text-[#00A39D] text-xl tracking-tight italic">BSI</div>
-                                                <span class="text-sm font-medium text-slate-700">Transfer Bank Syariah Indonesia</span>
-                                            </label>
-                                            <label class="flex items-center gap-5 px-5 py-3 hover:bg-slate-50 cursor-pointer transition-colors" @click="openMetode = false">
-                                                <input type="radio" wire:model.live="metodePembayaran" value="bca" class="hidden">
-                                                <div class="w-16 font-black text-[#003399] text-xl tracking-tight italic">BCA</div>
-                                                <span class="text-sm font-medium text-slate-700">Transfer Bank BCA</span>
-                                            </label>
-                                            <label class="flex items-center gap-5 px-5 py-3 hover:bg-slate-50 cursor-pointer transition-colors" @click="openMetode = false">
-                                                <input type="radio" wire:model.live="metodePembayaran" value="mandiri" class="hidden">
-                                                <div class="w-16 font-black text-[#003D79] text-lg tracking-tight italic">mandiri</div>
-                                                <span class="text-sm font-medium text-slate-700">Transfer Bank Mandiri</span>
-                                            </label>
-                                            <label class="flex items-center gap-5 px-5 py-3 hover:bg-slate-50 cursor-pointer transition-colors" @click="openMetode = false">
-                                                <input type="radio" wire:model.live="metodePembayaran" value="bri" class="hidden">
-                                                <div class="w-16 font-black text-[#00529C] text-lg tracking-tight italic">BRI</div>
-                                                <span class="text-sm font-medium text-slate-700">Transfer Bank BRI</span>
-                                            </label>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                         <!-- Data Donatur -->
                         <div class="space-y-4 mb-8">
                             <div>
@@ -241,6 +116,9 @@
                             Kirim Donasi @if($nominal != 'lainnya' && $nominal) - Rp {{ number_format($nominal, 0, ',', '.') }} @elseif($nominal == 'lainnya' && $nominalLainnya) - Rp {{ number_format($nominalLainnya, 0, ',', '.') }} @endif
                             <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                         </button>
+                        @error('nominal')
+                            <p class="text-red-500 text-sm mt-3 text-center font-medium">{{ $message }}</p>
+                        @enderror
                     </form>
                 </div>
             </div>
@@ -553,4 +431,31 @@
     </section>
 
     <x-landing-footer />
+
+    @push('scripts')
+    <script src="{{ config('services.midtrans.is_production') ? 'https://app.midtrans.com/snap/snap.js' : 'https://app.sandbox.midtrans.com/snap/snap.js' }}" data-client-key="{{ config('services.midtrans.client_key') }}"></script>
+    <script>
+        document.addEventListener('livewire:initialized', () => {
+            Livewire.on('snap-token-created', (event) => {
+                let token = event?.[0]?.token || event?.token; // Safe extraction of token
+                snap.pay(token, {
+                    onSuccess: function(result){
+                        alert("Pembayaran berhasil!");
+                        window.location.href = '/donasi';
+                    },
+                    onPending: function(result){
+                        alert("Menunggu pembayaran Anda!");
+                        window.location.href = '/donasi';
+                    },
+                    onError: function(result){
+                        alert("Pembayaran gagal!");
+                    },
+                    onClose: function(){
+                        alert('Anda menutup popup sebelum menyelesaikan pembayaran.');
+                    }
+                });
+            });
+        });
+    </script>
+    @endpush
 </div>
