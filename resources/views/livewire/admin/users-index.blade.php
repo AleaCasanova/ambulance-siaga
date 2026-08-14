@@ -2,38 +2,60 @@
     <!-- Header -->
     <div class="mb-8 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
         <div class="flex-1">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-white/20 text-white uppercase tracking-wider mb-2.5 shadow-sm border border-white/20 backdrop-blur-md">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-slate-100 text-slate-500 uppercase tracking-wider mb-2.5">
                 {{ $isSupirPage ? 'Manajemen Armada & Supir' : 'Manajemen Sistem RBAC' }}
             </span>
-            <h1 class="text-2xl sm:text-[32px] font-extrabold text-white tracking-tight drop-shadow-md leading-tight">
-                {{ $isSupirPage ? 'Kelola Supir Ambulans' : 'Kelola Pengguna & Role' }}
+            <h1 class="text-2xl sm:text-[28px] font-bold text-slate-900 tracking-tight leading-tight">
+                {{ $isSupirPage ? 'Kelola Supir' : 'Kelola Pengguna & Role' }}
             </h1>
-            <p class="text-white/90 text-[15px] sm:text-base mt-2 font-medium leading-relaxed drop-shadow-sm max-w-2xl">
+            <p class="text-slate-500 text-[14px] mt-1.5 font-medium max-w-2xl">
                 {{ $isSupirPage ? 'Daftar pengemudi ambulans mitra Ambulance Siaga beserta status SIM dan kesiapan online.' : 'Daftar akun pengguna sistem Ambulance Siaga (Super Admin, Admin, Operator, Supir, Masyarakat).' }}
             </p>
         </div>
 
-        <div class="flex flex-wrap items-center gap-3">
+        <div class="flex items-center gap-2.5 shrink-0">
             <input type="text" wire:model.live.debounce.300ms="search"
-                   placeholder="Cari nama, email, atau no. SIM..."
-                   class="px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 shadow-xs">
+                   placeholder="Cari nama, email, SIM..."
+                   class="w-40 sm:w-52 px-3.5 py-2 rounded-xl border border-slate-300 bg-white text-xs font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 shadow-xs">
 
             @if(!$isSupirPage)
-                <select wire:model.live="roleFilter"
-                        class="px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm font-semibold focus:border-sky-500 focus:ring-2 focus:ring-sky-200 shadow-xs">
-                    <option value="">-- Semua Role --</option>
-                    @foreach($roles as $rl)
-                        <option value="{{ $rl->id }}">{{ $rl->label ?? $rl->name }}</option>
-                    @endforeach
-                </select>
+                <div class="relative" x-data="{ open: false }">
+                    <button type="button" @click="open = !open" @click.outside="open = false"
+                            class="flex items-center justify-between gap-2 px-3.5 py-2 rounded-xl border border-slate-300 bg-white text-xs font-semibold text-slate-700 shadow-xs hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-100 transition-all whitespace-nowrap">
+                        <span>
+                            @php
+                                $activeRole = $roles->firstWhere('id', $roleFilter);
+                            @endphp
+                            {{ $activeRole ? ($activeRole->label ?? $activeRole->name) : 'Semua Role' }}
+                        </span>
+                        <svg class="w-3.5 h-3.5 text-slate-400 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+
+                    <div x-show="open" x-transition.opacity.duration.150ms
+                         class="absolute right-0 top-full mt-1.5 w-44 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 overflow-hidden"
+                         style="display: none;">
+                        <button type="button" @click="$wire.set('roleFilter', ''); open = false"
+                                class="w-full text-left px-3.5 py-2 text-xs font-semibold flex items-center justify-between hover:bg-sky-50 hover:text-sky-600 transition-colors {{ $roleFilter === '' ? 'text-sky-600 bg-sky-50/50' : 'text-slate-700' }}">
+                            <span>Semua Role</span>
+                            @if($roleFilter === '') <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> @endif
+                        </button>
+                        @foreach($roles as $rl)
+                            <button type="button" @click="$wire.set('roleFilter', '{{ $rl->id }}'); open = false"
+                                    class="w-full text-left px-3.5 py-2 text-xs font-semibold flex items-center justify-between hover:bg-sky-50 hover:text-sky-600 transition-colors {{ (string)$roleFilter === (string)$rl->id ? 'text-sky-600 bg-sky-50/50' : 'text-slate-700' }}">
+                                <span>{{ $rl->label ?? $rl->name }}</span>
+                                @if((string)$roleFilter === (string)$rl->id) <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> @endif
+                            </button>
+                        @endforeach
+                    </div>
+                </div>
             @endif
 
             <button type="button" wire:click="openCreateModal"
-                    class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-sm shadow-md shadow-sky-600/30 transition-all">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs shadow-md shadow-sky-600/30 transition-all whitespace-nowrap">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
                 </svg>
-                <span>{{ $isSupirPage ? 'Tambahkan Supir Baru' : 'Tambahkan Pengguna' }}</span>
+                <span>{{ $isSupirPage ? 'Tambah Supir' : 'Tambah Pengguna' }}</span>
             </button>
         </div>
     </div>
@@ -43,35 +65,35 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="bg-slate-50/80 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                        <th class="py-4 px-6">Pengguna & Email</th>
-                        <th class="py-4 px-6">Role / Hak Akses</th>
-                        <th class="py-4 px-6">Kontak / Telepon</th>
-                        <th class="py-4 px-6">Info Khusus (SIM / NIK)</th>
-                        <th class="py-4 px-6">Status Akun</th>
-                        <th class="py-4 px-6 text-right">Aksi</th>
+                    <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                        <th class="py-3 px-6 whitespace-nowrap">Pengguna & Email</th>
+                        <th class="py-3 px-6 whitespace-nowrap">Role / Hak Akses</th>
+                        <th class="py-3 px-6 whitespace-nowrap">Kontak / Telepon</th>
+                        <th class="py-3 px-6 whitespace-nowrap">Info Khusus (SIM / NIK)</th>
+                        <th class="py-3 px-6 whitespace-nowrap">Status Akun</th>
+                        <th class="py-3 px-6 whitespace-nowrap text-right">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 text-sm">
                     @forelse($users as $user)
                         <tr class="hover:bg-slate-50/50 transition-colors">
                             <td class="py-4 px-6">
-                                <div class="flex items-center gap-3">
-                                    <img src="{{ $user->avatar_url }}" alt="" class="w-10 h-10 rounded-full object-cover border border-slate-200">
-                                    <div>
-                                        <span class="font-extrabold text-slate-800 block">{{ $user->name }}</span>
-                                        <span class="text-xs text-slate-500 block">{{ $user->email }}</span>
-                                    </div>
-                                </div>
+                                <span class="font-extrabold text-slate-800 block">{{ $user->name }}</span>
+                                <span class="text-xs text-slate-500 block">{{ $user->email }}</span>
                             </td>
                             <td class="py-4 px-6">
-                                <span class="inline-block px-3 py-1 rounded-full text-xs font-bold
-                                    @if($user->isAdmin()) bg-sky-100 text-sky-700
-                                    @elseif($user->isOperator()) bg-purple-100 text-purple-700
-                                    @elseif($user->isSupir()) bg-emerald-100 text-emerald-700
-                                    @else bg-slate-100 text-slate-700 @endif">
+                                <div class="flex items-center gap-1.5 font-bold text-sm
+                                    @if($user->isAdmin()) text-sky-600
+                                    @elseif($user->isOperator()) text-purple-600
+                                    @elseif($user->isSupir()) text-emerald-600
+                                    @else text-slate-600 @endif">
+                                    <span class="w-1.5 h-1.5 rounded-full 
+                                        @if($user->isAdmin()) bg-sky-500
+                                        @elseif($user->isOperator()) bg-purple-500
+                                        @elseif($user->isSupir()) bg-emerald-500
+                                        @else bg-slate-500 @endif"></span>
                                     {{ $user->role_label }}
-                                </span>
+                                </div>
                             </td>
                             <td class="py-4 px-6">
                                 <span class="font-semibold text-slate-700 text-xs">{{ $user->phone ?: '-' }}</span>
@@ -100,16 +122,16 @@
                                     <span>{{ $user->is_active ? 'Aktif' : 'Non-Aktif' }}</span>
                                 </span>
                             </td>
-                            <td class="py-4 px-6 text-right">
+                            <td class="py-4 px-6 text-right whitespace-nowrap">
                                 <div class="flex items-center justify-end gap-2">
                                     <button type="button" wire:click="openEditModal({{ $user->id }})"
-                                            class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors">
+                                            class="px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 font-semibold text-[11px] transition-colors shadow-sm">
                                         Edit
                                     </button>
                                     @if($user->id !== auth()->id())
                                         <button type="button" wire:click="deleteUser({{ $user->id }})"
                                                 wire:confirm="Yakin ingin menghapus pengguna ini beserta seluruh data relasinya?"
-                                                class="px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 font-bold text-xs transition-colors">
+                                                class="px-3 py-1.5 rounded-lg border border-red-200 bg-red-50 hover:bg-red-100 text-red-600 font-semibold text-[11px] transition-colors shadow-sm">
                                             Hapus
                                         </button>
                                     @endif
@@ -176,13 +198,30 @@
                     <!-- Role -->
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1">Role / Hak Akses</label>
-                        <select wire:model.live="role_id" required
-                                class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-semibold focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
-                            <option value="">-- Pilih Role --</option>
-                            @foreach($roles as $rl)
-                                <option value="{{ $rl->id }}">{{ $rl->label ?? $rl->name }}</option>
-                            @endforeach
-                        </select>
+                        <div class="relative" x-data="{ open: false }">
+                            <button type="button" @click="open = !open" @click.outside="open = false"
+                                    class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-200">
+                                <span>
+                                    @php
+                                        $selectedRoleObj = $roles->firstWhere('id', $role_id);
+                                    @endphp
+                                    {{ $selectedRoleObj ? ($selectedRoleObj->label ?? $selectedRoleObj->name) : '-- Pilih Role --' }}
+                                </span>
+                                <svg class="w-4 h-4 text-slate-400 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            </button>
+
+                            <div x-show="open" x-transition.opacity.duration.150ms
+                                 class="absolute left-0 top-full mt-1.5 w-full bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 overflow-hidden"
+                                 style="display: none;">
+                                @foreach($roles as $rl)
+                                    <button type="button" @click="$wire.set('role_id', {{ $rl->id }}); open = false"
+                                            class="w-full text-left px-4 py-2.5 text-xs font-semibold flex items-center justify-between hover:bg-sky-50 hover:text-sky-600 transition-colors {{ (int)$role_id === (int)$rl->id ? 'text-sky-600 bg-sky-50/50' : 'text-slate-700' }}">
+                                        <span>{{ $rl->label ?? $rl->name }}</span>
+                                        @if((int)$role_id === (int)$rl->id) <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> @endif
+                                    </button>
+                                @endforeach
+                            </div>
+                        </div>
                         @error('role_id') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
                     </div>
 

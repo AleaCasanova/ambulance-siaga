@@ -2,13 +2,13 @@
     <!-- Header -->
     <div class="mb-8 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
         <div class="flex-1">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-white/20 text-white uppercase tracking-wider mb-2.5 shadow-sm border border-white/20 backdrop-blur-md">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-slate-100 text-slate-500 uppercase tracking-wider mb-2.5">
                 Manajemen Fasilitas Kesehatan
             </span>
-            <h1 class="text-2xl sm:text-[32px] font-extrabold text-white tracking-tight drop-shadow-md leading-tight">
+            <h1 class="text-2xl sm:text-[28px] font-bold text-slate-900 tracking-tight leading-tight">
                 Kelola Rumah Sakit Rujukan
             </h1>
-            <p class="text-white/90 text-[15px] sm:text-base mt-2 font-medium leading-relaxed drop-shadow-sm max-w-2xl">
+            <p class="text-slate-500 text-[14px] mt-1.5 font-medium max-w-2xl">
                 Daftar rumah sakit dan fasilitas kesehatan mitra Ambulance Siaga.
             </p>
         </div>
@@ -33,13 +33,13 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="bg-slate-50/80 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                        <th class="py-4 px-6">Nama Rumah Sakit</th>
-                        <th class="py-4 px-6">Alamat</th>
-                        <th class="py-4 px-6">Telepon / Hotline</th>
-                        <th class="py-4 px-6">Koordinat Peta</th>
-                        <th class="py-4 px-6">Kapasitas / Layanan</th>
-                        <th class="py-4 px-6 text-right">Aksi</th>
+                    <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                        <th class="py-3 px-6 whitespace-nowrap">Nama Rumah Sakit</th>
+                        <th class="py-3 px-6 whitespace-nowrap">Alamat</th>
+                        <th class="py-3 px-6 whitespace-nowrap">Telepon / Hotline</th>
+                        <th class="py-3 px-6 whitespace-nowrap">Koordinat Peta</th>
+                        <th class="py-3 px-6 whitespace-nowrap">Kapasitas / Layanan</th>
+                        <th class="py-3 px-6 whitespace-nowrap text-right">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 text-sm">
@@ -67,15 +67,15 @@
                                     {{ $rs->kapasitas_igd }}
                                 </span>
                             </td>
-                            <td class="py-4 px-6 text-right">
+                            <td class="py-4 px-6 text-right whitespace-nowrap">
                                 <div class="flex items-center justify-end gap-2">
                                     <button type="button" wire:click="openEditModal({{ $rs->id }})"
-                                            class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors">
+                                            class="px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 font-semibold text-[11px] transition-colors shadow-sm">
                                         Edit
                                     </button>
                                     <button type="button" wire:click="deleteRs({{ $rs->id }})"
                                             wire:confirm="Yakin ingin menghapus rumah sakit ini?"
-                                            class="px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 font-bold text-xs transition-colors">
+                                            class="px-3 py-1.5 rounded-lg border border-red-200 bg-red-50 hover:bg-red-100 text-red-600 font-semibold text-[11px] transition-colors shadow-sm">
                                         Hapus
                                     </button>
                                 </div>

@@ -103,8 +103,8 @@ class OrderShow extends Component
             'latestTracking'
         ])->findOrFail($this->orderId);
 
-        $currentLat = $order->latestTracking ? (float) $order->latestTracking->lat : ($order->supir->lokasi_terakhir_lat ?? -7.7188);
-        $currentLng = $order->latestTracking ? (float) $order->latestTracking->lng : ($order->supir->lokasi_terakhir_lng ?? 109.0159);
+        $currentLat = $order->latestTracking ? (float) $order->latestTracking->lat : ($order->supir?->lokasi_terakhir_lat ?? -7.7188);
+        $currentLng = $order->latestTracking ? (float) $order->latestTracking->lng : ($order->supir?->lokasi_terakhir_lng ?? 109.0159);
 
         return view('livewire.supir.order-show', [
             'order'      => $order,

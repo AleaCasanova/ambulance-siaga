@@ -2,13 +2,13 @@
     <!-- Header -->
     <div class="mb-8 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
         <div class="flex-1">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-white/20 text-white uppercase tracking-wider mb-2.5 shadow-sm border border-white/20 backdrop-blur-md">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-slate-100 text-slate-500 uppercase tracking-wider mb-2.5">
                 Pusat Kendali Operasional
             </span>
-            <h1 class="text-2xl sm:text-[32px] font-extrabold text-white tracking-tight drop-shadow-md leading-tight">
+            <h1 class="text-2xl sm:text-[28px] font-bold text-slate-900 tracking-tight leading-tight">
                 Manajemen Order Masuk
             </h1>
-            <p class="text-white/90 text-[15px] sm:text-base mt-2 font-medium leading-relaxed drop-shadow-sm max-w-2xl">
+            <p class="text-slate-500 text-[14px] mt-1.5 font-medium max-w-2xl">
                 Kelola seluruh pesanan darurat, tugaskan ambulans, dan ubah status operasional.
             </p>
         </div>
@@ -20,16 +20,46 @@
                    class="px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 shadow-xs">
 
             <!-- Filter Status -->
-            <select wire:model.live="statusFilter"
-                    class="px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm font-semibold focus:border-sky-500 focus:ring-2 focus:ring-sky-200 shadow-xs">
-                <option value="">-- Semua Status --</option>
-                <option value="menunggu">Menunggu Penugasan</option>
-                <option value="diproses">Ditugaskan (Diproses)</option>
-                <option value="menuju_lokasi">Menuju Lokasi Jemput</option>
-                <option value="membawa_pasien">Membawa Pasien ke RS</option>
-                <option value="selesai">Selesai</option>
-                <option value="dibatalkan">Dibatalkan</option>
-            </select>
+            <div class="relative" x-data="{ open: false }">
+                <button type="button" @click="open = !open" @click.outside="open = false"
+                        class="flex items-center justify-between gap-2 px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm font-semibold text-slate-700 shadow-xs hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-100 transition-all">
+                    <span>
+                        @if($statusFilter === 'menunggu') Menunggu Penugasan
+                        @elseif($statusFilter === 'diproses') Ditugaskan (Diproses)
+                        @elseif($statusFilter === 'menuju_lokasi') Menuju Lokasi Jemput
+                        @elseif($statusFilter === 'membawa_pasien') Membawa Pasien ke RS
+                        @elseif($statusFilter === 'selesai') Selesai
+                        @elseif($statusFilter === 'dibatalkan') Dibatalkan
+                        @else Semua Status
+                        @endif
+                    </span>
+                    <svg class="w-4 h-4 text-slate-400 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+
+                <div x-show="open" x-transition.opacity.duration.150ms
+                     class="absolute right-0 top-full mt-1.5 w-56 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 overflow-hidden"
+                     style="display: none;">
+                    <button type="button" @click="$wire.set('statusFilter', ''); open = false"
+                            class="w-full text-left px-3.5 py-2 text-xs font-semibold flex items-center justify-between hover:bg-sky-50 hover:text-sky-600 transition-colors {{ $statusFilter === '' ? 'text-sky-600 bg-sky-50/50' : 'text-slate-700' }}">
+                        <span>Semua Status</span>
+                        @if($statusFilter === '') <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> @endif
+                    </button>
+                    @foreach([
+                        'menunggu' => 'Menunggu Penugasan',
+                        'diproses' => 'Ditugaskan (Diproses)',
+                        'menuju_lokasi' => 'Menuju Lokasi Jemput',
+                        'membawa_pasien' => 'Membawa Pasien ke RS',
+                        'selesai' => 'Selesai',
+                        'dibatalkan' => 'Dibatalkan',
+                    ] as $val => $lbl)
+                        <button type="button" @click="$wire.set('statusFilter', '{{ $val }}'); open = false"
+                                class="w-full text-left px-3.5 py-2 text-xs font-semibold flex items-center justify-between hover:bg-sky-50 hover:text-sky-600 transition-colors {{ $statusFilter === $val ? 'text-sky-600 bg-sky-50/50' : 'text-slate-700' }}">
+                            <span>{{ $lbl }}</span>
+                            @if($statusFilter === $val) <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> @endif
+                        </button>
+                    @endforeach
+                </div>
+            </div>
 
             <!-- Tombol Tambah Order (Hotline Manual) -->
             <button type="button" wire:click="openCreateModal"
@@ -47,13 +77,13 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="bg-slate-50/80 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                        <th class="py-3 px-4">Kode & Waktu</th>
-                        <th class="py-3 px-4">Pasien & Darurat</th>
-                        <th class="py-3 px-4">Lokasi Jemput</th>
-                        <th class="py-3 px-4">Armada & Supir</th>
-                        <th class="py-3 px-4">Status</th>
-                        <th class="py-3 px-4 text-right" style="white-space: nowrap;">Aksi Operasional</th>
+                    <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                        <th class="py-3 px-4 whitespace-nowrap">Kode & Waktu</th>
+                        <th class="py-3 px-4 whitespace-nowrap">Pasien & Darurat</th>
+                        <th class="py-3 px-4 whitespace-nowrap">Lokasi Jemput</th>
+                        <th class="py-3 px-4 whitespace-nowrap">Armada & Supir</th>
+                        <th class="py-3 px-4 whitespace-nowrap">Status</th>
+                        <th class="py-3 px-4 whitespace-nowrap text-right">Aksi Operasional</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 text-sm">
@@ -89,30 +119,31 @@
                                         <span class="text-slate-500 block">Supir: {{ $order->supir->user->name ?? '-' }}</span>
                                     </div>
                                 @else
-                                    <span class="inline-block px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200">
-                                        Belum Ditugaskan
-                                    </span>
+                                    <div class="flex items-center gap-1.5 font-bold text-amber-600 text-[11px]">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                                        <span>Belum Ditugaskan</span>
+                                    </div>
                                 @endif
                             </td>
 
                             <!-- Status -->
                             <td class="py-3 px-4">
-                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold
-                                    @if($order->status === 'menunggu') bg-amber-100 text-amber-800 border border-amber-300
-                                    @elseif(in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien'])) bg-sky-100 text-sky-700 border border-sky-200 animate-pulse
-                                    @elseif($order->status === 'selesai') bg-emerald-100 text-emerald-700 border border-emerald-200
-                                    @else bg-slate-100 text-slate-600 border border-slate-200 @endif">
-                                    <span class="w-2 h-2 rounded-full @if(in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien'])) bg-sky-600 animate-ping @else bg-current @endif"></span>
+                                <div class="flex items-center gap-1.5 font-bold text-sm
+                                    @if($order->status === 'menunggu') text-amber-600
+                                    @elseif(in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien'])) text-sky-600 animate-pulse
+                                    @elseif($order->status === 'selesai') text-emerald-600
+                                    @else text-slate-600 @endif">
+                                    <span class="w-1.5 h-1.5 rounded-full @if(in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien'])) bg-sky-600 animate-ping @elseif($order->status === 'menunggu') bg-amber-500 @elseif($order->status === 'selesai') bg-emerald-500 @else bg-slate-500 @endif"></span>
                                     <span>{{ $order->status_label }}</span>
-                                </span>
+                                </div>
                             </td>
 
                             <!-- Aksi -->
-                            <td class="py-3 px-4 text-right" style="white-space: nowrap;">
-                                <div class="flex items-center justify-end gap-1.5" style="flex-wrap: nowrap;">
+                            <td class="py-3 px-4 text-right whitespace-nowrap">
+                                <div class="flex items-center justify-end gap-1.5 flex-nowrap">
                                     <!-- Link Tracking -->
                                     <a href="{{ route('masyarakat.tracking', $order->id) }}" target="_blank"
-                                       class="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors border border-slate-200" title="Lihat Peta Realtime" style="flex-shrink: 0;">
+                                       class="p-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-colors shadow-sm" title="Lihat Peta Realtime">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
@@ -121,26 +152,26 @@
 
                                     <!-- Detail -->
                                     <button type="button" wire:click="openDetailModal({{ $order->id }})"
-                                            class="px-2.5 py-1 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 font-semibold text-[11px] transition-colors" style="flex-shrink: 0;">
+                                            class="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 font-semibold text-[11px] transition-colors shadow-sm">
                                         Detail
                                     </button>
 
                                     <!-- Edit -->
                                     <button type="button" wire:click="openEditModal({{ $order->id }})"
-                                            class="px-2.5 py-1 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 font-semibold text-[11px] transition-colors" style="flex-shrink: 0;">
+                                            class="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 font-semibold text-[11px] transition-colors shadow-sm">
                                         Edit
                                     </button>
 
                                     <!-- Tugaskan / Selesai -->
                                     @if($order->status === 'menunggu')
                                         <button type="button" wire:click="openAssignModal({{ $order->id }})"
-                                                class="px-2.5 py-1 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-bold text-[11px] shadow-sm transition-colors" style="flex-shrink: 0;">
+                                                class="px-2.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-bold text-[11px] shadow-sm transition-colors">
                                             Tugaskan
                                         </button>
                                     @elseif(in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien']))
                                         <button type="button" wire:click="updateStatus({{ $order->id }}, 'selesai')"
                                                 wire:confirm="Tandai pesanan ini selesai ditangani di RS?"
-                                                class="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] shadow-sm transition-colors" style="flex-shrink: 0;">
+                                                class="px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] shadow-sm transition-colors">
                                             Selesai
                                         </button>
                                     @endif
@@ -148,7 +179,7 @@
                                     <!-- Hapus -->
                                     <button type="button" wire:click="deleteOrder({{ $order->id }})"
                                             wire:confirm="Yakin ingin menghapus pesanan ini dari database?"
-                                            class="px-2.5 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 font-semibold text-[11px] transition-colors" style="flex-shrink: 0;">
+                                            class="px-2.5 py-1.5 rounded-lg border border-red-200 bg-red-50 hover:bg-red-100 text-red-600 font-semibold text-[11px] transition-colors shadow-sm">
                                         Hapus
                                     </button>
                                 </div>

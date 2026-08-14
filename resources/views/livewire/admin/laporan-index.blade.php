@@ -2,13 +2,13 @@
     <!-- Header Page -->
     <div class="mb-8 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 print:hidden">
         <div class="flex-1">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-white/20 text-white uppercase tracking-wider mb-2.5 shadow-sm border border-white/20 backdrop-blur-md">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-slate-100 text-slate-500 uppercase tracking-wider mb-2.5">
                 Audit Operasional Medis
             </span>
-            <h1 class="text-2xl sm:text-[32px] font-extrabold text-white tracking-tight drop-shadow-md leading-tight">
+            <h1 class="text-2xl sm:text-[28px] font-bold text-slate-900 tracking-tight leading-tight">
                 Laporan Pemesanan & Evakuasi
             </h1>
-            <p class="text-white/90 text-[15px] sm:text-base mt-2 font-medium leading-relaxed drop-shadow-sm max-w-2xl">
+            <p class="text-slate-500 text-[14px] mt-1.5 font-medium max-w-2xl">
                 Rekapitulasi riwayat pesanan ambulans berdasarkan rentang tanggal dan status.
             </p>
         </div>
@@ -66,14 +66,50 @@
             </div>
             <div>
                 <label class="block text-xs font-bold text-slate-500 mb-1">FILTER STATUS ORDER</label>
-                <select wire:model.live="statusFilter"
-                        class="w-full px-4 py-2 rounded-xl border border-slate-300 text-sm font-semibold">
-                    <option value="">-- Semua Status --</option>
-                    <option value="selesai">Selesai (Sukses)</option>
-                    <option value="dibatalkan">Dibatalkan</option>
-                    <option value="menunggu">Menunggu</option>
-                    <option value="diproses">Ditugaskan</option>
-                </select>
+                <div class="relative" x-data="{ open: false }">
+                    <button type="button" @click="open = !open" @click.outside="open = false"
+                            class="w-full flex items-center justify-between px-4 py-2 rounded-xl border border-slate-300 bg-white text-sm font-semibold text-slate-700 shadow-xs hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-100 transition-all">
+                        <span>
+                            @if($statusFilter === 'selesai') Selesai (Sukses)
+                            @elseif($statusFilter === 'dibatalkan') Dibatalkan
+                            @elseif($statusFilter === 'menunggu') Menunggu
+                            @elseif($statusFilter === 'diproses') Ditugaskan
+                            @else Semua Status
+                            @endif
+                        </span>
+                        <svg class="w-4 h-4 text-slate-400 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+
+                    <div x-show="open" x-transition.opacity.duration.150ms
+                         class="absolute left-0 top-full mt-1.5 w-full bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 overflow-hidden"
+                         style="display: none;">
+                        <button type="button" @click="$wire.set('statusFilter', ''); open = false"
+                                class="w-full text-left px-3.5 py-2 text-xs font-semibold flex items-center justify-between hover:bg-sky-50 hover:text-sky-600 transition-colors {{ $statusFilter === '' ? 'text-sky-600 bg-sky-50/50' : 'text-slate-700' }}">
+                            <span>Semua Status</span>
+                            @if($statusFilter === '') <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> @endif
+                        </button>
+                        <button type="button" @click="$wire.set('statusFilter', 'selesai'); open = false"
+                                class="w-full text-left px-3.5 py-2 text-xs font-semibold flex items-center justify-between hover:bg-sky-50 hover:text-sky-600 transition-colors {{ $statusFilter === 'selesai' ? 'text-sky-600 bg-sky-50/50' : 'text-slate-700' }}">
+                            <span>Selesai (Sukses)</span>
+                            @if($statusFilter === 'selesai') <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> @endif
+                        </button>
+                        <button type="button" @click="$wire.set('statusFilter', 'dibatalkan'); open = false"
+                                class="w-full text-left px-3.5 py-2 text-xs font-semibold flex items-center justify-between hover:bg-sky-50 hover:text-sky-600 transition-colors {{ $statusFilter === 'dibatalkan' ? 'text-sky-600 bg-sky-50/50' : 'text-slate-700' }}">
+                            <span>Dibatalkan</span>
+                            @if($statusFilter === 'dibatalkan') <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> @endif
+                        </button>
+                        <button type="button" @click="$wire.set('statusFilter', 'menunggu'); open = false"
+                                class="w-full text-left px-3.5 py-2 text-xs font-semibold flex items-center justify-between hover:bg-sky-50 hover:text-sky-600 transition-colors {{ $statusFilter === 'menunggu' ? 'text-sky-600 bg-sky-50/50' : 'text-slate-700' }}">
+                            <span>Menunggu</span>
+                            @if($statusFilter === 'menunggu') <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> @endif
+                        </button>
+                        <button type="button" @click="$wire.set('statusFilter', 'diproses'); open = false"
+                                class="w-full text-left px-3.5 py-2 text-xs font-semibold flex items-center justify-between hover:bg-sky-50 hover:text-sky-600 transition-colors {{ $statusFilter === 'diproses' ? 'text-sky-600 bg-sky-50/50' : 'text-slate-700' }}">
+                            <span>Ditugaskan</span>
+                            @if($statusFilter === 'diproses') <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> @endif
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -99,14 +135,14 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="bg-slate-50/80 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                        <th class="py-4 px-6">Kode & Tanggal</th>
-                        <th class="py-4 px-6">Pasien & Alamat</th>
-                        <th class="py-4 px-6">RS Rujukan</th>
-                        <th class="py-4 px-6">Armada & Supir</th>
-                        <th class="py-4 px-6">Status</th>
-                        <th class="py-4 px-6">Rating</th>
-                        <th class="py-4 px-6 text-right print:hidden">Aksi</th>
+                    <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                        <th class="py-3 px-6 whitespace-nowrap">Kode & Tanggal</th>
+                        <th class="py-3 px-6 whitespace-nowrap">Pasien & Alamat</th>
+                        <th class="py-3 px-6 whitespace-nowrap">RS Rujukan</th>
+                        <th class="py-3 px-6 whitespace-nowrap">Armada & Supir</th>
+                        <th class="py-3 px-6 whitespace-nowrap">Status</th>
+                        <th class="py-3 px-6 whitespace-nowrap">Rating</th>
+                        <th class="py-3 px-6 whitespace-nowrap text-right print:hidden">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 text-sm">
@@ -128,10 +164,11 @@
                                 <span class="text-slate-500">{{ $row->supir?->user->name ?? '-' }}</span>
                             </td>
                             <td class="py-4 px-6">
-                                <span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold
-                                    {{ $row->status === 'selesai' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600' }}">
-                                    {{ $row->status_label }}
-                                </span>
+                                <div class="flex items-center gap-1.5 font-bold text-sm
+                                    {{ $row->status === 'selesai' ? 'text-emerald-600' : 'text-slate-600' }}">
+                                    <span class="w-1.5 h-1.5 rounded-full {{ $row->status === 'selesai' ? 'bg-emerald-500' : 'bg-slate-500' }}"></span>
+                                    <span>{{ $row->status_label }}</span>
+                                </div>
                             </td>
                             <td class="py-4 px-6 font-bold text-amber-500 text-xs">
                                 @if($row->rating)
@@ -140,10 +177,10 @@
                                     <span class="text-slate-300">-</span>
                                 @endif
                             </td>
-                            <td class="py-4 px-6 text-right print:hidden">
+                            <td class="py-4 px-6 text-right print:hidden whitespace-nowrap">
                                 <button type="button" wire:click="deleteReport({{ $row->id }})"
                                         wire:confirm="Yakin ingin menghapus data laporan pesanan ini dari database?"
-                                        class="px-3 py-1 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 font-bold text-xs transition-colors">
+                                        class="px-3 py-1.5 rounded-lg border border-red-200 bg-red-50 hover:bg-red-100 text-red-600 font-semibold text-[11px] transition-colors shadow-sm">
                                     Hapus
                                 </button>
                             </td>

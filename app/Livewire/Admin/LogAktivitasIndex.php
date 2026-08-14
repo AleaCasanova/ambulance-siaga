@@ -45,6 +45,6 @@ class LogAktivitasIndex extends Component
 
         return view('livewire.admin.log-aktivitas-index', [
             'logs' => $logs,
-        ]);
+        ])->layout('layouts.admin');
     }
 }

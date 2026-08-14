@@ -69,6 +69,6 @@ class LiveMonitoring extends Component
             'markers'            => $markers,
             'activeOrdersCount'  => $activeOrders->count(),
             'onlineSupirsCount'  => $allSupirs->where('status_online', true)->count(),
-        ]);
+        ])->layout('layouts.admin');
     }
 }

@@ -70,15 +70,19 @@ class Dashboard extends Component
             'selectedSupirId'    => 'required|exists:supir,id',
         ]);
 
-        $service->assignAmbulanceAndDriver(
-            $this->selectedOrderId,
-            $this->selectedAmbulansId,
-            $this->selectedSupirId,
-            auth()->id()
-        );
+        try {
+            $service->assignAmbulanceAndDriver(
+                $this->selectedOrderId,
+                $this->selectedAmbulansId,
+                $this->selectedSupirId,
+                auth()->id()
+            );
 
-        $this->closeAssignModal();
-        session()->flash('success', 'Ambulans dan supir berhasil ditugaskan untuk order darurat tersebut!');
+            $this->closeAssignModal();
+            session()->flash('success', 'Ambulans dan supir berhasil ditugaskan untuk order darurat tersebut!');
+        } catch (\Exception $e) {
+            session()->flash('error', $e->getMessage());
+        }
     }
 
     public function render()
@@ -150,6 +154,6 @@ class Dashboard extends Component
             'availableAmbulances' => $availableAmbulances,
             'onlineSupirs'       => $onlineSupirs,
             'mapMarkers'         => $mapMarkers,
-        ]);
+        ])->layout('layouts.admin');
     }
 }

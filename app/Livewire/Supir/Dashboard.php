@@ -15,6 +15,13 @@ class Dashboard extends Component
     public function mount()
     {
         $user = auth()->user();
+        if ($user && !$user->supir && $user->isSupir()) {
+            Supir::firstOrCreate(['user_id' => $user->id], [
+                'no_wa' => $user->phone ?? '',
+                'status_online' => true,
+            ]);
+            $user->refresh();
+        }
         if ($user && $user->supir) {
             $this->isOnline = (bool) $user->supir->status_online;
         }
@@ -23,6 +30,13 @@ class Dashboard extends Component
     public function toggleOnline()
     {
         $user = auth()->user();
+        if ($user && !$user->supir && $user->isSupir()) {
+            Supir::firstOrCreate(['user_id' => $user->id], [
+                'no_wa' => $user->phone ?? '',
+                'status_online' => true,
+            ]);
+            $user->refresh();
+        }
         if ($user && $user->supir) {
             $this->isOnline = !$this->isOnline;
             $user->supir->update(['status_online' => $this->isOnline]);
@@ -30,12 +44,10 @@ class Dashboard extends Component
         }
     }
 
-
-
     public function render()
     {
         $user = auth()->user();
-        $supir = $user->supir;
+        $supir = $user?->supir;
 
         // Ambil tugas aktif saat ini
         $activeOrder = null;

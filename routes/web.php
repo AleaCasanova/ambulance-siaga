@@ -4,6 +4,7 @@ use App\Http\Controllers\LaporanExportController;
 use App\Http\Controllers\ProfileController;
 use App\Livewire\Admin\AmbulansIndex as AdminAmbulansIndex;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
+use App\Livewire\Admin\DonasiIndex as AdminDonasiIndex;
 use App\Livewire\Admin\JadwalIndex as AdminJadwalIndex;
 use App\Livewire\Admin\LaporanIndex as AdminLaporanIndex;
 use App\Livewire\Admin\LogAktivitasIndex as AdminLogAktivitasIndex;
@@ -62,13 +63,15 @@ Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
     // Redirect dashboard based on role
     if ($user->hasRole('admin')) {
         return redirect()->route('admin.dashboard');
+    } elseif ($user->hasRole('mitra')) {
+        return redirect()->route('mitra.dashboard');
     } elseif ($user->hasRole('operator')) {
         return redirect()->route('operator.dashboard');
     } elseif ($user->hasRole('supir')) {
         return redirect()->route('supir.dashboard');
     }
 
-    return redirect()->route('masyarakat.order.index');
+    return redirect()->route('masyarakat.dashboard');
 })->name('dashboard');
 
 // Group Protected Routes
@@ -80,6 +83,7 @@ Route::middleware('auth')->group(function () {
 
     // 1. MODUL MASYARAKAT
     Route::prefix('masyarakat')->name('masyarakat.')->group(function () {
+        Route::get('/dashboard', \App\Livewire\Masyarakat\Dashboard::class)->name('dashboard');
         Route::get('/orders', MasyarakatOrderIndex::class)->name('order.index');
         Route::get('/orders-list', MasyarakatOrderIndex::class)->name('orders.index');
     });
@@ -113,10 +117,19 @@ Route::middleware('auth')->group(function () {
         Route::get('/laporan', AdminLaporanIndex::class)->name('laporan.index');
         Route::get('/laporan/export-pdf', [LaporanExportController::class, 'exportPdf'])->name('laporan.export.pdf');
         Route::get('/laporan/export-excel', [LaporanExportController::class, 'exportExcel'])->name('laporan.export.excel');
+        Route::get('/donasi', AdminDonasiIndex::class)->name('donasi.index');
         Route::get('/orders', OperatorOrderIndex::class)->name('orders.index');
         Route::get('/logs', AdminLogAktivitasIndex::class)->name('logs.index');
         Route::get('/audit', AdminLogAktivitasIndex::class)->name('audit.index');
         Route::get('/settings', AdminSettingIndex::class)->name('settings.index');
+    });
+
+    // 5. MODUL MITRA / LEMBAGA
+    Route::middleware('role:mitra')->prefix('mitra')->name('mitra.')->group(function () {
+        Route::get('/dashboard', \App\Livewire\Mitra\Dashboard::class)->name('dashboard');
+        Route::get('/ambulans', \App\Livewire\Mitra\AmbulansIndex::class)->name('ambulans.index');
+        Route::get('/supir', \App\Livewire\Mitra\SupirIndex::class)->name('supir.index');
+        Route::get('/orders', \App\Livewire\Mitra\OrderIndex::class)->name('orders.index');
     });
 });
 

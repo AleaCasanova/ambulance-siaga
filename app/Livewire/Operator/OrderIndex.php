@@ -101,15 +101,19 @@ class OrderIndex extends Component
             'selectedSupirId' => 'required|exists:supir,id',
         ]);
 
-        $service->assignAmbulanceAndDriver(
-            $this->selectedOrderId,
-            $this->selectedAmbulansId,
-            $this->selectedSupirId,
-            auth()->id()
-        );
+        try {
+            $service->assignAmbulanceAndDriver(
+                $this->selectedOrderId,
+                $this->selectedAmbulansId,
+                $this->selectedSupirId,
+                auth()->id()
+            );
 
-        $this->closeAssignModal();
-        session()->flash('success', 'Armada ambulans berhasil ditugaskan!');
+            $this->closeAssignModal();
+            session()->flash('success', 'Armada ambulans berhasil ditugaskan!');
+        } catch (\Exception $e) {
+            session()->flash('error', $e->getMessage());
+        }
     }
 
     // 2. CREATE MANUAL ORDER
@@ -256,6 +260,6 @@ class OrderIndex extends Component
             'availableAmbulances' => $availableAmbulances,
             'onlineSupirs' => $onlineSupirs,
             'rumahSakits' => $rumahSakits,
-        ]);
+        ])->layout('layouts.admin');
     }
 }

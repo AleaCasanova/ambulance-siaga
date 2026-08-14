@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Ambulans;
+use App\Models\Donasi;
 use App\Models\LogAktivitas;
 use App\Models\Pemesanan;
 use App\Models\RumahSakit;
@@ -22,6 +23,20 @@ class Dashboard extends Component
             'total_ambulans' => Ambulans::count(),
             'total_rs' => RumahSakit::count(),
             'supir_aktif' => Supir::where('status_online', true)->count(),
+            'total_donasi' => Donasi::whereIn('status', ['settlement', 'success'])->sum('nominal'),
+        ];
+
+        // Rata-rata waktu respon (selisih waktu_pesan dan waktu_respon dalam menit)
+        $avgResponseTime = Pemesanan::whereNotNull('waktu_respon')
+            ->whereNotNull('waktu_pesan')
+            ->selectRaw('AVG(TIMESTAMPDIFF(MINUTE, waktu_pesan, waktu_respon)) as avg_time')
+            ->value('avg_time') ?? 0;
+
+        $userDistribution = [
+            'Admin' => User::whereHas('role', fn($q) => $q->where('name', 'admin'))->count(),
+            'Operator' => User::whereHas('role', fn($q) => $q->where('name', 'operator'))->count(),
+            'Supir' => User::whereHas('role', fn($q) => $q->where('name', 'supir'))->count(),
+            'Masyarakat' => User::whereHas('role', fn($q) => $q->where('name', 'masyarakat'))->count() + User::doesntHave('role')->count(),
         ];
 
         // Data untuk grafik status pesanan (Pie Chart)
@@ -53,13 +68,45 @@ class Dashboard extends Component
             ->take(6)
             ->get();
 
+        // Data for Live Ambulance Map
+        $activeDrivers = Supir::with('user')
+            ->whereNotNull('lokasi_terakhir_lat')
+            ->whereNotNull('lokasi_terakhir_lng')
+            ->get()
+            ->map(function($supir) {
+                // Determine status pseudo logic based on their active pemesanan
+                $activeOrder = Pemesanan::where('supir_id', $supir->id)
+                    ->whereIn('status', ['menunggu_konfirmasi_supir', 'diproses', 'menuju_lokasi', 'membawa_pasien'])
+                    ->first();
+                
+                $statusMap = 'Available';
+                if ($activeOrder) {
+                    $statusMap = $activeOrder->status == 'membawa_pasien' || $activeOrder->status == 'menuju_lokasi' ? 'Emergency' : 'On Duty';
+                } elseif (!$supir->status_online) {
+                    $statusMap = 'Offline';
+                }
+
+                return [
+                    'id' => $supir->id,
+                    'name' => $supir->user->name ?? 'Driver',
+                    'plat_nomor' => $supir->plat_nomor,
+                    'lat' => $supir->lokasi_terakhir_lat,
+                    'lng' => $supir->lokasi_terakhir_lng,
+                    'status' => $statusMap,
+                    'destination' => $activeOrder ? ($activeOrder->rumahSakit->nama ?? $activeOrder->lokasi_tujuan) : '-',
+                ];
+            });
+
         return view('livewire.admin.dashboard', [
             'stats' => $stats,
+            'avgResponseTime' => $avgResponseTime,
+            'userDistribution' => $userDistribution,
             'chartStatus' => $chartStatus,
             'months' => $months,
             'chartMonthly' => $chartMonthly,
             'recentOrders' => $recentOrders,
             'recentLogs' => $recentLogs,
-        ]);
+            'activeDrivers' => $activeDrivers,
+        ])->layout('layouts.admin');
     }
 }

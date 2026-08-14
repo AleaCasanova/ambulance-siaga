@@ -70,6 +70,6 @@ class LaporanIndex extends Component
         return view('livewire.admin.laporan-index', [
             'laporan' => $laporan,
             'rekap' => $rekap,
-        ]);
+        ])->layout('layouts.admin');
     }
 }

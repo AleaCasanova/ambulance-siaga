@@ -116,6 +116,6 @@ class JadwalIndex extends Component
             'jadwalList' => $jadwalList,
             'supirList' => $supirList,
             'ambulansList' => $ambulansList,
-        ]);
+        ])->layout('layouts.admin');
     }
 }

@@ -2,13 +2,13 @@
     <!-- Header -->
     <div class="mb-8 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
         <div class="flex-1">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-white/20 text-white uppercase tracking-wider mb-2.5 shadow-sm border border-white/20 backdrop-blur-md">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-slate-100 text-slate-500 uppercase tracking-wider mb-2.5">
                 Konfigurasi Aplikasi
             </span>
-            <h1 class="text-2xl sm:text-[32px] font-extrabold text-white tracking-tight drop-shadow-md leading-tight">
+            <h1 class="text-2xl sm:text-[28px] font-bold text-slate-900 tracking-tight leading-tight">
                 Pengaturan Sistem Ambulance Siaga
             </h1>
-            <p class="text-white/90 text-[15px] sm:text-base mt-2 font-medium leading-relaxed drop-shadow-sm max-w-2xl">
+            <p class="text-slate-500 text-[14px] mt-1.5 font-medium max-w-2xl">
                 Sesuaikan informasi organisasi, hotline darurat, serta koordinat pusat penjemputan Cilacap.
             </p>
         </div>

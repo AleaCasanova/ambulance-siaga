@@ -22,12 +22,12 @@
     <!-- Left side: Logo & Brand Title -->
     <div class="flex items-center gap-4">
         <a href="{{ route('home') }}" class="flex items-center gap-3.5 group">
-            <div class="w-14 h-14 rounded-full bg-white p-1 flex items-center justify-center shadow-lg group-hover:scale-105 transition-all overflow-hidden">
+            <div class="w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-white p-1 flex items-center justify-center shadow-lg group-hover:scale-105 transition-all overflow-hidden">
                 <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-full h-full object-contain">
             </div>
             <div class="flex flex-col">
-                <span class="font-extrabold text-white font-black text-xl tracking-tight leading-none group-hover:text-primary-100 transition-colors">Ambulance Siaga</span>
-                <span class="text-primary-100 text-[10px] font-bold tracking-widest uppercase mt-0.5">Layanan Darurat • Multi-Mitra</span>
+                <span class="font-extrabold text-white font-black text-lg sm:text-xl tracking-tight leading-none group-hover:text-primary-100 transition-colors">Ambulance Siaga</span>
+                <span class="text-primary-100 text-[8px] sm:text-[10px] font-bold tracking-widest uppercase mt-0.5">Layanan Darurat • Multi-Mitra</span>
             </div>
         </a>
     </div>
@@ -44,51 +44,62 @@
             <a href="{{ route('home') }}" class="{{ $navBase }} {{ request()->routeIs('home') ? $navActive : $navInactive }}">
                 Beranda
             </a>
+            <a href="{{ route('masyarakat.order.create') }}" class="{{ $navBase }} {{ request()->routeIs('masyarakat.order.create') ? $navActive : $navInactive }}">
+                Pesan Ambulans
+            </a>
+            <a href="{{ route('donasi') }}" class="{{ $navBase }} {{ request()->routeIs('donasi') ? $navActive : $navInactive }}">
+                Donasi & Infaq
+            </a>
             <a href="{{ route('masyarakat.info') }}" class="{{ $navBase }} {{ request()->routeIs('masyarakat.info') ? $navActive : $navInactive }}">
                 Tentang Kami
-            </a>
-            <a href="{{ route('masyarakat.order.create') }}" class="{{ $navBase }} {{ request()->routeIs('masyarakat.order.create') ? $navActive : $navInactive }}">
-                Layanan Kami
             </a>
 
             <!-- Dropdown Mitra (Guest) -->
             <div class="relative" x-data="{ dropMitra: false }">
                 <button @click="dropMitra = !dropMitra" @click.outside="dropMitra = false" class="flex items-center gap-1 {{ $navBase }} {{ request()->routeIs('mitra.*') ? $navActive : $navInactive }}" :class="{ '!text-white !after:scale-x-100': dropMitra }">
-                    <span>Jadilah Mitra Kami</span>
+                    <span>Kemitraan</span>
                     <svg class="w-3.5 h-3.5 transition-transform" :class="{ 'rotate-180': dropMitra }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                 </button>
-                <div x-show="dropMitra" x-transition.opacity.duration.200ms class="absolute left-0 mt-3 w-64 bg-white rounded-xl shadow-lg border border-slate-100 p-2 z-50" style="display: none;">
-                    <a href="{{ route('mitra.pengemudi') }}" class="block px-4 py-3 rounded-lg text-sm text-slate-700 hover:text-primary-600 hover:bg-sky-50 font-bold transition-all">Pengemudi Ambulans</a>
-                    <a href="{{ route('mitra.armada') }}" class="block px-4 py-3 rounded-lg text-sm text-slate-700 hover:text-primary-600 hover:bg-sky-50 font-bold transition-all">Mitra Ambulans / Pemilik Armada</a>
+                <div x-show="dropMitra" x-transition.opacity.duration.200ms class="absolute left-0 mt-3 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 z-50" style="display: none;">
+                    <a href="{{ route('mitra.pengemudi') }}" class="block px-4 py-3 rounded-xl text-xs text-slate-700 hover:text-primary-600 hover:bg-sky-50 font-bold transition-all">🤝 Pengemudi Ambulans</a>
+                    <a href="{{ route('mitra.armada') }}" class="block px-4 py-3 rounded-xl text-xs text-slate-700 hover:text-primary-600 hover:bg-sky-50 font-bold transition-all">🚐 Mitra Ambulans / Pemilik Armada</a>
                 </div>
             </div>
         @else
             @if($user->hasRole('masyarakat') || !$user->role_id)
                 <!-- MENU MASYARAKAT -->
-                <a href="{{ route('home') }}" class="{{ $navBase }} {{ request()->routeIs('home') ? $navActive : $navInactive }}">
-                    Beranda
+                <a href="{{ route('masyarakat.dashboard') }}" class="{{ $navBase }} {{ request()->routeIs('masyarakat.dashboard') ? $navActive : $navInactive }}">
+                    Pusat Siaga
                 </a>
                 <a href="{{ route('masyarakat.order.create') }}" class="{{ $navBase }} {{ request()->routeIs('masyarakat.order.create') ? $navActive : $navInactive }}">
-                    Pesan Ambulance
+                    Pesan Ambulans
                 </a>
                 <a href="{{ route('masyarakat.orders.index') }}" class="{{ $navBase }} {{ request()->routeIs('masyarakat.orders.*') || request()->routeIs('masyarakat.tracking') ? $navActive : $navInactive }}">
-                    Riwayat & Tracking
+                    Pesanan Saya
+                </a>
+                <a href="{{ route('donasi') }}" class="{{ $navBase }} {{ request()->routeIs('donasi') ? $navActive : $navInactive }}">
+                    Donasi & Infaq
                 </a>
 
-                <!-- Dropdown Mitra (Masyarakat) -->
-                <div class="relative" x-data="{ dropMitraUser: false }">
-                    <button @click="dropMitraUser = !dropMitraUser" @click.outside="dropMitraUser = false" class="flex items-center gap-1 {{ $navBase }} {{ request()->routeIs('mitra.*') ? $navActive : $navInactive }}" :class="{ '!text-white !after:scale-x-100': dropMitraUser }">
-                        <span>Jadilah Mitra Kami</span>
-                        <svg class="w-3.5 h-3.5 transition-transform" :class="{ 'rotate-180': dropMitraUser }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                <!-- Dropdown Informasi & Layanan (Masyarakat) -->
+                <div class="relative" x-data="{ dropInfoUser: false }">
+                    <button @click="dropInfoUser = !dropInfoUser" @click.outside="dropInfoUser = false" class="flex items-center gap-1 {{ $navBase }} {{ request()->routeIs('mitra.*') || request()->routeIs('masyarakat.info') ? $navActive : $navInactive }}" :class="{ '!text-white !after:scale-x-100': dropInfoUser }">
+                        <span>Informasi & Layanan</span>
+                        <svg class="w-3.5 h-3.5 transition-transform" :class="{ 'rotate-180': dropInfoUser }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                     </button>
-                    <div x-show="dropMitraUser" x-transition.opacity.duration.200ms class="absolute left-0 mt-3 w-64 bg-white rounded-xl shadow-lg border border-slate-100 p-2 z-50" style="display: none;">
-                        <a href="{{ route('mitra.pengemudi') }}" class="block px-4 py-3 rounded-lg text-sm text-slate-700 hover:text-primary-600 hover:bg-sky-50 font-bold transition-all">Pengemudi Ambulans</a>
-                        <a href="{{ route('mitra.armada') }}" class="block px-4 py-3 rounded-lg text-sm text-slate-700 hover:text-primary-600 hover:bg-sky-50 font-bold transition-all">Mitra Ambulans / Pemilik Armada</a>
+                    <div x-show="dropInfoUser" x-transition.opacity.duration.200ms class="absolute left-0 mt-3 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 z-50" style="display: none;">
+                        <a href="{{ route('masyarakat.dashboard') }}#rumah-sakit" class="block px-4 py-2.5 rounded-xl text-xs text-slate-700 hover:text-primary-600 hover:bg-sky-50 font-bold transition-all">🏥 Rumah Sakit & IGD 24 Jam</a>
+                        <a href="{{ route('masyarakat.dashboard') }}#panduan-p3k" class="block px-4 py-2.5 rounded-xl text-xs text-slate-700 hover:text-primary-600 hover:bg-sky-50 font-bold transition-all">🆘 Panduan P3K Darurat</a>
+                        <div class="border-t border-slate-100 my-1"></div>
+                        <a href="{{ route('mitra.pengemudi') }}" class="block px-4 py-2.5 rounded-xl text-xs text-slate-700 hover:text-primary-600 hover:bg-sky-50 font-bold transition-all">🤝 Gabung Pengemudi</a>
+                        <a href="{{ route('mitra.armada') }}" class="block px-4 py-2.5 rounded-xl text-xs text-slate-700 hover:text-primary-600 hover:bg-sky-50 font-bold transition-all">🚐 Gabung Mitra Armada</a>
+                        <div class="border-t border-slate-100 my-1"></div>
+                        <a href="{{ route('masyarakat.info') }}" class="block px-4 py-2.5 rounded-xl text-xs text-slate-700 hover:text-primary-600 hover:bg-sky-50 font-bold transition-all">📖 Tentang Yayasan GSC</a>
                     </div>
                 </div>
 
                 @if($pendingIncompleteOrder)
-                    <a href="{{ route('masyarakat.order.complete', $pendingIncompleteOrder->id) }}" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs shadow-lg shadow-amber-500/40 animate-pulse transition-all border-2 border-white transform hover:scale-105 ml-3">
+                    <a href="{{ route('masyarakat.order.complete', $pendingIncompleteOrder->id) }}" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs shadow-lg shadow-amber-500/40 animate-pulse transition-all border-2 border-white transform hover:scale-105 ml-2">
                         <span>⚠️ LENGKAPI FORM (#{{ $pendingIncompleteOrder->kode_order }})</span>
                     </a>
                 @endif
@@ -152,6 +163,7 @@
                         <svg class="w-4 h-4 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                     </button>
                     <div x-show="dropMgmt" x-transition class="absolute left-0 mt-2 w-52 bg-white rounded-2xl shadow-xl border border-slate-200 py-2 z-50" style="display: none;">
+                        <a href="{{ route('admin.donasi.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Kelola Donasi</a>
                         <a href="{{ route('admin.users.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Kelola Pengguna</a>
                         <a href="{{ route('admin.audit.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Log Aktivitas</a>
                         <a href="{{ route('admin.settings.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Pengaturan Sistem</a>
@@ -235,7 +247,7 @@
                 </div>
             </div>
         @else
-            <div class="flex items-center gap-4 sm:gap-5">
+            <div class="hidden lg:flex items-center gap-4 sm:gap-5">
                 <a href="{{ route('login') }}"
                    class="text-sm font-semibold text-white/90 hover:text-white transition-colors">
                     Login
@@ -280,24 +292,28 @@
                class="block px-4 py-3 rounded-xl font-bold text-sm {{ request()->routeIs('home') ? 'bg-sky-50 text-sky-600' : 'text-slate-700 hover:bg-slate-50' }}">
                 Beranda
             </a>
+            <a href="{{ route('masyarakat.order.create') }}" @click="mobileMenuOpen = false"
+               class="block px-4 py-3 rounded-xl font-bold text-sm {{ request()->routeIs('masyarakat.order.create') ? 'bg-sky-50 text-sky-600' : 'text-slate-700 hover:bg-slate-50' }}">
+                Pesan Ambulans
+            </a>
+            <a href="{{ route('donasi') }}" @click="mobileMenuOpen = false"
+               class="block px-4 py-3 rounded-xl font-bold text-sm {{ request()->routeIs('donasi') ? 'bg-sky-50 text-sky-600' : 'text-slate-700 hover:bg-slate-50' }}">
+                Donasi & Infaq
+            </a>
             <a href="{{ route('masyarakat.info') }}" @click="mobileMenuOpen = false"
                class="block px-4 py-3 rounded-xl font-bold text-sm {{ request()->routeIs('masyarakat.info') ? 'bg-sky-50 text-sky-600' : 'text-slate-700 hover:bg-slate-50' }}">
                 Tentang Kami
-            </a>
-            <a href="{{ route('masyarakat.order.create') }}" @click="mobileMenuOpen = false"
-               class="block px-4 py-3 rounded-xl font-bold text-sm {{ request()->routeIs('masyarakat.order.create') ? 'bg-sky-50 text-sky-600' : 'text-slate-700 hover:bg-slate-50' }}">
-                Layanan Kami
             </a>
 
             <!-- Mobile Dropdown Mitra (Guest) -->
             <div x-data="{ openMitraMobile: false }" class="mb-2">
                 <button @click="openMitraMobile = !openMitraMobile" class="w-full flex items-center justify-between px-4 py-3 rounded-xl font-bold text-sm text-slate-700 hover:bg-slate-50">
-                    <span>Jadilah Mitra Kami</span>
+                    <span>Kemitraan</span>
                     <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': openMitraMobile }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                 </button>
                 <div x-show="openMitraMobile" x-collapse class="pl-4 pr-2 py-1 space-y-1">
-                    <a href="{{ route('mitra.pengemudi') }}" @click="mobileMenuOpen = false" class="block px-4 py-2.5 rounded-lg text-sm font-semibold {{ request()->routeIs('mitra.pengemudi') ? 'bg-sky-50 text-sky-600' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50' }}">Pengemudi Ambulans</a>
-                    <a href="{{ route('mitra.armada') }}" @click="mobileMenuOpen = false" class="block px-4 py-2.5 rounded-lg text-sm font-semibold {{ request()->routeIs('mitra.armada') ? 'bg-sky-50 text-sky-600' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50' }}">Mitra Ambulans / Pemilik Armada</a>
+                    <a href="{{ route('mitra.pengemudi') }}" @click="mobileMenuOpen = false" class="block px-4 py-2.5 rounded-lg text-sm font-semibold {{ request()->routeIs('mitra.pengemudi') ? 'bg-sky-50 text-sky-600' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50' }}">🤝 Pengemudi Ambulans</a>
+                    <a href="{{ route('mitra.armada') }}" @click="mobileMenuOpen = false" class="block px-4 py-2.5 rounded-lg text-sm font-semibold {{ request()->routeIs('mitra.armada') ? 'bg-sky-50 text-sky-600' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50' }}">🚐 Mitra Ambulans / Pemilik Armada</a>
                 </div>
             </div>
             <div class="border-t border-slate-100 my-3"></div>
@@ -309,28 +325,35 @@
             </a>
         @else
             @if($user->hasRole('masyarakat') || !$user->role_id)
-                <a href="{{ route('home') }}" @click="mobileMenuOpen = false"
-                   class="block px-4 py-3 rounded-xl font-bold text-sm {{ request()->routeIs('home') ? 'bg-sky-50 text-sky-600' : 'text-slate-700 hover:bg-slate-50' }}">
-                    Beranda
+                <a href="{{ route('masyarakat.dashboard') }}" @click="mobileMenuOpen = false"
+                   class="block px-4 py-3 rounded-xl font-bold text-sm {{ request()->routeIs('masyarakat.dashboard') ? 'bg-sky-50 text-sky-600' : 'text-slate-700 hover:bg-slate-50' }}">
+                    Pusat Siaga
                 </a>
                 <a href="{{ route('masyarakat.order.create') }}" @click="mobileMenuOpen = false"
                    class="block px-4 py-3 rounded-xl font-bold text-sm {{ request()->routeIs('masyarakat.order.create') ? 'bg-sky-50 text-sky-600' : 'text-slate-700 hover:bg-slate-50' }}">
-                    Pesan Ambulance
+                    Pesan Ambulans
                 </a>
                 <a href="{{ route('masyarakat.orders.index') }}" @click="mobileMenuOpen = false"
                    class="block px-4 py-3 rounded-xl font-bold text-sm {{ request()->routeIs('masyarakat.orders.*') || request()->routeIs('masyarakat.tracking') ? 'bg-sky-50 text-sky-600' : 'text-slate-700 hover:bg-slate-50' }}">
-                    Riwayat & Tracking
+                    Pesanan Saya
+                </a>
+                <a href="{{ route('donasi') }}" @click="mobileMenuOpen = false"
+                   class="block px-4 py-3 rounded-xl font-bold text-sm {{ request()->routeIs('donasi') ? 'bg-sky-50 text-sky-600' : 'text-slate-700 hover:bg-slate-50' }}">
+                    Donasi & Infaq
                 </a>
 
-                <!-- Mobile Dropdown Mitra (Masyarakat) -->
-                <div x-data="{ openMitraMobileUser: false }" class="mb-2">
-                    <button @click="openMitraMobileUser = !openMitraMobileUser" class="w-full flex items-center justify-between px-4 py-3 rounded-xl font-bold text-sm text-slate-700 hover:bg-slate-50">
-                        <span>Jadilah Mitra Kami</span>
-                        <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': openMitraMobileUser }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                <!-- Mobile Dropdown Informasi & Layanan (Masyarakat) -->
+                <div x-data="{ openInfoMobileUser: false }" class="mb-2">
+                    <button @click="openInfoMobileUser = !openInfoMobileUser" class="w-full flex items-center justify-between px-4 py-3 rounded-xl font-bold text-sm text-slate-700 hover:bg-slate-50">
+                        <span>Informasi & Layanan</span>
+                        <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': openInfoMobileUser }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                     </button>
-                    <div x-show="openMitraMobileUser" x-collapse class="pl-4 pr-2 py-1 space-y-1">
-                        <a href="{{ route('mitra.pengemudi') }}" @click="mobileMenuOpen = false" class="block px-4 py-2.5 rounded-lg text-sm font-semibold {{ request()->routeIs('mitra.pengemudi') ? 'bg-sky-50 text-sky-600' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50' }}">Pengemudi Ambulans</a>
-                        <a href="{{ route('mitra.armada') }}" @click="mobileMenuOpen = false" class="block px-4 py-2.5 rounded-lg text-sm font-semibold {{ request()->routeIs('mitra.armada') ? 'bg-sky-50 text-sky-600' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50' }}">Mitra Ambulans / Pemilik Armada</a>
+                    <div x-show="openInfoMobileUser" x-collapse class="pl-4 pr-2 py-1 space-y-1">
+                        <a href="{{ route('masyarakat.dashboard') }}#rumah-sakit" @click="mobileMenuOpen = false" class="block px-4 py-2.5 rounded-lg text-sm font-semibold text-slate-600 hover:text-sky-600 hover:bg-slate-50">🏥 Rumah Sakit & IGD 24 Jam</a>
+                        <a href="{{ route('masyarakat.dashboard') }}#panduan-p3k" @click="mobileMenuOpen = false" class="block px-4 py-2.5 rounded-lg text-sm font-semibold text-slate-600 hover:text-sky-600 hover:bg-slate-50">🆘 Panduan P3K Darurat</a>
+                        <a href="{{ route('mitra.pengemudi') }}" @click="mobileMenuOpen = false" class="block px-4 py-2.5 rounded-lg text-sm font-semibold {{ request()->routeIs('mitra.pengemudi') ? 'bg-sky-50 text-sky-600' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50' }}">🤝 Gabung Pengemudi</a>
+                        <a href="{{ route('mitra.armada') }}" @click="mobileMenuOpen = false" class="block px-4 py-2.5 rounded-lg text-sm font-semibold {{ request()->routeIs('mitra.armada') ? 'bg-sky-50 text-sky-600' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50' }}">🚐 Gabung Mitra Armada</a>
+                        <a href="{{ route('masyarakat.info') }}" @click="mobileMenuOpen = false" class="block px-4 py-2.5 rounded-lg text-sm font-semibold {{ request()->routeIs('masyarakat.info') ? 'bg-sky-50 text-sky-600' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50' }}">📖 Tentang Yayasan GSC</a>
                     </div>
                 </div>
             @endif
@@ -362,6 +385,7 @@
                 <a href="{{ route('admin.jadwal.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Jadwal Supir</a>
 
                 <div class="pt-3 pb-1 px-4 text-xs font-black text-slate-400 uppercase tracking-wider">Manajemen</div>
+                <a href="{{ route('admin.donasi.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Kelola Donasi</a>
                 <a href="{{ route('admin.users.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Kelola Pengguna</a>
                 <a href="{{ route('admin.audit.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Log Aktivitas</a>
                 <a href="{{ route('admin.settings.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Pengaturan Sistem</a>

@@ -101,6 +101,6 @@ class AmbulansIndex extends Component
 
         return view('livewire.admin.ambulans-index', [
             'ambulansList' => $ambulansList,
-        ]);
+        ])->layout('layouts.admin');
     }
 }

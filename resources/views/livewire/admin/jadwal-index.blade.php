@@ -2,40 +2,53 @@
     <!-- Header -->
     <div class="mb-8 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
         <div class="flex-1">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-white/20 text-white uppercase tracking-wider mb-2.5 shadow-sm border border-white/20 backdrop-blur-md">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-slate-100 text-slate-500 uppercase tracking-wider mb-2.5">
                 Manajemen Operasional
             </span>
-            <h1 class="text-2xl sm:text-[32px] font-extrabold text-white tracking-tight drop-shadow-md leading-tight">
+            <h1 class="text-2xl sm:text-[28px] font-bold text-slate-900 tracking-tight leading-tight">
                 Jadwal Piket Supir & Ambulans
             </h1>
-            <p class="text-white/90 text-[15px] sm:text-base mt-2 font-medium leading-relaxed drop-shadow-sm max-w-2xl">
+            <p class="text-slate-500 text-[14px] mt-1.5 font-medium max-w-2xl">
                 Kelola jadwal penugasan harian supir dan unit armada mitra Ambulance Siaga.
             </p>
         </div>
 
-        <div class="flex flex-wrap items-center gap-3">
+        <div class="flex items-center gap-2.5 shrink-0">
             <input type="text" wire:model.live.debounce.300ms="search"
-                   placeholder="Cari nama supir atau plat..."
-                   class="px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 shadow-xs">
+                   placeholder="Cari supir, plat..."
+                   class="w-40 sm:w-52 px-3.5 py-2 rounded-xl border border-slate-300 bg-white text-xs font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 shadow-xs">
 
-            <select wire:model.live="hariFilter"
-                    class="px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm font-semibold focus:border-sky-500 focus:ring-2 focus:ring-sky-200 shadow-xs">
-                <option value="">-- Semua Hari --</option>
-                <option value="Senin">Senin</option>
-                <option value="Selasa">Selasa</option>
-                <option value="Rabu">Rabu</option>
-                <option value="Kamis">Kamis</option>
-                <option value="Jumat">Jumat</option>
-                <option value="Sabtu">Sabtu</option>
-                <option value="Minggu">Minggu</option>
-            </select>
+            <div class="relative" x-data="{ open: false }">
+                <button type="button" @click="open = !open" @click.outside="open = false"
+                        class="flex items-center justify-between gap-2 px-3.5 py-2 rounded-xl border border-slate-300 bg-white text-xs font-semibold text-slate-700 shadow-xs hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-100 transition-all whitespace-nowrap">
+                    <span>{{ $hariFilter ? 'Hari: ' . $hariFilter : 'Semua Hari' }}</span>
+                    <svg class="w-3.5 h-3.5 text-slate-400 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+
+                <div x-show="open" x-transition.opacity.duration.150ms
+                     class="absolute right-0 top-full mt-1.5 w-44 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 overflow-hidden"
+                     style="display: none;">
+                    <button type="button" @click="$wire.set('hariFilter', ''); open = false"
+                            class="w-full text-left px-3.5 py-2 text-xs font-semibold flex items-center justify-between hover:bg-sky-50 hover:text-sky-600 transition-colors {{ $hariFilter === '' ? 'text-sky-600 bg-sky-50/50' : 'text-slate-700' }}">
+                        <span>Semua Hari</span>
+                        @if($hariFilter === '') <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> @endif
+                    </button>
+                    @foreach(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'] as $h)
+                        <button type="button" @click="$wire.set('hariFilter', '{{ $h }}'); open = false"
+                                class="w-full text-left px-3.5 py-2 text-xs font-semibold flex items-center justify-between hover:bg-sky-50 hover:text-sky-600 transition-colors {{ $hariFilter === $h ? 'text-sky-600 bg-sky-50/50' : 'text-slate-700' }}">
+                            <span>{{ $h }}</span>
+                            @if($hariFilter === $h) <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> @endif
+                        </button>
+                    @endforeach
+                </div>
+            </div>
 
             <button type="button" wire:click="openCreateModal"
-                    class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-sm shadow-md shadow-sky-600/30 transition-all">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs shadow-md shadow-sky-600/30 transition-all whitespace-nowrap">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
                 </svg>
-                <span>Tambahkan Jadwal</span>
+                <span>Tambah Jadwal</span>
             </button>
         </div>
     </div>
@@ -45,27 +58,21 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="bg-slate-50/80 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                        <th class="py-4 px-6">Supir Bertugas</th>
-                        <th class="py-4 px-6">Unit Ambulans</th>
-                        <th class="py-4 px-6">Hari Piket</th>
-                        <th class="py-4 px-6">Jam Tugas</th>
-                        <th class="py-4 px-6">Status</th>
-                        <th class="py-4 px-6 text-right">Aksi</th>
+                    <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                        <th class="py-3 px-6 whitespace-nowrap">Supir Bertugas</th>
+                        <th class="py-3 px-6 whitespace-nowrap">Unit Ambulans</th>
+                        <th class="py-3 px-6 whitespace-nowrap">Hari Piket</th>
+                        <th class="py-3 px-6 whitespace-nowrap">Jam Tugas</th>
+                        <th class="py-3 px-6 whitespace-nowrap">Status</th>
+                        <th class="py-3 px-6 whitespace-nowrap text-right">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 text-sm">
                     @forelse($jadwalList as $jdw)
                         <tr class="hover:bg-slate-50/50 transition-colors">
                             <td class="py-4 px-6">
-                                <div class="flex items-center gap-3">
-                                    <img src="{{ $jdw->supir?->user?->avatar_url ?? 'https://ui-avatars.com/api/?name=Supir&color=0284C7&background=E0F2FE' }}" 
-                                         alt="" class="w-10 h-10 rounded-full object-cover border border-slate-200">
-                                    <div>
-                                        <span class="font-extrabold text-slate-800 block">{{ $jdw->supir?->user?->name ?? 'Supir Dihapus' }}</span>
-                                        <span class="text-xs text-slate-500 block">SIM: {{ $jdw->supir?->nomor_sim ?? '-' }}</span>
-                                    </div>
-                                </div>
+                                <span class="font-extrabold text-slate-800 block">{{ $jdw->supir?->user?->name ?? 'Supir Dihapus' }}</span>
+                                <span class="text-xs text-slate-500 block">SIM: {{ $jdw->supir?->nomor_sim ?? '-' }}</span>
                             </td>
                             <td class="py-4 px-6">
                                 <span class="font-bold text-slate-800 block">{{ $jdw->ambulans?->kode_ambulans ?? '-' }}</span>
@@ -80,23 +87,23 @@
                                 {{ $jdw->jam_mulai }} - {{ $jdw->jam_selesai }} WIB
                             </td>
                             <td class="py-4 px-6">
-                                <span class="inline-flex items-center gap-1.5 text-xs font-bold
-                                    @if($jdw->status === 'Aktif') text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200
-                                    @elseif($jdw->status === 'Cadangan') text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200
-                                    @else text-slate-600 bg-slate-100 px-2.5 py-1 rounded-full border border-slate-200 @endif">
+                                <div class="flex items-center gap-1.5 font-bold text-sm
+                                    @if($jdw->status === 'Aktif') text-emerald-600
+                                    @elseif($jdw->status === 'Cadangan') text-amber-600
+                                    @else text-slate-600 @endif">
                                     <span class="w-1.5 h-1.5 rounded-full @if($jdw->status === 'Aktif') bg-emerald-500 @elseif($jdw->status === 'Cadangan') bg-amber-500 @else bg-slate-400 @endif"></span>
                                     <span>{{ $jdw->status }}</span>
-                                </span>
+                                </div>
                             </td>
-                            <td class="py-4 px-6 text-right">
+                            <td class="py-4 px-6 text-right whitespace-nowrap">
                                 <div class="flex items-center justify-end gap-2">
                                     <button type="button" wire:click="openEditModal({{ $jdw->id }})"
-                                            class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors">
+                                            class="px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 font-semibold text-[11px] transition-colors shadow-sm">
                                         Edit
                                     </button>
                                     <button type="button" wire:click="deleteJadwal({{ $jdw->id }})"
                                             wire:confirm="Yakin ingin menghapus jadwal piket supir ini?"
-                                            class="px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 font-bold text-xs transition-colors">
+                                            class="px-3 py-1.5 rounded-lg border border-red-200 bg-red-50 hover:bg-red-100 text-red-600 font-semibold text-[11px] transition-colors shadow-sm">
                                         Hapus
                                     </button>
                                 </div>
@@ -138,42 +145,81 @@
                     <!-- Supir -->
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1">Pilih Supir Ambulans</label>
-                        <select wire:model="supir_id" required
-                                class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-semibold focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
-                            <option value="">-- Pilih Supir --</option>
-                            @foreach($supirList as $spr)
-                                <option value="{{ $spr->id }}">{{ $spr->user?->name ?? 'Supir ID ' . $spr->id }} (SIM: {{ $spr->nomor_sim ?? '-' }})</option>
-                            @endforeach
-                        </select>
+                        <div class="relative" x-data="{ open: false }">
+                            <button type="button" @click="open = !open" @click.outside="open = false"
+                                    class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-200">
+                                <span>
+                                    @php $selSpr = $supirList->firstWhere('id', $supir_id); @endphp
+                                    {{ $selSpr ? ($selSpr->user?->name ?? 'Supir ID ' . $selSpr->id) . ' (SIM: ' . ($selSpr->nomor_sim ?? '-') . ')' : '-- Pilih Supir --' }}
+                                </span>
+                                <svg class="w-4 h-4 text-slate-400 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            </button>
+
+                            <div x-show="open" x-transition.opacity.duration.150ms
+                                 class="absolute left-0 top-full mt-1.5 w-full max-h-56 overflow-y-auto bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50"
+                                 style="display: none;">
+                                @foreach($supirList as $spr)
+                                    <button type="button" @click="$wire.set('supir_id', {{ $spr->id }}); open = false"
+                                            class="w-full text-left px-4 py-2.5 text-xs font-semibold flex items-center justify-between hover:bg-sky-50 hover:text-sky-600 transition-colors {{ (int)$supir_id === (int)$spr->id ? 'text-sky-600 bg-sky-50/50' : 'text-slate-700' }}">
+                                        <span>{{ $spr->user?->name ?? 'Supir ID ' . $spr->id }} (SIM: {{ $spr->nomor_sim ?? '-' }})</span>
+                                        @if((int)$supir_id === (int)$spr->id) <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> @endif
+                                    </button>
+                                @endforeach
+                            </div>
+                        </div>
                         @error('supir_id') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <!-- Ambulans -->
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1">Pilih Unit Ambulans</label>
-                        <select wire:model="ambulans_id" required
-                                class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-semibold focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
-                            <option value="">-- Pilih Ambulans --</option>
-                            @foreach($ambulansList as $amb)
-                                <option value="{{ $amb->id }}">{{ $amb->kode_ambulans }} - {{ $amb->plat_nomor }} ({{ $amb->jenis_ambulans }})</option>
-                            @endforeach
-                        </select>
+                        <div class="relative" x-data="{ open: false }">
+                            <button type="button" @click="open = !open" @click.outside="open = false"
+                                    class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-200">
+                                <span>
+                                    @php $selAmb = $ambulansList->firstWhere('id', $ambulans_id); @endphp
+                                    {{ $selAmb ? $selAmb->kode_ambulans . ' - ' . $selAmb->plat_nomor : '-- Pilih Ambulans --' }}
+                                </span>
+                                <svg class="w-4 h-4 text-slate-400 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            </button>
+
+                            <div x-show="open" x-transition.opacity.duration.150ms
+                                 class="absolute left-0 top-full mt-1.5 w-full max-h-56 overflow-y-auto bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50"
+                                 style="display: none;">
+                                @foreach($ambulansList as $amb)
+                                    <button type="button" @click="$wire.set('ambulans_id', {{ $amb->id }}); open = false"
+                                            class="w-full text-left px-4 py-2.5 text-xs font-semibold flex items-center justify-between hover:bg-sky-50 hover:text-sky-600 transition-colors {{ (int)$ambulans_id === (int)$amb->id ? 'text-sky-600 bg-sky-50/50' : 'text-slate-700' }}">
+                                        <span>{{ $amb->kode_ambulans }} - {{ $amb->plat_nomor }} ({{ $amb->jenis_ambulans }})</span>
+                                        @if((int)$ambulans_id === (int)$amb->id) <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> @endif
+                                    </button>
+                                @endforeach
+                            </div>
+                        </div>
                         @error('ambulans_id') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <!-- Hari Piket -->
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1">Hari Bertugas / Piket</label>
-                        <select wire:model="hari" required
-                                class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-semibold focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
-                            <option value="Senin">Senin</option>
-                            <option value="Selasa">Selasa</option>
-                            <option value="Rabu">Rabu</option>
-                            <option value="Kamis">Kamis</option>
-                            <option value="Jumat">Jumat</option>
-                            <option value="Sabtu">Sabtu</option>
-                            <option value="Minggu">Minggu</option>
-                        </select>
+                        <div class="relative" x-data="{ open: false }">
+                            <button type="button" @click="open = !open" @click.outside="open = false"
+                                    class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-200">
+                                <span>{{ $hari ?: 'Senin' }}</span>
+                                <svg class="w-4 h-4 text-slate-400 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            </button>
+
+                            <div x-show="open" x-transition.opacity.duration.150ms
+                                 class="absolute left-0 top-full mt-1.5 w-full bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 overflow-hidden"
+                                 style="display: none;">
+                                @foreach(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'] as $h)
+                                    <button type="button" @click="$wire.set('hari', '{{ $h }}'); open = false"
+                                            class="w-full text-left px-4 py-2 text-xs font-semibold flex items-center justify-between hover:bg-sky-50 hover:text-sky-600 transition-colors {{ $hari === $h ? 'text-sky-600 bg-sky-50/50' : 'text-slate-700' }}">
+                                        <span>{{ $h }}</span>
+                                        @if($hari === $h) <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> @endif
+                                    </button>
+                                @endforeach
+                            </div>
+                        </div>
                         @error('hari') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
                     </div>
 
@@ -196,12 +242,25 @@
                     <!-- Status -->
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1">Status Penugasan</label>
-                        <select wire:model="status" required
-                                class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-semibold focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
-                            <option value="Aktif">Aktif (Wajib Hadir)</option>
-                            <option value="Cadangan">Cadangan (Standby)</option>
-                            <option value="Libur">Libur / Istirahat</option>
-                        </select>
+                        <div class="relative" x-data="{ open: false }">
+                            <button type="button" @click="open = !open" @click.outside="open = false"
+                                    class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-200">
+                                <span>{{ $status ? $status : 'Aktif' }}</span>
+                                <svg class="w-4 h-4 text-slate-400 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            </button>
+
+                            <div x-show="open" x-transition.opacity.duration.150ms
+                                 class="absolute left-0 top-full mt-1.5 w-full bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 overflow-hidden"
+                                 style="display: none;">
+                                @foreach(['Aktif' => 'Aktif (Wajib Hadir)', 'Cadangan' => 'Cadangan (Standby)', 'Libur' => 'Libur / Istirahat'] as $val => $lbl)
+                                    <button type="button" @click="$wire.set('status', '{{ $val }}'); open = false"
+                                            class="w-full text-left px-4 py-2 text-xs font-semibold flex items-center justify-between hover:bg-sky-50 hover:text-sky-600 transition-colors {{ $status === $val ? 'text-sky-600 bg-sky-50/50' : 'text-slate-700' }}">
+                                        <span>{{ $lbl }}</span>
+                                        @if($status === $val) <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> @endif
+                                    </button>
+                                @endforeach
+                            </div>
+                        </div>
                         @error('status') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
                     </div>
 

@@ -128,6 +128,7 @@ class Pemesanan extends Model
     {
         return match ($this->status) {
             'menunggu' => 'Menunggu Dispatcher',
+            'menunggu_konfirmasi_supir' => 'Menunggu Konfirmasi Supir',
             'diproses' => 'Ambulans Ditugaskan',
             'menuju_lokasi' => 'Menuju Lokasi Jemput',
             'membawa_pasien' => 'Membawa Pasien ke RS',
@@ -141,6 +142,7 @@ class Pemesanan extends Model
     {
         return match ($this->status) {
             'menunggu' => 'amber',
+            'menunggu_konfirmasi_supir' => 'orange',
             'diproses' => 'blue',
             'menuju_lokasi' => 'indigo',
             'membawa_pasien' => 'purple',

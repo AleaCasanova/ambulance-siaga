@@ -104,7 +104,7 @@ class PemesananService
                 'ambulans_id' => $ambulansId,
                 'supir_id' => $supirId,
                 'dispatcher_id' => $dispatcherId,
-                'status' => 'diproses',
+                'status' => 'menunggu_konfirmasi_supir',
                 'waktu_respon' => now(),
             ]);
 
@@ -112,8 +112,8 @@ class PemesananService
 
             StatusPerjalanan::create([
                 'pemesanan_id' => $order->id,
-                'status' => 'diproses',
-                'keterangan' => "Dispatcher menugaskan armada {$amb->kode_ambulans} dengan supir {$supir->user->name}",
+                'status' => 'menunggu_konfirmasi_supir',
+                'keterangan' => "Dispatcher menugaskan armada {$amb->kode_ambulans} dengan supir {$supir->user->name}. Menunggu konfirmasi.",
                 'created_by' => $dispatcherId,
             ]);
 

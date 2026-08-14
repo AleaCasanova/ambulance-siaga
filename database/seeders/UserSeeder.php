@@ -57,10 +57,7 @@ class UserSeeder extends Seeder
         Supir::updateOrCreate(
             ['user_id' => $supirUser1->id],
             [
-                'nama_lembaga'          => 'LAZ Peduli Ummah Cilacap',
-                'nama_penanggung_jawab' => 'Ahmad Supriyadi',
                 'no_wa'                 => '081234560003',
-                'alamat_unit'           => 'Jl. Gatot Subroto No. 12, Sidanegara, Cilacap Tengah',
                 'merk_kendaraan'        => 'Toyota HiAce Commuter',
                 'plat_nomor'            => 'R 1890 SC',
                 'nomor_sim'             => 'SIM-B1-9988776655',
@@ -88,10 +85,7 @@ class UserSeeder extends Seeder
         Supir::updateOrCreate(
             ['user_id' => $supirUser2->id],
             [
-                'nama_lembaga'          => 'Relawan Kesehatan Al-Irsyad',
-                'nama_penanggung_jawab' => 'Rahmat Hidayat',
                 'no_wa'                 => '081234560004',
-                'alamat_unit'           => 'Jl. Letjen Suprapto No. 45, Kebonmanis, Cilacap Utara',
                 'merk_kendaraan'        => 'Daihatsu Gran Max Ambulance',
                 'plat_nomor'            => 'R 1722 TC',
                 'nomor_sim'             => 'SIM-B1-1122334455',

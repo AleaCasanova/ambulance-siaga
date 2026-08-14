@@ -105,6 +105,6 @@ class RumahSakitIndex extends Component
 
         return view('livewire.admin.rumah-sakit-index', [
             'rumahSakits' => $rumahSakits,
-        ]);
+        ])->layout('layouts.admin');
     }
 }

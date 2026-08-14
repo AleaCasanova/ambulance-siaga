@@ -19,16 +19,46 @@
                 </div>
 
                 <div class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
-                    <select wire:model.live="statusFilter"
-                            class="w-full sm:w-auto px-4 py-3 rounded-xl border-0 bg-white/10 backdrop-blur text-white text-sm font-bold focus:ring-2 focus:ring-white/50 shadow-lg cursor-pointer">
-                        <option value="" class="text-slate-800">Semua Status</option>
-                        <option value="menunggu" class="text-slate-800">Menunggu Operator</option>
-                        <option value="diproses" class="text-slate-800">Ditugaskan (Diproses)</option>
-                        <option value="menuju_lokasi" class="text-slate-800">Menuju Lokasi Jemput</option>
-                        <option value="membawa_pasien" class="text-slate-800">Membawa Pasien ke RS</option>
-                        <option value="selesai" class="text-slate-800">Selesai</option>
-                        <option value="dibatalkan" class="text-slate-800">Dibatalkan</option>
-                    </select>
+                    <div class="relative w-full sm:w-auto" x-data="{ open: false }">
+                        <button type="button" @click="open = !open" @click.outside="open = false"
+                                class="w-full sm:w-auto flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-white/20 bg-white/10 backdrop-blur text-white text-sm font-bold shadow-lg hover:bg-white/20 transition-all">
+                            <span>
+                                @if($statusFilter === 'menunggu') Menunggu Operator
+                                @elseif($statusFilter === 'diproses') Ditugaskan (Diproses)
+                                @elseif($statusFilter === 'menuju_lokasi') Menuju Lokasi Jemput
+                                @elseif($statusFilter === 'membawa_pasien') Membawa Pasien ke RS
+                                @elseif($statusFilter === 'selesai') Selesai
+                                @elseif($statusFilter === 'dibatalkan') Dibatalkan
+                                @else Semua Status
+                                @endif
+                            </span>
+                            <svg class="w-4 h-4 text-white/70 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+
+                        <div x-show="open" x-transition.opacity.duration.150ms
+                             class="absolute right-0 top-full mt-2 w-56 bg-white rounded-2xl shadow-2xl border border-slate-100 py-2 z-50 overflow-hidden text-slate-800"
+                             style="display: none;">
+                            <button type="button" @click="$wire.set('statusFilter', ''); open = false"
+                                    class="w-full text-left px-4 py-2.5 text-xs font-bold flex items-center justify-between hover:bg-primary-50 hover:text-primary-600 transition-colors {{ $statusFilter === '' ? 'text-primary-600 bg-primary-50/50' : 'text-slate-700' }}">
+                                <span>Semua Status</span>
+                                @if($statusFilter === '') <svg class="w-4 h-4 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> @endif
+                            </button>
+                            @foreach([
+                                'menunggu' => 'Menunggu Operator',
+                                'diproses' => 'Ditugaskan (Diproses)',
+                                'menuju_lokasi' => 'Menuju Lokasi Jemput',
+                                'membawa_pasien' => 'Membawa Pasien ke RS',
+                                'selesai' => 'Selesai',
+                                'dibatalkan' => 'Dibatalkan',
+                            ] as $val => $lbl)
+                                <button type="button" @click="$wire.set('statusFilter', '{{ $val }}'); open = false"
+                                        class="w-full text-left px-4 py-2.5 text-xs font-bold flex items-center justify-between hover:bg-primary-50 hover:text-primary-600 transition-colors {{ $statusFilter === $val ? 'text-primary-600 bg-primary-50/50' : 'text-slate-700' }}">
+                                    <span>{{ $lbl }}</span>
+                                    @if($statusFilter === $val) <svg class="w-4 h-4 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> @endif
+                                </button>
+                            @endforeach
+                        </div>
+                    </div>
                     <a href="{{ route('masyarakat.order.create') }}"
                        class="w-full sm:w-auto inline-flex justify-center items-center gap-2 px-6 py-3 rounded-xl bg-white text-primary-600 font-black text-sm shadow-xl hover:bg-primary-50 transition-all hover:scale-105">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

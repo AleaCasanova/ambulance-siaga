@@ -149,6 +149,7 @@ class UsersIndex extends Component
             $user->update($data);
             session()->flash('success', 'Data pengguna berhasil diperbarui.');
         } else {
+            $data['email_verified_at'] = now();
             $user = User::create($data);
             session()->flash('success', 'Pengguna baru berhasil ditambahkan.');
         }
@@ -231,6 +232,6 @@ class UsersIndex extends Component
             'users' => $users,
             'roles' => $roles,
             'isSupirPage' => request()->routeIs('admin.supir.*'),
-        ]);
+        ])->layout('layouts.admin');
     }
 }

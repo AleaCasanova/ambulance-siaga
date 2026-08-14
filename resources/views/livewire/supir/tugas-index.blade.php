@@ -1,6 +1,42 @@
 <div>
+    <!-- Tugas Ditugaskan Khusus ke Supir Ini (Menunggu Konfirmasi) -->
+    @if(isset($assignedOrders) && count($assignedOrders) > 0)
+        <div class="mb-8 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-2xl border-4 border-orange-300 animate-pulse">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="text-2xl">⚠️</span>
+                <h2 class="text-xl sm:text-2xl font-black">Tugas Khusus Untuk Anda!</h2>
+            </div>
+            <p class="text-orange-50 text-sm mb-5">
+                Dispatcher (Operator) telah menugaskan ambulans Anda untuk pesanan di bawah ini. Harap segera berikan konfirmasi!
+            </p>
+            <div class="space-y-3">
+                @foreach($assignedOrders as $ao)
+                    <div class="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                        <div>
+                            <span class="px-2.5 py-0.5 rounded text-xs font-black bg-white text-orange-700 uppercase tracking-wider">
+                                #{{ $ao->kode_order }}
+                            </span>
+                            <h3 class="text-lg font-black mt-1">Pasien: {{ $ao->nama_pasien }} ({{ $ao->usia_pasien ?? '-' }})</h3>
+                            <p class="text-orange-100 text-xs mt-0.5 font-medium">📍 Jemput: {{ $ao->lokasi_jemput }} &rarr; 🏥 Tujuan: {{ $ao->tujuan_lokasi ?? '-' }}</p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-2 shrink-0 w-full sm:w-auto">
+                            <button type="button" wire:click="acceptOrder({{ $ao->id }})"
+                                    class="w-full sm:w-auto px-6 py-3 rounded-xl bg-white text-orange-700 hover:bg-orange-50 font-extrabold text-sm shadow-lg transition-transform transform hover:scale-105">
+                                ✅ TERIMA TUGAS
+                            </button>
+                            <button type="button" wire:click="rejectOrder({{ $ao->id }})" wire:confirm="Yakin ingin menolak tugas ini?"
+                                    class="w-full sm:w-auto px-6 py-3 rounded-xl bg-transparent border-2 border-white text-white hover:bg-white/10 font-bold text-sm transition-colors">
+                                ❌ TOLAK
+                            </button>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endif
+
     <!-- Pesanan Masuk (Sistem Hybrid) -->
-    @if(isset($openOrders) && $openOrders->count() > 0)
+    @if(isset($openOrders) && count($openOrders) > 0)
         <div class="mb-8 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-2xl border-4 border-amber-300 animate-pulse">
             <div class="flex items-center gap-3 mb-4">
                 <span class="text-2xl">🚨</span>

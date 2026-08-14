@@ -53,6 +53,6 @@ class SettingIndex extends Component
 
     public function render()
     {
-        return view('livewire.admin.setting-index');
+        return view('livewire.admin.setting-index')->layout('layouts.admin');
     }
 }
