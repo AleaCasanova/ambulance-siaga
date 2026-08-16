@@ -4,6 +4,8 @@ namespace App\Livewire\Supir;
 
 use App\Models\Ambulans;
 use App\Models\Pemesanan;
+use App\Models\Rating;
+use App\Models\RumahSakit;
 use App\Models\StatusPerjalanan;
 use App\Models\Supir;
 use Livewire\Component;
@@ -49,7 +51,7 @@ class Dashboard extends Component
         $user = auth()->user();
         $supir = $user?->supir;
 
-        // Ambil tugas aktif saat ini
+        // 1. Tugas aktif saat ini (jika ada)
         $activeOrder = null;
         if ($supir) {
             $activeOrder = Pemesanan::with(['user', 'ambulans', 'rumahSakit'])
@@ -59,10 +61,61 @@ class Dashboard extends Component
                 ->first();
         }
 
+        // 2. Metrik Operasional Harian & Keseluruhan
+        $todayCompletedCount = 0;
+        $totalCompletedCount = 0;
+        $recentReviews = collect();
+        $recentCompletedOrders = collect();
+
+        if ($supir) {
+            $todayCompletedCount = Pemesanan::where('supir_id', $supir->id)
+                ->where('status', 'selesai')
+                ->whereDate('updated_at', today())
+                ->count();
+
+            $totalCompletedCount = Pemesanan::where('supir_id', $supir->id)
+                ->where('status', 'selesai')
+                ->count();
+
+            $recentReviews = Rating::where('supir_id', $supir->id)
+                ->with(['user', 'pemesanan'])
+                ->latest()
+                ->take(3)
+                ->get();
+
+            $recentCompletedOrders = Pemesanan::where('supir_id', $supir->id)
+                ->where('status', 'selesai')
+                ->with(['rumahSakit', 'rating'])
+                ->latest('updated_at')
+                ->take(4)
+                ->get();
+        }
+
+        // 3. Pesanan menunggu tindakan (antrean baru)
+        $pendingOrdersCount = Pemesanan::where(function ($q) use ($supir) {
+            if ($supir) {
+                $q->where('supir_id', $supir->id)
+                  ->where('status', 'menunggu_konfirmasi_supir');
+            }
+        })->orWhere(function ($q) {
+            $q->where('status', 'menunggu')
+              ->whereNull('supir_id');
+        })->count();
+
+        // 4. Daftar IGD Rumah Sakit Rujukan Terdekat
+        $rumahSakitList = RumahSakit::select('nama', 'alamat', 'telepon', 'kapasitas_igd')
+            ->take(3)
+            ->get();
+
         return view('livewire.supir.dashboard', [
             'supir' => $supir,
             'activeOrder' => $activeOrder,
+            'todayCompletedCount' => $todayCompletedCount,
+            'totalCompletedCount' => $totalCompletedCount,
+            'pendingOrdersCount' => $pendingOrdersCount,
+            'recentReviews' => $recentReviews,
+            'recentCompletedOrders' => $recentCompletedOrders,
+            'rumahSakitList' => $rumahSakitList,
         ]);
     }
 }
-

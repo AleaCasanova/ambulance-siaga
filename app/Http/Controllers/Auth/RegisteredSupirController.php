@@ -85,6 +85,12 @@ class RegisteredSupirController extends Controller
         // Save email in session for OTP page
         session(['verification_email' => $user->email]);
 
-        return redirect()->route('verification.otp.show')->with('status', 'Pendaftaran pengemudi berhasil! Silakan periksa email Anda dan masukkan kode OTP 6-digit untuk verifikasi. Akun Anda selanjutnya akan diproses oleh admin.');
+        // Kirim notifikasi sistem & email ke Administrator
+        \App\Services\AdminNotificationService::notifyNewSupirRegistered($user, [
+            'nomor_sim' => $request->nomor_sim,
+            'plat_nomor' => $request->plat_nomor,
+        ]);
+
+        return redirect()->route('verification.otp.show')->with('status', 'Pendaftaran pengemudi berhasil! Silakan periksa email Anda dan masukkan kode OTP 6-digit untuk verifikasi. Notifikasi telah dikirim ke Admin untuk proses verifikasi.');
     }
 }

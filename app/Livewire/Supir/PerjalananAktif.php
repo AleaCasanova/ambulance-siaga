@@ -7,25 +7,26 @@ use Livewire\Component;
 
 class PerjalananAktif extends Component
 {
-    public function render()
+    public function mount()
     {
         $user = auth()->user();
-        $supir = $user->supir;
+        $supir = $user?->supir;
 
-        $activeOrder = null;
         if ($supir) {
-            $activeOrder = Pemesanan::with(['user', 'ambulans', 'rumahSakit'])
-                ->where('supir_id', $supir->id)
+            $activeOrder = Pemesanan::where('supir_id', $supir->id)
                 ->whereIn('status', ['diproses', 'menuju_lokasi', 'membawa_pasien'])
                 ->latest()
                 ->first();
-        }
 
-        if ($activeOrder) {
-            // Jika ada perjalanan aktif, alihkan langsung ke halaman OrderShow (tracking)
-            return redirect()->route('supir.orders.show', $activeOrder->id);
+            if ($activeOrder) {
+                $this->redirectRoute('supir.orders.show', ['id' => $activeOrder->id]);
+            }
         }
+    }
 
+    public function render()
+    {
         return view('livewire.supir.perjalanan-aktif')->layout('layouts.app');
     }
 }
+

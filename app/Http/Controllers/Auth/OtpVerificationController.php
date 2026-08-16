@@ -108,6 +108,13 @@ class OtpVerificationController extends Controller
         // Bersihkan session penampung email
         session()->forget(['verification_email', 'unverified_email']);
 
+        // Jika akun supir/mitra atau belum aktif (perlu verifikasi admin), kirim notifikasi ke Admin
+        if (!$user->is_active || $user->isSupir() || $user->isMitra()) {
+            \App\Services\AdminNotificationService::notifyOtpCompleted($user);
+
+            return redirect()->route('login')->with('status', 'Verifikasi email OTP berhasil! Pendaftaran Anda telah diteruskan ke Admin untuk verifikasi & aktivasi akun.');
+        }
+
         // Arahkan ke halaman login (tanpa login otomatis)
         return redirect()->route('login')->with('status', 'Verifikasi berhasil! Silakan login menggunakan email dan kata sandi Anda.');
     }

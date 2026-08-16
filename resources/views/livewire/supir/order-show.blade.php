@@ -1,299 +1,326 @@
-<div wire:poll.5s>
-    <!-- Header Page -->
-    <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+<div wire:poll.5s class="space-y-6 mb-8 -mt-4 sm:-mt-6">
+
+    <!-- 1. Header Operasional Misi (Clean, No AI Gradient) -->
+    <div class="bg-white rounded-xl border border-slate-200 p-5 sm:p-6 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-            <div class="flex items-center gap-2 mb-1">
-                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">PENUGASAN AKTIF SUPIR</span>
-                <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-extrabold bg-primary-100 text-primary-700">
-                    <span class="w-2 h-2 rounded-full bg-primary-600 animate-ping"></span>
-                    <span>{{ $order->status_label }}</span>
+            <div class="flex flex-wrap items-center gap-2 mb-1.5">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider
+                    @if($order->status === 'selesai') bg-emerald-50 text-emerald-700 border border-emerald-200
+                    @elseif(in_array($order->status, ['menuju_lokasi', 'membawa_pasien', 'diproses'])) bg-sky-50 text-sky-700 border border-sky-200
+                    @else bg-slate-100 text-slate-700 border border-slate-200 @endif">
+                    <span class="w-2 h-2 rounded-full @if($order->status !== 'selesai') bg-sky-600 animate-ping @else bg-emerald-600 @endif"></span>
+                    <span>
+                        @if($order->status === 'diproses') TUGAS DITERIMA
+                        @elseif($order->status === 'menuju_lokasi') MENUJU PENJEMPUTAN
+                        @elseif($order->status === 'membawa_pasien') MENUJU RUMAH SAKIT
+                        @elseif($order->status === 'selesai') TUGAS SELESAI
+                        @else {{ strtoupper(str_replace('_', ' ', $order->status)) }} @endif
+                    </span>
                 </span>
+
+                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-50 text-red-700 border border-red-200">
+                    <span class="w-1.5 h-1.5 rounded-full bg-red-600"></span>
+                    <span>PRIORITAS TINGGI</span>
+                </span>
+
+                <span class="font-mono text-xs text-slate-500 font-semibold">#{{ $order->kode_order }}</span>
             </div>
-            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">Tugas Evakuasi #{{ $order->kode_order }}</h1>
-            <p class="text-slate-500 text-sm mt-0.5">Pasien: <strong class="text-slate-700">{{ $order->nama_pasien }}</strong> • Dibuat: {{ $order->waktu_pesan ? $order->waktu_pesan->translatedFormat('d M Y, H:i') : '-' }}</p>
+
+            <h1 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
+                {{ $order->nama_pasien }} <span class="text-sm font-normal text-slate-500">({{ $order->usia_pasien ?? '-' }} Thn)</span>
+            </h1>
+            <p class="text-xs text-slate-500 mt-1">
+                Dibuat: {{ $order->waktu_pesan ? $order->waktu_pesan->translatedFormat('d M Y, H:i') : '-' }} • Keperluan: <strong class="text-slate-700">{{ $order->keperluan_penggunaan ?: 'IGD Darurat' }}</strong>
+            </p>
         </div>
 
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2.5 shrink-0">
             <a href="{{ route('supir.dashboard') }}"
-               class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-700 text-xs font-bold hover:bg-slate-50 transition-colors">
-                <span>&larr; Dashboard Supir</span>
+               class="px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-colors flex items-center gap-1.5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                <span>Dashboard</span>
+            </a>
+            <a href="{{ route('supir.tugas.index') }}"
+               class="px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-colors flex items-center gap-1.5">
+                <span>Daftar Tugas</span>
             </a>
         </div>
     </div>
 
-    <!-- Main Grid: Kontrol Tugas (Left) & Peta Navigasi (Right) -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8"
+    <!-- 2. State Machine Action Console (1 Primary Action Berdasarkan Tahapan Misi) -->
+    <div class="bg-white rounded-xl border border-slate-200 p-5 sm:p-6 shadow-xs space-y-5">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+            <div>
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">Tahap Operasional Sekarang</span>
+                <h2 class="text-lg font-bold text-slate-900">
+                    @if($order->status === 'diproses')
+                        Tugas Diterima — Siap Meluncur ke Lokasi Jemput
+                    @elseif($order->status === 'menuju_lokasi')
+                        Ambulans Sedang Bergerak Menuju Titik Jemput
+                    @elseif($order->status === 'membawa_pasien')
+                        Pasien di Dalam Ambulans — Menuju Rumah Sakit
+                    @elseif($order->status === 'selesai')
+                        Evakuasi Medis Telah Selesai
+                    @endif
+                </h2>
+            </div>
+
+            <!-- Primary Action Button Berdasarkan State -->
+            <div class="flex flex-wrap items-center gap-3">
+                @php
+                    $targetNavLat = ($order->status === 'membawa_pasien') ? ($order->tujuan_lat ?: ($order->rumahSakit?->lat ?? '')) : $order->jemput_lat;
+                    $targetNavLng = ($order->status === 'membawa_pasien') ? ($order->tujuan_lng ?: ($order->rumahSakit?->lng ?? '')) : $order->jemput_lng;
+                    $targetNavLabel = ($order->status === 'membawa_pasien') ? 'Navigasi RS Tujuan' : 'Navigasi Titik Jemput';
+                @endphp
+
+                @if($targetNavLat && $targetNavLng && $order->status !== 'selesai')
+                    <a href="https://www.google.com/maps/dir/?api=1&destination={{ $targetNavLat }},{{ $targetNavLng }}"
+                       target="_blank"
+                       class="px-5 py-3 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs shadow-xs transition-all flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                        <span>{{ $targetNavLabel }} (Google Maps)</span>
+                    </a>
+                @endif
+
+                @if($order->status === 'diproses')
+                    <button type="button"
+                            wire:click="updateStatus('menuju_lokasi')"
+                            class="px-6 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs transition-all flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                        <span>Mulai Menuju Penjemputan</span>
+                    </button>
+                @elseif($order->status === 'menuju_lokasi')
+                    <button type="button"
+                            wire:click="updateStatus('membawa_pasien')"
+                            class="px-6 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs transition-all flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        <span>Konfirmasi Tiba & Angkut Pasien ke RS</span>
+                    </button>
+                @elseif($order->status === 'membawa_pasien')
+                    <button type="button"
+                            wire:click="updateStatus('selesai')"
+                            wire:confirm="Konfirmasi pasien telah tiba dengan aman di Rumah Sakit dan tugas evakuasi selesai?"
+                            class="px-6 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs transition-all flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <span>Selesaikan Tugas di Rumah Sakit</span>
+                    </button>
+                @elseif($order->status === 'selesai')
+                    <span class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200">
+                        <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        <span>Misi Evakuasi Selesai</span>
+                    </span>
+                @endif
+            </div>
+        </div>
+
+        <!-- Stepper Progress Bar -->
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+            <!-- Step 1 -->
+            <div class="p-3 rounded-lg border {{ in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien', 'selesai']) ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-slate-50 border-slate-200 text-slate-400' }}">
+                <span class="font-bold block text-[11px] uppercase">Langkah 1</span>
+                <span class="font-semibold">Tugas Diterima</span>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="p-3 rounded-lg border {{ in_array($order->status, ['menuju_lokasi', 'membawa_pasien', 'selesai']) ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : ($order->status === 'diproses' ? 'bg-amber-50 border-amber-300 text-amber-900 font-bold' : 'bg-slate-50 border-slate-200 text-slate-400') }}">
+                <span class="font-bold block text-[11px] uppercase">Langkah 2</span>
+                <span class="font-semibold">Menuju Lokasi Jemput</span>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="p-3 rounded-lg border {{ in_array($order->status, ['membawa_pasien', 'selesai']) ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : ($order->status === 'menuju_lokasi' ? 'bg-amber-50 border-amber-300 text-amber-900 font-bold' : 'bg-slate-50 border-slate-200 text-slate-400') }}">
+                <span class="font-bold block text-[11px] uppercase">Langkah 3</span>
+                <span class="font-semibold">Evakuasi Menuju RS</span>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="p-3 rounded-lg border {{ $order->status === 'selesai' ? 'bg-emerald-600 text-white border-emerald-600 font-bold' : 'bg-slate-50 border-slate-200 text-slate-400' }}">
+                <span class="font-bold block text-[11px] uppercase">Langkah 4</span>
+                <span class="font-semibold">Selesai di IGD RS</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Main Grid: Detail Operasional & Peta Navigasi -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start"
          x-data="supirMapComponent({{ $currentLat }}, {{ $currentLng }}, {{ $order->jemput_lat }}, {{ $order->jemput_lng }}, {{ $order->tujuan_lat ?? 0 }}, {{ $order->tujuan_lng ?? 0 }})"
          x-init="initMap()"
          @gps-updated.window="updateAmbulancePos({{ $currentLat }}, {{ $currentLng }})">
 
-        <!-- Left Column: Kontrol Status Operasional & Detail -->
+        <!-- Left Column: Informasi Rute, Pasien, & Safety Center (5 Cols) -->
         <div class="lg:col-span-5 space-y-6">
 
-            <!-- Card: Kendali Status Evakuasi (3 Langkah Utama) -->
-            <div class="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-xs">
-                <h2 class="font-bold text-slate-800 text-base mb-2 flex items-center gap-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-red-600"></span>
-                    <span>Tombol Tindakan Operasional Supir</span>
-                </h2>
-                <p class="text-xs text-slate-500 mb-6">Klik tombol sesuai perkembangan perjalanan evakuasi di lapangan.</p>
+            <!-- Card: Alur Rute Penjemputan & Tujuan -->
+            <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs space-y-3.5">
+                <h3 class="text-sm font-bold text-slate-900 pb-2 border-b border-slate-100">Alur Rute Perjalanan</h3>
 
-                <div class="space-y-4">
-                    <!-- Langkah 1: Menuju Lokasi Jemput -->
-                    <button type="button"
-                            wire:click="updateStatus('menuju_lokasi')"
-                            @if(in_array($order->status, ['menuju_lokasi', 'membawa_pasien', 'selesai'])) disabled @endif
-                            class="w-full p-4 rounded-2xl flex items-center justify-between text-left transition-all
-                            @if($order->status === 'diproses')
-                                bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-600/30 scale-102
-                            @elseif(in_array($order->status, ['menuju_lokasi', 'membawa_pasien', 'selesai']))
-                                bg-emerald-50 border border-emerald-200 text-emerald-800 opacity-80 cursor-not-allowed
-                            @else
-                                bg-slate-100 text-slate-400
-                            @endif">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center font-black text-lg">
-                                @if(in_array($order->status, ['menuju_lokasi', 'membawa_pasien', 'selesai'])) ✓ @else 1 @endif
-                            </div>
-                            <div>
-                                <span class="text-xs font-bold opacity-80 uppercase tracking-wider block">Langkah 1</span>
-                                <span class="font-extrabold text-sm">Mulai Menuju Lokasi Jemput</span>
-                            </div>
+                <div class="space-y-2 text-xs">
+                    <div class="p-3 rounded-lg bg-slate-50 border border-slate-100 space-y-1">
+                        <div class="flex items-center gap-1.5 text-sky-700 font-bold">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
+                            <span class="uppercase text-[10px]">Titik Penjemputan Pasien</span>
                         </div>
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </button>
+                        <p class="font-bold text-slate-900 text-sm pl-5">{{ $order->lokasi_jemput }}</p>
+                    </div>
 
-                    <!-- Langkah 2: Membawa Pasien ke RS -->
-                    <button type="button"
-                            wire:click="updateStatus('membawa_pasien')"
-                            @if(in_array($order->status, ['membawa_pasien', 'selesai']) || $order->status === 'diproses') disabled @endif
-                            class="w-full p-4 rounded-2xl flex items-center justify-between text-left transition-all
-                            @if($order->status === 'menuju_lokasi')
-                                bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-600/30 scale-102
-                            @elseif(in_array($order->status, ['membawa_pasien', 'selesai']))
-                                bg-emerald-50 border border-emerald-200 text-emerald-800 opacity-80 cursor-not-allowed
-                            @else
-                                bg-slate-100 text-slate-400
-                            @endif">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center font-black text-lg">
-                                @if(in_array($order->status, ['membawa_pasien', 'selesai'])) ✓ @else 2 @endif
-                            </div>
-                            <div>
-                                <span class="text-xs font-bold opacity-80 uppercase tracking-wider block">Langkah 2</span>
-                                <span class="font-extrabold text-sm">Pasien Diangkut Menuju RS</span>
-                            </div>
+                    <div class="p-3 rounded-lg bg-slate-50 border border-slate-100 space-y-1">
+                        <div class="flex items-center gap-1.5 text-emerald-700 font-bold">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                            <span class="uppercase text-[10px]">Tujuan Rumah Sakit / IGD</span>
                         </div>
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </button>
-
-                    <!-- Langkah 3: Evakuasi Selesai di RS -->
-                    <button type="button"
-                            wire:click="updateStatus('selesai')"
-                            wire:confirm="Konfirmasi pasien telah tiba dengan aman di Rumah Sakit dan tugas evakuasi selesai?"
-                            @if($order->status === 'selesai' || in_array($order->status, ['diproses', 'menuju_lokasi'])) disabled @endif
-                            class="w-full p-4 rounded-2xl flex items-center justify-between text-left transition-all
-                            @if($order->status === 'membawa_pasien')
-                                bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-600/30 scale-102
-                            @elseif($order->status === 'selesai')
-                                bg-emerald-100 border border-emerald-300 text-emerald-900 font-extrabold
-                            @else
-                                bg-slate-100 text-slate-400
-                            @endif">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center font-black text-lg">
-                                @if($order->status === 'selesai') ✓ @else 3 @endif
-                            </div>
-                            <div>
-                                <span class="text-xs font-bold opacity-80 uppercase tracking-wider block">Langkah 3</span>
-                                <span class="font-extrabold text-sm">Evakuasi Selesai di RS</span>
-                            </div>
-                        </div>
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                        </svg>
-                    </button>
+                        <p class="font-bold text-slate-900 text-sm pl-5">{{ $order->tujuan_lokasi ?? $order->rumahSakit?->nama ?? 'RSUD Cilacap' }}</p>
+                    </div>
                 </div>
 
-                <!-- GPS Tracking & Simulasi -->
-                @if(in_array($order->status, ['menuju_lokasi', 'membawa_pasien', 'diproses']))
-                    <div class="mt-6 pt-6 border-t border-slate-100 space-y-3"
-                         x-data="gpsTracker(@this)">
-
-                        {{-- Tombol GPS Nyata --}}
-                        <div x-show="!gpsSupported" class="p-3 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-800 font-semibold text-center">
-                            ⚠️ Browser tidak mendukung GPS / tidak memiliki izin lokasi.
-                        </div>
-
-                        <button type="button"
-                                x-show="gpsSupported"
-                                @click="toggleGps()"
-                                :class="gpsActive
-                                    ? 'bg-emerald-600 hover:bg-emerald-700 shadow-emerald-600/30'
-                                    : 'bg-sky-600 hover:bg-sky-700 shadow-sky-600/30'"
-                                class="w-full py-3.5 rounded-xl text-white font-extrabold text-xs shadow-lg transition-all flex items-center justify-center gap-2">
-                            <span x-show="!gpsActive">
-                                <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                </svg>
-                                🛰️ AKTIFKAN GPS TRACKING NYATA
-                            </span>
-                            <span x-show="gpsActive" class="flex items-center gap-2">
-                                <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
-                                GPS AKTIF — Mengirim Koordinat Otomatis
-                            </span>
-                        </button>
-
-                        <div x-show="gpsActive" class="text-center text-[11px] text-emerald-700 font-semibold bg-emerald-50 rounded-lg px-3 py-2 border border-emerald-200">
-                            📍 Koordinat GPS dikirim otomatis setiap posisi berubah.
-                            <span x-text="lastCoords ? '(' + lastCoords + ')' : ''"></span>
-                        </div>
-
-                        {{-- Tombol Simulasi (untuk demo/dev) --}}
-                        <button type="button"
-                                wire:click="simulateGpsStep"
-                                class="w-full py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-600 font-semibold text-xs transition-all flex items-center justify-center gap-2">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            <span>Simulasi GPS (Mode Demo)</span>
-                        </button>
+                @if($order->kondisi_pasien)
+                    <div class="p-3 rounded-lg bg-red-50 border border-red-200 text-xs">
+                        <span class="text-red-700 font-bold block text-[10px] uppercase">Kondisi Pasien</span>
+                        <p class="text-slate-800 font-medium mt-0.5">{{ $order->kondisi_pasien }}</p>
                     </div>
                 @endif
             </div>
 
-            <!-- Detail Pasien & Alamat Evakuasi -->
-            <div class="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-xs space-y-4">
-                <h3 class="font-bold text-slate-800 text-base border-b border-slate-100 pb-3">Detail Evakuasi Pasien</h3>
-
-                <div class="space-y-3 text-xs">
-                    <div class="grid grid-cols-2 gap-2 p-3 rounded-2xl bg-slate-50 border border-slate-100">
-                        <div>
-                            <span class="text-slate-400 font-semibold block text-[10px]">NAMA PASIEN</span>
-                            <span class="text-sm font-extrabold text-slate-800">{{ $order->nama_pasien }}</span>
-                        </div>
-                        <div>
-                            <span class="text-slate-400 font-semibold block text-[10px]">NIK PASIEN</span>
-                            <span class="text-sm font-extrabold text-slate-800">{{ $order->nik_pasien ?: '-' }}</span>
-                        </div>
-                        <div class="mt-1">
-                            <span class="text-slate-400 font-semibold block text-[10px]">USIA / PENDAMPING</span>
-                            <span class="text-xs font-bold text-slate-800">{{ $order->usia_pasien ?: '-' }} ({{ $order->jumlah_pendamping ?: 1 }} Org)</span>
-                        </div>
-                        <div class="mt-1">
-                            <span class="text-slate-400 font-semibold block text-[10px]">NO. HP KONTAK</span>
-                            <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $order->no_hp_kontak) }}" target="_blank" class="text-xs font-bold text-emerald-600 hover:underline">
-                                {{ $order->no_hp_kontak ?: '-' }}
-                            </a>
-                        </div>
+            <!-- Card: Safety Center (Pusat Keselamatan Driver) 🛡 -->
+            <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs space-y-3">
+                <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+                    <div class="flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-primary-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                        <h3 class="text-sm font-bold text-slate-900">Pusat Keselamatan Driver</h3>
                     </div>
+                    <span class="text-[10px] font-bold text-slate-400 uppercase">Emergency Protocol</span>
+                </div>
 
-                    <div class="flex justify-between py-1 border-b border-slate-50">
-                        <span class="text-slate-500 font-semibold">Keperluan Evakuasi:</span>
-                        <span class="font-extrabold text-sky-600">{{ $order->keperluan_penggunaan ?: 'IGD Darurat' }}</span>
-                    </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                    <a href="https://wa.me/6281234560002?text=Halo%20Dispatcher%20GSC,%20saya%20driver%20tugas%20%23{{ $order->kode_order }}%20membutuhkan%20koordinasi."
+                       target="_blank"
+                       class="p-2.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-800 font-semibold transition-colors flex items-center gap-2">
+                        <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                        <span>Hubungi Dispatcher</span>
+                    </a>
 
-                    <div class="flex justify-between py-1 border-b border-slate-50">
-                        <span class="text-slate-500 font-semibold">Jadwal Jemput:</span>
-                        <span class="font-bold text-slate-800">{{ $order->tanggal_jemput ? $order->tanggal_jemput->format('d M Y') : '-' }} • {{ $order->jam_jemput ?: 'Segera' }}</span>
-                    </div>
-
-                    @if($order->diagnosa_medis)
-                        <div class="py-1 border-b border-slate-50">
-                            <span class="text-slate-400 font-semibold block">DIAGNOSA MEDIS</span>
-                            <span class="font-bold text-slate-700">{{ $order->diagnosa_medis }}</span>
-                        </div>
+                    @if($order->no_hp_kontak)
+                        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $order->no_hp_kontak) }}"
+                           target="_blank"
+                           class="p-2.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-800 font-semibold transition-colors flex items-center gap-2">
+                            <svg class="w-4 h-4 text-sky-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                            <span>Kontak Pelapor</span>
+                        </a>
                     @endif
+                </div>
+            </div>
 
-                    <div>
-                        <span class="text-slate-400 font-semibold block">KONDISI MEDIS / DARURAT</span>
-                        <p class="text-slate-700 font-medium bg-red-50/60 p-3 rounded-xl border border-red-200/60 mt-1">
-                            {{ $order->kondisi_pasien }}
-                        </p>
+            <!-- Card: Detail Kontak & Medis Pasien -->
+            <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs space-y-3">
+                <h3 class="text-sm font-bold text-slate-900 pb-2 border-b border-slate-100">Data Pelapor & Pasien</h3>
+
+                <div class="space-y-2 text-xs">
+                    <div class="flex justify-between py-1 border-b border-slate-50">
+                        <span class="text-slate-500">Nama Pelapor:</span>
+                        <span class="font-bold text-slate-800">{{ $order->user?->name ?? $order->nama_pasien }}</span>
                     </div>
-
-                    <div>
-                        <span class="text-slate-400 font-semibold block">ALAMAT PENJEMPUTAN</span>
-                        <p class="text-slate-800 font-bold text-sm">{{ $order->lokasi_jemput }}</p>
+                    <div class="flex justify-between py-1 border-b border-slate-50">
+                        <span class="text-slate-500">No. WhatsApp Pelapor:</span>
+                        <span class="font-bold text-emerald-600">{{ $order->no_hp_kontak ?: '-' }}</span>
                     </div>
-
-                    <div>
-                        <span class="text-slate-400 font-semibold block">ALAMAT ANTAR / TUJUAN</span>
-                        <p class="text-emerald-700 font-extrabold text-sm">{{ $order->tujuan_lokasi ?? $order->rumahSakit?->nama }}</p>
+                    <div class="flex justify-between py-1 border-b border-slate-50">
+                        <span class="text-slate-500">NIK Pasien:</span>
+                        <span class="font-mono text-slate-700">{{ $order->nik_pasien ?: '-' }}</span>
                     </div>
-
-                    @if($order->catatan_tambahan)
-                        <div>
-                            <span class="text-slate-400 font-semibold block">CATATAN TAMBAHAN</span>
-                            <p class="text-slate-700 italic">{{ $order->catatan_tambahan }}</p>
+                    @if($order->diagnosa_medis)
+                        <div class="py-1">
+                            <span class="text-slate-500 block">Diagnosa Medis:</span>
+                            <span class="font-semibold text-slate-800">{{ $order->diagnosa_medis }}</span>
                         </div>
                     @endif
                 </div>
-
-                @if($order->user)
-                    <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
-                        <div>
-                            <span class="text-[11px] text-slate-400 block font-semibold">PEMESAN / PELAPOR</span>
-                            <span class="font-bold text-slate-800 text-sm">{{ $order->user->name }}</span>
-                        </div>
-                        <a href="tel:{{ $order->user->phone }}"
-                           class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md">
-                            Hubungi Pelapor
-                        </a>
-                    </div>
-                @endif
             </div>
 
             <!-- Live Chat Komunikasi Darurat -->
             @if(in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien']))
-                <div class="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-xs h-[500px]">
+                <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs h-[420px]">
                     <livewire:chat-box :pemesananId="$order->id" />
                 </div>
             @endif
 
         </div>
 
-        <!-- Right Column: Leaflet Map Navigasi -->
+        <!-- Right Column: Leaflet Map & GPS Broadcast (7 Cols) -->
         <div class="lg:col-span-7 flex flex-col lg:sticky lg:top-24 self-start" wire:ignore>
-            <div class="bg-white rounded-3xl border border-slate-200/80 p-5 shadow-xs flex-1 flex flex-col min-h-[560px]">
-                <div class="flex items-center justify-between mb-4">
+            <div class="bg-white rounded-xl border border-slate-200 p-4 sm:p-5 shadow-xs flex-1 flex flex-col min-h-[540px]">
+                
+                <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
                     <div>
-                        <h2 class="font-bold text-slate-800 text-base flex items-center gap-2">
-                            <span class="w-2.5 h-2.5 rounded-full bg-red-600 animate-ping"></span>
-                            <span>Peta Navigasi Supir (GPS Satelit)</span>
-                        </h2>
-                        <p class="text-xs text-slate-500">Garis putus merah menunjukkan jalur penjemputan dan evakuasi.</p>
+                        <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                            <span>Peta Navigasi & Satelit GPS</span>
+                        </h3>
+                        <p class="text-[11px] text-slate-500">Rute tercepat terhubung dengan satelit OSRM.</p>
                     </div>
-                    <button type="button" @click="fitAllMarkers()"
-                            class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors">
-                        Fokus Jalur
-                    </button>
+
+                    <div class="flex items-center gap-2">
+                        @if($targetNavLat && $targetNavLng)
+                            <a href="https://www.google.com/maps/dir/?api=1&destination={{ $targetNavLat }},{{ $targetNavLng }}"
+                               target="_blank"
+                               class="px-3 py-1.5 rounded-lg text-xs font-bold bg-sky-50 text-sky-700 border border-sky-200 hover:bg-sky-100 transition-colors flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                                <span>Google Maps</span>
+                            </a>
+                        @endif
+                        <button type="button" @click="fitAllMarkers()"
+                                class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors">
+                            Fokus Rute
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Leaflet Container -->
-                <div class="relative w-full h-full min-h-[500px] rounded-2xl border border-slate-200/80 overflow-hidden z-10">
-                    <div id="supir-map" class="w-full h-full min-h-[500px]"></div>
+                <!-- Leaflet Map Box -->
+                <div class="relative w-full h-full min-h-[440px] rounded-lg border border-slate-200 overflow-hidden z-10">
+                    <div id="supir-map" class="w-full h-full min-h-[440px]"></div>
 
-                    <!-- Floating Turn-by-Turn Route Info Overlay (Grab / Google Maps style) -->
+                    <!-- Turn-by-turn ETA bar -->
                     <div x-show="routeSummary" x-transition
-                         class="absolute top-4 left-4 right-4 sm:right-auto sm:max-w-md z-[1000] bg-white/95 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200/80 shadow-xl flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-red-600 text-white flex items-center justify-center text-lg font-black shrink-0 shadow-md shadow-red-600/30">
-                            🧭
+                         class="absolute top-3 left-3 right-3 sm:right-auto sm:max-w-xs z-[1000] bg-white/95 backdrop-blur-xs p-3 rounded-lg border border-slate-200 shadow-md flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-primary-700 text-white flex items-center justify-center shrink-0">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
                         </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center gap-2">
-                                <span class="text-sm font-extrabold text-slate-800" x-text="routeEta"></span>
-                                <span class="text-xs font-bold text-red-700 bg-red-50 px-2.5 py-0.5 rounded-full border border-red-100" x-text="routeDistance"></span>
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-1.5">
+                                <span class="text-xs font-bold text-slate-900" x-text="routeEta"></span>
+                                <span class="text-[10px] font-bold text-primary-700 bg-primary-50 px-2 py-0.5 rounded-full border border-primary-100" x-text="routeDistance"></span>
                             </div>
-                            <p class="text-xs text-slate-500 font-medium truncate mt-0.5" x-text="'Melalui: ' + routeSummary"></p>
+                            <p class="text-[11px] text-slate-500 truncate" x-text="routeSummary"></p>
                         </div>
                     </div>
                 </div>
+
+                <!-- GPS Controller Footer -->
+                @if(in_array($order->status, ['menuju_lokasi', 'membawa_pasien', 'diproses']))
+                    <div class="mt-4 pt-3 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3"
+                         x-data="gpsTracker(@this)">
+                        
+                        <div class="flex items-center gap-2">
+                            <button type="button"
+                                    x-show="gpsSupported"
+                                    @click="toggleGps()"
+                                    :class="gpsActive ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'"
+                                    class="px-4 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full" :class="gpsActive ? 'bg-white animate-ping' : 'bg-slate-400'"></span>
+                                <span x-text="gpsActive ? 'GPS Broadcast: ON' : 'Aktifkan GPS Realtime'"></span>
+                            </button>
+
+                            <button type="button"
+                                    wire:click="simulateGpsStep"
+                                    class="px-3 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 text-xs font-semibold transition-colors">
+                                Simulasi Step
+                            </button>
+                        </div>
+
+                        <span x-show="gpsActive" class="text-[11px] text-emerald-700 font-medium" x-text="'Koordinat: ' + (lastCoords || 'Menghubungkan...')"></span>
+                    </div>
+                @endif
+
             </div>
         </div>
 
@@ -319,60 +346,51 @@
 
                     this.map = L.map('supir-map', {
                         zoomControl: true,
-                        attributionControl: true
+                        attributionControl: false
                     }).setView([defaultLat, defaultLng], 14);
 
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '&copy; OpenStreetMap contributors',
                         maxZoom: 19
                     }).addTo(this.map);
 
-                    // Expose instance ke window agar GPS tracker JS bisa update marker langsung
                     window.supirMapInstance = this;
 
                     const ambIcon = L.divIcon({
                         className: 'custom-amb-icon',
-                        html: `<div style="background: linear-gradient(135deg, #DC2626, #991B1B); width: 38px; height: 38px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 12px rgba(220,38,38,0.5); display: flex; align-items: center; justify-content: center; font-size: 18px;">🚑</div>`,
-                        iconSize: [38, 38],
-                        iconAnchor: [19, 19]
+                        html: `<div style="background:#0F2742; width:32px; height:32px; border-radius:50%; border:2px solid white; box-shadow:0 2px 8px rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center; color:white; font-weight:bold; font-size:13px;">🚑</div>`,
+                        iconSize: [32, 32],
+                        iconAnchor: [16, 16]
                     });
 
                     const jemputIcon = L.divIcon({
                         className: 'custom-jemput-icon',
-                        html: `<div style="background: linear-gradient(135deg, #3B82F6, #2563EB); width: 34px; height: 34px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 10px rgba(59,130,246,0.4); display: flex; align-items: center; justify-content: center; font-size: 16px;">📍</div>`,
-                        iconSize: [34, 34],
-                        iconAnchor: [17, 34]
+                        html: `<div style="background:#0284C7; width:28px; height:28px; border-radius:50%; border:2px solid white; box-shadow:0 2px 6px rgba(2,132,199,0.4); display:flex; align-items:center; justify-content:center; color:white; font-size:12px;">📍</div>`,
+                        iconSize: [28, 28],
+                        iconAnchor: [14, 28]
                     });
 
                     const rsIcon = L.divIcon({
                         className: 'custom-rs-icon',
-                        html: `<div style="background: linear-gradient(135deg, #10B981, #059669); width: 34px; height: 34px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 10px rgba(16,185,129,0.4); display: flex; align-items: center; justify-content: center; font-size: 16px;">🏥</div>`,
-                        iconSize: [34, 34],
-                        iconAnchor: [17, 34]
+                        html: `<div style="background:#16A36A; width:28px; height:28px; border-radius:50%; border:2px solid white; box-shadow:0 2px 6px rgba(22,163,106,0.4); display:flex; align-items:center; justify-content:center; color:white; font-size:12px;">🏥</div>`,
+                        iconSize: [28, 28],
+                        iconAnchor: [14, 28]
                     });
 
-                    // Driver Ambulance Marker
                     this.ambMarker = L.marker([defaultLat, defaultLng], {
                         icon: ambIcon,
-                        title: 'Posisi Ambulans Saya'
-                    }).addTo(this.map)
-                    .bindPopup('<b>Posisi Ambulans Saya</b><br>Secara realtime dari satelit GPS')
-                    .openPopup();
+                        title: 'Posisi Ambulans'
+                    }).addTo(this.map).bindPopup('<b>Posisi Ambulans</b>');
 
-                    // Pickup Marker
                     if (jemputLat && jemputLng) {
                         this.jemputMarker = L.marker([jemputLat, jemputLng], {
                             icon: jemputIcon
-                        }).addTo(this.map)
-                        .bindPopup('<b>Titik Jemput Pasien</b>');
+                        }).addTo(this.map).bindPopup('<b>Titik Jemput Pasien</b>');
                     }
 
-                    // Hospital Marker
                     if (rsLat && rsLng && rsLat !== 0) {
                         this.rsMarker = L.marker([rsLat, rsLng], {
                             icon: rsIcon
-                        }).addTo(this.map)
-                        .bindPopup('<b>Rumah Sakit Rujukan</b>');
+                        }).addTo(this.map).bindPopup('<b>Rumah Sakit Rujukan</b>');
                     }
 
                     this.drawPolyline();
@@ -415,7 +433,7 @@
                             if (isPrimary) {
                                 const distKm = (route.distance / 1000).toFixed(1) + ' km';
                                 const etaMin = Math.max(1, Math.ceil(route.duration / 60)) + ' Menit';
-                                const summary = (route.legs && route.legs[0] && route.legs[0].summary) ? route.legs[0].summary : 'Jalan Raya Utama Cilacap';
+                                const summary = (route.legs && route.legs[0] && route.legs[0].summary) ? route.legs[0].summary : 'Jalan Utama';
 
                                 this.routeDistance = distKm;
                                 this.routeEta = etaMin;
@@ -432,7 +450,7 @@
                         color: color,
                         weight: weight,
                         opacity: opacity,
-                        dashArray: '8, 8'
+                        dashArray: '6, 6'
                     }).addTo(this.map);
                 },
 
@@ -450,14 +468,14 @@
                         this.polyline = await this.fetchOsrmRoute(
                             this.ambMarker.getLatLng(),
                             this.jemputMarker.getLatLng(),
-                            '#DC2626', 5.5, 0.95, true
+                            '#0284C7', 4.5, 0.9, true
                         );
                     }
                     if (this.jemputMarker && this.rsMarker) {
                         this.polyline2 = await this.fetchOsrmRoute(
                             this.jemputMarker.getLatLng(),
                             this.rsMarker.getLatLng(),
-                            '#10B981', 4, 0.8, false
+                            '#16A36A', 3.5, 0.8, false
                         );
                     }
                 },
@@ -469,14 +487,13 @@
                     if (this.rsMarker) bounds.extend(this.rsMarker.getLatLng());
 
                     if (bounds.isValid()) {
-                        this.map.fitBounds(bounds, { padding: [60, 60], maxZoom: 15 });
+                        this.map.fitBounds(bounds, { padding: [50, 50], maxZoom: 15 });
                     }
                 }
             }
         }
     </script>
 
-    {{-- ====== GPS TRACKING JAVASCRIPT ====== --}}
     <script>
         function gpsTracker(livewireComponent) {
             return {
@@ -525,15 +542,13 @@
                 onPositionUpdate(position) {
                     const lat = position.coords.latitude;
                     const lng = position.coords.longitude;
-                    const speed = position.coords.speed ? Math.round(position.coords.speed * 3.6) : 0; // m/s -> km/h
+                    const speed = position.coords.speed ? Math.round(position.coords.speed * 3.6) : 0;
                     const heading = position.coords.heading ? Math.round(position.coords.heading) : 0;
 
                     this.lastCoords = lat.toFixed(5) + ', ' + lng.toFixed(5);
 
-                    // Kirim ke Livewire — update DB tracking_gps
                     livewireComponent.call('updateGpsLocation', lat, lng, speed, heading);
 
-                    // Update marker di peta Leaflet secara langsung (tanpa nunggu Livewire)
                     if (window.supirMapInstance && window.supirMapInstance.ambMarker) {
                         window.supirMapInstance.ambMarker.setLatLng([lat, lng]);
                         window.supirMapInstance.map.panTo([lat, lng]);

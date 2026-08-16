@@ -11,24 +11,29 @@ class RoleSeeder extends Seeder
     {
         $roles = [
             [
+                'name'        => 'mitra',
+                'label'       => 'Mitra',
+                'description' => 'Mitra',
+            ],
+            [
                 'name'        => 'admin',
                 'label'       => 'Admin',
-                'description' => 'Akses penuh ke seluruh sistem: manajemen pengguna, armada, laporan, dan konfigurasi',
+                'description' => 'Admin',
             ],
             [
                 'name'        => 'operator',
                 'label'       => 'Operator',
-                'description' => 'Menerima order masyarakat, menugaskan supir & ambulans, monitoring perjalanan',
+                'description' => 'Operator',
             ],
             [
                 'name'        => 'supir',
-                'label'       => 'Supir Ambulans',
-                'description' => 'Menerima tugas dari operator, navigasi medis, update status & GPS',
+                'label'       => 'Sopir',
+                'description' => 'Sopir',
             ],
             [
                 'name'        => 'masyarakat',
                 'label'       => 'Masyarakat',
-                'description' => 'Memesan ambulans darurat, tracking posisi secara realtime, memberi ulasan',
+                'description' => 'Masyarakat',
             ],
         ];
 

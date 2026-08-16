@@ -572,43 +572,4 @@
     </main>
     
     <x-landing-footer />
-
-    @if(!$order->is_form_complete)
-        <!-- Pop-up Modal Peringatan Lengkapi Formulir -->
-        <div x-data="{ showCompleteAlertModal: true }"
-             x-show="showCompleteAlertModal"
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 translate-y-10 scale-95"
-             x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-             class="fixed bottom-6 right-6 z-50 max-w-sm w-full mx-4 sm:mx-0 bg-white rounded-3xl shadow-2xl border-2 border-amber-400/90 overflow-hidden">
-
-            <!-- Header Pop-up -->
-            <div class="bg-gradient-to-r from-amber-500 to-amber-600 px-5 py-3.5 text-white flex items-center justify-between shadow-xs">
-                <div class="flex items-center gap-2.5">
-                    <span class="w-7 h-7 rounded-full bg-white text-amber-600 font-black text-sm flex items-center justify-center shadow-md animate-bounce">!</span>
-                    <span class="font-extrabold text-xs sm:text-sm tracking-wide uppercase">Tindakan Diperlukan!</span>
-                </div>
-                <button @click="showCompleteAlertModal = false" class="text-white/80 hover:text-white font-bold text-lg px-1" title="Tutup sebentar">&times;</button>
-            </div>
-
-            <!-- Body Pop-up -->
-            <div class="p-5 space-y-3.5 bg-amber-50/40">
-                <p class="text-xs font-bold text-slate-800 leading-relaxed">
-                    Pesanan Ambulans Darurat <span class="text-amber-700 font-black px-1.5 py-0.5 rounded-lg bg-amber-100 border border-amber-200">#{{ $order->kode_order }}</span> membutuhkan kelengkapan formulir medis!
-                </p>
-                <p class="text-xs text-slate-600 font-medium leading-relaxed">
-                    Agar tim medis & rumah sakit rujukan dapat mempersiapkan penanganan dengan cepat, silakan lengkapi formulir kebutuhan ambulans sekarang.
-                </p>
-                <div class="pt-1 flex items-center gap-2">
-                    <a href="{{ route('masyarakat.order.complete', $order->id) }}"
-                       class="flex-1 py-3 px-4 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs text-center shadow-lg shadow-amber-600/30 transition-all transform active:scale-95 flex items-center justify-center gap-2">
-                        <span>LENGKAPI FORM SEKARANG</span>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-    @endif
 </div>

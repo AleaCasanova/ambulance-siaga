@@ -10,6 +10,17 @@ use Livewire\Component;
 
 class TugasIndex extends Component
 {
+    public function toggleStatusOnline()
+    {
+        $user = auth()->user();
+        $supir = $user?->supir;
+        if ($supir) {
+            $supir->status_online = !$supir->status_online;
+            $supir->save();
+            session()->flash('success', 'Status kesiapan Anda berhasil diubah menjadi: ' . ($supir->status_online ? 'ONLINE (SIAGA)' : 'OFFLINE'));
+        }
+    }
+
     public function takeOrder($orderId)
     {
         $user = auth()->user();
@@ -44,7 +55,8 @@ class TugasIndex extends Component
             ]);
 
             session()->flash('success', "Tugas pesanan #{$order->kode_order} berhasil Anda ambil! Segera lakukan penjemputan.");
-            return redirect()->route('supir.perjalanan.aktif');
+            $this->redirectRoute('supir.perjalanan.aktif');
+            return;
         }
     }
 
@@ -54,7 +66,8 @@ class TugasIndex extends Component
         if ($order && $order->status === 'menunggu_konfirmasi_supir') {
             $service->updateStatus($order->id, 'diproses', 'Supir menerima penugasan', auth()->id());
             session()->flash('success', 'Tugas berhasil diterima. Harap segera menuju lokasi!');
-            return redirect()->route('supir.perjalanan.aktif');
+            $this->redirectRoute('supir.perjalanan.aktif');
+            return;
         }
     }
 
@@ -69,11 +82,11 @@ class TugasIndex extends Component
                 'status' => 'menunggu',
                 'waktu_respon' => null,
             ]);
-            
+
             if ($amb) {
                 $amb->update(['status' => 'Tersedia']);
             }
-            
+
             StatusPerjalanan::create([
                 'pemesanan_id' => $order->id,
                 'status' => 'menunggu',
@@ -86,6 +99,24 @@ class TugasIndex extends Component
         }
     }
 
+    private function calculateDistanceKm(?float $lat1, ?float $lng1, ?float $lat2, ?float $lng2): ?float
+    {
+        if (!$lat1 || !$lng1 || !$lat2 || !$lng2) {
+            return null;
+        }
+
+        $earthRadius = 6371; // km
+        $dLat = deg2rad($lat2 - $lat1);
+        $dLng = deg2rad($lng2 - $lng1);
+
+        $a = sin($dLat / 2) * sin($dLat / 2) +
+             cos(deg2rad($lat1)) * cos(deg2rad($lat2)) *
+             sin($dLng / 2) * sin($dLng / 2);
+
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+        return round($earthRadius * $c, 1);
+    }
+
     public function render()
     {
         $user = auth()->user();
@@ -96,43 +127,81 @@ class TugasIndex extends Component
             $supir = Supir::firstOrCreate(['user_id' => $user->id], [
                 'no_wa' => $user->phone ?? '',
                 'status_online' => true,
+                'lokasi_terakhir_lat' => -7.7188,
+                'lokasi_terakhir_lng' => 109.0159,
             ]);
         }
 
-        // Ambil pesanan yang ditugaskan khusus untuk supir ini tapi belum dikonfirmasi
+        $driverLat = $supir?->lokasi_terakhir_lat ?? -7.7188;
+        $driverLng = $supir?->lokasi_terakhir_lng ?? 109.0159;
+
+        // 1. Tugas Aktif yang sedang dijalankan supir ini
+        $activeTrip = null;
+        if ($supir) {
+            $activeTrip = Pemesanan::with(['user', 'ambulans', 'rumahSakit', 'latestTracking'])
+                ->where('supir_id', $supir->id)
+                ->whereIn('status', ['diproses', 'menuju_lokasi', 'membawa_pasien'])
+                ->latest()
+                ->first();
+        }
+
+        // 2. Pesanan khusus yang ditugaskan ke supir ini tapi belum dikonfirmasi
         $assignedOrders = collect();
         if ($supir) {
             $assignedOrders = Pemesanan::with(['user', 'rumahSakit'])
                 ->where('supir_id', $supir->id)
                 ->where('status', 'menunggu_konfirmasi_supir')
                 ->latest()
-                ->get();
+                ->get()
+                ->map(function ($order) use ($driverLat, $driverLng) {
+                    $dist = $this->calculateDistanceKm($driverLat, $driverLng, (float) $order->jemput_lat, (float) $order->jemput_lng);
+                    $order->distance_km = $dist;
+                    $order->distance_text = $dist ? "{$dist} km · ±" . max(3, ceil($dist * 2.5)) . " mnt" : "Kabupaten Cilacap";
+                    return $order;
+                });
         }
 
-        // Ambil pesanan darurat yang masih menunggu supir (unassigned)
+        // 3. Pesanan darurat terbuka yang belum ada armadanya (unassigned)
         $openOrders = Pemesanan::with(['user', 'rumahSakit'])
             ->where('status', 'menunggu')
             ->whereNull('supir_id')
             ->latest()
-            ->get();
+            ->get()
+            ->map(function ($order) use ($driverLat, $driverLng) {
+                $dist = $this->calculateDistanceKm($driverLat, $driverLng, (float) $order->jemput_lat, (float) $order->jemput_lng);
+                $order->distance_km = $dist;
+                $order->distance_text = $dist ? "{$dist} km · ±" . max(3, ceil($dist * 2.5)) . " mnt" : "Kabupaten Cilacap";
+                return $order;
+            });
 
-        // Ambil riwayat tugas yang sudah selesai
+        // 4. Riwayat tugas evakuasi selesai
         $completedOrders = collect();
         if ($supir) {
             $completedOrders = Pemesanan::with(['user', 'rumahSakit', 'rating'])
                 ->where('supir_id', $supir->id)
                 ->where('status', 'selesai')
                 ->orderBy('updated_at', 'desc')
+                ->take(10)
                 ->get();
         }
 
         $isOnline = $supir ? (bool) $supir->status_online : false;
+        $totalPendingCount = count($assignedOrders) + count($openOrders);
+
+        // Default item for map initialization
+        $initialOrder = $assignedOrders->first() ?? $openOrders->first() ?? $activeTrip;
 
         return view('livewire.supir.tugas-index', [
+            'supir' => $supir,
+            'isOnline' => $isOnline,
+            'activeTrip' => $activeTrip,
             'assignedOrders' => $assignedOrders,
             'openOrders' => $openOrders,
             'completedOrders' => $completedOrders,
-            'isOnline' => $isOnline,
+            'totalPendingCount' => $totalPendingCount,
+            'driverLat' => $driverLat,
+            'driverLng' => $driverLng,
+            'initialOrder' => $initialOrder,
         ])->layout('layouts.app');
     }
 }

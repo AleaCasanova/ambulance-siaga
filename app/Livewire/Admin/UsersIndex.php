@@ -146,7 +146,13 @@ class UsersIndex extends Component
 
         if ($this->isEdit) {
             $user = User::findOrFail($this->userId);
+            $wasInactive = !$user->is_active;
             $user->update($data);
+
+            if ($wasInactive && $this->is_active) {
+                \App\Services\AdminNotificationService::notifyAccountActivated($user);
+            }
+
             session()->flash('success', 'Data pengguna berhasil diperbarui.');
         } else {
             $data['email_verified_at'] = now();
@@ -185,6 +191,27 @@ class UsersIndex extends Component
         }
 
         $this->showModal = false;
+    }
+
+    public function toggleActive($id)
+    {
+        $user = User::findOrFail($id);
+
+        if ($user->id === auth()->id()) {
+            session()->flash('error', 'Anda tidak dapat mengubah status akun Anda sendiri.');
+            return;
+        }
+
+        $newStatus = !$user->is_active;
+        $user->is_active = $newStatus;
+        $user->save();
+
+        if ($newStatus) {
+            \App\Services\AdminNotificationService::notifyAccountActivated($user);
+            session()->flash('success', "Akun '{$user->name}' berhasil diverifikasi dan diaktifkan.");
+        } else {
+            session()->flash('success', "Akun '{$user->name}' telah dinonaktifkan.");
+        }
     }
 
     public function deleteUser($id)

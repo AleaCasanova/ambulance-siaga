@@ -6,14 +6,14 @@
 
     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-16 relative z-10">
         <!-- Brand & About -->
-        <div class="lg:col-span-5 pr-0 lg:pr-12">
+        <div class="lg:col-span-4 pr-0 lg:pr-6">
             <div class="flex items-center gap-4 mb-6">
                 <div class="w-14 h-14 bg-white rounded-full p-1 flex items-center justify-center shadow-lg shadow-white/5 overflow-hidden">
                     <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo" class="w-full h-full object-contain">
                 </div>
                 <div>
                     <span class="text-white font-black text-2xl tracking-tight block leading-none">{{ \App\Models\SettingAplikasi::getVal('nama_organisasi', 'Ambulance Siaga') }}</span>
-                    <span class="text-primary-600 text-xs font-bold tracking-widest uppercase mt-1 block">Siaga Darurat Medis</span>
+                    <span class="text-[#4ddae3] text-xs font-bold tracking-widest uppercase mt-1 block">Siaga Darurat Medis</span>
                 </div>
             </div>
             <p class="leading-relaxed mb-8 text-sm md:text-base font-medium text-sky-100/70">
@@ -35,9 +35,9 @@
         </div>
 
         <!-- Links -->
-        <div class="lg:col-span-3">
+        <div class="lg:col-span-5">
             <h4 class="text-white font-bold mb-6 uppercase tracking-wider text-sm flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-primary-600"></span> Menu Navigasi
+                <span class="w-2 h-2 rounded-full bg-[#4ddae3]"></span> Menu Navigasi
             </h4>
             @php
                 $user = auth()->user();
@@ -48,47 +48,68 @@
                     $footerLinks = [
                         ['url' => route('home'), 'label' => 'Beranda'],
                         ['url' => route('masyarakat.info'), 'label' => 'Tentang Kami'],
-                        ['url' => route('masyarakat.order.create'), 'label' => 'Layanan Kami'],
+                        ['url' => route('masyarakat.order.create'), 'label' => 'Pesan Ambulans'],
+                        ['url' => route('donasi'), 'label' => 'Donasi & Infaq'],
+                        ['url' => route('mitra.pengemudi'), 'label' => 'Mitra Pengemudi'],
+                        ['url' => route('mitra.armada'), 'label' => 'Mitra Armada'],
                     ];
                 } elseif ($user->hasRole('masyarakat') || !$user->role_id) {
                     // Masyarakat (Sudah Login)
                     $footerLinks = [
-                        ['url' => route('home'), 'label' => 'Beranda'],
-                        ['url' => route('masyarakat.order.create'), 'label' => 'Pesan Ambulance'],
-                        ['url' => route('masyarakat.orders.index'), 'label' => 'Riwayat & Tracking'],
+                        ['url' => route('masyarakat.dashboard'), 'label' => 'Pusat Siaga'],
+                        ['url' => route('masyarakat.order.create'), 'label' => 'Pesan Ambulans'],
+                        ['url' => route('masyarakat.orders.index'), 'label' => 'Pesanan Saya'],
+                        ['url' => route('donasi'), 'label' => 'Donasi & Infaq'],
                         ['url' => route('masyarakat.info'), 'label' => 'Tentang Kami'],
+                        ['url' => route('mitra.pengemudi'), 'label' => 'Kemitraan Pengemudi'],
+                        ['url' => route('mitra.armada'), 'label' => 'Kemitraan Armada'],
                     ];
                 } elseif ($user->isSupir()) {
+                    // Supir
                     $footerLinks = [
                         ['url' => route('supir.dashboard'), 'label' => 'Dashboard Supir'],
                         ['url' => route('supir.tugas.index'), 'label' => 'Pesanan Saya'],
+                        ['url' => route('supir.perjalanan.aktif'), 'label' => 'Perjalanan Aktif'],
                         ['url' => route('masyarakat.info'), 'label' => 'Tentang Kami'],
+                        ['url' => route('home'), 'label' => 'Halaman Utama'],
                     ];
                 } elseif ($user->isOperator()) {
+                    // Operator
                     $footerLinks = [
                         ['url' => route('operator.dashboard'), 'label' => 'Dashboard Operator'],
-                        ['url' => route('operator.orders.index'), 'label' => 'Permintaan Ambulance'],
-                        ['url' => route('operator.monitoring'), 'label' => 'Tracking Aktif'],
+                        ['url' => route('operator.orders.index'), 'label' => 'Permintaan Ambulans'],
+                        ['url' => route('operator.monitoring'), 'label' => 'Tracking & Monitoring'],
                         ['url' => route('masyarakat.info'), 'label' => 'Tentang Kami'],
+                        ['url' => route('home'), 'label' => 'Halaman Utama'],
                     ];
                 } elseif ($user->isAdmin()) {
+                    // Admin
                     $footerLinks = [
                         ['url' => route('admin.dashboard'), 'label' => 'Dashboard Admin'],
-                        ['url' => route('admin.orders.index'), 'label' => 'Semua Order'],
+                        ['url' => route('admin.orders.index'), 'label' => 'Semua Order Ambulans'],
+                        ['url' => route('admin.ambulans.index'), 'label' => 'Armada Ambulans'],
+                        ['url' => route('admin.supir.index'), 'label' => 'Supir Ambulans'],
+                        ['url' => route('admin.rumahsakit.index'), 'label' => 'Mitra Rumah Sakit'],
+                        ['url' => route('admin.donasi.index'), 'label' => 'Kelola Donasi'],
                         ['url' => route('admin.users.index'), 'label' => 'Kelola Pengguna'],
                         ['url' => route('admin.laporan.index'), 'label' => 'Laporan Sistem'],
                     ];
                 }
             @endphp
-            <ul class="space-y-4 font-medium text-sm">
+            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3.5 font-medium text-sm">
                 @foreach($footerLinks as $link)
-                <li><a href="{{ $link['url'] }}" class="flex items-center gap-2 text-sky-100/70 hover:text-white transition-all hover:translate-x-1 group"><svg class="w-4 h-4 text-sky-200/40 group-hover:text-primary-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg> {{ $link['label'] }}</a></li>
+                <li>
+                    <a href="{{ $link['url'] }}" class="flex items-center gap-2 text-sky-100/70 hover:text-white transition-all hover:translate-x-1 group">
+                        <svg class="w-4 h-4 text-sky-200/40 group-hover:text-[#4ddae3] transition-colors shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg> 
+                        <span>{{ $link['label'] }}</span>
+                    </a>
+                </li>
                 @endforeach
             </ul>
         </div>
 
         <!-- Contact Info -->
-        <div class="lg:col-span-4">
+        <div class="lg:col-span-3">
             <h4 class="text-white font-bold mb-6 uppercase tracking-wider text-sm flex items-center gap-2">
                 <span class="w-2 h-2 rounded-full bg-red-500"></span> Pusat Bantuan
             </h4>

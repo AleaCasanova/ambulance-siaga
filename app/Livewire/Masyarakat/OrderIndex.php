@@ -16,10 +16,12 @@ class OrderIndex extends Component
     {
         $user = auth()->user();
         if ($user && $user->hasRole('supir')) {
-            return redirect()->route('supir.dashboard');
+            $this->redirectRoute('supir.dashboard');
+            return;
         }
         if ($user && ($user->hasRole('operator') || $user->hasRole('admin'))) {
-            return redirect()->route('operator.orders.index');
+            $this->redirectRoute('operator.orders.index');
+            return;
         }
     }
 

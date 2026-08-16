@@ -2,12 +2,13 @@
 
 
     <!-- Hero Section -->
-    <section class="relative pt-40 pb-48 px-6 lg:px-12 overflow-hidden bg-primary-600" style="background-image: url('{{ asset('images/beranda_utama_bg.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <section class="relative pt-36 sm:pt-40 pb-36 sm:pb-44 px-6 lg:px-12 overflow-hidden bg-primary-600" style="background-image: url('{{ asset('images/beranda_utama_bg.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
         <!-- Gradient Overlay: Mix of Cyan and White -->
         <div class="absolute inset-0 bg-gradient-to-r from-primary-600 via-[#009CA6]/80 to-white/60 mix-blend-multiply"></div>
         <div class="absolute inset-0 bg-gradient-to-r from-primary-600 via-[#009CA6]/80 to-white/60"></div>
-        <!-- Bottom Fade to White -->
-        <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-slate-50 to-transparent"></div>
+        
+        <!-- Gradasi Halus & Samar-samar dari Cyan ke Putih -->
+        <div class="absolute inset-x-0 bottom-0 h-44 sm:h-64 bg-gradient-to-t from-white via-white/60 via-white/15 to-transparent pointer-events-none z-10"></div>
 
         <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 relative z-10">
             <!-- Left Text -->
@@ -63,8 +64,8 @@
     </section>
 
     <!-- Floating Stats Card -->
-    <section class="max-w-6xl mx-auto px-6 -mt-24 relative z-40">
-        <div class="bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgb(0,0,0,0.1)] border border-slate-100 p-6 sm:p-8 md:p-10 grid grid-cols-2 lg:flex lg:flex-nowrap justify-between items-center gap-6 sm:gap-8">
+    <section class="max-w-6xl mx-auto px-6 -mt-20 sm:-mt-24 relative z-20">
+        <div class="bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(15,23,42,0.12)] border border-slate-100 p-6 sm:p-8 md:p-10 grid grid-cols-2 lg:flex lg:flex-nowrap justify-between items-center gap-6 sm:gap-8">
             <div class="text-center w-full group">
                 <div class="w-14 h-14 md:w-16 md:h-16 mx-auto bg-sky-50 rounded-2xl text-primary-600 mb-4 flex items-center justify-center group-hover:-translate-y-2 transition-transform duration-300">
                     <svg class="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
@@ -105,8 +106,79 @@
         </div>
     </section>
 
-    <!-- Services / Programs -->
-    <section id="layanan" class="pt-32 pb-24 px-6 lg:px-12 bg-slate-50 relative overflow-hidden">
+    <!-- About Section (Tentang GSC - Putih / White) -->
+    <section id="tentang" class="bg-white relative overflow-hidden pt-12 pb-24 px-6 lg:px-12">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16 relative z-10">
+            <!-- Image Side -->
+            <div class="w-full lg:w-1/2">
+                <div class="relative">
+                    <img src="{{ asset('images/ambulance_building.png') }}" alt="Gedung Ambulance Siaga" class="w-full h-[400px] md:h-[500px] object-cover rounded-3xl shadow-lg border border-slate-100">
+                    
+                    <!-- Integrated Stat Box -->
+                    <div class="absolute -bottom-6 -right-6 bg-white p-6 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-4 hidden md:flex">
+                        <div class="w-14 h-14 bg-sky-50 rounded-full flex items-center justify-center text-primary-600">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <div class="pr-4">
+                            <p class="text-2xl font-black text-slate-800">24/7</p>
+                            <p class="text-sm font-bold text-slate-500">Siaga Darurat</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Side -->
+            <div class="w-full lg:w-1/2 flex flex-col justify-center">
+                <div class="mb-3">
+                    <span class="text-primary-600 font-black tracking-wider text-sm uppercase">Tentang GSC</span>
+                </div>
+                
+                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-6 leading-tight">
+                    Lembaga Filantrophy Profesional untuk Kesejahteraan Masyarakat
+                </h2>
+                
+                <p class="text-slate-600 mb-8 leading-relaxed text-lg font-medium">
+                    {{ $tentang ?? 'GSC (Gerak Sedekah Cilacap) adalah lembaga filantrophy yang bergerak di bidang sosial, kemanusiaan, dan keagamaan. Kami berkomitmen untuk menjadi jembatan antara para dermawan dan masyarakat yang membutuhkan, termasuk menghadirkan layanan armada ambulans darurat.' }}
+                </p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+                    <div class="flex items-center gap-3 bg-slate-50 px-4 py-3 rounded-2xl border border-slate-100 shadow-xs">
+                        <div class="w-7 h-7 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <p class="text-slate-800 font-bold text-sm">Pelayanan Cepat Tanggap</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-slate-50 px-4 py-3 rounded-2xl border border-slate-100 shadow-xs">
+                        <div class="w-7 h-7 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <p class="text-slate-800 font-bold text-sm">Terpercaya & Transparan</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-slate-50 px-4 py-3 rounded-2xl border border-slate-100 shadow-xs">
+                        <div class="w-7 h-7 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <p class="text-slate-800 font-bold text-sm">Tim Medis Profesional</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-slate-50 px-4 py-3 rounded-2xl border border-slate-100 shadow-xs">
+                        <div class="w-7 h-7 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <p class="text-slate-800 font-bold text-sm">Layanan Gratis 100%</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <a href="{{ route('masyarakat.info') }}" class="inline-flex items-center justify-center px-8 py-4 text-base font-bold rounded-xl text-white bg-primary-600 hover:bg-primary-700 transition-colors shadow-lg hover:shadow-xl">
+                        Kenali Lebih Jauh
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services / Programs (Program Kami - Pudar / Slate-50) -->
+    <section id="layanan" class="py-24 px-6 lg:px-12 bg-slate-50 relative overflow-hidden border-t border-slate-100">
         <!-- Decorative Animated Assets -->
         <div class="absolute top-20 right-10 opacity-40 animate-[spin_12s_linear_infinite] pointer-events-none z-0">
             <svg class="w-32 h-32 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
@@ -186,79 +258,8 @@
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="tentang" class="py-24 px-6 lg:px-12 bg-white">
-        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
-            <!-- Image Side -->
-            <div class="w-full lg:w-1/2">
-                <div class="relative">
-                    <img src="{{ asset('images/ambulance_building.png') }}" alt="Gedung Ambulance Siaga" class="w-full h-[400px] md:h-[500px] object-cover rounded-2xl shadow-sm">
-                    
-                    <!-- Integrated Stat Box -->
-                    <div class="absolute -bottom-6 -right-6 bg-white p-6 rounded-2xl shadow-lg border border-slate-100 flex items-center gap-4 hidden md:flex">
-                        <div class="w-14 h-14 bg-sky-50 rounded-full flex items-center justify-center text-primary-600">
-                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        </div>
-                        <div class="pr-4">
-                            <p class="text-2xl font-bold text-slate-800">24/7</p>
-                            <p class="text-sm font-medium text-slate-500">Siaga Darurat</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Content Side -->
-            <div class="w-full lg:w-1/2 flex flex-col justify-center">
-                <div class="mb-3">
-                    <span class="text-primary-600 font-bold tracking-wider text-sm uppercase">Tentang GSC</span>
-                </div>
-                
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-6 leading-tight">
-                    Lembaga Filantrophy Profesional untuk Kesejahteraan Masyarakat
-                </h2>
-                
-                <p class="text-slate-600 mb-8 leading-relaxed text-lg">
-                    {{ $tentang ?? 'GSC (Gerak Sedekah Cilacap) adalah lembaga filantrophy yang bergerak di bidang sosial, kemanusiaan, dan keagamaan. Kami berkomitmen untuk menjadi jembatan antara para dermawan dan masyarakat yang membutuhkan, termasuk menghadirkan layanan armada ambulans darurat.' }}
-                </p>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
-                    <div class="flex items-center gap-3">
-                        <div class="w-6 h-6 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                        </div>
-                        <p class="text-slate-700 font-medium text-sm">Pelayanan Cepat Tanggap</p>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <div class="w-6 h-6 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                        </div>
-                        <p class="text-slate-700 font-medium text-sm">Terpercaya & Transparan</p>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <div class="w-6 h-6 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                        </div>
-                        <p class="text-slate-700 font-medium text-sm">Tim Medis Profesional</p>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <div class="w-6 h-6 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                        </div>
-                        <p class="text-slate-700 font-medium text-sm">Layanan Gratis 100%</p>
-                    </div>
-                </div>
-                
-                <div>
-                    <a href="{{ route('masyarakat.info') }}" class="inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold rounded-lg text-white bg-primary-600 hover:bg-primary-700 transition-colors shadow-sm">
-                        Kenali Lebih Jauh
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- How it Works / Alur Pemesanan -->
-    <section class="py-24 px-6 lg:px-12 bg-slate-50 relative overflow-hidden">
+    <!-- How it Works / Alur Pemesanan (Alur Layanan - Putih / White) -->
+    <section class="py-24 px-6 lg:px-12 bg-white relative overflow-hidden border-t border-slate-100">
         <!-- Decorative Floating Elements -->
         <div class="absolute top-1/4 right-20 w-48 h-48 border-8 border-primary-300/80 rounded-full animate-[spin_10s_linear_infinite] pointer-events-none z-0" style="border-top-color: transparent;"></div>
         <div class="absolute bottom-20 left-20 w-32 h-32 border-[6px] border-emerald-300/80 rounded-lg animate-[spin_15s_linear_infinite] transform rotate-45 pointer-events-none z-0"></div>
@@ -279,13 +280,13 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 relative">
                 <!-- Connecting Line for LG screens -->
-                <div class="hidden lg:block absolute top-12 left-[12%] right-[12%] h-1 bg-slate-200 rounded-full z-0">
+                <div class="hidden lg:block absolute top-12 left-[12%] right-[12%] h-1 bg-slate-100 rounded-full z-0">
                     <div class="absolute top-0 left-0 h-full bg-primary-600/30 w-full rounded-full"></div>
                 </div>
 
                 <!-- Step 1 -->
                 <div class="relative z-10 flex flex-col items-center text-center group cursor-default">
-                    <div class="w-24 h-24 rounded-full bg-white border-[6px] border-slate-50 shadow-xl flex items-center justify-center relative mb-6 group-hover:scale-110 group-hover:border-primary-600/20 transition-all duration-300">
+                    <div class="w-24 h-24 rounded-full bg-slate-50 border-[6px] border-white shadow-xl flex items-center justify-center relative mb-6 group-hover:scale-110 group-hover:border-primary-600/20 transition-all duration-300">
                         <div class="absolute inset-0 bg-gradient-to-br from-primary-600 to-primary-700 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300 -z-10"></div>
                         <span class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-yellow-400 text-slate-900 font-black flex items-center justify-center text-sm shadow-md">1</span>
                         <svg class="w-10 h-10 text-primary-600 group-hover:text-white transition-colors duration-300 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
@@ -296,7 +297,7 @@
 
                 <!-- Step 2 -->
                 <div class="relative z-10 flex flex-col items-center text-center group cursor-default">
-                    <div class="w-24 h-24 rounded-full bg-white border-[6px] border-slate-50 shadow-xl flex items-center justify-center relative mb-6 group-hover:scale-110 group-hover:border-primary-600/20 transition-all duration-300">
+                    <div class="w-24 h-24 rounded-full bg-slate-50 border-[6px] border-white shadow-xl flex items-center justify-center relative mb-6 group-hover:scale-110 group-hover:border-primary-600/20 transition-all duration-300">
                         <div class="absolute inset-0 bg-gradient-to-br from-primary-600 to-primary-700 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300 -z-10"></div>
                         <span class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-yellow-400 text-slate-900 font-black flex items-center justify-center text-sm shadow-md">2</span>
                         <svg class="w-10 h-10 text-primary-600 group-hover:text-white transition-colors duration-300 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
@@ -307,7 +308,7 @@
 
                 <!-- Step 3 -->
                 <div class="relative z-10 flex flex-col items-center text-center group cursor-default">
-                    <div class="w-24 h-24 rounded-full bg-white border-[6px] border-slate-50 shadow-xl flex items-center justify-center relative mb-6 group-hover:scale-110 group-hover:border-primary-600/20 transition-all duration-300">
+                    <div class="w-24 h-24 rounded-full bg-slate-50 border-[6px] border-white shadow-xl flex items-center justify-center relative mb-6 group-hover:scale-110 group-hover:border-primary-600/20 transition-all duration-300">
                         <div class="absolute inset-0 bg-gradient-to-br from-primary-600 to-primary-700 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300 -z-10"></div>
                         <span class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-yellow-400 text-slate-900 font-black flex items-center justify-center text-sm shadow-md">3</span>
                         <svg class="w-10 h-10 text-primary-600 group-hover:text-white transition-colors duration-300 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
@@ -318,7 +319,7 @@
 
                 <!-- Step 4 -->
                 <div class="relative z-10 flex flex-col items-center text-center group cursor-default">
-                    <div class="w-24 h-24 rounded-full bg-white border-[6px] border-slate-50 shadow-xl flex items-center justify-center relative mb-6 group-hover:scale-110 group-hover:border-primary-600/20 transition-all duration-300">
+                    <div class="w-24 h-24 rounded-full bg-slate-50 border-[6px] border-white shadow-xl flex items-center justify-center relative mb-6 group-hover:scale-110 group-hover:border-primary-600/20 transition-all duration-300">
                         <div class="absolute inset-0 bg-gradient-to-br from-primary-600 to-primary-700 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300 -z-10"></div>
                         <span class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-yellow-400 text-slate-900 font-black flex items-center justify-center text-sm shadow-md">4</span>
                         <svg class="w-10 h-10 text-primary-600 group-hover:text-white transition-colors duration-300 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
@@ -337,10 +338,10 @@
         </div>
     </section>
 
-    <!-- Bergabung Bersama Kami Section -->
-    <section class="py-24 px-6 lg:px-12 bg-gradient-to-b from-white to-sky-50/50 relative overflow-hidden">
+    <!-- Bergabung Bersama Kami Section (Pudar / Slate-50) -->
+    <section class="py-24 px-6 lg:px-12 bg-slate-50 relative overflow-hidden border-t border-slate-100">
         <!-- Subtle Star of Life Watermark Background -->
-        <div class="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1400px] h-[1400px] pointer-events-none flex items-center justify-center z-0 opacity-40">
+        <div class="absolute top-[48%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1400px] h-[1400px] pointer-events-none flex items-center justify-center z-0 opacity-40">
             <svg viewBox="0 0 100 100" class="w-full h-full text-primary-100 fill-current">
                 <path d="M 40 10 L 60 10 L 60 40 L 90 40 L 90 60 L 60 60 L 60 90 L 40 90 L 40 60 L 10 60 L 10 40 L 40 40 Z" transform="rotate(45 50 50)"/>
                 <path d="M 40 10 L 60 10 L 60 40 L 90 40 L 90 60 L 60 60 L 60 90 L 40 90 L 40 60 L 10 60 L 10 40 L 40 40 Z"/>
@@ -355,17 +356,12 @@
         </div>
 
         <div class="max-w-7xl mx-auto relative z-20 text-center flex flex-col items-center">
-            <span class="inline-block bg-white text-primary-600 border border-primary-100 shadow-md font-black tracking-widest text-xs px-5 py-2 rounded-full mb-6 uppercase relative z-30">
+            <span class="inline-block bg-white text-primary-600 border border-primary-100 shadow-sm font-black tracking-widest text-xs px-5 py-2 rounded-full mb-6 uppercase relative z-30">
                 Bergabung Bersama Kami
             </span>
-            <h2 class="text-3xl md:text-[2.5rem] font-black text-slate-900 mb-6 leading-tight">
+            <h2 class="text-3xl md:text-[2.5rem] font-black text-slate-900 mb-14 leading-tight">
                 Jadilah Bagian dari Ambulance Siaga
             </h2>
-            <div class="bg-white/90 backdrop-blur-sm px-8 py-4 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/50 max-w-2xl mx-auto mb-16 relative z-10">
-                <p class="text-slate-600 font-medium text-lg leading-relaxed">
-                    Bantu menghadirkan layanan darurat yang cepat, aman, dan terintegrasi bagi masyarakat dengan bergabung bersama jaringan Ambulance Siaga.
-                </p>
-            </div>
 
             <!-- Focal Point: 3D Coverflow Slider -->
             <div class="relative w-full max-w-4xl mx-auto mb-20 h-[280px] md:h-[400px] flex justify-center items-center" 
@@ -422,11 +418,11 @@
             <!-- 3 Steps Visual -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full max-w-4xl mx-auto relative mb-16 mt-8">
                 <!-- Connecting Line (Desktop) -->
-                <div class="hidden md:block absolute top-10 left-[20%] right-[20%] h-[2px] bg-slate-100 z-0"></div>
+                <div class="hidden md:block absolute top-10 left-[20%] right-[20%] h-[2px] bg-slate-200 z-0"></div>
 
                 <!-- Step 1 -->
                 <div class="relative z-10 flex flex-col items-center text-center bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
-                    <div class="w-16 h-16 rounded-full bg-sky-50 text-primary-600 flex items-center justify-center font-black text-2xl mb-5 ring-4 ring-white group-hover:bg-primary-600 group-hover:text-white transition-colors duration-300">
+                    <div class="w-16 h-16 rounded-full bg-sky-50 text-primary-600 flex items-center justify-center font-black text-2xl mb-5 ring-4 ring-slate-50 group-hover:bg-primary-600 group-hover:text-white transition-colors duration-300">
                         1
                     </div>
                     <h3 class="font-bold text-slate-800 text-lg mb-2">DAFTAR</h3>
@@ -435,7 +431,7 @@
 
                 <!-- Step 2 -->
                 <div class="relative z-10 flex flex-col items-center text-center bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
-                    <div class="w-16 h-16 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center font-black text-2xl mb-5 ring-4 ring-white group-hover:bg-amber-500 group-hover:text-white transition-colors duration-300">
+                    <div class="w-16 h-16 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center font-black text-2xl mb-5 ring-4 ring-slate-50 group-hover:bg-amber-500 group-hover:text-white transition-colors duration-300">
                         2
                     </div>
                     <h3 class="font-bold text-slate-800 text-lg mb-2">VERIFIKASI</h3>
@@ -444,7 +440,7 @@
 
                 <!-- Step 3 -->
                 <div class="relative z-10 flex flex-col items-center text-center bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
-                    <div class="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center font-black text-2xl mb-5 ring-4 ring-white group-hover:bg-emerald-500 group-hover:text-white transition-colors duration-300">
+                    <div class="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center font-black text-2xl mb-5 ring-4 ring-slate-50 group-hover:bg-emerald-500 group-hover:text-white transition-colors duration-300">
                         3
                     </div>
                     <h3 class="font-bold text-slate-800 text-lg mb-2">SIAP BERGABUNG</h3>
@@ -462,8 +458,8 @@
         </div>
     </section>
 
-    <!-- Rumah Sakit Rujukan Section -->
-    <section class="py-24 px-6 bg-slate-50 border-t border-slate-200">
+    <!-- Rumah Sakit Rujukan Section (Putih / White) -->
+    <section class="py-24 px-6 bg-white border-t border-slate-100">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-12">
                 <h2 class="text-3xl font-black text-slate-900 mb-4">Mitra Fasilitas Kesehatan</h2>
@@ -471,7 +467,7 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 @foreach($rumahSakits as $rs)
-                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg transition-shadow group flex flex-col h-full">
+                    <div class="bg-slate-50 hover:bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg transition-all group flex flex-col h-full">
                         <div class="flex items-center justify-between mb-4">
                             <span class="inline-flex items-center px-2 py-1 rounded bg-sky-50 text-[10px] font-black text-sky-600 tracking-wider">
                                 IGD 24 JAM
@@ -481,7 +477,7 @@
                         <p class="text-sm text-slate-500 leading-relaxed mb-4 flex-1">{{ $rs->alamat }}</p>
                         <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
                             <span class="text-xs font-bold text-slate-400">{{ $rs->telepon }}</span>
-                            <a href="https://www.google.com/maps?q={{ $rs->lat }},{{ $rs->lng }}" target="_blank" class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-sky-600 group-hover:bg-sky-600 group-hover:text-white transition">
+                            <a href="https://www.google.com/maps?q={{ $rs->lat }},{{ $rs->lng }}" target="_blank" class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-sky-600 group-hover:bg-sky-600 group-hover:text-white shadow-xs transition">
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>
                             </a>
                         </div>
@@ -491,8 +487,8 @@
         </div>
     </section>
 
-    <!-- Partners Section -->
-    <section class="py-20 px-6 bg-white border-t border-slate-200">
+    <!-- Partners Section (Pudar / Slate-50) -->
+    <section class="py-20 px-6 bg-slate-50 border-t border-slate-200/80">
         <div class="max-w-7xl mx-auto flex flex-col items-center justify-center gap-10">
             <h4 class="text-slate-400 font-extrabold uppercase tracking-[0.2em] text-sm text-center">
                 Didukung Oleh Mitra Kebaikan

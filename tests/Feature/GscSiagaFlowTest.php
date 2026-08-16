@@ -28,6 +28,9 @@ class GscSiagaFlowTest extends TestCase
         $ambulans = Ambulans::firstOrFail();
         $rumahSakit = RumahSakit::firstOrFail();
 
+        // Reset any existing active orders from seeders to prevent driver conflict
+        Pemesanan::query()->update(['status' => 'selesai']);
+
         // Disable auto-dispatch for this test by making ALL ambulances and supirs unavailable temporarily
         Ambulans::query()->update(['status' => 'Ditugaskan']);
         Supir::query()->update(['status_online' => 0]);
@@ -56,7 +59,8 @@ class GscSiagaFlowTest extends TestCase
 
         // Make it available again for manual assignment
         $ambulans->update(['status' => 'Tersedia']);
-        $supir->update(['status_online' => 1]);
+        Supir::query()->where('id', $supir->id)->update(['status_online' => 1]);
+        $supir->refresh();
 
         // 3. Operator Menugaskan Ambulans & Supir
         $assignedOrder = $service->assignAmbulanceAndDriver(
@@ -66,9 +70,13 @@ class GscSiagaFlowTest extends TestCase
             $userOperator->id
         );
 
-        $this->assertEquals('diproses', $assignedOrder->status);
+        $this->assertEquals('menunggu_konfirmasi_supir', $assignedOrder->status);
         $this->assertEquals($ambulans->id, $assignedOrder->ambulans_id);
         $this->assertEquals($supir->id, $assignedOrder->supir_id);
+
+        // Supir Menerima Tugas
+        $service->updateStatus($order->id, 'diproses', 'Supir menerima tugas dan bersiap', $supir->user_id);
+        $this->assertEquals('diproses', $order->fresh()->status);
 
         // 4. Supir Mengupdate Status: menuju_lokasi -> membawa_pasien -> selesai
         $service->updateStatus($order->id, 'menuju_lokasi', 'Ambulans meluncur ke titik jemput', $supir->user_id);

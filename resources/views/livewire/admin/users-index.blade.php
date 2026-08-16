@@ -116,22 +116,42 @@
                                     <span class="text-xs text-slate-400 font-medium">-</span>
                                 @endif
                             </td>
-                            <td class="py-4 px-6">
-                                <span class="inline-flex items-center gap-1.5 text-xs font-bold {{ $user->is_active ? 'text-emerald-700' : 'text-slate-400' }}">
-                                    <span class="w-2 h-2 rounded-full {{ $user->is_active ? 'bg-emerald-500' : 'bg-slate-300' }}"></span>
-                                    <span>{{ $user->is_active ? 'Aktif' : 'Non-Aktif' }}</span>
-                                </span>
+                            <td class="py-4 px-6 whitespace-nowrap">
+                                @if($user->is_active)
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/60 shadow-xs">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                        <span>Aktif</span>
+                                    </span>
+                                @else
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200/60 shadow-xs">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                                        <span>Perlu Verifikasi</span>
+                                    </span>
+                                @endif
                             </td>
                             <td class="py-4 px-6 text-right whitespace-nowrap">
-                                <div class="flex items-center justify-end gap-2">
+                                <div class="flex items-center justify-end gap-1.5">
+                                    @if(!$user->is_active && $user->id !== auth()->id())
+                                        <button type="button" wire:click="toggleActive({{ $user->id }})"
+                                                wire:confirm="Verifikasi dan aktifkan akun '{{ $user->name }}' sekarang?"
+                                                title="Verifikasi & Aktifkan Akun"
+                                                class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-emerald-300 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] transition-all shadow-xs shadow-emerald-600/20">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                            </svg>
+                                            <span>Verifikasi</span>
+                                        </button>
+                                    @endif
+
                                     <button type="button" wire:click="openEditModal({{ $user->id }})"
-                                            class="px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 font-semibold text-[11px] transition-colors shadow-sm">
+                                            class="px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-[11px] transition-colors shadow-xs">
                                         Edit
                                     </button>
+
                                     @if($user->id !== auth()->id())
                                         <button type="button" wire:click="deleteUser({{ $user->id }})"
                                                 wire:confirm="Yakin ingin menghapus pengguna ini beserta seluruh data relasinya?"
-                                                class="px-3 py-1.5 rounded-lg border border-red-200 bg-red-50 hover:bg-red-100 text-red-600 font-semibold text-[11px] transition-colors shadow-sm">
+                                                class="px-3 py-1.5 rounded-lg border border-red-200 bg-red-50 hover:bg-red-100 text-red-600 font-semibold text-[11px] transition-colors shadow-xs">
                                             Hapus
                                         </button>
                                     @endif
