@@ -5,9 +5,6 @@
             
             <!-- Header Form -->
             <div class="mb-3 text-center">
-                <div class="mx-auto w-12 h-12 bg-sky-50 rounded-full flex items-center justify-center mb-2">
-                    <span class="text-2xl">🏥</span>
-                </div>
                 <h2 class="text-xl sm:text-2xl font-black text-[#0F2747] tracking-tight">Daftar Mitra Armada</h2>
                 <p class="text-[11px] sm:text-xs font-semibold text-slate-500 mt-0.5 leading-relaxed max-w-sm mx-auto">
                     Daftarkan armada ambulans Anda untuk bergabung bersama jaringan Ambulance Siaga.

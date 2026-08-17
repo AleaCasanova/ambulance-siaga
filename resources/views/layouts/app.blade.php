@@ -85,12 +85,19 @@
                     @endif
 
                     <!-- Page Slot Content -->
-                    {{ $slot }}
+                    <div class="pb-16 lg:pb-0">
+                        {{ $slot }}
+                    </div>
                 </main>
 
                 <!-- Footer -->
-                <x-landing-footer />
+                <div class="pb-16 lg:pb-0">
+                    <x-landing-footer />
+                </div>
             </div>
+
+            <!-- Mobile Bottom Navigation Bar -->
+            @include('layouts.bottom-nav')
 
         </div>
 

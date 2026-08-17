@@ -29,9 +29,12 @@
 
     @include('layouts.header')
     
-    <main>
+    <main class="pb-16 lg:pb-0">
         {{ $slot }}
     </main>
+
+    <!-- Mobile Bottom Navigation Bar -->
+    @include('layouts.bottom-nav')
 
     @livewireScripts
     @stack('scripts')

@@ -452,7 +452,7 @@
          x-transition:leave="transition ease-in duration-150"
          x-transition:leave-start="opacity-100 translate-y-0 scale-100"
          x-transition:leave-end="opacity-0 translate-y-4 scale-95"
-         class="fixed bottom-5 right-5 z-50 w-80 max-w-[calc(100vw-2.5rem)] bg-white rounded-xl shadow-xl shadow-amber-500/15 border border-amber-300 ring-2 ring-amber-400/30 overflow-hidden transition-all hover:shadow-2xl hover:shadow-amber-500/20">
+         class="fixed bottom-20 lg:bottom-5 right-5 z-50 w-80 max-w-[calc(100vw-2.5rem)] bg-white rounded-xl shadow-xl shadow-amber-500/15 border border-amber-300 ring-2 ring-amber-400/30 overflow-hidden transition-all hover:shadow-2xl hover:shadow-amber-500/20">
 
         <!-- Header Reminder -->
         <div class="px-3.5 py-2.5 bg-gradient-to-r from-amber-50/90 to-amber-100/60 border-b border-amber-200/80 flex items-center justify-between">

@@ -47,6 +47,19 @@
 </head>
 <body class="antialiased min-h-screen flex bg-slate-50 overflow-x-hidden" x-data="{ sidebarOpen: false, sidebarCollapsed: false }">
 
+    <!-- Mobile Backdrop Overlay -->
+    <div x-show="sidebarOpen" 
+         @click="sidebarOpen = false" 
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-150"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-40 bg-slate-900/60 backdrop-blur-xs lg:hidden"
+         style="display: none;">
+    </div>
+
     <!-- Sidebar Left (Fixed) -->
     @include('layouts.sidebar')
 

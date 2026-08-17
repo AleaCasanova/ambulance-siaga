@@ -113,30 +113,102 @@
             </div>
         </div>
 
-        <!-- Stepper Progress Bar -->
-        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
-            <!-- Step 1 -->
-            <div class="p-3 rounded-lg border {{ in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien', 'selesai']) ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-slate-50 border-slate-200 text-slate-400' }}">
-                <span class="font-bold block text-[11px] uppercase">Langkah 1</span>
-                <span class="font-semibold">Tugas Diterima</span>
-            </div>
+        <!-- Stepper Progress Bar (Minimalist Line & Dot Track - Perfectly Centered & Symmetrical) -->
+        @php
+            $stepList = [
+                [
+                    'num' => 1,
+                    'title' => 'Tugas Diterima',
+                    'desc' => 'Penugasan terkonfirmasi',
+                ],
+                [
+                    'num' => 2,
+                    'title' => 'Menuju Lokasi Jemput',
+                    'desc' => 'Ambulans meluncur ke titik jemput',
+                ],
+                [
+                    'num' => 3,
+                    'title' => 'Evakuasi Menuju RS',
+                    'desc' => 'Membawa pasien menuju IGD',
+                ],
+                [
+                    'num' => 4,
+                    'title' => 'Selesai di IGD RS',
+                    'desc' => 'Serah terima medis selesai',
+                ],
+            ];
 
-            <!-- Step 2 -->
-            <div class="p-3 rounded-lg border {{ in_array($order->status, ['menuju_lokasi', 'membawa_pasien', 'selesai']) ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : ($order->status === 'diproses' ? 'bg-amber-50 border-amber-300 text-amber-900 font-bold' : 'bg-slate-50 border-slate-200 text-slate-400') }}">
-                <span class="font-bold block text-[11px] uppercase">Langkah 2</span>
-                <span class="font-semibold">Menuju Lokasi Jemput</span>
-            </div>
+            $currentStep = match($order->status) {
+                'diproses' => 1,
+                'menuju_lokasi' => 2,
+                'membawa_pasien' => 3,
+                'selesai' => 4,
+                default => 1,
+            };
+        @endphp
 
-            <!-- Step 3 -->
-            <div class="p-3 rounded-lg border {{ in_array($order->status, ['membawa_pasien', 'selesai']) ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : ($order->status === 'menuju_lokasi' ? 'bg-amber-50 border-amber-300 text-amber-900 font-bold' : 'bg-slate-50 border-slate-200 text-slate-400') }}">
-                <span class="font-bold block text-[11px] uppercase">Langkah 3</span>
-                <span class="font-semibold">Evakuasi Menuju RS</span>
-            </div>
+        <div class="pt-2 pb-1 px-1 sm:px-2">
+            <div class="flex items-start justify-between w-full">
+                @foreach($stepList as $idx => $step)
+                    @php
+                        $isCompleted = $order->status === 'selesai' || $step['num'] < $currentStep;
+                        $isActive = $order->status !== 'selesai' && $step['num'] === $currentStep;
+                        $isUpcoming = $step['num'] > $currentStep && $order->status !== 'selesai';
+                        
+                        // Status garis penghubung ke titik berikutnya
+                        $isLineActive = $order->status === 'selesai' || $step['num'] < $currentStep;
+                    @endphp
 
-            <!-- Step 4 -->
-            <div class="p-3 rounded-lg border {{ $order->status === 'selesai' ? 'bg-emerald-600 text-white border-emerald-600 font-bold' : 'bg-slate-50 border-slate-200 text-slate-400' }}">
-                <span class="font-bold block text-[11px] uppercase">Langkah 4</span>
-                <span class="font-semibold">Selesai di IGD RS</span>
+                    <div class="flex-1 flex flex-col items-center relative text-center">
+                        <!-- Connector Line to Next Step -->
+                        @if($idx < count($stepList) - 1)
+                            <div class="absolute top-3 sm:top-3.5 left-1/2 w-full h-[3px] -translate-y-1/2 bg-slate-200 z-0 overflow-hidden">
+                                <div class="h-full bg-primary-600 transition-all duration-500 {{ $isLineActive ? 'w-full' : 'w-0' }}"></div>
+                            </div>
+                        @endif
+
+                        <!-- Step Dot (Centered) -->
+                        <div class="relative z-10 flex items-center justify-center mb-2.5">
+                            @if($isCompleted)
+                                <!-- Completed: Solid teal circle with checkmark -->
+                                <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-primary-600 text-white flex items-center justify-center shadow-xs ring-4 ring-white transition-all">
+                                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.8" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                </div>
+                            @elseif($isActive)
+                                <!-- Active: Pulsing teal circle -->
+                                <div class="relative flex items-center justify-center">
+                                    <span class="absolute w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary-400/30 animate-ping"></span>
+                                    <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-primary-600 text-white flex items-center justify-center shadow-md ring-4 ring-primary-100 transition-all">
+                                        <div class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-white"></div>
+                                    </div>
+                                </div>
+                            @else
+                                <!-- Upcoming: Inactive gray dot -->
+                                <div class="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-slate-200 border-2 border-white ring-4 ring-white flex items-center justify-center transition-all">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-slate-300"></div>
+                                </div>
+                            @endif
+                        </div>
+
+                        <!-- Step Text Explanation (Simetris & Presisi di Tengah Titik) -->
+                        <div class="px-1 max-w-[160px] sm:max-w-[200px]">
+                            <h4 class="text-xs sm:text-sm font-extrabold leading-tight
+                                @if($isActive) text-primary-900 font-black
+                                @elseif($isCompleted) text-slate-800
+                                @else text-slate-400 @endif">
+                                {{ $step['title'] }}
+                            </h4>
+                            <p class="text-[10px] sm:text-[11px] mt-1 leading-snug hidden sm:block
+                                @if($isActive) text-primary-700 font-medium
+                                @elseif($isCompleted) text-slate-500
+                                @else text-slate-400 @endif">
+                                {{ $step['desc'] }}
+                            </p>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>

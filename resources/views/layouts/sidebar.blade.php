@@ -8,11 +8,16 @@
 @endphp
 
 <!-- Sidebar (Fixed) -->
-<aside class="fixed inset-y-0 left-0 z-50 bg-primary-700 border-r border-primary-800 transition-all duration-300 flex flex-col"
-       :class="sidebarCollapsed ? 'w-20' : 'w-[260px]'">
+<aside class="fixed inset-y-0 left-0 z-50 bg-primary-700 border-r border-primary-800 transition-all duration-300 flex flex-col transform shadow-2xl lg:shadow-none"
+       :class="{
+           '-translate-x-full lg:translate-x-0': !sidebarOpen,
+           'translate-x-0': sidebarOpen,
+           'w-20': sidebarCollapsed,
+           'w-[260px]': !sidebarCollapsed
+       }">
     
     <!-- Brand Header -->
-    <div class="h-16 flex items-center px-5 bg-primary-800 border-b border-primary-900/50 flex-shrink-0">
+    <div class="h-16 flex items-center justify-between px-4 sm:px-5 bg-primary-800 border-b border-primary-900/50 flex-shrink-0">
         <a href="{{ $user && $user->isAdmin() ? route('admin.dashboard') : ($user && $user->isMitra() ? route('mitra.dashboard') : ($user && $user->isOperator() ? route('operator.dashboard') : route('dashboard'))) }}" class="flex items-center gap-3 overflow-hidden">
             <div class="w-10 h-10 flex items-center justify-center flex-shrink-0 bg-white rounded-full p-0.5 shadow-sm overflow-hidden">
                 <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo" class="w-full h-full object-contain">
@@ -24,6 +29,15 @@
                 </span>
             </div>
         </a>
+
+        <!-- Mobile Close Button (X) -->
+        <button @click="sidebarOpen = false" 
+                class="lg:hidden p-1.5 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors focus:outline-none"
+                title="Tutup Menu Sidebar">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
     </div>
 
     <!-- Navigation Scrollable Area -->
