@@ -105,11 +105,21 @@
         </div>
     </div>
 
+    @php
+        $isAssigned = in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien', 'selesai']) && ($order->ambulans_id || $order->supir_id || $order->latestTracking);
+        $ambLatVal = $isAssigned ? ($order->latestTracking?->latitude ?? ($order->ambulans?->lat_terakhir ?? null)) : null;
+        $ambLngVal = $isAssigned ? ($order->latestTracking?->longitude ?? ($order->ambulans?->lng_terakhir ?? null)) : null;
+        $jemputLatVal = $order->jemput_lat ?: -7.7188;
+        $jemputLngVal = $order->jemput_lng ?: 109.0159;
+        $rsLatVal = $order->rumahSakit?->lat ?? ($order->tujuan_lat ?? null);
+        $rsLngVal = $order->rumahSakit?->lng ?? ($order->tujuan_lng ?? null);
+    @endphp
+
     <!-- Main Grid: Driver Info (Left) & Realtime Map (Right) -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8"
-         x-data="trackingMapComponent({{ $currentLat }}, {{ $currentLng }}, {{ $order->jemput_lat }}, {{ $order->jemput_lng }}, {{ $order->tujuan_lat ?? 0 }}, {{ $order->tujuan_lng ?? 0 }})"
+         x-data="trackingMapComponent({{ $ambLatVal ?: 'null' }}, {{ $ambLngVal ?: 'null' }}, {{ $jemputLatVal }}, {{ $jemputLngVal }}, {{ $rsLatVal ?: 'null' }}, {{ $rsLngVal ?: 'null' }}, '{{ $order->status }}')"
          x-init="initMap()"
-         @gps-updated.window="updateAmbulancePos({{ $currentLat }}, {{ $currentLng }})">
+         @gps-updated.window="updateAmbulancePos($event.detail.lat, $event.detail.lng)">
 
         <!-- Left Column: Informasi Armada & Log Timeline -->
         <div class="lg:col-span-5 space-y-6">
@@ -260,19 +270,7 @@
         </div>
 
         <!-- Right Column: Leaflet Map -->
-        @php
-            $isAssigned = in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien', 'selesai']) && ($order->ambulans_id || $order->supir_id || $order->latestTracking);
-            $ambLatVal = $isAssigned ? ($order->latestTracking?->latitude ?? ($order->ambulans?->lat_terakhir ?? null)) : null;
-            $ambLngVal = $isAssigned ? ($order->latestTracking?->longitude ?? ($order->ambulans?->lng_terakhir ?? null)) : null;
-            $jemputLatVal = $order->jemput_lat ?: -7.7188;
-            $jemputLngVal = $order->jemput_lng ?: 109.0159;
-            $rsLatVal = $order->rumahSakit?->lat ?? ($order->tujuan_lat ?? null);
-            $rsLngVal = $order->rumahSakit?->lng ?? ($order->tujuan_lng ?? null);
-        @endphp
-        <div class="lg:col-span-7 flex flex-col lg:sticky lg:top-24 self-start"
-             wire:ignore
-             x-data="trackingMapComponent({{ $ambLatVal ?: 'null' }}, {{ $ambLngVal ?: 'null' }}, {{ $jemputLatVal }}, {{ $jemputLngVal }}, {{ $rsLatVal ?: 'null' }}, {{ $rsLngVal ?: 'null' }}, '{{ $order->status }}')"
-             x-init="$nextTick(() => initMap())">
+        <div class="lg:col-span-7 flex flex-col lg:sticky lg:top-24 self-start" wire:ignore>
             <div class="bg-white rounded-3xl border border-slate-200/80 p-5 shadow-xs flex-1 flex flex-col min-h-[520px]">
                 <div class="flex items-center justify-between mb-4">
                     <div>
@@ -292,18 +290,18 @@
                 <div class="relative w-full h-full min-h-[460px] rounded-2xl border border-slate-200/80 overflow-hidden z-10">
                     <div id="tracking-map" class="w-full h-full min-h-[460px]"></div>
 
-                    <!-- Floating Route Info Overlay (Grab / Google Maps style) -->
+                    <!-- Turn-by-turn ETA bar -->
                     <div x-show="routeSummary" x-transition
-                         class="absolute top-4 left-4 right-4 sm:right-auto sm:max-w-md z-[1000] bg-white/95 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200/80 shadow-xl flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-primary-600 text-white flex items-center justify-center text-lg font-black shrink-0 shadow-md shadow-primary-600/30">
-                            🧭
+                         class="absolute top-3 left-3 right-3 sm:right-auto sm:max-w-xs z-[1000] bg-white/95 backdrop-blur-xs p-3 rounded-lg border border-slate-200 shadow-md flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-primary-700 text-white flex items-center justify-center shrink-0">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
                         </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center gap-2">
-                                <span class="text-sm font-extrabold text-slate-800" x-text="routeEta"></span>
-                                <span class="text-xs font-bold text-primary-700 bg-primary-50 px-2.5 py-0.5 rounded-full border border-primary-100" x-text="routeDistance"></span>
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-1.5">
+                                <span class="text-xs font-bold text-slate-900" x-text="routeEta"></span>
+                                <span class="text-[10px] font-bold text-primary-700 bg-primary-50 px-2 py-0.5 rounded-full border border-primary-100" x-text="routeDistance"></span>
                             </div>
-                            <p class="text-xs text-slate-500 font-medium truncate mt-0.5" x-text="'Melalui: ' + routeSummary"></p>
+                            <p class="text-[11px] text-slate-500 truncate" x-text="routeSummary"></p>
                         </div>
                     </div>
                 </div>
@@ -499,6 +497,22 @@
                     }
 
                     // Fallback jika offline/error: gunakan L.polyline lurus biasa
+                    if (isPrimary) {
+                        // Perkiraan kasar jika OSRM gagal
+                        const earthRadiusKm = 6371;
+                        const dLat = (endLatLng.lat - startLatLng.lat) * Math.PI / 180;
+                        const dLon = (endLatLng.lng - startLatLng.lng) * Math.PI / 180;
+                        const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                                  Math.cos(startLatLng.lat * Math.PI / 180) * Math.cos(endLatLng.lat * Math.PI / 180) *
+                                  Math.sin(dLon/2) * Math.sin(dLon/2);
+                        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+                        const distKm = earthRadiusKm * c;
+                        
+                        this.routeDistance = distKm.toFixed(1) + ' km';
+                        this.routeEta = Math.max(1, Math.ceil(distKm * 2.5)) + ' Menit'; // asumsi macet/standar
+                        this.routeSummary = 'Rute GPS Darurat (OSRM Offline)';
+                    }
+
                     return L.polyline([startLatLng, endLatLng], {
                         color: color,
                         weight: weight,

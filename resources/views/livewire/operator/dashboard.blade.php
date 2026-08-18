@@ -107,24 +107,52 @@
 
                 <div class="space-y-4 max-h-[360px] overflow-y-auto">
                     @forelse($ordersMenunggu as $om)
-                        <div class="p-4 rounded-2xl bg-amber-50/60 border border-amber-200/80 transition-all hover:bg-amber-50">
+                        @php
+                            $cardColor = match($om->prioritas) {
+                                'tinggi' => 'bg-red-50/80 border-red-200 hover:bg-red-50',
+                                'sedang' => 'bg-amber-50/80 border-amber-200 hover:bg-amber-50',
+                                'rendah' => 'bg-emerald-50/80 border-emerald-200 hover:bg-emerald-50',
+                                default => 'bg-slate-50/80 border-slate-200 hover:bg-slate-50'
+                            };
+                            $textKodeColor = match($om->prioritas) {
+                                'tinggi' => 'text-red-800',
+                                'sedang' => 'text-amber-800',
+                                'rendah' => 'text-emerald-800',
+                                default => 'text-slate-800'
+                            };
+                            $iconColor = match($om->prioritas) {
+                                'tinggi' => 'text-red-600',
+                                'sedang' => 'text-amber-600',
+                                'rendah' => 'text-emerald-600',
+                                default => 'text-slate-600'
+                            };
+                        @endphp
+                        <div class="p-4 rounded-2xl border transition-all {{ $cardColor }}">
                             <div class="flex items-center justify-between mb-2">
-                                <span class="text-xs font-black text-amber-800">{{ $om->kode_order }}</span>
+                                <span class="text-xs font-black {{ $textKodeColor }}">{{ $om->kode_order }}</span>
                                 <span class="text-[11px] text-slate-500">{{ $om->waktu_pesan ? $om->waktu_pesan->diffForHumans() : '-' }}</span>
                             </div>
                             <h3 class="font-bold text-slate-800 text-sm mb-1">{{ $om->nama_pasien }}</h3>
                             <p class="text-xs text-slate-600 leading-normal mb-2">{{ $om->kondisi_pasien }}</p>
                             <div class="flex items-center gap-1.5 text-xs text-slate-600 font-semibold mb-3">
-                                <svg class="w-4 h-4 text-amber-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 {{ $iconColor }} flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                                 </svg>
                                 <span class="truncate">{{ $om->lokasi_jemput }}</span>
                             </div>
 
-                            <button type="button" wire:click="openAssignModal({{ $om->id }})"
-                                    class="w-full py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-extrabold text-xs shadow-md shadow-sky-600/30 transition-all">
-                                TUGASKAN ARMADA SEKARANG
-                            </button>
+                            <div class="flex flex-col sm:flex-row gap-2 mt-1">
+                                <select wire:change="updatePriority({{ $om->id }}, $event.target.value)" 
+                                        class="flex-1 rounded-xl border border-white/60 bg-white/80 text-xs font-bold px-3 py-2 focus:ring-2 focus:ring-sky-200 outline-none shadow-xs text-slate-700">
+                                    <option value="tinggi" {{ $om->prioritas == 'tinggi' ? 'selected' : '' }}>🚨 Tinggi</option>
+                                    <option value="sedang" {{ $om->prioritas == 'sedang' ? 'selected' : '' }}>⚠️ Sedang</option>
+                                    <option value="rendah" {{ $om->prioritas == 'rendah' ? 'selected' : '' }}>✅ Rendah</option>
+                                </select>
+                                <button type="button" wire:click="openAssignModal({{ $om->id }})"
+                                        class="flex-1 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-extrabold text-xs shadow-md shadow-sky-600/30 transition-all text-center">
+                                    TUGASKAN
+                                </button>
+                            </div>
                         </div>
                     @empty
                         <div class="py-10 text-center text-slate-400">
@@ -233,6 +261,14 @@
                         <span>🚑 Hijau: Ambulans Siaga (Klik untuk tugaskan)</span>
                     </p>
                 </div>
+                @endif
+
+                <!-- Tampilkan Error Jika Ada Kegagalan Penugasan (misal supir sedang sibuk) -->
+                @if(session('error'))
+                    <div class="mb-4 p-4 rounded-xl bg-red-50 border border-red-200 text-red-600 flex items-start gap-3 shadow-sm">
+                        <svg class="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                        <span class="text-sm font-bold">{{ session('error') }}</span>
+                    </div>
                 @endif
 
                 <form wire:submit="assignOrder" class="space-y-5">

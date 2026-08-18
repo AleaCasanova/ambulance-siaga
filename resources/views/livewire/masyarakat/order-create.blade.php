@@ -248,8 +248,23 @@
                 </div>
 
                 <!-- Leaflet Container dengan wire:ignore agar tidak terhapus saat Livewire re-render -->
-                <div wire:ignore class="w-full rounded-2xl border border-slate-200 shadow-inner overflow-hidden z-10" style="height: 450px; min-height: 450px; width: 100%;">
+                <div wire:ignore class="relative w-full rounded-2xl border border-slate-200 shadow-inner overflow-hidden z-10" style="height: 450px; min-height: 450px; width: 100%;">
                     <div id="booking-map" class="w-full h-full" style="height: 450px; min-height: 450px; width: 100%;"></div>
+
+                    <!-- Estimasi Waktu (ETA Card) -->
+                    <div x-show="routeSummary" x-transition style="display: none;"
+                         class="absolute top-4 left-4 right-4 sm:right-auto sm:max-w-xs z-[1000] bg-white/95 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200/80 shadow-xl flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-primary-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-primary-600/30">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-2 mb-0.5">
+                                <span class="text-sm font-extrabold text-slate-800" x-text="routeEta"></span>
+                                <span class="text-[10px] font-bold text-primary-700 bg-primary-50 px-2.5 py-0.5 rounded-full border border-primary-100" x-text="routeDistance"></span>
+                            </div>
+                            <p class="text-[11px] text-slate-500 font-medium truncate" x-text="'Dari Pusat: ' + routeSummary"></p>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Info Box Koordinat Terpilih di bawah peta -->
@@ -276,8 +291,12 @@
                 map: null,
                 marker: null,
                 hospitalMarker: null,
+                polyline: null,
                 lat: defaultLat,
                 lng: defaultLng,
+                routeDistance: '',
+                routeEta: '',
+                routeSummary: '',
 
                 initMap() {
                     // Initialize Leaflet
@@ -316,6 +335,9 @@
                         this.setMarkerPosition(pos.lat, pos.lng);
                     });
 
+                    // Initial Route Calculation (Pusat Cilacap to current lat/lng)
+                    this.calculateRoute();
+
                     setTimeout(() => {
                         if (this.map) {
                             this.map.invalidateSize();
@@ -339,7 +361,51 @@
                         this.map.panTo([newLat, newLng]);
                     }
 
+                    this.calculateRoute();
+
                     @this.call('updateCoordinates', newLat, newLng);
+                },
+
+                async calculateRoute() {
+                    const baseLatLng = L.latLng(-7.7188, 109.0159);
+                    const jemputLatLng = L.latLng(this.lat, this.lng);
+                    await this.fetchOsrmRoute(baseLatLng, jemputLatLng);
+                },
+
+                async fetchOsrmRoute(startLatLng, endLatLng) {
+                    try {
+                        const url = `https://router.project-osrm.org/route/v1/driving/${startLatLng.lng},${startLatLng.lat};${endLatLng.lng},${endLatLng.lat}?overview=full&geometries=geojson&steps=true`;
+                        const response = await fetch(url);
+                        const data = await response.json();
+
+                        if (data.code === 'Ok' && data.routes && data.routes.length > 0) {
+                            const route = data.routes[0];
+                            const coords = route.geometry.coordinates.map(c => [c[1], c[0]]);
+
+                            if (this.polyline) {
+                                this.map.removeLayer(this.polyline);
+                            }
+
+                            this.polyline = L.polyline(coords, {
+                                color: '#10B981', // Emerald green to indicate safe/available route
+                                weight: 5,
+                                opacity: 0.8,
+                                lineCap: 'round',
+                                lineJoin: 'round',
+                                dashArray: '10, 10' // Dashed line to signify "Estimation"
+                            }).addTo(this.map);
+
+                            const distKm = (route.distance / 1000).toFixed(1) + ' km';
+                            const etaMin = Math.max(1, Math.ceil(route.duration / 60)) + ' Menit';
+                            const summary = (route.legs && route.legs[0] && route.legs[0].summary) ? route.legs[0].summary : 'Jalan Utama';
+
+                            this.routeDistance = distKm;
+                            this.routeEta = etaMin;
+                            this.routeSummary = summary;
+                        }
+                    } catch (e) {
+                        console.warn('OSRM routing failed:', e);
+                    }
                 },
 
                 resetToDefault() {

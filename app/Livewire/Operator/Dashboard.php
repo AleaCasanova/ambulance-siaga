@@ -85,6 +85,15 @@ class Dashboard extends Component
         }
     }
 
+    public function updatePriority($orderId, $priority)
+    {
+        $order = Pemesanan::find($orderId);
+        if ($order && in_array($priority, ['tinggi', 'sedang', 'rendah'])) {
+            $order->update(['prioritas' => $priority]);
+            session()->flash('success', "Prioritas pesanan #{$order->kode_order} berhasil diubah menjadi " . strtoupper($priority));
+        }
+    }
+
     public function render()
     {
         $stats = [
@@ -96,6 +105,7 @@ class Dashboard extends Component
 
         $ordersMenunggu = Pemesanan::with(['user', 'rumahSakit'])
             ->where('status', 'menunggu')
+            ->orderByRaw("FIELD(prioritas, 'tinggi', 'sedang', 'rendah')")
             ->orderBy('created_at', 'asc')
             ->get();
 
