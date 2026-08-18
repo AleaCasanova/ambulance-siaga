@@ -40,6 +40,7 @@ class OrderCreate extends Component
 
     protected $rules = [
         'nama_pasien' => 'required|string|max:100',
+        'usia_pasien' => 'required|string|max:30',
         'kondisi_pasien' => 'required|string|max:255',
         'lokasi_jemput' => 'required|string|max:255',
         'jemput_lat' => 'required|numeric',
@@ -165,17 +166,29 @@ class OrderCreate extends Component
 
         $order = $service->createOrder($data, auth()->id());
 
+        if (auth()->check()) {
+            // Jika data user sudah lengkap dari profil, lewati form pelengkapan
+            if (!empty($this->nik_pasien) && !empty($this->no_hp_kontak) && !empty($this->usia_pasien) && $this->usia_pasien !== '-') {
+                $order->update(['is_form_complete' => true]);
+                session()->flash('success', 'Pesanan ambulans darurat berhasil dikirim ke armada dan sedang diproses!');
+                return redirect()->route('masyarakat.tracking', $order->id);
+            }
+
+            session()->put('pending_order_id', $order->id);
+            session()->put('pending_order_code', $order->kode_order);
+            session()->put('url.intended', route('masyarakat.order.complete', $order->id));
+
+            session()->flash('success', 'Pesanan ambulans darurat berhasil dikirim ke armada! Silakan lengkapi formulir kebutuhan ambulans di bawah ini.');
+            return redirect()->route('masyarakat.order.complete', $order->id);
+        }
+
+        // Untuk Guest
         session()->put('pending_order_id', $order->id);
         session()->put('pending_order_code', $order->kode_order);
         session()->put('url.intended', route('masyarakat.order.complete', $order->id));
 
-        if (!auth()->check()) {
-            session()->flash('info', 'Pesanan ambulans darurat Anda (#' . $order->kode_order . ') berhasil dikirim ke armada! Silakan buat akun (Register) atau Login untuk melengkapi formulir kebutuhan medis pasien.');
-            return redirect()->route('register');
-        }
-
-        session()->flash('success', 'Pesanan ambulans darurat berhasil dikirim ke armada! Silakan lengkapi formulir kebutuhan ambulans di bawah ini.');
-        return redirect()->route('masyarakat.order.complete', $order->id);
+        session()->flash('info', 'Pesanan ambulans darurat Anda (#' . $order->kode_order . ') berhasil dikirim ke armada! Silakan buat akun (Register) atau Login untuk melengkapi formulir kebutuhan medis pasien.');
+        return redirect()->route('register');
     }
 
     public function render()

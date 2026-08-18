@@ -19,7 +19,18 @@ class PemesananService
             $user = User::find($userId);
             $masyarakat = $user?->masyarakat;
 
-            $kodeOrder = 'AMB-ORD-' . date('Ymd') . '-' . str_pad(Pemesanan::whereDate('created_at', today())->count() + 1, 3, '0', STR_PAD_LEFT);
+            $lastOrder = Pemesanan::withTrashed()
+                ->whereDate('created_at', today())
+                ->orderBy('id', 'desc')
+                ->first();
+                
+            $lastNumber = 0;
+            if ($lastOrder && preg_match('/-(\d+)$/', $lastOrder->kode_order, $matches)) {
+                $lastNumber = (int) $matches[1];
+            }
+            
+            $nextNumber = $lastNumber + 1;
+            $kodeOrder = 'AMB-ORD-' . date('Ymd') . '-' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
 
             $usiaPasien = $data['usia_pasien'] ?? '-';
             if (($usiaPasien === '-' || !$usiaPasien) && $masyarakat?->tanggal_lahir) {

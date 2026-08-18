@@ -61,18 +61,27 @@ class OrderIndex extends Component
 
     public function render()
     {
-        $query = Pemesanan::with(['supir.user', 'ambulans', 'rumahSakit', 'rating'])
+        $baseQuery = Pemesanan::with(['supir.user', 'ambulans', 'rumahSakit', 'rating'])
             ->where('user_id', auth()->id())
             ->orderBy('created_at', 'desc');
 
         if ($this->statusFilter) {
-            $query->where('status', $this->statusFilter);
+            $baseQuery->where('status', $this->statusFilter);
         }
 
+<<<<<<< HEAD
         $orders = $query->paginate(6);
+=======
+        $activeQuery = clone $baseQuery;
+        $historyQuery = clone $baseQuery;
+
+        $activeOrders = $activeQuery->whereNotIn('status', ['selesai', 'dibatalkan'])->get();
+        $historyOrders = $historyQuery->whereIn('status', ['selesai', 'dibatalkan'])->paginate(6);
+>>>>>>> 09163a2670a01d779606f54fa7edc97c7d138aeb
 
         return view('livewire.masyarakat.order-index', [
-            'orders' => $orders,
+            'activeOrders' => $activeOrders,
+            'historyOrders' => $historyOrders,
         ])->layout('layouts.blank');
     }
 }
