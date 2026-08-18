@@ -215,9 +215,23 @@
 
     <!-- 3. Main Grid: Detail Operasional & Peta Navigasi -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start"
-         x-data="supirMapComponent({{ $currentLat }}, {{ $currentLng }}, {{ $order->jemput_lat }}, {{ $order->jemput_lng }}, {{ $order->tujuan_lat ?? 0 }}, {{ $order->tujuan_lng ?? 0 }})"
+         x-data="supirMapComponent(
+             {{ $currentLat }}, 
+             {{ $currentLng }}, 
+             {{ in_array($order->status, ['membawa_pasien', 'selesai']) ? 'null' : ($order->jemput_lat ?? 'null') }}, 
+             {{ in_array($order->status, ['membawa_pasien', 'selesai']) ? 'null' : ($order->jemput_lng ?? 'null') }}, 
+             {{ $order->tujuan_lat ?? ($order->rumahSakit?->lat ?? 'null') }}, 
+             {{ $order->tujuan_lng ?? ($order->rumahSakit?->lng ?? 'null') }}
+         )"
          x-init="initMap()"
-         @gps-updated.window="updateAmbulancePos({{ $currentLat }}, {{ $currentLng }})">
+         @gps-updated.window="
+            let payload = ($event.detail && typeof $event.detail === 'object' && 'lat' in $event.detail) 
+                ? $event.detail 
+                : (Array.isArray($event.detail) ? $event.detail[0] : {});
+            if (payload && payload.lat && payload.lng) {
+                updateAmbulancePos(payload.lat, payload.lng);
+            }
+         ">
 
         <!-- Left Column: Informasi Rute, Pasien, & Safety Center (5 Cols) -->
         <div class="lg:col-span-5 space-y-6">

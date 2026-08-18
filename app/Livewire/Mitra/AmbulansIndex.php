@@ -155,7 +155,7 @@ class AmbulansIndex extends Component
                 $q->where('status', $this->statusFilter);
             })
             ->latest()
-            ->paginate(10);
+            ->paginate(6);
 
         return view('livewire.mitra.ambulans-index', [
             'ambulans' => $ambulans,

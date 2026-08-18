@@ -17,7 +17,7 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
         @method('patch')
 
@@ -92,7 +92,7 @@
                         <input id="nama_lembaga" name="nama_lembaga" type="text"
                                placeholder="Contoh: PMI Cilacap / LAZ Peduli / RS Mitra"
                                class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
-                               value="{{ old('nama_lembaga', $user->supir?->nama_lembaga) }}" />
+                               value="{{ old('nama_lembaga', $user->supir?->mitra?->nama_mitra) }}" />
                         @error('nama_lembaga') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
                     </div>
 
@@ -103,7 +103,7 @@
                         <input id="nama_penanggung_jawab" name="nama_penanggung_jawab" type="text"
                                placeholder="Nama PJ Armada"
                                class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
-                               value="{{ old('nama_penanggung_jawab', $user->supir?->nama_penanggung_jawab) }}" />
+                               value="{{ old('nama_penanggung_jawab', $user->supir?->mitra?->penanggung_jawab) }}" />
                         @error('nama_penanggung_jawab') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
                     </div>
 
@@ -125,7 +125,7 @@
                         <input id="alamat_unit" name="alamat_unit" type="text"
                                placeholder="Alamat penempatan unit ambulans"
                                class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
-                               value="{{ old('alamat_unit', $user->supir?->alamat_unit) }}" />
+                               value="{{ old('alamat_unit', $user->supir?->mitra?->alamat) }}" />
                         @error('alamat_unit') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
                     </div>
 
@@ -160,6 +160,22 @@
                                class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
                                value="{{ old('nomor_sim', $user->supir?->nomor_sim) }}" />
                         @error('nomor_sim') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
+                        
+                        <div class="mt-3">
+                            <label for="foto_sim" class="block text-xs font-bold text-slate-600 mb-1">
+                                Upload Foto SIM (Maks 2MB)
+                            </label>
+                            <input id="foto_sim" name="foto_sim" type="file" accept="image/*"
+                                   class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100" />
+                            @error('foto_sim') <p class="mt-1 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
+                            
+                            @if($user->supir?->foto_sim)
+                                <div class="mt-2">
+                                    <p class="text-[10px] text-slate-500 mb-1">Foto SIM saat ini:</p>
+                                    <img src="{{ Storage::url($user->supir->foto_sim) }}" alt="Foto SIM" class="h-20 w-auto rounded border border-slate-200 object-cover">
+                                </div>
+                            @endif
+                        </div>
                     </div>
 
                     <div>
@@ -171,6 +187,22 @@
                                class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
                                value="{{ old('nomor_stnk', $user->supir?->nomor_stnk) }}" />
                         @error('nomor_stnk') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
+
+                        <div class="mt-3">
+                            <label for="foto_stnk" class="block text-xs font-bold text-slate-600 mb-1">
+                                Upload Foto STNK (Maks 2MB)
+                            </label>
+                            <input id="foto_stnk" name="foto_stnk" type="file" accept="image/*"
+                                   class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100" />
+                            @error('foto_stnk') <p class="mt-1 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
+
+                            @if($user->supir?->foto_stnk)
+                                <div class="mt-2">
+                                    <p class="text-[10px] text-slate-500 mb-1">Foto STNK saat ini:</p>
+                                    <img src="{{ Storage::url($user->supir->foto_stnk) }}" alt="Foto STNK" class="h-20 w-auto rounded border border-slate-200 object-cover">
+                                </div>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>

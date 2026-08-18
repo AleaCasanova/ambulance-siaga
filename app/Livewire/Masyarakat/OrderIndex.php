@@ -69,7 +69,7 @@ class OrderIndex extends Component
             $query->where('status', $this->statusFilter);
         }
 
-        $orders = $query->paginate(8);
+        $orders = $query->paginate(6);
 
         return view('livewire.masyarakat.order-index', [
             'orders' => $orders,

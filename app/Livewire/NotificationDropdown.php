@@ -7,6 +7,8 @@ use Livewire\Component;
 
 class NotificationDropdown extends Component
 {
+    public $isDark = true;
+
     public function markAsRead($id)
     {
         $notif = Notifikasi::where('id', $id)

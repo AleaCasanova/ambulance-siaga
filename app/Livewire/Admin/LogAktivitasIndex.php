@@ -41,7 +41,7 @@ class LogAktivitasIndex extends Component
             });
         }
 
-        $logs = $query->paginate(20);
+        $logs = $query->paginate(6);
 
         return view('livewire.admin.log-aktivitas-index', [
             'logs' => $logs,

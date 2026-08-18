@@ -12,6 +12,8 @@ class RumahSakitIndex extends Component
 
     public string $search = '';
 
+    public function updatingSearch() { $this->resetPage(); }
+
     // Modal Form State
     public bool $showModal = false;
     public bool $isEdit = false;
@@ -101,7 +103,7 @@ class RumahSakitIndex extends Component
                   ->orWhere('alamat', 'like', '%' . $this->search . '%');
         }
 
-        $rumahSakits = $query->paginate(10);
+        $rumahSakits = $query->paginate(6);
 
         return view('livewire.admin.rumah-sakit-index', [
             'rumahSakits' => $rumahSakits,

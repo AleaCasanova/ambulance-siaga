@@ -27,7 +27,7 @@ class PemesananRepository implements PemesananRepositoryInterface
             });
         }
 
-        return $query->paginate(15);
+        return $query->paginate(6);
     }
 
     public function getActiveOrders(): Collection

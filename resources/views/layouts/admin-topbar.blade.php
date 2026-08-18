@@ -34,7 +34,7 @@
 
         <!-- Notification -->
         @if($user)
-            @livewire('notification-dropdown')
+            @livewire('notification-dropdown', ['isDark' => false])
         @endif
 
         <div class="h-6 w-px bg-slate-200"></div>

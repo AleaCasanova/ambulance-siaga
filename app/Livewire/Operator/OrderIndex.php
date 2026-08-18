@@ -250,7 +250,7 @@ class OrderIndex extends Component
             });
         }
 
-        $orders = $query->paginate(10);
+        $orders = $query->paginate(6);
         $availableAmbulances = Ambulans::where('status', 'Tersedia')->get();
         $onlineSupirs = Supir::with('user')->where('status_online', true)->get();
         $rumahSakits = RumahSakit::orderBy('nama')->get();

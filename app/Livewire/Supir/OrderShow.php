@@ -62,8 +62,11 @@ class OrderShow extends Component
             $heading
         );
 
-        // Broadcast ke semua client yang sedang melihat tracking order ini
-        $this->dispatch('gps-updated');
+        // Broadcast ke client yang sedang melihat tracking order ini
+        $this->dispatch('gps-updated', [
+            'lat' => (float) $lat,
+            'lng' => (float) $lng
+        ]);
     }
 
     public function updateStatus(PemesananService $service, $newStatus)
@@ -87,9 +90,16 @@ class OrderShow extends Component
      */
     public function simulateGpsStep(TrackingService $service)
     {
-        $service->simulateMovement($this->orderId);
-        $this->dispatch('gps-updated');
-        session()->flash('success', 'Simulasi GPS: Posisi ambulans diperbarui 1 langkah ke arah tujuan.');
+        $newGps = $service->simulateMovement($this->orderId);
+        if ($newGps) {
+            $this->dispatch('gps-updated', [
+                'lat' => (float) $newGps->lat,
+                'lng' => (float) $newGps->lng
+            ]);
+            session()->flash('success', 'Simulasi GPS: Posisi ambulans diperbarui 1 langkah ke arah tujuan.');
+        } else {
+            session()->flash('info', 'Simulasi tidak berjalan (Status pesanan tidak sesuai).');
+        }
     }
 
     public function render()

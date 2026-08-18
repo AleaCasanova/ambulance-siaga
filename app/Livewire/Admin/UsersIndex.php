@@ -17,6 +17,9 @@ class UsersIndex extends Component
     public string $search = '';
     public string $roleFilter = '';
 
+    public function updatingSearch() { $this->resetPage(); }
+    public function updatingRoleFilter() { $this->resetPage(); }
+
     // Modal Form State
     public bool $showModal = false;
     public bool $isEdit = false;
@@ -252,7 +255,7 @@ class UsersIndex extends Component
             });
         }
 
-        $users = $query->paginate(10);
+        $users = $query->paginate(6);
         $roles = Role::all();
 
         return view('livewire.admin.users-index', [

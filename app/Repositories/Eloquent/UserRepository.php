@@ -27,7 +27,7 @@ class UserRepository implements UserRepositoryInterface
             });
         }
 
-        return $query->paginate(15);
+        return $query->paginate(6);
     }
 
     public function getByRole(string $roleName): Collection

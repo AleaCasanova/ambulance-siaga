@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -37,19 +38,41 @@ class ProfileController extends Controller
         $user->save();
 
         if ($user->isSupir()) {
-            $user->supir()->updateOrCreate(
+            $supirData = [
+                'no_wa' => $request->input('no_wa') ?: $user->phone,
+                'merk_kendaraan' => $request->input('merk_kendaraan') ?: '-',
+                'plat_nomor' => $request->input('plat_nomor') ?: '-',
+                'nomor_sim' => $request->input('nomor_sim') ?: 'SIM-' . $user->id,
+                'nomor_stnk' => $request->input('nomor_stnk') ?: '-',
+            ];
+
+            if ($request->hasFile('foto_sim')) {
+                if ($user->supir && $user->supir->foto_sim) {
+                    Storage::disk('public')->delete($user->supir->foto_sim);
+                }
+                $supirData['foto_sim'] = $request->file('foto_sim')->store('supir_documents', 'public');
+            }
+
+            if ($request->hasFile('foto_stnk')) {
+                if ($user->supir && $user->supir->foto_stnk) {
+                    Storage::disk('public')->delete($user->supir->foto_stnk);
+                }
+                $supirData['foto_stnk'] = $request->file('foto_stnk')->store('supir_documents', 'public');
+            }
+
+            $supir = $user->supir()->updateOrCreate(
                 ['user_id' => $user->id],
-                [
-                    'nama_lembaga' => $request->input('nama_lembaga') ?: 'Mitra Ambulance Siaga',
-                    'nama_penanggung_jawab' => $request->input('nama_penanggung_jawab') ?: $user->name,
-                    'no_wa' => $request->input('no_wa') ?: $user->phone,
-                    'alamat_unit' => $request->input('alamat_unit') ?: '-',
-                    'merk_kendaraan' => $request->input('merk_kendaraan') ?: '-',
-                    'plat_nomor' => $request->input('plat_nomor') ?: '-',
-                    'nomor_sim' => $request->input('nomor_sim') ?: 'SIM-' . $user->id,
-                    'nomor_stnk' => $request->input('nomor_stnk') ?: '-',
-                ]
+                $supirData
             );
+
+            // Update related Mitra if exists
+            if ($supir->mitra) {
+                $supir->mitra->update([
+                    'nama_mitra' => $request->input('nama_lembaga') ?: $supir->mitra->nama_mitra,
+                    'penanggung_jawab' => $request->input('nama_penanggung_jawab') ?: $supir->mitra->penanggung_jawab,
+                    'alamat' => $request->input('alamat_unit') ?: $supir->mitra->alamat,
+                ]);
+            }
         } elseif (!$user->isSupir() && !$user->isOperator() && !$user->isAdmin()) {
             $user->masyarakat()->updateOrCreate(
                 ['user_id' => $user->id],

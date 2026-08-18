@@ -13,6 +13,9 @@ class AmbulansIndex extends Component
     public string $search = '';
     public string $statusFilter = '';
 
+    public function updatingSearch() { $this->resetPage(); }
+    public function updatingStatusFilter() { $this->resetPage(); }
+
     // Modal Form State
     public bool $showModal = false;
     public bool $isEdit = false;
@@ -97,7 +100,7 @@ class AmbulansIndex extends Component
             });
         }
 
-        $ambulansList = $query->paginate(10);
+        $ambulansList = $query->paginate(6);
 
         return view('livewire.admin.ambulans-index', [
             'ambulansList' => $ambulansList,

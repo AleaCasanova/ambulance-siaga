@@ -58,7 +58,7 @@ class LaporanIndex extends Component
             $query->where('status', $this->statusFilter);
         }
 
-        $laporan = $query->paginate(15);
+        $laporan = $query->paginate(6);
 
         // Rekap ringkas berdasarkan filter saat ini
         $rekap = [

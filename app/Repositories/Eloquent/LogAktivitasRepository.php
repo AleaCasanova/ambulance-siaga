@@ -23,6 +23,6 @@ class LogAktivitasRepository implements LogAktivitasRepositoryInterface
             });
         }
 
-        return $query->paginate(20);
+        return $query->paginate(6);
     }
 }

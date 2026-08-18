@@ -40,6 +40,8 @@ class ProfileUpdateRequest extends FormRequest
             'merk_kendaraan' => ['nullable', 'string', 'max:100'],
             'plat_nomor' => ['nullable', 'string', 'max:30'],
             'nomor_stnk' => ['nullable', 'string', 'max:50'],
+            'foto_sim' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
+            'foto_stnk' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
         ];
     }
 }

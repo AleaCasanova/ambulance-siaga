@@ -171,7 +171,7 @@ class DonasiIndex extends Component
             'totalGagal' => Donasi::whereIn('status', ['cancel', 'expire', 'deny', 'failed'])->count(),
         ];
 
-        $donasis = $this->buildQuery()->paginate(10);
+        $donasis = $this->buildQuery()->paginate(6);
 
         return view('livewire.admin.donasi-index', [
             'donasis' => $donasis,

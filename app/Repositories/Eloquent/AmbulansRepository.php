@@ -25,7 +25,7 @@ class AmbulansRepository implements AmbulansRepositoryInterface
             });
         }
 
-        return $query->paginate(10);
+        return $query->paginate(6);
     }
 
     public function getAvailable(): Collection

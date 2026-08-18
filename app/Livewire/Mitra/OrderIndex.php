@@ -94,7 +94,7 @@ class OrderIndex extends Component
                 $q->where('status', $this->statusFilter);
             })
             ->latest()
-            ->paginate(10);
+            ->paginate(6);
 
         return view('livewire.mitra.order-index', [
             'orders' => $orders,

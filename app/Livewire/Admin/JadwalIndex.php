@@ -15,6 +15,9 @@ class JadwalIndex extends Component
     public string $search = '';
     public string $hariFilter = '';
 
+    public function updatingSearch() { $this->resetPage(); }
+    public function updatingHariFilter() { $this->resetPage(); }
+
     // Modal Form State
     public bool $showModal = false;
     public bool $isEdit = false;
@@ -108,7 +111,7 @@ class JadwalIndex extends Component
             });
         }
 
-        $jadwalList = $query->paginate(10);
+        $jadwalList = $query->paginate(6);
         $supirList = Supir::with('user')->get();
         $ambulansList = Ambulans::all();
 

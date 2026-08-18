@@ -183,7 +183,7 @@ class SupirIndex extends Component
                 $q->where('status_online', $this->statusOnlineFilter === '1');
             })
             ->latest()
-            ->paginate(10);
+            ->paginate(6);
 
         return view('livewire.mitra.supir-index', [
             'supirs' => $supirs,

@@ -20,7 +20,7 @@ class RumahSakitRepository implements RumahSakitRepositoryInterface
             });
         }
 
-        return $query->paginate(10);
+        return $query->paginate(6);
     }
 
     public function getAllList(): Collection
