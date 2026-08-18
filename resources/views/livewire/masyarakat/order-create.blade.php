@@ -42,15 +42,26 @@
             
             <form wire:submit="submitOrder" class="space-y-6 relative z-10">
 
-                <!-- Nama Pasien -->
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1.5">
-                        Nama Pasien <span class="text-red-500">*</span>
-                    </label>
-                    <input type="text" wire:model="nama_pasien"
-                           placeholder="Contoh: Bpk. Hartono / Ibu Halimah"
-                           class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-primary-600 focus:ring-4 focus:ring-primary-600/10 text-sm font-medium transition-all">
-                    @error('nama_pasien') <p class="text-xs text-red-600 font-medium mt-1">{{ $message }}</p> @enderror
+                <!-- Nama & Usia Pasien -->
+                <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
+                    <div class="sm:col-span-8">
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">
+                            Nama Pasien <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" wire:model="nama_pasien"
+                               placeholder="Contoh: Bpk. Hartono / Ibu Halimah"
+                               class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-primary-600 focus:ring-4 focus:ring-primary-600/10 text-sm font-medium transition-all">
+                        @error('nama_pasien') <p class="text-xs text-red-600 font-medium mt-1">{{ $message }}</p> @enderror
+                    </div>
+                    <div class="sm:col-span-4">
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">
+                            Usia Pasien <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" wire:model="usia_pasien"
+                               placeholder="Cth: 45 Tahun"
+                               class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-primary-600 focus:ring-4 focus:ring-primary-600/10 text-sm font-medium transition-all">
+                        @error('usia_pasien') <p class="text-xs text-red-600 font-medium mt-1">{{ $message }}</p> @enderror
+                    </div>
                 </div>
 
                 <!-- Kondisi Pasien / Situasi Darurat -->
@@ -59,7 +70,7 @@
                         Kondisi Pasien / Situasi Darurat <span class="text-red-500">*</span>
                     </label>
                     <textarea wire:model="kondisi_pasien" rows="3"
-                              placeholder="Contoh: Sesak nafas berat, butuh bantuan tabung oksigen dan evakuasi segera ke IGD..."
+                              placeholder="Sebutkan kondisi pasien secara singkat (Contoh: Sesak napas parah, tidak sadarkan diri, atau kecelakaan motor)..."
                               class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-primary-600 focus:ring-4 focus:ring-primary-600/10 text-sm font-medium transition-all"></textarea>
                     @error('kondisi_pasien') <p class="text-xs text-red-600 font-medium mt-1">{{ $message }}</p> @enderror
                 </div>
