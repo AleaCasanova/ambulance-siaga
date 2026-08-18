@@ -189,9 +189,9 @@
                 <div class="bg-white rounded-xl border border-slate-200 hover:border-teal-400 p-5 shadow-xs transition-all space-y-3">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-2">
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-red-50 text-red-700 border border-red-200">
-                                <span class="w-1.5 h-1.5 rounded-full bg-red-600"></span>
-                                <span>PRIORITAS TINGGI</span>
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold {{ $op->prioritas_badge_classes }}">
+                                <span class="w-1.5 h-1.5 rounded-full {{ $op->prioritas_dot_classes }}"></span>
+                                <span>PRIORITAS {{ strtoupper($op->prioritas) }}</span>
                             </span>
                             <span class="text-xs text-slate-400 font-medium">{{ $op->created_at ? $op->created_at->diffForHumans() : '-' }}</span>
                         </div>

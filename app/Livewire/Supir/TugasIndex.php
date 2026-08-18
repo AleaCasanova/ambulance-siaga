@@ -151,6 +151,7 @@ class TugasIndex extends Component
             $assignedOrders = Pemesanan::with(['user', 'rumahSakit'])
                 ->where('supir_id', $supir->id)
                 ->where('status', 'menunggu_konfirmasi_supir')
+                ->orderByRaw("FIELD(prioritas, 'tinggi', 'sedang', 'rendah')")
                 ->latest()
                 ->get()
                 ->map(function ($order) use ($driverLat, $driverLng) {
@@ -165,6 +166,7 @@ class TugasIndex extends Component
         $openOrders = Pemesanan::with(['user', 'rumahSakit'])
             ->where('status', 'menunggu')
             ->whereNull('supir_id')
+            ->orderByRaw("FIELD(prioritas, 'tinggi', 'sedang', 'rendah')")
             ->latest()
             ->get()
             ->map(function ($order) use ($driverLat, $driverLng) {

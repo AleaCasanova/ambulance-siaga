@@ -18,9 +18,9 @@
                     </span>
                 </span>
 
-                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-50 text-red-700 border border-red-200">
-                    <span class="w-1.5 h-1.5 rounded-full bg-red-600"></span>
-                    <span>PRIORITAS TINGGI</span>
+                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold {{ $order->prioritas_badge_classes }}">
+                    <span class="w-1.5 h-1.5 rounded-full {{ $order->prioritas_dot_classes }}"></span>
+                    <span>PRIORITAS {{ strtoupper($order->prioritas) }}</span>
                 </span>
 
                 <span class="font-mono text-xs text-slate-500 font-semibold">#{{ $order->kode_order }}</span>

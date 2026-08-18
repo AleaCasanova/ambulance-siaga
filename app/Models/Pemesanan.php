@@ -36,6 +36,7 @@ class Pemesanan extends Model
         'no_hp_kontak',
         'keperluan_penggunaan',
         'status',
+        'prioritas',
         'is_form_complete',
         'catatan_tambahan',
         'waktu_pesan',
@@ -149,6 +150,26 @@ class Pemesanan extends Model
             'selesai' => 'emerald',
             'dibatalkan' => 'rose',
             default => 'slate',
+        };
+    }
+
+    public function getPrioritasBadgeClassesAttribute(): string
+    {
+        return match ($this->prioritas) {
+            'tinggi' => 'bg-red-50 text-red-700 border-red-200',
+            'sedang' => 'bg-amber-50 text-amber-700 border-amber-200',
+            'rendah' => 'bg-emerald-50 text-emerald-700 border-emerald-200',
+            default => 'bg-slate-50 text-slate-700 border-slate-200',
+        };
+    }
+
+    public function getPrioritasDotClassesAttribute(): string
+    {
+        return match ($this->prioritas) {
+            'tinggi' => 'bg-red-600',
+            'sedang' => 'bg-amber-500',
+            'rendah' => 'bg-emerald-600',
+            default => 'bg-slate-600',
         };
     }
 
