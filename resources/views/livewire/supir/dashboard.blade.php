@@ -162,7 +162,7 @@
                     <h2 class="text-sm font-bold text-slate-900">Riwayat Tugas</h2>
                     <p class="text-xs text-slate-500">Misi evakuasi yang telah berhasil diselesaikan.</p>
                 </div>
-                <a href="{{ route('supir.tugas.index') }}" class="text-xs font-semibold text-teal-700 hover:underline">
+                <a href="{{ route('supir.riwayat.index') }}" class="text-xs font-semibold text-teal-700 hover:underline">
                     Lihat semua →
                 </a>
             </div>

@@ -101,6 +101,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:supir')->prefix('supir')->name('supir.')->group(function () {
         Route::get('/dashboard', SupirDashboard::class)->name('dashboard');
         Route::get('/tugas', \App\Livewire\Supir\TugasIndex::class)->name('tugas.index');
+        Route::get('/riwayat', \App\Livewire\Supir\RiwayatIndex::class)->name('riwayat.index');
         Route::get('/perjalanan-aktif', \App\Livewire\Supir\PerjalananAktif::class)->name('perjalanan.aktif');
         Route::get('/orders/{id}', SupirOrderShow::class)->name('orders.show');
         Route::get('/tugas/{id}', SupirOrderShow::class)->name('tugas.detail');

@@ -160,10 +160,10 @@
             </div>
 
             <!-- 4. Riwayat Penugasan -->
-            <a href="{{ route('supir.tugas.index') }}" 
-               class="flex-1 flex flex-col items-center justify-center py-1 transition-all group text-slate-400 hover:text-slate-600">
+            <a href="{{ route('supir.riwayat.index') }}" 
+               class="flex-1 flex flex-col items-center justify-center py-1 transition-all group {{ request()->routeIs('supir.riwayat.*') ? 'text-primary-600 font-extrabold' : 'text-slate-400 hover:text-slate-600' }}">
                 <div class="relative flex items-center justify-center">
-                    <svg class="w-5 h-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 transition-transform group-hover:scale-110" fill="{{ request()->routeIs('supir.riwayat.*') ? 'currentColor' : 'none' }}" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                 </div>

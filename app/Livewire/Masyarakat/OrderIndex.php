@@ -5,7 +5,9 @@ namespace App\Livewire\Masyarakat;
 use App\Models\Pemesanan;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\Layout;
 
+#[Layout('layouts.blank')]
 class OrderIndex extends Component
 {
     use WithPagination;

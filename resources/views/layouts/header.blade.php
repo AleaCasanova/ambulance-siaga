@@ -129,7 +129,10 @@
                     Tugas
                 </a>
                 <a href="{{ route('supir.perjalanan.aktif') }}" class="{{ $navBase }} {{ request()->routeIs('supir.perjalanan.aktif') || request()->routeIs('supir.orders.show') ? $navActive : $navInactive }}">
-                    Perjalanan Aktif
+                    Perjalanan
+                </a>
+                <a href="{{ route('supir.riwayat.index') }}" class="{{ $navBase }} {{ request()->routeIs('supir.riwayat.*') ? $navActive : $navInactive }}">
+                    Riwayat
                 </a>
             @endif
 
@@ -400,6 +403,9 @@
                 </a>
                 <a href="{{ route('supir.tugas.index') }}" @click="mobileMenuOpen = false" class="block px-4 py-3 rounded-xl font-bold text-sm {{ request()->routeIs('supir.tugas.*') ? 'bg-sky-50 text-sky-600' : 'text-slate-700 hover:bg-slate-50' }}">
                     Tugas
+                </a>
+                <a href="{{ route('supir.riwayat.index') }}" @click="mobileMenuOpen = false" class="block px-4 py-3 rounded-xl font-bold text-sm {{ request()->routeIs('supir.riwayat.*') ? 'bg-sky-50 text-sky-600' : 'text-slate-700 hover:bg-slate-50' }}">
+                    Riwayat
                 </a>
             @endif
 
