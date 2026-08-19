@@ -192,10 +192,15 @@ class PemesananService
 
             // Notifikasi ke Masyarakat jika terdaftar
             if ($order->user_id) {
+                $notifTitle = $newStatus === 'selesai' ? 'Pesanan Selesai. Yuk, berikan ulasan!' : 'Update Status Perjalanan Ambulans';
+                $notifMessage = $newStatus === 'selesai' 
+                    ? "Ambulans telah tiba di tujuan. Mohon luangkan waktu sebentar untuk memberikan penilaian Anda."
+                    : "Pesanan #{$order->kode_order} saat ini berstatus: " . $order->status_label;
+
                 Notifikasi::create([
                     'user_id' => $order->user_id,
-                    'title' => 'Update Status Perjalanan Ambulans',
-                    'message' => "Pesanan #{$order->kode_order} saat ini berstatus: " . $order->status_label,
+                    'title' => $notifTitle,
+                    'message' => $notifMessage,
                     'type' => 'info',
                     'url' => route('masyarakat.tracking', $order->id),
                 ]);

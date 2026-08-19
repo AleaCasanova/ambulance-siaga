@@ -15,11 +15,9 @@
 
         /* ====== HEADER ====== */
         .header {
-            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-            color: white;
             padding: 16px 20px;
             margin-bottom: 16px;
-            border-radius: 0 0 8px 8px;
+            border-bottom: 2px solid #000;
         }
         .header-inner {
             display: flex;
@@ -39,46 +37,22 @@
         }
         .header-meta strong { font-size: 10px; }
 
-        /* ====== REKAP CARDS ====== */
-        .rekap-grid {
-            display: table;
-            width: 100%;
-            margin-bottom: 14px;
-            border-collapse: separate;
-            border-spacing: 6px;
-        }
-        .rekap-row { display: table-row; }
-        .rekap-card {
-            display: table-cell;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            padding: 10px 14px;
-            border-radius: 6px;
-            width: 33.33%;
-            vertical-align: top;
-        }
-        .rekap-label { font-size: 7px; font-weight: bold; text-transform: uppercase; color: #64748b; letter-spacing: 0.5px; }
-        .rekap-value { font-size: 18px; font-weight: bold; color: #0f172a; margin-top: 2px; }
-        .rekap-value.green { color: #059669; }
-        .rekap-value.red   { color: #dc2626; }
+
 
         /* ====== FILTER INFO ====== */
         .filter-info {
-            background: #eff6ff;
-            border: 1px solid #bfdbfe;
-            border-radius: 6px;
-            padding: 8px 12px;
+            padding: 4px 0;
             margin-bottom: 14px;
             font-size: 8px;
-            color: #1d4ed8;
+            color: #333;
         }
         .filter-info strong { font-weight: bold; }
 
         /* ====== TABLE ====== */
         table { width: 100%; border-collapse: collapse; font-size: 8px; }
         thead tr {
-            background-color: #0284c7;
-            color: white;
+            border-top: 2px solid #000;
+            border-bottom: 1px solid #000;
         }
         thead th {
             padding: 7px 6px;
@@ -87,15 +61,11 @@
             font-size: 7.5px;
             text-transform: uppercase;
             letter-spacing: 0.3px;
-            border: 1px solid #0369a1;
         }
-        tbody tr { border-bottom: 1px solid #f1f5f9; }
-        tbody tr:nth-child(even) { background-color: #f8fafc; }
-        tbody tr:last-child { border-bottom: 2px solid #e2e8f0; }
+        tbody tr { border-bottom: 1px solid #ddd; }
         tbody td {
             padding: 6px 6px;
             vertical-align: top;
-            border-right: 1px solid #f1f5f9;
         }
         td.kode { font-weight: bold; color: #0284c7; }
         td.nama { font-weight: bold; }
@@ -135,26 +105,7 @@
         </div>
     </div>
 
-    {{-- ====== REKAP ====== --}}
-    <table class="rekap-grid">
-        <tr class="rekap-row">
-            <td class="rekap-card">
-                <div class="rekap-label">Total Layanan</div>
-                <div class="rekap-value">{{ $rekap['total'] }}</div>
-                <div class="rekap-label">pesanan terdaftar</div>
-            </td>
-            <td class="rekap-card">
-                <div class="rekap-label">Evakuasi Selesai</div>
-                <div class="rekap-value green">{{ $rekap['selesai'] }}</div>
-                <div class="rekap-label">pasien terlayani</div>
-            </td>
-            <td class="rekap-card">
-                <div class="rekap-label">Order Dibatalkan</div>
-                <div class="rekap-value red">{{ $rekap['batal'] }}</div>
-                <div class="rekap-label">order tidak dilanjutkan</div>
-            </td>
-        </tr>
-    </table>
+
 
     {{-- ====== FILTER INFO ====== --}}
     <div class="filter-info">
@@ -170,16 +121,14 @@
         <thead>
             <tr>
                 <th style="width:3%">No</th>
-                <th style="width:11%">Kode Order</th>
+                <th style="width:10%">Kode Order</th>
                 <th style="width:8%">Tanggal</th>
-                <th style="width:12%">Nama Pasien</th>
-                <th style="width:12%">Lokasi Jemput</th>
-                <th style="width:12%">Tujuan / RS</th>
+                <th style="width:13%">Nama Pasien</th>
+                <th style="width:20%">Lokasi Jemput</th>
+                <th style="width:20%">Tujuan / RS</th>
                 <th style="width:8%">Ambulans</th>
                 <th style="width:10%">Supir</th>
-                <th style="width:8%">Keperluan</th>
                 <th style="width:8%">Status</th>
-                <th style="width:8%">Rating</th>
             </tr>
         </thead>
         <tbody>
@@ -196,24 +145,16 @@
                     <td>{{ $idx + 1 }}</td>
                     <td class="kode">{{ $row->kode_order }}</td>
                     <td>{{ $row->created_at?->format('d/m/Y') }}<br><span style="color:#94a3b8">{{ $row->created_at?->format('H:i') }}</span></td>
-                    <td class="nama">{{ $row->nama_pasien }}<br><span style="color:#64748b;font-size:7px">{{ $row->nik_pasien ?: '-' }}</span></td>
+                    <td class="nama">{{ $row->nama_pasien }}<div style="margin-top: 3px; color:#64748b; font-size:7px">NIK: {{ $row->nik_pasien ?: '-' }}</div></td>
                     <td>{{ Str::limit($row->lokasi_jemput, 60) }}</td>
                     <td>{{ Str::limit($row->tujuan_lokasi ?? $row->rumahSakit?->nama ?? '-', 60) }}</td>
                     <td>{{ $row->ambulans?->kode_ambulans ?? '-' }}</td>
                     <td>{{ $row->supir?->user?->name ?? '-' }}</td>
-                    <td>{{ $row->keperluan_penggunaan ?: '-' }}</td>
                     <td class="{{ $statusClass }}">{{ $row->status_label }}</td>
-                    <td class="rating-star">
-                        @if($row->rating)
-                            ★ {{ $row->rating->skor }}/5
-                        @else
-                            <span style="color:#cbd5e1">—</span>
-                        @endif
-                    </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="11" style="text-align:center;padding:20px;color:#94a3b8">
+                    <td colspan="9" style="text-align:center;padding:20px;color:#94a3b8">
                         Tidak ada data pada periode yang dipilih
                     </td>
                 </tr>

@@ -57,8 +57,8 @@
                         <label class="block text-xs font-bold text-slate-700 mb-1.5">
                             Usia Pasien <span class="text-red-500">*</span>
                         </label>
-                        <input type="text" wire:model="usia_pasien"
-                               placeholder="Cth: 45 Tahun"
+                        <input type="number" min="0" wire:model="usia_pasien"
+                               placeholder="Cth: 45"
                                class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-primary-600 focus:ring-4 focus:ring-primary-600/10 text-sm font-medium transition-all">
                         @error('usia_pasien') <p class="text-xs text-red-600 font-medium mt-1">{{ $message }}</p> @enderror
                     </div>
@@ -351,7 +351,7 @@
                     });
                 },
 
-                setMarkerPosition(newLat, newLng) {
+                async setMarkerPosition(newLat, newLng) {
                     this.lat = newLat;
                     this.lng = newLng;
                     if (this.marker) {
@@ -364,6 +364,19 @@
                     this.calculateRoute();
 
                     @this.call('updateCoordinates', newLat, newLng);
+
+                    // Auto-fill alamat dari koordinat (Reverse Geocoding)
+                    try {
+                        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${newLat}&lon=${newLng}&zoom=18&addressdetails=1`);
+                        if (response.ok) {
+                            const data = await response.json();
+                            if (data && data.display_name) {
+                                @this.set('lokasi_jemput', data.display_name);
+                            }
+                        }
+                    } catch (e) {
+                        console.warn('Gagal mendapatkan alamat:', e);
+                    }
                 },
 
                 async calculateRoute() {
@@ -631,5 +644,29 @@
                 }
             }
         }
+    </script>
+
+    <!-- Script Auto-Scroll ke Error Validasi -->
+    <script>
+        document.addEventListener('livewire:initialized', () => {
+            Livewire.hook('commit', ({ succeed }) => {
+                succeed(() => {
+                    setTimeout(() => {
+                        // Cari elemen error pertama setelah DOM update
+                        // Pesan error di form menggunakan class text-red-600
+                        const firstError = document.querySelector('p.text-red-600');
+                        if (firstError) {
+                            // Dapatkan input element terdekat di atasnya untuk scroll lebih baik
+                            const container = firstError.closest('div');
+                            if (container) {
+                                container.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            } else {
+                                firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+                        }
+                    }, 100);
+                });
+            });
+        });
     </script>
 </div>

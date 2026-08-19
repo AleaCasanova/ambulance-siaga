@@ -1,4 +1,29 @@
-<div>
+<div class="print-area">
+    <style>
+        @media print {
+            @page { size: landscape; margin: 15mm; }
+            body { background: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; color: black; }
+            body * { visibility: hidden; }
+            .print-area, .print-area * { visibility: visible; }
+            .print-area { position: absolute; left: 0; top: 0; width: 100%; padding: 0; margin: 0; }
+            .print\:hidden { display: none !important; }
+            
+            /* Jadikan tabel biasa saja untuk print */
+            .print-area table { border-collapse: collapse !important; width: 100% !important; border: 1px solid #000 !important; }
+            .print-area th, .print-area td { border: 1px solid #000 !important; padding: 6px 8px !important; color: #000 !important; font-size: 11px !important; }
+            .print-area th { background-color: #f1f5f9 !important; font-weight: bold !important; text-align: left !important; }
+            
+            /* Hapus desain web (rounded, shadow, border bawaan) */
+            .print-area .rounded-3xl { border-radius: 0 !important; border: none !important; box-shadow: none !important; }
+            .print-area .bg-white { background: transparent !important; }
+            
+            /* Rapikan teks agar tidak terlalu tebal atau berwarna */
+            .print-area .text-slate-800, .print-area .text-slate-500, .print-area .text-slate-400 { color: #000 !important; }
+            .print-area .text-emerald-600 { color: #000 !important; }
+            .print-area .font-extrabold { font-weight: bold !important; }
+            .print-area .w-1\.5 { display: none !important; } /* Sembunyikan bulatan status */
+        }
+    </style>
     <!-- Header Page -->
     <div class="mb-8 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 print:hidden">
         <div class="flex-1">
@@ -115,7 +140,7 @@
     </div>
 
     <!-- 3 Rekapitulasi Cepat -->
-    <div class="grid grid-cols-3 gap-4 mb-6">
+    <div class="grid grid-cols-3 gap-4 mb-6 print:hidden">
         <div class="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-xs">
             <span class="text-xs font-bold text-slate-400 block uppercase">Total Layanan</span>
             <span class="text-2xl font-black text-slate-800">{{ $rekap['total'] }} <span class="text-xs font-normal">Order</span></span>

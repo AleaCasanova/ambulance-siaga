@@ -1,4 +1,4 @@
-<div>
+<div wire:poll.5s>
 
 
     <div class="absolute top-0 left-0 w-full h-80 bg-primary-700 -z-10 overflow-hidden" style="background-image: url('{{ asset('images/beranda_utama_bg.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">

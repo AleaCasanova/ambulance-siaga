@@ -1,4 +1,4 @@
-<div>
+<div wire:poll.5s>
     <!-- Hero Section dengan Background Teal & Ambulance Photo: Lebih Utilitarian & Profesional -->
     <section class="relative pt-32 pb-28 px-4 sm:px-6 lg:px-12 overflow-hidden bg-primary-700"
              style="background-image: url('{{ asset('images/beranda_utama_bg.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
@@ -64,40 +64,43 @@
 
             <!-- 1. ACTIVE ORDER BANNER (Jika sedang ada pesanan berjalan) -->
             @if($activeOrder)
-                <div class="relative overflow-hidden p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-red-700 via-rose-700 to-red-800 text-white shadow-lg border border-red-400/40">
+                <div class="relative overflow-hidden p-5 sm:p-6 rounded-2xl bg-white/95 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-l-[6px] border-l-amber-500 border-y border-r border-slate-200/80">
+                    <div class="absolute -left-10 top-1/2 -translate-y-1/2 w-32 h-32 bg-amber-500/10 blur-3xl rounded-full pointer-events-none"></div>
+
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-5 relative z-10">
-                        <div class="space-y-1.5">
-                            <div class="flex items-center gap-2">
-                                <span class="px-2.5 py-0.5 rounded-md bg-white text-red-700 font-extrabold text-[11px] uppercase tracking-wide">
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2.5">
+                                <span class="px-2.5 py-1 rounded-md bg-amber-50 text-amber-700 font-extrabold text-[10px] uppercase tracking-wider border border-amber-200/60 flex items-center gap-1.5 shadow-sm">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
                                     Evakuasi Berlangsung
                                 </span>
-                                <span class="text-xs font-semibold text-red-200">#{{ $activeOrder->kode_order }}</span>
+                                <span class="text-xs font-bold text-slate-400">#{{ $activeOrder->kode_order }}</span>
                             </div>
-                            <h2 class="text-xl sm:text-2xl font-bold">
+                            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-800">
                                 Penanganan Pasien: {{ $activeOrder->nama_pasien }}
                             </h2>
-                            <div class="flex flex-wrap items-center gap-3 text-xs sm:text-sm font-normal text-red-100">
-                                <span><strong>Jemput:</strong> {{ $activeOrder->lokasi_jemput }}</span>
-                                <span>•</span>
-                                <span><strong>Status:</strong> {{ $activeOrder->status_label }}</span>
+                            <div class="flex flex-wrap items-center gap-3 text-xs sm:text-sm font-medium text-slate-600">
+                                <span class="flex items-center gap-1.5"><svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> {{ $activeOrder->lokasi_jemput }}</span>
+                                <span class="text-slate-300">•</span>
+                                <span class="text-amber-600 font-bold">{{ $activeOrder->status_label }}</span>
                                 @if($activeOrder->ambulans)
-                                    <span>•</span>
-                                    <span><strong>Armada:</strong> {{ $activeOrder->ambulans->kode_ambulans }} ({{ $activeOrder->ambulans->plat_nomor }})</span>
+                                    <span class="text-slate-300">•</span>
+                                    <span class="flex items-center gap-1.5"><svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/></svg> {{ $activeOrder->ambulans->kode_ambulans }}</span>
                                 @endif
                             </div>
                         </div>
 
-                        <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+                        <div class="flex flex-wrap items-center gap-2.5 shrink-0 pt-2 md:pt-0 md:border-l md:border-slate-100 md:pl-5">
                             <a href="{{ route('masyarakat.tracking', $activeOrder->id) }}"
-                               class="px-5 py-2.5 rounded-xl bg-white text-red-700 hover:bg-red-50 font-bold text-xs shadow-sm transition-all flex items-center gap-2">
-                                <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
+                               class="px-5 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs shadow-md shadow-amber-500/20 transition-all flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
                                 <span>Pantau Lokasi Live</span>
                             </a>
 
                             @if($activeOrder->needsFormCompletion())
                                 <a href="{{ route('masyarakat.order.complete', $activeOrder->id) }}"
-                                   class="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs shadow-sm transition-all">
-                                    Lengkapi Data Medis
+                                   class="px-4 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold text-xs shadow-sm transition-all">
+                                    Lengkapi Data
                                 </a>
                             @endif
                         </div>
