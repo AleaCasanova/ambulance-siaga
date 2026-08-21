@@ -32,8 +32,13 @@
 
     <!-- Main Grid: Form (Left) & Leaflet Map (Right) -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8"
-         x-data="orderMapComponent({{ $jemput_lat }}, {{ $jemput_lng }})"
-         x-init="initMap()">
+         x-data="orderMapComponent(
+             {{ $jemput_lat }}, 
+             {{ $jemput_lng }}, 
+             {{ json_encode($rumahSakits->keyBy('id')->map(fn($rs) => ['id' => $rs->id, 'nama' => $rs->nama, 'lat' => (float)$rs->lat, 'lng' => (float)$rs->lng])) }},
+             {{ $rumah_sakit_id ? (int)$rumah_sakit_id : 'null' }}
+         )"
+         x-init="initMap(); $watch('$wire.rumah_sakit_id', (val) => updateHospitalMarker(val))">
 
         <!-- Left Column: Form Pemesanan -->
         <div class="lg:col-span-6 bg-white/95 backdrop-blur-md rounded-3xl border border-white/60 p-6 sm:p-8 shadow-2xl shadow-slate-200/50 relative overflow-hidden">
@@ -262,7 +267,7 @@
                                 <span class="text-sm font-extrabold text-slate-800" x-text="routeEta"></span>
                                 <span class="text-[10px] font-bold text-primary-700 bg-primary-50 px-2.5 py-0.5 rounded-full border border-primary-100" x-text="routeDistance"></span>
                             </div>
-                            <p class="text-[11px] text-slate-500 font-medium truncate" x-text="'Dari Pusat: ' + routeSummary"></p>
+                            <p class="text-[11px] text-slate-500 font-medium truncate" x-text="'Rute Evakuasi: ' + routeSummary"></p>
                         </div>
                     </div>
                 </div>
@@ -286,7 +291,7 @@
 
     <!-- Alpine Script for Leaflet Integration -->
     <script>
-        function orderMapComponent(defaultLat, defaultLng) {
+        function orderMapComponent(defaultLat, defaultLng, hospitals = {}, initialRsId = null) {
             return {
                 map: null,
                 marker: null,
@@ -294,6 +299,8 @@
                 polyline: null,
                 lat: defaultLat,
                 lng: defaultLng,
+                hospitals: hospitals || {},
+                selectedRsId: initialRsId,
                 routeDistance: '',
                 routeEta: '',
                 routeSummary: '',
@@ -335,8 +342,9 @@
                         this.setMarkerPosition(pos.lat, pos.lng);
                     });
 
-                    // Initial Route Calculation (Pusat Cilacap to current lat/lng)
-                    this.calculateRoute();
+                    if (this.selectedRsId) {
+                        this.updateHospitalMarker(this.selectedRsId);
+                    }
 
                     setTimeout(() => {
                         if (this.map) {
@@ -379,10 +387,87 @@
                     }
                 },
 
+                updateHospitalMarker(rsId) {
+                    this.selectedRsId = rsId;
+
+                    if (this.hospitalMarker) {
+                        this.map.removeLayer(this.hospitalMarker);
+                        this.hospitalMarker = null;
+                    }
+
+                    if (!rsId || !this.hospitals[rsId]) {
+                        if (this.polyline) {
+                            this.map.removeLayer(this.polyline);
+                            this.polyline = null;
+                        }
+                        this.routeSummary = null;
+                        this.routeDistance = '';
+                        this.routeEta = '';
+                        return;
+                    }
+
+                    const rs = this.hospitals[rsId];
+                    const rsLat = parseFloat(rs.lat);
+                    const rsLng = parseFloat(rs.lng);
+                    const rsNama = rs.nama;
+
+                    if (rsLat && rsLng) {
+                        const rsIcon = L.divIcon({
+                            className: 'custom-rs-icon',
+                            html: `<div style="background: linear-gradient(135deg, #10B981, #059669); width: 36px; height: 36px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 10px rgba(16,185,129,0.4); display: flex; align-items: center; justify-content: center; font-size: 18px;">🏥</div>`,
+                            iconSize: [36, 36],
+                            iconAnchor: [18, 18]
+                        });
+
+                        this.hospitalMarker = L.marker([rsLat, rsLng], {
+                            title: rsNama,
+                            icon: rsIcon
+                        }).addTo(this.map)
+                        .bindPopup(`<b>🏥 Rumah Sakit Rujukan:</b><br>${rsNama}`)
+                        .openPopup();
+
+                        const bounds = L.latLngBounds([ [this.lat, this.lng], [rsLat, rsLng] ]);
+                        this.map.fitBounds(bounds, { padding: [60, 60], maxZoom: 15 });
+
+                        this.calculateRoute();
+                    }
+                },
+
                 async calculateRoute() {
-                    const baseLatLng = L.latLng(-7.7188, 109.0159);
-                    const jemputLatLng = L.latLng(this.lat, this.lng);
-                    await this.fetchOsrmRoute(baseLatLng, jemputLatLng);
+                    if (!this.selectedRsId || !this.hospitals[this.selectedRsId]) {
+                        if (this.polyline) {
+                            this.map.removeLayer(this.polyline);
+                            this.polyline = null;
+                        }
+                        this.routeSummary = null;
+                        return;
+                    }
+
+                    const rs = this.hospitals[this.selectedRsId];
+                    const rsLat = parseFloat(rs.lat);
+                    const rsLng = parseFloat(rs.lng);
+
+                    // Pastikan marker RS selalu ada di peta saat ada RS yang aktif
+                    if (!this.hospitalMarker && rsLat && rsLng) {
+                        const rsIcon = L.divIcon({
+                            className: 'custom-rs-icon',
+                            html: `<div style="background: linear-gradient(135deg, #10B981, #059669); width: 36px; height: 36px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 10px rgba(16,185,129,0.4); display: flex; align-items: center; justify-content: center; font-size: 18px;">🏥</div>`,
+                            iconSize: [36, 36],
+                            iconAnchor: [18, 18]
+                        });
+
+                        this.hospitalMarker = L.marker([rsLat, rsLng], {
+                            title: rs.nama,
+                            icon: rsIcon
+                        }).addTo(this.map)
+                        .bindPopup(`<b>🏥 Rumah Sakit Rujukan:</b><br>${rs.nama}`);
+                    }
+
+                    if (rsLat && rsLng) {
+                        const jemputLatLng = L.latLng(this.lat, this.lng);
+                        const rsLatLng = L.latLng(rsLat, rsLng);
+                        await this.fetchOsrmRoute(jemputLatLng, rsLatLng);
+                    }
                 },
 
                 async fetchOsrmRoute(startLatLng, endLatLng) {
@@ -400,12 +485,12 @@
                             }
 
                             this.polyline = L.polyline(coords, {
-                                color: '#10B981', // Emerald green to indicate safe/available route
+                                color: '#10B981',
                                 weight: 5,
-                                opacity: 0.8,
+                                opacity: 0.85,
                                 lineCap: 'round',
                                 lineJoin: 'round',
-                                dashArray: '10, 10' // Dashed line to signify "Estimation"
+                                dashArray: '10, 10'
                             }).addTo(this.map);
 
                             const distKm = (route.distance / 1000).toFixed(1) + ' km';
@@ -415,51 +500,25 @@
                             this.routeDistance = distKm;
                             this.routeEta = etaMin;
                             this.routeSummary = summary;
+                            return;
                         }
                     } catch (e) {
-                        console.warn('OSRM routing failed:', e);
+                        console.warn('OSRM routing failed, using fallback line:', e);
                     }
+
+                    if (this.polyline) {
+                        this.map.removeLayer(this.polyline);
+                    }
+                    this.polyline = L.polyline([startLatLng, endLatLng], {
+                        color: '#10B981',
+                        weight: 5,
+                        opacity: 0.85,
+                        dashArray: '8, 8'
+                    }).addTo(this.map);
                 },
 
                 resetToDefault() {
                     this.setMarkerPosition(-7.7188, 109.0159);
-                },
-
-                updateHospitalMarker(rsId) {
-                    if (this.hospitalMarker) {
-                        this.map.removeLayer(this.hospitalMarker);
-                        this.hospitalMarker = null;
-                    }
-
-                    if (!rsId) return;
-
-                    const selectEl = document.querySelector('select[wire\\:model\\.live="rumah_sakit_id"]') || document.querySelector('select[wire\\:model="rumah_sakit_id"]');
-                    if (!selectEl || selectEl.selectedIndex < 0) return;
-
-                    const selectedOpt = selectEl.options[selectEl.selectedIndex];
-                    const rsLat = parseFloat(selectedOpt.getAttribute('data-lat'));
-                    const rsLng = parseFloat(selectedOpt.getAttribute('data-lng'));
-                    const rsNama = selectedOpt.getAttribute('data-nama');
-
-                    if (rsLat && rsLng) {
-                        const rsIcon = L.divIcon({
-                            className: 'custom-rs-icon',
-                            html: `<div style="background: linear-gradient(135deg, #10B981, #059669); width: 34px; height: 34px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 10px rgba(16,185,129,0.4); display: flex; align-items: center; justify-content: center; font-size: 16px;">🏥</div>`,
-                            iconSize: [34, 34],
-                            iconAnchor: [17, 34]
-                        });
-
-                        this.hospitalMarker = L.marker([rsLat, rsLng], {
-                            title: rsNama,
-                            icon: rsIcon
-                        }).addTo(this.map)
-                        .bindPopup(`<b>Rumah Sakit Rujukan:</b><br>${rsNama}`)
-                        .openPopup();
-
-                        // Fit bounds between pickup and hospital
-                        const bounds = L.latLngBounds([ [this.lat, this.lng], [rsLat, rsLng] ]);
-                        this.map.fitBounds(bounds, { padding: [60, 60], maxZoom: 15 });
-                    }
                 }
             }
         }

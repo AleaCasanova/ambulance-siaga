@@ -218,10 +218,11 @@
          x-data="supirMapComponent(
              {{ $currentLat }}, 
              {{ $currentLng }}, 
-             {{ in_array($order->status, ['membawa_pasien', 'selesai']) ? 'null' : ($order->jemput_lat ?? 'null') }}, 
-             {{ in_array($order->status, ['membawa_pasien', 'selesai']) ? 'null' : ($order->jemput_lng ?? 'null') }}, 
-             {{ $order->tujuan_lat ?? ($order->rumahSakit?->lat ?? 'null') }}, 
-             {{ $order->tujuan_lng ?? ($order->rumahSakit?->lng ?? 'null') }}
+             {{ $order->jemput_lat ?: 'null' }}, 
+             {{ $order->jemput_lng ?: 'null' }}, 
+             {{ $order->tujuan_lat ? (float)$order->tujuan_lat : ($order->rumahSakit?->lat ?? -7.7289) }}, 
+             {{ $order->tujuan_lng ? (float)$order->tujuan_lng : ($order->rumahSakit?->lng ?? 109.0094) }},
+             '{{ $order->status }}'
          )"
          x-init="initMap()"
          @gps-updated.window="
@@ -229,8 +230,15 @@
                 ? $event.detail 
                 : (Array.isArray($event.detail) ? $event.detail[0] : {});
             if (payload && payload.lat && payload.lng) {
-                updateAmbulancePos(payload.lat, payload.lng);
+                updateAmbulancePos(payload.lat, payload.lng, payload.status);
             }
+            if (payload && payload.arrived && window.gpsTrackerInstance) {
+                window.gpsTrackerInstance.stopAutoDrive();
+            }
+         "
+         @status-changed.window="
+            let st = $event.detail?.status;
+            if (st) onStatusChanged(st);
          ">
 
         <!-- Left Column: Informasi Rute, Pasien, & Safety Center (5 Cols) -->
@@ -384,26 +392,55 @@
                 <!-- GPS Controller Footer -->
                 @if(in_array($order->status, ['menuju_lokasi', 'membawa_pasien', 'diproses']))
                     <div class="mt-4 pt-3 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3"
-                         x-data="gpsTracker(@this)">
+                         x-data="gpsTracker(@this)"
+                         x-init="init()">
                         
-                        <div class="flex items-center gap-2">
+                        <div class="flex items-center flex-wrap gap-2">
+                            <!-- Tombol Auto-Drive Simulasi Otomatis -->
+                            <button type="button"
+                                    @click="toggleAutoDrive()"
+                                    :class="autoDriving ? 'bg-amber-500 hover:bg-amber-600 text-white shadow-amber-500/25 ring-2 ring-amber-300' : 'bg-primary-600 hover:bg-primary-700 text-white shadow-primary-600/25'"
+                                    class="px-4 py-2 rounded-xl text-xs font-extrabold transition-all shadow-md flex items-center gap-2 cursor-pointer active:scale-95">
+                                <template x-if="!autoDriving">
+                                    <span class="flex items-center gap-1.5">
+                                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                        <span>▶ Mulai Simulasi Otomatis</span>
+                                    </span>
+                                </template>
+                                <template x-if="autoDriving">
+                                    <span class="flex items-center gap-1.5">
+                                        <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
+                                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                                        <span>⏸ Jeda Simulasi</span>
+                                    </span>
+                                </template>
+                            </button>
+
+                            <!-- Tombol Manual 1 Step -->
+                            <button type="button"
+                                    wire:click="simulateGpsStep"
+                                    class="px-3 py-2 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-bold transition-all shadow-xs active:scale-95 cursor-pointer">
+                                Maju 1 Step
+                            </button>
+
+                            <!-- Tombol GPS Fisik -->
                             <button type="button"
                                     x-show="gpsSupported"
                                     @click="toggleGps()"
-                                    :class="gpsActive ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'"
-                                    class="px-4 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5">
+                                    :class="gpsActive ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
+                                    class="px-3 py-2 rounded-xl text-xs font-semibold transition-colors flex items-center gap-1.5 cursor-pointer">
                                 <span class="w-2 h-2 rounded-full" :class="gpsActive ? 'bg-white animate-ping' : 'bg-slate-400'"></span>
-                                <span x-text="gpsActive ? 'GPS Broadcast: ON' : 'Aktifkan GPS Realtime'"></span>
-                            </button>
-
-                            <button type="button"
-                                    wire:click="simulateGpsStep"
-                                    class="px-3 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 text-xs font-semibold transition-colors">
-                                Simulasi Step
+                                <span x-text="gpsActive ? 'GPS Fisik: ON' : 'GPS Fisik HP/Laptop'"></span>
                             </button>
                         </div>
 
-                        <span x-show="gpsActive" class="text-[11px] text-emerald-700 font-medium" x-text="'Koordinat: ' + (lastCoords || 'Menghubungkan...')"></span>
+                        <div class="flex items-center gap-2">
+                            <span x-show="autoDriving" class="text-[11px] font-bold text-primary-600 flex items-center gap-1">
+                                <span class="w-2 h-2 rounded-full bg-primary-500 animate-pulse"></span>
+                                <span>Ambulans melaju otomatis...</span>
+                            </span>
+                            <span x-show="gpsActive" class="text-[11px] text-emerald-700 font-medium" x-text="'Koordinat: ' + (lastCoords || 'Menghubungkan...')"></span>
+                        </div>
                     </div>
                 @endif
 
@@ -414,21 +451,29 @@
 
     <!-- Leaflet Script for Supir Navigation Map -->
     <script>
-        function supirMapComponent(ambLat, ambLng, jemputLat, jemputLng, rsLat, rsLng) {
+        function supirMapComponent(ambLat, ambLng, jemputLat, jemputLng, rsLat, rsLng, orderStatus) {
             return {
                 map: null,
                 ambMarker: null,
                 jemputMarker: null,
                 rsMarker: null,
-                polyline: null,
-                polyline2: null,
+                routeLayerGroup: null,
+                routeReqId: 0,
                 routeDistance: '',
                 routeEta: '',
                 routeSummary: '',
+                ambLat: ambLat,
+                ambLng: ambLng,
+                jemputLat: jemputLat,
+                jemputLng: jemputLng,
+                rsLat: rsLat,
+                rsLng: rsLng,
+                orderStatus: orderStatus,
 
                 initMap() {
-                    const defaultLat = ambLat || jemputLat || -7.7188;
-                    const defaultLng = ambLng || jemputLng || 109.0159;
+                    window.supirMapInstance = this;
+                    const defaultLat = this.ambLat || this.jemputLat || -7.7188;
+                    const defaultLng = this.ambLng || this.jemputLng || 109.0159;
 
                     this.map = L.map('supir-map', {
                         zoomControl: true,
@@ -439,7 +484,7 @@
                         maxZoom: 19
                     }).addTo(this.map);
 
-                    window.supirMapInstance = this;
+                    this.routeLayerGroup = L.layerGroup().addTo(this.map);
 
                     const ambIcon = L.divIcon({
                         className: 'custom-amb-icon',
@@ -457,9 +502,9 @@
 
                     const rsIcon = L.divIcon({
                         className: 'custom-rs-icon',
-                        html: `<div style="background:#16A36A; width:28px; height:28px; border-radius:50%; border:2px solid white; box-shadow:0 2px 6px rgba(22,163,106,0.4); display:flex; align-items:center; justify-content:center; color:white; font-size:12px;">🏥</div>`,
-                        iconSize: [28, 28],
-                        iconAnchor: [14, 28]
+                        html: `<div style="background:#16A36A; width:34px; height:34px; border-radius:50%; border:2px solid white; box-shadow:0 2px 6px rgba(22,163,106,0.4); display:flex; align-items:center; justify-content:center; color:white; font-size:16px;">🏥</div>`,
+                        iconSize: [34, 34],
+                        iconAnchor: [17, 34]
                     });
 
                     this.ambMarker = L.marker([defaultLat, defaultLng], {
@@ -467,19 +512,21 @@
                         title: 'Posisi Ambulans'
                     }).addTo(this.map).bindPopup('<b>Posisi Ambulans</b>');
 
-                    if (jemputLat && jemputLng) {
-                        this.jemputMarker = L.marker([jemputLat, jemputLng], {
+                    // Pickup Marker: HANYA saat menuju lokasi jemput / diproses
+                    if (this.jemputLat && this.jemputLng && !['membawa_pasien', 'selesai'].includes(this.orderStatus)) {
+                        this.jemputMarker = L.marker([this.jemputLat, this.jemputLng], {
                             icon: jemputIcon
                         }).addTo(this.map).bindPopup('<b>Titik Jemput Pasien</b>');
                     }
 
-                    if (rsLat && rsLng && rsLat !== 0) {
-                        this.rsMarker = L.marker([rsLat, rsLng], {
+                    // Hospital Marker: HANYA saat membawa pasien / selesai
+                    if (this.rsLat && this.rsLng && this.rsLat !== 0 && ['membawa_pasien', 'selesai'].includes(this.orderStatus)) {
+                        this.rsMarker = L.marker([this.rsLat, this.rsLng], {
                             icon: rsIcon
                         }).addTo(this.map).bindPopup('<b>Rumah Sakit Rujukan</b>');
                     }
 
-                    this.drawPolyline();
+                    this.drawPolyline(this.orderStatus);
                     this.fitAllMarkers();
 
                     setTimeout(() => {
@@ -490,15 +537,40 @@
                     }, 350);
                 },
 
-                updateAmbulancePos(newLat, newLng) {
-                    if (this.ambMarker) {
-                        this.ambMarker.setLatLng([newLat, newLng]);
-                        this.map.panTo([newLat, newLng]);
-                        this.drawPolyline();
+                onStatusChanged(newStatus) {
+                    if (!newStatus) return;
+                    this.orderStatus = newStatus;
+                    this.drawPolyline(newStatus);
+                    this.fitAllMarkers();
+                },
+
+                updateAmbulancePos(newLat, newLng, updatedStatus) {
+                    let statusChanged = false;
+                    if (updatedStatus && updatedStatus !== this.orderStatus) {
+                        this.orderStatus = updatedStatus;
+                        statusChanged = true;
+                    }
+
+                    if (newLat && newLng) {
+                        this.ambLat = newLat;
+                        this.ambLng = newLng;
+                        if (this.ambMarker) {
+                            this.ambMarker.setLatLng([newLat, newLng]);
+                        }
+                    }
+
+                    this.drawPolyline(this.orderStatus);
+                    if (statusChanged) {
+                        this.fitAllMarkers();
                     }
                 },
 
-                async fetchOsrmRoute(startLatLng, endLatLng, color, weight, opacity, isPrimary = true) {
+                async fetchOsrmRoute(startLatLng, endLatLng, color, weight, opacity, reqId) {
+                    let routeCoords = [[startLatLng.lat, startLatLng.lng], [endLatLng.lat, endLatLng.lng]];
+                    let distKm = '';
+                    let etaMin = '';
+                    let summary = 'Jalan Utama';
+
                     try {
                         const url = `https://router.project-osrm.org/route/v1/driving/${startLatLng.lng},${startLatLng.lat};${endLatLng.lng},${endLatLng.lat}?overview=full&geometries=geojson&steps=true`;
                         const response = await fetch(url);
@@ -506,62 +578,93 @@
 
                         if (data.code === 'Ok' && data.routes && data.routes.length > 0) {
                             const route = data.routes[0];
-                            const coords = route.geometry.coordinates.map(c => [c[1], c[0]]);
-
-                            const routeLayer = L.polyline(coords, {
-                                color: color,
-                                weight: weight,
-                                opacity: opacity,
-                                lineCap: 'round',
-                                lineJoin: 'round'
-                            }).addTo(this.map);
-
-                            if (isPrimary) {
-                                const distKm = (route.distance / 1000).toFixed(1) + ' km';
-                                const etaMin = Math.max(1, Math.ceil(route.duration / 60)) + ' Menit';
-                                const summary = (route.legs && route.legs[0] && route.legs[0].summary) ? route.legs[0].summary : 'Jalan Utama';
-
-                                this.routeDistance = distKm;
-                                this.routeEta = etaMin;
-                                this.routeSummary = summary;
-                            }
-
-                            return routeLayer;
+                            routeCoords = route.geometry.coordinates.map(c => [c[1], c[0]]);
+                            distKm = (route.distance / 1000).toFixed(1) + ' km';
+                            etaMin = Math.max(1, Math.ceil(route.duration / 60)) + ' Menit';
+                            summary = (route.legs && route.legs[0] && route.legs[0].summary) ? route.legs[0].summary : 'Jalan Utama';
                         }
                     } catch (e) {
-                        console.warn('OSRM routing fallback to straight line:', e);
+                        console.warn('OSRM routing fallback:', e);
                     }
 
-                    return L.polyline([startLatLng, endLatLng], {
-                        color: color,
-                        weight: weight,
-                        opacity: opacity,
-                        dashArray: '6, 6'
-                    }).addTo(this.map);
+                    if (reqId !== this.routeReqId) {
+                        return; // Abaikan respons tertunda
+                    }
+
+                    if (this.routeLayerGroup) {
+                        this.routeLayerGroup.clearLayers();
+                        const routeLayer = L.polyline(routeCoords, {
+                            color: color,
+                            weight: weight,
+                            opacity: opacity,
+                            lineCap: 'round',
+                            lineJoin: 'round'
+                        });
+                        this.routeLayerGroup.addLayer(routeLayer);
+                    }
+
+                    if (distKm) {
+                        this.routeDistance = distKm;
+                        this.routeEta = etaMin;
+                        this.routeSummary = summary;
+                    }
                 },
 
-                async drawPolyline() {
-                    if (this.polyline) {
-                        this.map.removeLayer(this.polyline);
-                        this.polyline = null;
+                async drawPolyline(statusOrder) {
+                    const activeStatus = statusOrder || this.orderStatus;
+                    this.orderStatus = activeStatus;
+                    this.routeReqId = (this.routeReqId || 0) + 1;
+                    const currentReq = this.routeReqId;
+
+                    // Kasus 1: Ambulans membawa pasien ke RS (Tahap 2)
+                    if (activeStatus === 'membawa_pasien' || activeStatus === 'selesai') {
+                        if (this.jemputMarker) {
+                            this.map.removeLayer(this.jemputMarker);
+                            this.jemputMarker = null;
+                        }
+                        if (!this.rsMarker && this.rsLat && this.rsLng) {
+                            this.rsMarker = L.marker([this.rsLat, this.rsLng], {
+                                icon: L.divIcon({
+                                    className: 'custom-rs-icon',
+                                    html: `<div style="background:#16A36A; width:34px; height:34px; border-radius:50%; border:2px solid white; box-shadow:0 2px 6px rgba(22,163,106,0.4); display:flex; align-items:center; justify-content:center; color:white; font-size:16px;">🏥</div>`,
+                                    iconSize: [34, 34],
+                                    iconAnchor: [17, 34]
+                                })
+                            }).addTo(this.map).bindPopup('<b>Rumah Sakit Rujukan</b>');
+                        }
+
+                        if (this.ambMarker && this.rsMarker) {
+                            await this.fetchOsrmRoute(
+                                this.ambMarker.getLatLng(),
+                                this.rsMarker.getLatLng(),
+                                '#0284C7', 5, 0.95, currentReq
+                            );
+                        }
+                        return;
                     }
-                    if (this.polyline2) {
-                        this.map.removeLayer(this.polyline2);
-                        this.polyline2 = null;
+
+                    // Kasus 2: Ambulans menuju jemput (Tahap 1)
+                    if (this.rsMarker) {
+                        this.map.removeLayer(this.rsMarker);
+                        this.rsMarker = null;
+                    }
+
+                    if (!this.jemputMarker && this.jemputLat && this.jemputLng) {
+                        this.jemputMarker = L.marker([this.jemputLat, this.jemputLng], {
+                            icon: L.divIcon({
+                                className: 'custom-jemput-icon',
+                                html: `<div style="background:#0284C7; width:28px; height:28px; border-radius:50%; border:2px solid white; box-shadow:0 2px 6px rgba(2,132,199,0.4); display:flex; align-items:center; justify-content:center; color:white; font-size:12px;">📍</div>`,
+                                iconSize: [28, 28],
+                                iconAnchor: [14, 28]
+                            })
+                        }).addTo(this.map).bindPopup('<b>Titik Jemput Pasien</b>');
                     }
 
                     if (this.ambMarker && this.jemputMarker) {
-                        this.polyline = await this.fetchOsrmRoute(
+                        await this.fetchOsrmRoute(
                             this.ambMarker.getLatLng(),
                             this.jemputMarker.getLatLng(),
-                            '#0284C7', 4.5, 0.9, true
-                        );
-                    }
-                    if (this.jemputMarker && this.rsMarker) {
-                        this.polyline2 = await this.fetchOsrmRoute(
-                            this.jemputMarker.getLatLng(),
-                            this.rsMarker.getLatLng(),
-                            '#16A36A', 3.5, 0.8, false
+                            '#0284C7', 4.5, 0.9, currentReq
                         );
                     }
                 },
@@ -584,9 +687,44 @@
         function gpsTracker(livewireComponent) {
             return {
                 gpsActive: false,
+                autoDriving: false,
+                autoDriveInterval: null,
                 gpsSupported: 'geolocation' in navigator,
                 watchId: null,
                 lastCoords: null,
+
+                init() {
+                    window.gpsTrackerInstance = this;
+                },
+
+                toggleAutoDrive() {
+                    if (this.autoDriving) {
+                        this.stopAutoDrive();
+                    } else {
+                        this.startAutoDrive();
+                    }
+                },
+
+                startAutoDrive() {
+                    this.autoDriving = true;
+                    livewireComponent.call('simulateGpsStep');
+                    if (this.autoDriveInterval) clearInterval(this.autoDriveInterval);
+                    this.autoDriveInterval = setInterval(() => {
+                        if (!this.autoDriving) {
+                            clearInterval(this.autoDriveInterval);
+                            return;
+                        }
+                        livewireComponent.call('simulateGpsStep');
+                    }, 2000);
+                },
+
+                stopAutoDrive() {
+                    this.autoDriving = false;
+                    if (this.autoDriveInterval) {
+                        clearInterval(this.autoDriveInterval);
+                        this.autoDriveInterval = null;
+                    }
+                },
 
                 toggleGps() {
                     if (this.gpsActive) {

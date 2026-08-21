@@ -7,7 +7,7 @@
     </div>
     
     <main class="pt-32 pb-24 px-6 lg:px-12 max-w-7xl mx-auto min-h-screen">
-        <div class="relative z-10" wire:poll.4s>
+        <div class="relative z-10" wire:poll.2500ms>
             <!-- Top Bar -->
     <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div class="flex items-center gap-4">
@@ -33,13 +33,40 @@
 
         <div class="flex items-center gap-3">
             @if(in_array($order->status, ['menuju_lokasi', 'membawa_pasien']))
-                <button type="button" wire:click="simulateGpsStep"
-                        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-md transition-all">
-                    <svg class="w-4 h-4 text-primary-400 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <span>Simulasikan Pergerakan GPS</span>
-                </button>
+                <div x-data="{ autoDriving: false, autoDriveInterval: null }"
+                     x-init="
+                        $watch('autoDriving', val => {
+                            if (val) {
+                                $wire.simulateGpsStep();
+                                autoDriveInterval = setInterval(() => {
+                                    if (!autoDriving) { clearInterval(autoDriveInterval); return; }
+                                    $wire.simulateGpsStep();
+                                }, 2000);
+                            } else {
+                                if (autoDriveInterval) { clearInterval(autoDriveInterval); autoDriveInterval = null; }
+                            }
+                        })
+                     "
+                     @gps-updated.window="if ($event.detail?.arrived) { autoDriving = false; }">
+                    <button type="button"
+                            @click="autoDriving = !autoDriving"
+                            :class="autoDriving ? 'bg-amber-500 hover:bg-amber-600 text-white ring-2 ring-amber-300' : 'bg-slate-900 hover:bg-slate-800 text-white'"
+                            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-extrabold text-xs shadow-md transition-all cursor-pointer active:scale-95">
+                        <template x-if="!autoDriving">
+                            <span class="flex items-center gap-1.5">
+                                <svg class="w-3.5 h-3.5 fill-current text-primary-400" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                <span>▶ Simulasi Otomatis</span>
+                            </span>
+                        </template>
+                        <template x-if="autoDriving">
+                            <span class="flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
+                                <svg class="w-3.5 h-3.5 fill-current text-white" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                                <span>⏸ Jeda Simulasi</span>
+                            </span>
+                        </template>
+                    </button>
+                </div>
             @endif
 
             @if(auth()->check())
@@ -107,19 +134,45 @@
 
     @php
         $isAssigned = in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien', 'selesai']) && ($order->ambulans_id || $order->supir_id || $order->latestTracking);
-        $ambLatVal = $isAssigned ? ($order->latestTracking?->latitude ?? ($order->ambulans?->lat_terakhir ?? null)) : null;
-        $ambLngVal = $isAssigned ? ($order->latestTracking?->longitude ?? ($order->ambulans?->lng_terakhir ?? null)) : null;
+        $ambLatVal = $isAssigned ? ($order->latestTracking ? (float)$order->latestTracking->lat : (float)$currentLat) : null;
+        $ambLngVal = $isAssigned ? ($order->latestTracking ? (float)$order->latestTracking->lng : (float)$currentLng) : null;
         $jemputLatVal = $order->jemput_lat ?: -7.7188;
         $jemputLngVal = $order->jemput_lng ?: 109.0159;
-        $rsLatVal = $order->rumahSakit?->lat ?? ($order->tujuan_lat ?? null);
-        $rsLngVal = $order->rumahSakit?->lng ?? ($order->tujuan_lng ?? null);
+        $rsLatVal = $order->tujuan_lat ? (float)$order->tujuan_lat : ($order->rumahSakit?->lat ?? -7.7289);
+        $rsLngVal = $order->tujuan_lng ? (float)$order->tujuan_lng : ($order->rumahSakit?->lng ?? 109.0094);
     @endphp
 
     <!-- Main Grid: Driver Info (Left) & Realtime Map (Right) -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8"
-         x-data="trackingMapComponent({{ $ambLatVal ?: 'null' }}, {{ $ambLngVal ?: 'null' }}, {{ $jemputLatVal }}, {{ $jemputLngVal }}, {{ $rsLatVal ?: 'null' }}, {{ $rsLngVal ?: 'null' }}, '{{ $order->status }}')"
+         x-data="trackingMapComponent(
+             {{ $ambLatVal !== null ? (float)$ambLatVal : 'null' }}, 
+             {{ $ambLngVal !== null ? (float)$ambLngVal : 'null' }}, 
+             {{ (float)$jemputLatVal }}, 
+             {{ (float)$jemputLngVal }}, 
+             {{ (float)$rsLatVal }}, 
+             {{ (float)$rsLngVal }}, 
+             '{{ $order->status }}'
+         )"
          x-init="initMap()"
-         @gps-updated.window="updateAmbulancePos($event.detail.lat, $event.detail.lng)">
+         @gps-updated.window="
+            let payload = ($event.detail && typeof $event.detail === 'object' && 'lat' in $event.detail) 
+                ? $event.detail 
+                : (Array.isArray($event.detail) && $event.detail[0] ? $event.detail[0] : ($event.detail || {}));
+            let lat = payload?.lat;
+            let lng = payload?.lng;
+            let status = payload?.status;
+            if (lat && lng) {
+                updateAmbulancePos(lat, lng, status);
+            }
+         "
+         @status-changed.window="
+            let payload = ($event.detail && typeof $event.detail === 'object' && 'status' in $event.detail) 
+                ? $event.detail 
+                : (Array.isArray($event.detail) && $event.detail[0] ? $event.detail[0] : ($event.detail || {}));
+            if (payload?.status) {
+                onStatusChanged(payload.status);
+            }
+         ">
 
         <!-- Left Column: Informasi Armada & Log Timeline -->
         <div class="lg:col-span-5 space-y-6">
@@ -269,84 +322,99 @@
 
         </div>
 
-        <!-- Right Column: Leaflet Map -->
-        <div class="lg:col-span-7 flex flex-col lg:sticky lg:top-24 self-start" wire:ignore>
-            <div class="bg-white rounded-3xl border border-slate-200/80 p-5 shadow-xs flex-1 flex flex-col min-h-[520px]">
-                <div class="flex items-center justify-between mb-4">
+        <!-- Right Column: Realtime Leaflet Map (7 Cols) -->
+        <div class="lg:col-span-7 space-y-4">
+            <div class="bg-white rounded-3xl border border-slate-200/80 p-4 sm:p-6 shadow-xs space-y-4">
+                
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <div>
-                        <h2 class="font-bold text-slate-800 text-base flex items-center gap-2">
-                            <span class="w-2.5 h-2.5 rounded-full bg-primary-600 animate-ping"></span>
-                            <span>Peta Satelit Live Monitoring Ambulans</span>
-                        </h2>
-                        <p class="text-xs text-slate-500">Koordinat otomatis diperbarui secara realtime dari GPS ambulans.</p>
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-primary-500 animate-ping"></span>
+                            <h2 class="font-bold text-slate-800 text-base">Peta Satelit Live Monitoring Ambulans</h2>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-0.5">Koordinat otomatis diperbarui secara realtime dari GPS ambulans.</p>
                     </div>
                     <button type="button" @click="fitAllMarkers()"
-                            class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors">
+                            class="self-start sm:self-auto px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors">
                         Fokus Seluruh Jalur
                     </button>
                 </div>
 
                 <!-- Map Container -->
-                <div class="relative w-full h-full min-h-[460px] rounded-2xl border border-slate-200/80 overflow-hidden z-10">
-                    <div id="tracking-map" class="w-full h-full min-h-[460px]"></div>
+                <div class="relative w-full h-[520px] rounded-2xl overflow-hidden border border-slate-200 shadow-inner" wire:ignore>
+                    <div id="tracking-map" class="w-full h-full z-0"></div>
 
-                    <!-- Turn-by-turn ETA bar -->
-                    <div x-show="routeSummary" x-transition
-                         class="absolute top-3 left-3 right-3 sm:right-auto sm:max-w-xs z-[1000] bg-white/95 backdrop-blur-xs p-3 rounded-lg border border-slate-200 shadow-md flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-lg bg-primary-700 text-white flex items-center justify-center shrink-0">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+                    <!-- Floating ETA Badge -->
+                    <div x-show="routeDistance"
+                         class="absolute top-4 left-4 z-[400] bg-white/95 backdrop-blur-md rounded-2xl p-3.5 shadow-xl border border-slate-100 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-primary-700 flex items-center justify-center text-white shadow-md">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
                         </div>
-                        <div class="min-w-0">
-                            <div class="flex items-center gap-1.5">
-                                <span class="text-xs font-bold text-slate-900" x-text="routeEta"></span>
-                                <span class="text-[10px] font-bold text-primary-700 bg-primary-50 px-2 py-0.5 rounded-full border border-primary-100" x-text="routeDistance"></span>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-sm font-extrabold text-slate-900" x-text="routeEta"></span>
+                                <span class="text-xs font-bold text-primary-800 bg-primary-100 px-2 py-0.5 rounded-full" x-text="routeDistance"></span>
                             </div>
-                            <p class="text-[11px] text-slate-500 truncate" x-text="routeSummary"></p>
+                            <p class="text-[11px] text-slate-500 font-medium truncate max-w-[200px]" x-text="routeSummary"></p>
                         </div>
                     </div>
                 </div>
+
+                <!-- Legend & Panduan Simbol -->
+                <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex flex-wrap items-center justify-between gap-3 text-xs">
+                    <div class="flex items-center gap-4 flex-wrap">
+                        <div class="flex items-center gap-1.5 font-bold text-slate-700">
+                            <span class="w-3 h-3 rounded-full bg-[#0284C7] inline-block"></span>
+                            <span>Ambulans Siaga (Bergerak)</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 font-bold text-slate-700" x-show="!['membawa_pasien', 'selesai'].includes(orderStatus)">
+                            <span class="w-3 h-3 rounded-full bg-[#3B82F6] inline-block"></span>
+                            <span>Titik Jemput Pasien</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 font-bold text-slate-700" x-show="['membawa_pasien', 'selesai'].includes(orderStatus)">
+                            <span class="w-3 h-3 rounded-full bg-[#10B981] inline-block"></span>
+                            <span>Rumah Sakit Rujukan</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
     </div>
 
-    <!-- Rating Modal -->
+    <!-- Rating Modal (Otomatis Muncul saat Selesai) -->
     @if($showRatingModal)
-        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-xs">
-            <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-200">
-                <div class="text-center mb-6">
-                    <div class="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-4 border border-emerald-100">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
-                        </svg>
+        <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+            <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-100">
+                <div class="text-center space-y-1">
+                    <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto text-2xl font-extrabold mb-2">
+                        ✓
                     </div>
-                    <h3 class="text-xl font-extrabold text-slate-800">Perjalanan Selesai!</h3>
-                    <p class="text-slate-500 text-xs mt-1">Bagaimana pengalaman pelayanan Ambulance Siaga?</p>
+                    <h3 class="text-xl font-extrabold text-slate-900">Evakuasi Medis Selesai!</h3>
+                    <p class="text-xs text-slate-500">Pasien telah tiba dengan selamat di Rumah Sakit. Berikan penilaian Anda untuk supir & pelayanan.</p>
                 </div>
 
-                <form wire:submit="submitRating" class="space-y-4">
+                <form wire:submit.prevent="submitRating" class="space-y-4 pt-2">
                     <div>
-                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider text-center mb-2">Skor Bintang (1 - 5)</label>
+                        <label class="block text-xs font-bold text-slate-700 mb-2 text-center">Beri Rating Pelayanan</label>
                         <div class="flex justify-center gap-2">
-                            @for($s=1; $s<=5; $s++)
-                                <button type="button" wire:click="$set('skor', {{ $s }})"
-                                        class="p-2 rounded-xl border {{ $skor >= $s ? 'bg-amber-400 text-white border-amber-500' : 'bg-slate-100 text-slate-400 border-slate-200' }} transition-colors">
-                                    <svg class="w-6 h-6 fill-current" viewBox="0 0 20 20">
-                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                                    </svg>
+                            @for($i = 1; $i <= 5; $i++)
+                                <button type="button" wire:click="$set('skor', {{ $i }})"
+                                        class="text-3xl transition-transform hover:scale-110 focus:outline-hidden {{ $skor >= $i ? 'text-amber-400' : 'text-slate-200' }}">
+                                    ★
                                 </button>
                             @endfor
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1.5">Ulasan / Testimoni Anda</label>
-                        <textarea wire:model="ulasan" rows="3"
-                                  placeholder="Tulis ulasan tentang kecepatan, keramahtamahan supir, dll..."
-                                  class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium"></textarea>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Ulasan / Masukan (Opsional)</label>
+                        <textarea wire:model="ulasan" rows="3" placeholder="Tuliskan pengalaman pelayanan ambulans..."
+                                  class="w-full text-xs rounded-xl border border-slate-200 p-3 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"></textarea>
                     </div>
 
-                    <div class="flex gap-3 pt-2">
+                    <div class="flex gap-2">
                         <button type="submit"
                                 class="flex-1 py-3.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-extrabold text-sm shadow-lg shadow-primary-600/30 transition-all">
                             KIRIM ULASAN
@@ -369,15 +437,23 @@
                 ambMarker: null,
                 jemputMarker: null,
                 rsMarker: null,
-                polyline: null,
-                polyline2: null,
+                routeLayerGroup: null,
+                routeReqId: 0,
                 routeDistance: '',
                 routeEta: '',
                 routeSummary: '',
+                ambLat: ambLat,
+                ambLng: ambLng,
+                jemputLat: jemputLat,
+                jemputLng: jemputLng,
+                rsLat: rsLat,
+                rsLng: rsLng,
+                orderStatus: orderStatus,
 
                 initMap() {
-                    const defaultLat = ambLat || jemputLat || -7.7188;
-                    const defaultLng = ambLng || jemputLng || 109.0159;
+                    window.trackingMapInstance = this;
+                    const defaultLat = this.ambLat || this.jemputLat || -7.7188;
+                    const defaultLng = this.ambLng || this.jemputLng || 109.0159;
 
                     this.map = L.map('tracking-map', {
                         zoomControl: true,
@@ -389,7 +465,8 @@
                         maxZoom: 19
                     }).addTo(this.map);
 
-                    // Custom Div Icons agar tidak error 404 gambar PNG marker default Leaflet
+                    this.routeLayerGroup = L.layerGroup().addTo(this.map);
+
                     const ambIcon = L.divIcon({
                         className: 'custom-amb-icon',
                         html: `<div style="background: linear-gradient(135deg, #0284C7, #0369A1); width: 38px; height: 38px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 12px rgba(2,132,199,0.5); display: flex; align-items: center; justify-content: center; font-size: 18px;">🚑</div>`,
@@ -411,9 +488,9 @@
                         iconAnchor: [17, 34]
                     });
 
-                    // Ambulance Marker - HANYA ditambahkan jika ambulans sudah ditugaskan/tersedia
-                    if (ambLat && ambLng && ambLat !== 0 && ambLng !== 0) {
-                        this.ambMarker = L.marker([ambLat, ambLng], {
+                    // Ambulance Marker
+                    if (this.ambLat && this.ambLng && this.ambLat !== 0 && this.ambLng !== 0) {
+                        this.ambMarker = L.marker([this.ambLat, this.ambLng], {
                             icon: ambIcon,
                             title: 'Posisi Ambulans Saat Ini'
                         }).addTo(this.map)
@@ -421,23 +498,23 @@
                         .openPopup();
                     }
 
-                    // Pickup Marker (Blue)
-                    if (jemputLat && jemputLng) {
-                        this.jemputMarker = L.marker([jemputLat, jemputLng], {
+                    // Pickup Marker (Blue) - Hanya ditampilkan saat tahap penjemputan
+                    if (this.jemputLat && this.jemputLng && !['membawa_pasien', 'selesai'].includes(this.orderStatus)) {
+                        this.jemputMarker = L.marker([this.jemputLat, this.jemputLng], {
                             icon: jemputIcon
                         }).addTo(this.map)
                         .bindPopup('<b>Titik Penjemputan Pasien</b>');
                     }
 
-                    // Hospital Marker (Green)
-                    if (rsLat && rsLng && rsLat !== 0) {
-                        this.rsMarker = L.marker([rsLat, rsLng], {
+                    // Hospital Marker (Green) - Hanya ditampilkan saat tahap membawa pasien / selesai
+                    if (this.rsLat && this.rsLng && this.rsLat !== 0 && ['membawa_pasien', 'selesai'].includes(this.orderStatus)) {
+                        this.rsMarker = L.marker([this.rsLat, this.rsLng], {
                             icon: rsIcon
                         }).addTo(this.map)
                         .bindPopup('<b>Rumah Sakit Rujukan / Tujuan</b>');
                     }
 
-                    this.drawPolyline(orderStatus);
+                    this.drawPolyline(this.orderStatus);
                     this.fitAllMarkers();
 
                     setTimeout(() => {
@@ -446,23 +523,54 @@
                             this.fitAllMarkers();
                         }
                     }, 350);
-
-                    setTimeout(() => {
-                        if (this.map) {
-                            this.map.invalidateSize();
-                        }
-                    }, 1000);
                 },
 
-                updateAmbulancePos(newLat, newLng) {
-                    if (this.ambMarker) {
-                        this.ambMarker.setLatLng([newLat, newLng]);
-                        this.map.panTo([newLat, newLng]);
-                        this.drawPolyline('menuju_lokasi');
+                onStatusChanged(newStatus) {
+                    if (!newStatus) return;
+                    this.orderStatus = newStatus;
+                    this.drawPolyline(newStatus);
+                    this.fitAllMarkers();
+                },
+
+                updateAmbulancePos(newLat, newLng, updatedStatus) {
+                    let statusChanged = false;
+                    if (updatedStatus && updatedStatus !== this.orderStatus) {
+                        this.orderStatus = updatedStatus;
+                        statusChanged = true;
+                    }
+
+                    if (newLat && newLng) {
+                        this.ambLat = newLat;
+                        this.ambLng = newLng;
+                        if (this.ambMarker) {
+                            this.ambMarker.setLatLng([newLat, newLng]);
+                        } else {
+                            const ambIcon = L.divIcon({
+                                className: 'custom-amb-icon',
+                                html: `<div style="background: linear-gradient(135deg, #0284C7, #0369A1); width: 38px; height: 38px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 12px rgba(2,132,199,0.5); display: flex; align-items: center; justify-content: center; font-size: 18px;">🚑</div>`,
+                                iconSize: [38, 38],
+                                iconAnchor: [19, 19]
+                            });
+                            this.ambMarker = L.marker([newLat, newLng], {
+                                icon: ambIcon,
+                                title: 'Posisi Ambulans Saat Ini'
+                            }).addTo(this.map)
+                            .bindPopup('<b>Posisi Ambulans</b><br>Secara realtime dari satelit GPS');
+                        }
+                    }
+
+                    this.drawPolyline(this.orderStatus);
+                    if (statusChanged) {
+                        this.fitAllMarkers();
                     }
                 },
 
-                async fetchOsrmRoute(startLatLng, endLatLng, color, weight, opacity, isPrimary = true) {
+                async fetchOsrmRoute(startLatLng, endLatLng, color, weight, opacity, reqId) {
+                    let routeCoords = [[startLatLng.lat, startLatLng.lng], [endLatLng.lat, endLatLng.lng]];
+                    let distKm = '';
+                    let etaMin = '';
+                    let summary = 'Jalan Raya Utama';
+
                     try {
                         const url = `https://router.project-osrm.org/route/v1/driving/${startLatLng.lng},${startLatLng.lat};${endLatLng.lng},${endLatLng.lat}?overview=full&geometries=geojson&steps=true`;
                         const response = await fetch(url);
@@ -470,101 +578,91 @@
 
                         if (data.code === 'Ok' && data.routes && data.routes.length > 0) {
                             const route = data.routes[0];
-                            const coords = route.geometry.coordinates.map(c => [c[1], c[0]]);
-
-                            const routeLayer = L.polyline(coords, {
-                                color: color,
-                                weight: weight,
-                                opacity: opacity,
-                                lineCap: 'round',
-                                lineJoin: 'round'
-                            }).addTo(this.map);
-
-                            if (isPrimary) {
-                                const distKm = (route.distance / 1000).toFixed(1) + ' km';
-                                const etaMin = Math.max(1, Math.ceil(route.duration / 60)) + ' Menit';
-                                const summary = (route.legs && route.legs[0] && route.legs[0].summary) ? route.legs[0].summary : 'Jalan Raya Utama Cilacap';
-
-                                this.routeDistance = distKm;
-                                this.routeEta = etaMin;
-                                this.routeSummary = summary;
-                            }
-
-                            return routeLayer;
+                            routeCoords = route.geometry.coordinates.map(c => [c[1], c[0]]);
+                            distKm = (route.distance / 1000).toFixed(1) + ' km';
+                            etaMin = Math.max(1, Math.ceil(route.duration / 60)) + ' Menit';
+                            summary = (route.legs && route.legs[0] && route.legs[0].summary) ? route.legs[0].summary : 'Jalan Raya Utama';
                         }
                     } catch (e) {
-                        console.warn('OSRM routing fallback to straight line:', e);
+                        console.warn('OSRM routing fallback:', e);
                     }
 
-                    // Fallback jika offline/error: gunakan L.polyline lurus biasa
-                    if (isPrimary) {
-                        // Perkiraan kasar jika OSRM gagal
-                        const earthRadiusKm = 6371;
-                        const dLat = (endLatLng.lat - startLatLng.lat) * Math.PI / 180;
-                        const dLon = (endLatLng.lng - startLatLng.lng) * Math.PI / 180;
-                        const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                                  Math.cos(startLatLng.lat * Math.PI / 180) * Math.cos(endLatLng.lat * Math.PI / 180) *
-                                  Math.sin(dLon/2) * Math.sin(dLon/2);
-                        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-                        const distKm = earthRadiusKm * c;
-                        
-                        this.routeDistance = distKm.toFixed(1) + ' km';
-                        this.routeEta = Math.max(1, Math.ceil(distKm * 2.5)) + ' Menit'; // asumsi macet/standar
-                        this.routeSummary = 'Rute GPS Darurat (OSRM Offline)';
+                    if (reqId !== this.routeReqId) {
+                        return; // Abaikan respons tertunda
                     }
 
-                    return L.polyline([startLatLng, endLatLng], {
-                        color: color,
-                        weight: weight,
-                        opacity: opacity,
-                        dashArray: '8, 8'
-                    }).addTo(this.map);
+                    if (this.routeLayerGroup) {
+                        this.routeLayerGroup.clearLayers();
+                        const routeLayer = L.polyline(routeCoords, {
+                            color: color,
+                            weight: weight,
+                            opacity: opacity,
+                            lineCap: 'round',
+                            lineJoin: 'round'
+                        });
+                        this.routeLayerGroup.addLayer(routeLayer);
+                    }
+
+                    if (distKm) {
+                        this.routeDistance = distKm;
+                        this.routeEta = etaMin;
+                        this.routeSummary = summary;
+                    }
                 },
 
                 async drawPolyline(statusOrder) {
-                    if (this.polyline) {
-                        this.map.removeLayer(this.polyline);
-                        this.polyline = null;
-                    }
-                    if (this.polyline2) {
-                        this.map.removeLayer(this.polyline2);
-                        this.polyline2 = null;
-                    }
+                    const activeStatus = statusOrder || this.orderStatus;
+                    this.orderStatus = activeStatus;
+                    this.routeReqId = (this.routeReqId || 0) + 1;
+                    const currentReq = this.routeReqId;
 
-                    // Kasus 1: Ambulans belum ditugaskan (status 'menunggu' -> tidak ada ambMarker)
-                    // Rute jalan nyata dari Titik Jemput ke Rumah Sakit (Rencana Rute Evakuasi)
-                    if (!this.ambMarker && this.jemputMarker && this.rsMarker) {
-                        this.polyline = await this.fetchOsrmRoute(
-                            this.jemputMarker.getLatLng(),
-                            this.rsMarker.getLatLng(),
-                            '#10B981', 5, 0.9, true
-                        );
+                    // Kasus 1: Ambulans sedang membawa pasien ke RS (Tahap 2)
+                    if (activeStatus === 'membawa_pasien' || activeStatus === 'selesai') {
+                        if (this.jemputMarker) {
+                            this.map.removeLayer(this.jemputMarker);
+                            this.jemputMarker = null;
+                        }
+                        if (!this.rsMarker && this.rsLat && this.rsLng) {
+                            const rsIcon = L.divIcon({
+                                className: 'custom-rs-icon',
+                                html: `<div style="background: linear-gradient(135deg, #10B981, #059669); width: 34px; height: 34px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 10px rgba(16,185,129,0.4); display: flex; align-items: center; justify-content: center; font-size: 16px;">🏥</div>`,
+                                iconSize: [34, 34],
+                                iconAnchor: [17, 34]
+                            });
+                            this.rsMarker = L.marker([this.rsLat, this.rsLng], { icon: rsIcon }).addTo(this.map).bindPopup('<b>Rumah Sakit Rujukan / Tujuan</b>');
+                        }
+
+                        if (this.ambMarker && this.rsMarker) {
+                            await this.fetchOsrmRoute(
+                                this.ambMarker.getLatLng(),
+                                this.rsMarker.getLatLng(),
+                                '#0284C7', 5.5, 0.95, currentReq
+                            );
+                        }
                         return;
                     }
 
-                    // Kasus 2: Ambulans sedang membawa pasien ke RS
-                    if (statusOrder === 'membawa_pasien' && this.ambMarker && this.rsMarker) {
-                        this.polyline = await this.fetchOsrmRoute(
-                            this.ambMarker.getLatLng(),
-                            this.rsMarker.getLatLng(),
-                            '#0284C7', 5.5, 0.95, true
-                        );
-                        return;
+                    // Kasus 2: Ambulans menuju lokasi jemput / diproses (Tahap 1)
+                    if (this.rsMarker) {
+                        this.map.removeLayer(this.rsMarker);
+                        this.rsMarker = null;
                     }
 
-                    // Kasus 3: Ambulans menuju lokasi jemput / diproses
+                    if (!this.jemputMarker && this.jemputLat && this.jemputLng) {
+                        const jemputIcon = L.divIcon({
+                            className: 'custom-jemput-icon',
+                            html: `<div style="background: linear-gradient(135deg, #3B82F6, #2563EB); width: 34px; height: 34px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 10px rgba(59,130,246,0.4); display: flex; align-items: center; justify-content: center; font-size: 16px;">📍</div>`,
+                            iconSize: [34, 34],
+                            iconAnchor: [17, 34]
+                        });
+                        this.jemputMarker = L.marker([this.jemputLat, this.jemputLng], { icon: jemputIcon }).addTo(this.map).bindPopup('<b>Titik Penjemputan Pasien</b>');
+                    }
+
                     if (this.ambMarker && this.jemputMarker) {
-                        this.polyline = await this.fetchOsrmRoute(
+                        await this.fetchOsrmRoute(
                             this.ambMarker.getLatLng(),
                             this.jemputMarker.getLatLng(),
-                            '#0284C7', 5.5, 0.95, true
-                        );
-                    }
-                    if (this.jemputMarker && this.rsMarker) {
-                        this.polyline2 = await this.fetchOsrmRoute(
-                            this.jemputMarker.getLatLng(),
-                            this.rsMarker.getLatLng(),
-                            '#10B981', 4, 0.75, false
+                            '#0284C7', 5.5, 0.95, currentReq
                         );
                     }
                 },
