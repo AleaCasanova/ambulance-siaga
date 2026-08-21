@@ -30,8 +30,26 @@ class OrderTracking extends Component
      */
     public function simulateGpsStep(TrackingService $service)
     {
-        $service->simulateMovement($this->orderId);
-        $this->dispatch('gps-updated');
+        $newGps = $service->simulateMovement($this->orderId);
+        if ($newGps) {
+            $order = Pemesanan::find($this->orderId);
+            $targetLat = in_array($order->status, ['menuju_lokasi', 'diproses']) 
+                ? (float) ($order->jemput_lat ?: -7.7188) 
+                : ($order->tujuan_lat ? (float)$order->tujuan_lat : ($order->rumahSakit?->lat ?? -7.7289));
+            $targetLng = in_array($order->status, ['menuju_lokasi', 'diproses']) 
+                ? (float) ($order->jemput_lng ?: 109.0159) 
+                : ($order->tujuan_lng ? (float)$order->tujuan_lng : ($order->rumahSakit?->lng ?? 109.0094));
+
+            $arrived = (abs((float)$newGps->lat - $targetLat) < 0.0003 && abs((float)$newGps->lng - $targetLng) < 0.0003);
+
+            $this->dispatch('gps-updated', [
+                'lat' => (float) $newGps->lat,
+                'lng' => (float) $newGps->lng,
+                'arrived' => $arrived,
+            ]);
+        } else {
+            $this->dispatch('gps-updated', ['arrived' => true]);
+        }
     }
 
     public function submitRating(RatingService $service)
@@ -59,8 +77,35 @@ class OrderTracking extends Component
         ])->findOrFail($this->orderId);
 
         // Ambil koordinat saat ini untuk update JS Leaflet
-        $currentLat = $order->latestTracking ? (float) $order->latestTracking->lat : ($order->supir->lokasi_terakhir_lat ?? -7.7188);
-        $currentLng = $order->latestTracking ? (float) $order->latestTracking->lng : ($order->supir->lokasi_terakhir_lng ?? 109.0159);
+        $latCandidate = $order->latestTracking ? (float) $order->latestTracking->lat : ($order->supir?->lokasi_terakhir_lat ?? null);
+        $lngCandidate = $order->latestTracking ? (float) $order->latestTracking->lng : ($order->supir?->lokasi_terakhir_lng ?? null);
+
+        // Jika pesanan baru (belum ada tracking GPS aktif) dan posisi supir sama/sangat dekat dengan titik jemput (< 300m),
+        // tempatkan ambulans di Posko Siaga agar supir memulai perjalanan penjemputan dari pangkalan.
+        if (!$order->latestTracking && in_array($order->status, ['diproses', 'menuju_lokasi'])) {
+            if (!$latCandidate || !$lngCandidate || (abs($latCandidate - (float)$order->jemput_lat) < 0.003 && abs($lngCandidate - (float)$order->jemput_lng) < 0.003)) {
+                $latCandidate = -7.7050; // Posko Siaga Cilacap
+                $lngCandidate = 108.9950;
+            }
+        }
+
+        // Validasi Cilacap bounds
+        if (!$latCandidate || !$lngCandidate || $latCandidate > -7.5 || $latCandidate < -7.9 || $lngCandidate < 108.8 || $lngCandidate > 109.2) {
+            $currentLat = -7.7050;
+            $currentLng = 108.9950;
+        } else {
+            $currentLat = $latCandidate;
+            $currentLng = $lngCandidate;
+        }
+
+        // Dispatch event agar peta Leaflet otomatis update saat polling
+        if (in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien', 'selesai'])) {
+            $this->dispatch('gps-updated', [
+                'lat' => $currentLat,
+                'lng' => $currentLng,
+                'status' => $order->status,
+            ]);
+        }
 
         return view('livewire.masyarakat.order-tracking', [
             'order' => $order,
