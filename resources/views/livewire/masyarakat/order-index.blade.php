@@ -78,7 +78,7 @@
                         </svg>
                     </div>
                     <h3 class="font-black text-slate-800 text-2xl sm:text-3xl mb-3">Belum Ada Riwayat Pesanan</h3>
-                    <p class="text-slate-500 text-base max-w-md mx-auto mb-8 font-medium leading-relaxed">Jika terjadi situasi darurat medis, jangan ragu untuk memesan ambulans dari jaringan Ambulance Siaga gratis 24 jam.</p>
+                    <p class="text-slate-500 text-base max-w-md mx-auto mb-8 font-medium leading-relaxed">Jika terjadi situasi darurat medis, jangan ragu untuk memesan ambulans dari jaringan Ambulans Siaga gratis 24 jam.</p>
                     <a href="{{ route('masyarakat.order.create') }}"
                        class="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-primary-600 text-white hover:bg-primary-700 font-black text-sm shadow-lg shadow-primary-600/30 hover:shadow-xl hover:shadow-primary-600/40 hover:-translate-y-1 transition-all">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"/></svg>

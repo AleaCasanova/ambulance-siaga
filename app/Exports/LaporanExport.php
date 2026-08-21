@@ -31,7 +31,7 @@ class LaporanExport
 
         // ====== JUDUL DOKUMEN ======
         $sheet->mergeCells('A1:T1');
-        $sheet->setCellValue('A1', 'LAPORAN PEMESANAN AMBULANS — GSC SIAGA (Yayasan Gerak Sedekah Cilacap)');
+        $sheet->setCellValue('A1', 'LAPORAN PEMESANAN AMBULANS — AMBULANS SIAGA (Platform Tanggap Darurat)');
         $sheet->getStyle('A1')->applyFromArray([
             'font'      => ['bold' => true, 'size' => 14, 'color' => ['argb' => 'FFFFFFFF']],
             'fill'      => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['argb' => 'FF0284C7']],

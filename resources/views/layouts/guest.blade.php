@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Ambulance Siaga') }} - Login & Registrasi</title>
+        <title>{{ config('app.name', 'Ambulans Siaga') }} - Login & Registrasi</title>
 
         <!-- Favicon / Website Icon -->
         <link rel="icon" type="image/png" href="{{ asset('images/logo_ambulansiaga.png') }}">
@@ -77,10 +77,10 @@
                     <div>
                         <a href="{{ route('home') }}" class="inline-flex items-center gap-4 group">
                             <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white p-1.5 flex items-center justify-center shadow-md shadow-black/10 border border-white/50 group-hover:scale-105 transition-transform overflow-hidden">
-                                <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-full h-full object-contain">
+                                <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulans Siaga" class="w-full h-full object-contain">
                             </div>
                             <div>
-                                <span class="text-xl sm:text-2xl font-extrabold text-white tracking-tight block leading-tight">Ambulance Siaga</span>
+                                <span class="text-xl sm:text-2xl font-extrabold text-white tracking-tight block leading-tight">Ambulans Siaga</span>
                                 <span class="text-[9px] sm:text-[10px] font-bold text-sky-200 uppercase tracking-widest block mt-0.5">LAYANAN DARURAT • MULTI-MITRA</span>
                             </div>
                         </a>
@@ -100,13 +100,13 @@
                         <!-- Variasi Tipografi Judul -->
                         <h1 class="text-4xl sm:text-5xl lg:text-[3.5rem] font-black tracking-tight leading-[1.05] mb-4">
                             <span class="block text-white font-extrabold transition-colors duration-300">Sistem Pemesanan</span>
-                            <span class="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-400 to-amber-500 my-1 drop-shadow-md uppercase text-5xl sm:text-6xl lg:text-[4.5rem] leading-none" style="background-image: linear-gradient(to right, #fde047, #facc15, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">AMBULANCE</span>
+                            <span class="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-400 to-amber-500 my-1 drop-shadow-md uppercase text-5xl sm:text-6xl lg:text-[4.5rem] leading-none" style="background-image: linear-gradient(to right, #fde047, #facc15, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">AMBULANS</span>
                             <span class="inline-block bg-white px-5 py-2 rounded-xl mt-2 shadow-[0_10px_25px_rgba(0,0,0,0.3)] uppercase tracking-wider text-2xl sm:text-3xl font-extrabold" style="color: #009CA6;">TANPA TARIF</span>
                         </h1>
 
                         <!-- Gambar Ambulance Blended (Cinematic effect) -->
                         <div class="absolute right-[-5%] top-[10%] w-[100%] h-[120%] z-0 pointer-events-none" style="mask-image: radial-gradient(ellipse at 80% 60%, black 35%, transparent 70%); -webkit-mask-image: radial-gradient(ellipse at 80% 60%, black 35%, transparent 70%);">
-                            <img src="{{ asset('images/ambulance_thumb2.JPG') }}" alt="Ambulance Siaga" class="w-full h-full object-cover object-[center_70%] opacity-95 transform scale-[1.4] origin-[80%_60%]">
+                            <img src="{{ asset('images/ambulance_thumb2.JPG') }}" alt="Ambulans Siaga" class="w-full h-full object-cover object-[center_70%] opacity-95 transform scale-[1.4] origin-[80%_60%]">
                         </div>
                     </div>
 

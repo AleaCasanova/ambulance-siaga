@@ -12,7 +12,7 @@
             <div class="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-white">
         <div class="flex items-center gap-4">
             <div class="w-14 h-14 rounded-full bg-white p-1.5 flex items-center justify-center shadow-md flex-shrink-0">
-                <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-full h-full object-contain">
+                <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulans Siaga" class="w-full h-full object-contain">
             </div>
             <div>
                 <div class="flex items-center gap-2 mb-1">
@@ -295,7 +295,7 @@
                 </span>
             </button>
             <p class="text-xs text-slate-400 font-semibold mt-3">
-                Pesanan langsung terhubung ke Pusat Kendali & Jaringan Armada Mitra Ambulance Siaga.
+                Pesanan langsung terhubung ke Pusat Kendali & Jaringan Armada Mitra Ambulans Siaga.
             </p>
         </div>
 

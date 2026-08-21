@@ -248,7 +248,7 @@
             <!-- Hotline Dispatcher Card -->
             <div class="p-6 rounded-3xl bg-slate-900 text-white shadow-xl relative overflow-hidden">
                 <span class="text-[10px] font-extrabold uppercase tracking-widest text-primary-400 block mb-1">Koordinasi Pusat</span>
-                <h3 class="text-base font-bold text-white mb-2">Dispatcher Ambulance Siaga</h3>
+                <h3 class="text-base font-bold text-white mb-2">Dispatcher Ambulans Siaga</h3>
                 <p class="text-xs text-slate-300 mb-4 leading-relaxed">Hubungi pusat kendali 24/7 jika ada kendala armada, perubahan jadwal darurat, atau konfirmasi rujukan RS.</p>
                 <a href="https://wa.me/6281234567890" target="_blank"
                    class="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all">

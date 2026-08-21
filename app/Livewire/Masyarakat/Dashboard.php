@@ -91,7 +91,7 @@ class Dashboard extends Component
 
         // 4. Pengaturan Hotline
         $teleponDarurat = SettingAplikasi::getVal('telepon_darurat', '0812-3456-7890');
-        $namaOrg = SettingAplikasi::getVal('nama_organisasi', 'Ambulance Siaga GSC');
+        $namaOrg = SettingAplikasi::getVal('nama_organisasi', 'Ambulans Siaga');
 
         // 5. Total Armada & Siaga
         $totalAmbulans = Ambulans::count();

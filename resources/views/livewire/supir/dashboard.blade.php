@@ -21,7 +21,7 @@
                 Selamat bertugas, {{ auth()->user()->name }}
             </h1>
             <p class="text-xs text-slate-500 mt-1">
-                {{ $isOnline ? 'Anda siap menerima penugasan evakuasi medis darurat dari Dispatcher Ambulance Siaga.' : 'Status Anda saat ini sedang istirahat. Aktifkan status siaga untuk menerima panggilan ambulans.' }}
+                {{ $isOnline ? 'Anda siap menerima penugasan evakuasi medis darurat dari Dispatcher Ambulans Siaga.' : 'Status Anda saat ini sedang istirahat. Aktifkan status siaga untuk menerima panggilan ambulans.' }}
             </p>
         </div>
 
@@ -134,7 +134,7 @@
             <span class="text-xs font-semibold text-sky-700 group-hover:translate-x-0.5 transition-transform">Buka →</span>
         </a>
 
-        <!-- Aksi 3: Dispatcher GSC -->
+        <!-- Aksi 3: Dispatcher Siaga -->
         <a href="https://wa.me/6281234560002" target="_blank"
            class="p-4 sm:p-5 rounded-xl bg-white border border-slate-200 hover:border-slate-400 hover:shadow-xs transition-all flex items-center justify-between group">
             <div class="flex items-center gap-3.5">
@@ -144,7 +144,7 @@
                     </svg>
                 </div>
                 <div>
-                    <h3 class="text-sm font-bold text-slate-900 group-hover:text-slate-700 transition-colors">Dispatcher GSC</h3>
+                    <h3 class="text-sm font-bold text-slate-900 group-hover:text-slate-700 transition-colors">Dispatcher Siaga</h3>
                     <p class="text-xs text-slate-500">Operator Pusat Siaga</p>
                 </div>
             </div>
@@ -216,7 +216,7 @@
                 </div>
                 <div class="flex justify-between py-1 border-b border-slate-50">
                     <span class="text-slate-500">Lembaga / Mitra:</span>
-                    <span class="font-medium text-slate-800 text-right">{{ $supir?->nama_lembaga ?: 'Mitra Ambulance Siaga' }}</span>
+                    <span class="font-medium text-slate-800 text-right">{{ $supir?->nama_lembaga ?: 'Mitra Ambulans Siaga' }}</span>
                 </div>
                 <div class="flex justify-between py-1">
                     <span class="text-slate-500">Alamat Pangkalan:</span>

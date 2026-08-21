@@ -9,12 +9,12 @@
     <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div class="flex items-center gap-4">
             <div class="w-20 h-20 rounded-full bg-white p-2 flex items-center justify-center shadow-lg border-2 border-primary-100/80 flex-shrink-0 overflow-hidden">
-                <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-full h-full object-contain">
+                <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulans Siaga" class="w-full h-full object-contain">
             </div>
             <div>
                 <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-white/20 text-white uppercase tracking-wider mb-2 backdrop-blur-sm">
                     <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
-                    Siaga Darurat 24 Jam • Ambulance Siaga
+                    Siaga Darurat 24 Jam • Ambulans Siaga
                 </span>
                 <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Pesan Ambulans Darurat</h1>
                 <p class="text-primary-100 text-sm mt-1">Lengkapi form atau klik langsung pada Peta Interaktif untuk menentukan lokasi penjemputan.</p>
@@ -26,7 +26,7 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
-            <span>Panduan Ambulance Siaga</span>
+            <span>Panduan Ambulans Siaga</span>
         </a>
     </div>
 
@@ -216,7 +216,7 @@
                         </span>
                     </button>
                     <p class="text-center text-xs text-slate-400 mt-2.5 font-medium">
-                        Pesanan langsung masuk ke Pusat Kendali GSC SIAGA Cilacap.
+                        Pesanan langsung masuk ke Pusat Kendali Ambulans Siaga Cilacap.
                     </p>
                 </div>
 

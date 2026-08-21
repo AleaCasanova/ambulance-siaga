@@ -23,7 +23,7 @@
                 <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo" class="w-full h-full object-contain">
             </div>
             <div class="flex flex-col transition-opacity duration-300" :class="sidebarCollapsed ? 'opacity-0 w-0' : 'opacity-100 w-auto'">
-                <span class="text-white font-bold tracking-wide text-sm whitespace-nowrap">AMBULANCE SIAGA</span>
+                <span class="text-white font-bold tracking-wide text-sm whitespace-nowrap">AMBULANS SIAGA</span>
                 <span class="text-white/80 font-bold text-[10px] uppercase tracking-wider whitespace-nowrap">
                     {{ $user && $user->isMitra() ? 'Portal Mitra' : ($user && $user->isOperator() ? 'Operator Panel' : 'Admin Panel') }}
                 </span>

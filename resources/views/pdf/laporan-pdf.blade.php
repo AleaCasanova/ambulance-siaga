@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Pemesanan Ambulans - GSC SIAGA</title>
+    <title>Laporan Pemesanan Ambulans - Ambulans Siaga</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -95,7 +95,7 @@
         <div class="header-inner">
             <div>
                 <div class="header-title">🚑 LAPORAN PEMESANAN AMBULANS</div>
-                <div class="header-subtitle">Yayasan Gerak Sedekah Cilacap (GSC) — Layanan Ambulance Siaga</div>
+                <div class="header-subtitle">Ambulans Siaga — Jaringan Layanan Tanggap Darurat & Evakuasi Medis</div>
             </div>
             <div class="header-meta">
                 <strong>Dicetak: {{ now()->translatedFormat('d F Y, H:i') }} WIB</strong><br>
@@ -164,7 +164,7 @@
 
     {{-- ====== FOOTER ====== --}}
     <div class="footer">
-        <div>© {{ date('Y') }} GSC SIAGA — Yayasan Gerak Sedekah Cilacap &nbsp;|&nbsp; Sistem Ambulance Siaga v1.0</div>
+        <div>© {{ date('Y') }} Ambulans Siaga &nbsp;|&nbsp; Sistem Tanggap Darurat v1.0</div>
         <div>Dokumen ini digenerate otomatis oleh sistem pada {{ now()->format('d/m/Y H:i:s') }} WIB</div>
     </div>
 

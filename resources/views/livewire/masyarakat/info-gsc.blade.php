@@ -8,7 +8,7 @@
     <main class="pt-32 pb-24 px-6 lg:px-12 max-w-7xl mx-auto min-h-screen w-full">
         <div class="space-y-12">
             <!-- ========================================== -->
-            <!-- BAGIAN 1: SEKILAS TENTANG AMBULANCE SIAGA -->
+            <!-- BAGIAN 1: SEKILAS TENTANG AMBULANS SIAGA -->
             <!-- ========================================== -->
             <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary-600 to-primary-700 text-white shadow-2xl border border-white/20">
                 <!-- Decorative Pattern -->
@@ -24,7 +24,7 @@
                 <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 p-8 sm:p-12 lg:p-16 items-center">
                     <div class="lg:col-span-6 relative">
                         <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-white/20 group bg-white/10">
-                            <img src="{{ asset('images/gsc_community_photo.png') }}" alt="Armada & Relawan Ambulance Siaga" class="w-full h-[320px] sm:h-[400px] object-cover transform group-hover:scale-105 transition-transform duration-700">
+                            <img src="{{ asset('images/dokumgsc (26).JPG') }}" alt="Armada & Relawan Ambulans Siaga" class="w-full h-[320px] sm:h-[400px] object-cover transform group-hover:scale-105 transition-transform duration-700">
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
                             <div class="absolute bottom-6 left-6 right-6">
                                 <span class="inline-block px-3 py-1 rounded-full bg-yellow-300 text-slate-800 font-extrabold text-[11px] uppercase tracking-wider mb-2">Layanan Medis Gratis</span>
@@ -34,10 +34,10 @@
                     </div>
 
                     <div class="lg:col-span-6 space-y-6">
-                        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight drop-shadow-lg">Sekilas Tentang Ambulance Siaga</h1>
+                        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight drop-shadow-lg">Sekilas Tentang Ambulans Siaga</h1>
                         <div class="space-y-4 text-sky-50 text-sm sm:text-base leading-relaxed font-medium">
-                            <p><strong class="text-white font-bold">Ambulance Siaga</strong> adalah ekosistem digital layanan darurat medis dan transportasi ambulans bebas biaya di Indonesia. Misi Ambulance Siaga adalah untuk <em class="text-yellow-300 font-bold not-italic">"mendorong kemajuan pertolongan darurat"</em> dengan menawarkan infrastruktur dan solusi teknologi yang membantu semua orang untuk mengakses dan berkembang dalam penanganan darurat medis.</p>
-                            <p>Ekosistem Ambulance Siaga menyediakan berbagai layanan, termasuk pemesanan ambulans darurat gratis, penugasan supir & tim medis, pelacakan posisi ambulans secara real-time, koordinasi antar rumah sakit rujukan, serta solusi teknologi integrasi jaringan multi-mitra bagi masyarakat yang membutuhkan pertolongan cepat tanpa beban biaya.</p>
+                            <p><strong class="text-white font-bold">Ambulans Siaga</strong> adalah ekosistem digital layanan darurat medis dan transportasi ambulans bebas biaya di Indonesia. Misi Ambulans Siaga adalah untuk <em class="text-yellow-300 font-bold not-italic">"mendorong kemajuan pertolongan darurat"</em> dengan menawarkan infrastruktur dan solusi teknologi yang membantu semua orang untuk mengakses dan berkembang dalam penanganan darurat medis.</p>
+                            <p>Ekosistem Ambulans Siaga menyediakan berbagai layanan, termasuk pemesanan ambulans darurat gratis, penugasan supir & tim medis, pelacakan posisi ambulans secara real-time, koordinasi antar rumah sakit rujukan, serta solusi teknologi integrasi jaringan multi-mitra bagi masyarakat yang membutuhkan pertolongan cepat tanpa beban biaya.</p>
                         </div>
                         <div class="pt-2">
                             <a href="#visi-misi" class="inline-flex items-center justify-center px-6 py-3 rounded-full border-2 border-white/50 text-white hover:bg-white hover:text-primary-600 font-bold text-sm transition-all duration-200 shadow-lg">Selengkapnya</a>
@@ -131,10 +131,10 @@
                     <div class="lg:col-span-5 order-2 lg:order-1">
                         <div class="relative w-full aspect-square rounded-[2rem] bg-gradient-to-br from-slate-50 to-slate-100 shadow-inner border border-slate-200 flex flex-col items-center justify-center p-8 overflow-hidden group">
                             <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,156,166,0.08)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                            <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Resmi Ambulance Siaga" class="relative z-10 w-3/4 h-auto object-contain drop-shadow-xl group-hover:scale-105 transition-transform duration-500">
+                            <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Resmi Ambulans Siaga" class="relative z-10 w-3/4 h-auto object-contain drop-shadow-xl group-hover:scale-105 transition-transform duration-500">
                             
                             <div class="relative z-10 mt-8 text-center">
-                                <span class="block text-xl font-black text-slate-800 tracking-wider uppercase">Ambulance Siaga</span>
+                                <span class="block text-xl font-black text-slate-800 tracking-wider uppercase">Ambulans Siaga</span>
                                 <span class="block text-[10px] font-bold text-primary-600 uppercase tracking-widest mt-1">Layanan Darurat • Multi-Mitra</span>
                             </div>
                         </div>

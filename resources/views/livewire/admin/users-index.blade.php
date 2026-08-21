@@ -9,7 +9,7 @@
                 {{ $isSupirPage ? 'Kelola Supir' : 'Kelola Pengguna & Role' }}
             </h1>
             <p class="text-slate-500 text-[14px] mt-1.5 font-medium max-w-2xl">
-                {{ $isSupirPage ? 'Daftar pengemudi ambulans mitra Ambulance Siaga beserta status SIM dan kesiapan online.' : 'Daftar akun pengguna sistem Ambulance Siaga (Super Admin, Admin, Operator, Supir, Masyarakat).' }}
+                {{ $isSupirPage ? 'Daftar pengemudi ambulans mitra Ambulans Siaga beserta status SIM dan kesiapan online.' : 'Daftar akun pengguna sistem Ambulans Siaga (Super Admin, Admin, Operator, Supir, Masyarakat).' }}
             </p>
         </div>
 

@@ -43,7 +43,7 @@
                     </div>
                     <div>
                         <p class="text-sm font-medium text-white/90">Jaringan</p>
-                        <p class="text-lg font-black text-white">Ambulance Siaga</p>
+                        <p class="text-lg font-black text-white">Ambulans Siaga</p>
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
         <div class="max-w-7xl mx-auto">
             <div class="text-center max-w-3xl mx-auto mb-16 lg:mb-20">
                 <h2 class="text-3xl md:text-4xl font-black text-[#0F2747] tracking-tight mb-6">
-                    Kenapa Bergabung Bersama<br class="hidden sm:block"> Ambulance Siaga?
+                    Kenapa Bergabung Bersama<br class="hidden sm:block"> Ambulans Siaga?
                 </h2>
                 <p class="text-lg text-slate-600 font-medium">
                     Menjadi bagian dari jaringan layanan ambulans terpadu yang berdedikasi membantu masyarakat dengan cepat dan tepat sasaran.
@@ -121,9 +121,9 @@
                      x-data="{ 
                         currentSlide: 0, 
                         slides: [
-                            { image: '{{ asset('images/gsc_community_photo.png') }}', quote: 'Sebaik-baiknya fasilitas adalah yang dapat memberikan manfaat bagi orang banyak di saat mereka sangat membutuhkan.' },
-                            { image: '{{ asset('images/beranda_utama_bg.jpg') }}', quote: 'Sinergi kebaikan yang menyatukan armada Anda dengan aksi kerelawanan nyata di lapangan.' },
-                            { image: '{{ asset('images/ambulance_thumb.jpg') }}', quote: 'Bersama wujudkan ekosistem kesehatan darurat yang tanggap dan saling mendukung.' }
+                            { image: '{{ asset('images/dokumgsc (27).JPG') }}', quote: 'Sebaik-baiknya fasilitas adalah yang dapat memberikan manfaat bagi orang banyak di saat mereka sangat membutuhkan.' },
+                            { image: '{{ asset('images/dokumgsc (6).JPG') }}', quote: 'Sinergi kebaikan yang menyatukan armada Anda dengan aksi kerelawanan nyata di lapangan.' },
+                            { image: '{{ asset('images/dokumgsc (28).JPG') }}', quote: 'Bersama wujudkan ekosistem kesehatan darurat yang tanggap dan saling mendukung.' }
                         ] 
                      }" 
                      x-init="setInterval(() => currentSlide = (currentSlide + 1) % slides.length, 5000)">
@@ -231,7 +231,7 @@
                         </div>
                         <div>
                             <h3 class="text-xl font-bold text-[#0F2747] mb-3 lg:mt-2">Siap Bertugas</h3>
-                            <p class="text-slate-600 font-medium leading-relaxed">Pengemudi siap menjadi bagian dari layanan Ambulance Siaga dan menerima tugas.</p>
+                            <p class="text-slate-600 font-medium leading-relaxed">Pengemudi siap menjadi bagian dari layanan Ambulans Siaga dan menerima tugas.</p>
                         </div>
                     </div>
                 </div>
@@ -335,7 +335,7 @@
                         Siap Menjadi Mitra <span class="text-teal-300">Armada?</span>
                     </h2>
                     <p class="text-lg md:text-xl text-sky-100/80 font-medium mb-10 max-w-2xl mx-auto leading-relaxed">
-                        Bergabung bersama Ambulance Siaga dan daftarkan armada Anda untuk membantu masyarakat dengan lebih cepat.
+                        Bergabung bersama Ambulans Siaga dan daftarkan armada Anda untuk membantu masyarakat dengan lebih cepat.
                     </p>
                     <a href="{{ route('register.mitra') }}" class="group relative inline-flex items-center justify-center gap-3 bg-primary-600 text-white px-10 py-5 rounded-full font-black text-xl hover:bg-teal-400 hover:text-slate-900 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-teal-400/30 hover:-translate-y-1">
                         Daftar Sebagai Mitra Armada

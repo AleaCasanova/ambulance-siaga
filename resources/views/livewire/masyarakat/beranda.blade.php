@@ -15,13 +15,13 @@
             <div class="lg:w-[55%] text-white z-10 text-center lg:text-left">
                 <div class="inline-flex items-center gap-2 mb-6 bg-white/10 backdrop-blur px-4 py-2 rounded-full border border-white/20 shadow-xl">
                     <svg class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                    <span class="font-bold tracking-wider text-xs uppercase">LAZ Gerak Sedekah Cilacap (GSC)</span>
+                    <span class="font-bold tracking-wider text-xs uppercase">JARINGAN AMBULANS TANGGAP DARURAT</span>
                 </div>
                 <h1 class="text-3xl sm:text-5xl lg:text-[3.5rem] font-black leading-[1.15] mb-6 drop-shadow-lg">
                     Kecepatan & Kepedulian dalam Menyelamatkan Nyawa
                 </h1>
                 <p class="text-lg sm:text-xl text-sky-100 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium">
-                    Ambulance Siaga GSC adalah layanan darurat 24 jam yang sigap melayani antar jemput pasien, gawat darurat, dan evakuasi medis di wilayah Kabupaten Cilacap dan sekitarnya.
+                    Ambulans Siaga adalah platform tanggap darurat terpadu 24 jam yang menghubungkan armada ambulans lintas-mitra untuk melayani evakuasi medis, rujukan, dan gawat darurat secara cepat dan transparan.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                     <a href="{{ route('masyarakat.order.create') }}" class="group relative inline-flex justify-center items-center gap-2 bg-white text-primary-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-slate-50 transition-all shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:scale-105">
@@ -44,10 +44,10 @@
                 <div class="absolute right-0 top-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-white/20 rounded-full blur-3xl"></div>
                 
                 <!-- Image 1 -->
-                <img src="{{ asset('images/beranda_utama_thumb.jpg') }}" class="absolute top-0 right-12 w-[280px] h-[280px] rounded-[3rem] shadow-2xl border-4 border-white/30 z-10 hover:-translate-y-2 transition-transform duration-500" style="object-fit: cover; object-position: center;" alt="Medis 1">
+                <img src="{{ asset('images/dokumgsc (27).JPG') }}" class="absolute top-0 right-12 w-[280px] h-[280px] rounded-[3rem] shadow-2xl border-4 border-white/30 z-10 hover:-translate-y-2 transition-transform duration-500" style="object-fit: cover; object-position: center;" alt="Armada Ambulans Siaga">
                 
                 <!-- Image 2 -->
-                <img src="{{ asset('images/ambulance_thumb.jpg') }}" class="absolute bottom-4 right-48 w-[220px] h-[220px] rounded-[2.5rem] shadow-2xl border-4 border-white/30 z-20 hover:-translate-y-2 transition-transform duration-500" style="object-fit: cover; object-position: center;" alt="Ambulans">
+                <img src="{{ asset('images/dokumgsc (28).JPG') }}" class="absolute bottom-4 right-48 w-[220px] h-[220px] rounded-[2.5rem] shadow-2xl border-4 border-white/30 z-20 hover:-translate-y-2 transition-transform duration-500" style="object-fit: cover; object-position: center;" alt="Operasional Ambulans Siaga">
                 
                 <!-- Floating badge -->
                 <div class="absolute bottom-20 right-0 bg-white p-4 rounded-2xl shadow-2xl z-30 flex items-center gap-4 w-60 border border-slate-100 animate-pulse">
@@ -106,13 +106,13 @@
         </div>
     </section>
 
-    <!-- About Section (Tentang GSC - Putih / White) -->
+    <!-- About Section (Tentang Ambulans Siaga - Putih / White) -->
     <section id="tentang" class="bg-white relative overflow-hidden pt-12 pb-24 px-6 lg:px-12">
         <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16 relative z-10">
             <!-- Image Side -->
             <div class="w-full lg:w-1/2">
                 <div class="relative">
-                    <img src="{{ asset('images/ambulance_building.png') }}" alt="Gedung Ambulance Siaga" class="w-full h-[400px] md:h-[500px] object-cover rounded-3xl shadow-lg border border-slate-100">
+                    <img src="{{ asset('images/dokumgsc (6).JPG') }}" alt="Pusat Operasional & Armada Ambulans Siaga" class="w-full h-[400px] md:h-[500px] object-cover rounded-3xl shadow-lg border border-slate-100">
                     
                     <!-- Integrated Stat Box -->
                     <div class="absolute -bottom-6 -right-6 bg-white p-6 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-4 hidden md:flex">
@@ -130,15 +130,15 @@
             <!-- Content Side -->
             <div class="w-full lg:w-1/2 flex flex-col justify-center">
                 <div class="mb-3">
-                    <span class="text-primary-600 font-black tracking-wider text-sm uppercase">Tentang GSC</span>
+                    <span class="text-primary-600 font-black tracking-wider text-sm uppercase">Tentang Ambulans Siaga</span>
                 </div>
                 
                 <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-6 leading-tight">
-                    Lembaga Filantrophy Profesional untuk Kesejahteraan Masyarakat
+                    Platform Terpadu Tanggap Darurat & Evakuasi Medis Bebas Biaya
                 </h2>
                 
                 <p class="text-slate-600 mb-8 leading-relaxed text-lg font-medium">
-                    {{ $tentang ?? 'GSC (Gerak Sedekah Cilacap) adalah lembaga filantrophy yang bergerak di bidang sosial, kemanusiaan, dan keagamaan. Kami berkomitmen untuk menjadi jembatan antara para dermawan dan masyarakat yang membutuhkan, termasuk menghadirkan layanan armada ambulans darurat.' }}
+                    {{ $tentang ?? 'Ambulans Siaga adalah platform tanggap darurat terpadu 24 jam yang menghubungkan armada ambulans lintas-mitra untuk melayani evakuasi medis, rujukan, dan gawat darurat secara cepat dan transparan.' }}
                 </p>
                 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
@@ -158,13 +158,13 @@
                         <div class="w-7 h-7 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                         </div>
-                        <p class="text-slate-800 font-bold text-sm">Tim Medis Profesional</p>
+                        <p class="text-slate-800 font-bold text-sm">Jaringan Lintas Mitra</p>
                     </div>
                     <div class="flex items-center gap-3 bg-slate-50 px-4 py-3 rounded-2xl border border-slate-100 shadow-xs">
                         <div class="w-7 h-7 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                         </div>
-                        <p class="text-slate-800 font-bold text-sm">Layanan Gratis 100%</p>
+                        <p class="text-slate-800 font-bold text-sm">Layanan Bebas Biaya</p>
                     </div>
                 </div>
                 
@@ -197,7 +197,7 @@
                 <span class="text-primary-600 font-black tracking-widest text-sm mb-3 block uppercase">Program Kami</span>
                 <h2 class="text-3xl md:text-[2.5rem] font-black text-slate-900 mb-6 leading-tight">Wujudkan Kebaikan dalam Berbagai Layanan</h2>
                 <p class="text-slate-500 mb-8 leading-relaxed font-medium text-lg">
-                    GSC fokus pada program kemanusiaan yang berdampak langsung bagi masyarakat yang membutuhkan, dari penanganan bencana hingga bantuan kesehatan gawat darurat.
+                    Ambulans Siaga fokus mengintegrasikan layanan kemanusiaan tanggap darurat yang berdampak langsung bagi masyarakat, mulai dari evakuasi gawat darurat hingga koordinasi rujukan medis.
                 </p>
                 <a href="#" class="inline-flex items-center gap-3 bg-primary-600 text-white px-8 py-4 rounded-full font-bold hover:bg-[#007f87] transition shadow-lg hover:shadow-xl">
                     Lihat Semua Program
@@ -210,7 +210,7 @@
                 <!-- Card 1 -->
                 <div class="bg-white rounded-[2rem] overflow-hidden shadow-lg shadow-slate-200/50 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group border border-slate-100 flex flex-col">
                     <div class="h-48 overflow-hidden relative">
-                        <img src="https://images.unsplash.com/photo-1599839619722-39751411ea63?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Ambulans Gawat Darurat" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <img src="{{ asset('images/dokumgsc (27).JPG') }}" alt="Ambulans Gawat Darurat" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                         <div class="absolute -bottom-1 left-4 bg-white p-2 rounded-t-xl">
                             <div class="bg-red-50 text-red-600 w-12 h-12 rounded-lg flex items-center justify-center">
                                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path></svg>
@@ -219,14 +219,14 @@
                     </div>
                     <div class="p-6 pt-4 flex-1 flex flex-col">
                         <h3 class="text-xl font-black text-slate-800 mb-3">Ambulans Darurat</h3>
-                        <p class="text-sm text-slate-500 leading-relaxed flex-1">Sigap membantu evakuasi korban kecelakaan, bencana alam, dan kondisi kritis secara gratis.</p>
+                        <p class="text-sm text-slate-500 leading-relaxed flex-1">Sigap membantu evakuasi korban kecelakaan, rujukan darurat, dan kondisi kritis secara gratis 24 jam.</p>
                     </div>
                 </div>
 
                 <!-- Card 2 -->
                 <div class="bg-white rounded-[2rem] overflow-hidden shadow-lg shadow-slate-200/50 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group border border-slate-100 flex flex-col">
                     <div class="h-48 overflow-hidden relative">
-                        <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Bantuan Kesehatan" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <img src="{{ asset('images/dokumgsc (3).JPG') }}" alt="Bantuan Tanggap Darurat" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                         <div class="absolute -bottom-1 left-4 bg-white p-2 rounded-t-xl">
                             <div class="bg-sky-50 text-sky-600 w-12 h-12 rounded-lg flex items-center justify-center">
                                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"></path></svg>
@@ -234,15 +234,15 @@
                         </div>
                     </div>
                     <div class="p-6 pt-4 flex-1 flex flex-col">
-                        <h3 class="text-xl font-black text-slate-800 mb-3">Bantuan Kesehatan</h3>
-                        <p class="text-sm text-slate-500 leading-relaxed flex-1">Membantu biaya pengobatan dan kebutuhan kesehatan mendasar bagi masyarakat kurang mampu.</p>
+                        <h3 class="text-xl font-black text-slate-800 mb-3">Logistik Tanggap Darurat</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed flex-1">Penyaluran air bersih, bantuan medis cepat, dan suplai logistik di wilayah terdampak bencana.</p>
                     </div>
                 </div>
 
                 <!-- Card 3 -->
                 <div class="bg-white rounded-[2rem] overflow-hidden shadow-lg shadow-slate-200/50 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group border border-slate-100 flex flex-col">
                     <div class="h-48 overflow-hidden relative">
-                        <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Benah Rumah" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <img src="{{ asset('images/dokumgsc (5).JPG') }}" alt="Peduli Sosial Dhuafa" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                         <div class="absolute -bottom-1 left-4 bg-white p-2 rounded-t-xl">
                             <div class="bg-amber-50 text-amber-600 w-12 h-12 rounded-lg flex items-center justify-center">
                                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>
@@ -250,8 +250,8 @@
                         </div>
                     </div>
                     <div class="p-6 pt-4 flex-1 flex flex-col">
-                        <h3 class="text-xl font-black text-slate-800 mb-3">Benah Rumah</h3>
-                        <p class="text-sm text-slate-500 leading-relaxed flex-1">Membangun kembali dan merenovasi rumah tidak layak huni bagi keluarga dhuafa.</p>
+                        <h3 class="text-xl font-black text-slate-800 mb-3">Aksi Peduli Kemanusiaan</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed flex-1">Pemberian bantuan sandang, pangan, dan pendampingan sosial bagi keluarga prasejahtera.</p>
                     </div>
                 </div>
             </div>
@@ -338,6 +338,104 @@
         </div>
     </section>
 
+    <!-- SECTION VIDEO TESTIMONI & ULASAN MASYARAKAT (Beranda) -->
+    <section class="py-24 px-6 lg:px-12 bg-slate-900 text-white relative overflow-hidden">
+        <!-- Glow accents -->
+        <div class="absolute -top-24 -left-24 w-96 h-96 bg-primary-500/15 rounded-full blur-[100px] pointer-events-none"></div>
+        <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-sky-500/15 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto relative z-10" x-data="{ currentVid: 1 }">
+            <div class="text-center max-w-3xl mx-auto mb-14">
+                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-yellow-300 text-xs font-bold uppercase tracking-wider mb-3">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"></path></svg>
+                    Kisah Nyata Lapangan
+                </span>
+                <h2 class="text-3xl md:text-[2.5rem] font-black text-white mb-4 leading-tight">
+                    Suara Hati & Bukti Pelayanan Ambulans Siaga
+                </h2>
+                <p class="text-slate-300 text-sm sm:text-base font-normal leading-relaxed">
+                    Mendengar langsung kelegaan keluarga pasien dan masyarakat yang terbantu evakuasi medis darurat tanpa dipungut biaya sepeserpun.
+                </p>
+            </div>
+
+            <!-- Video Player & Switcher -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mb-16">
+                <div class="lg:col-span-8">
+                    <div class="relative bg-slate-800/90 rounded-[2.5rem] p-3 sm:p-4 border border-white/15 shadow-2xl overflow-hidden">
+                        <div class="relative aspect-video rounded-[2rem] overflow-hidden bg-black flex items-center justify-center">
+                            <video x-show="currentVid === 1" controls class="w-full h-full object-contain" poster="{{ asset('images/dokumgsc (27).JPG') }}">
+                                <source src="{{ asset('images/videogsc (1).mp4') }}" type="video/mp4">
+                            </video>
+                            <video x-show="currentVid === 2" controls class="w-full h-full object-contain" poster="{{ asset('images/dokumgsc (28).JPG') }}" x-cloak>
+                                <source src="{{ asset('images/videogsc (2).mp4') }}" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-4 space-y-4">
+                    <h3 class="text-base font-bold text-slate-200">Pilih Rekaman Testimoni:</h3>
+                    
+                    <div @click="currentVid = 1" class="cursor-pointer p-4 rounded-2xl transition-all duration-300 flex items-start gap-4 border" :class="currentVid === 1 ? 'bg-white/15 border-primary-400 shadow-lg ring-2 ring-primary-400/40' : 'bg-white/5 border-white/10 hover:bg-white/10'">
+                        <div class="w-12 h-12 rounded-xl bg-primary-600/30 border border-primary-400/30 flex items-center justify-center shrink-0 mt-0.5 text-primary-300">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                        <div class="min-w-0">
+                            <span class="inline-block px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-yellow-400/20 text-yellow-300 mb-1">Dokumentasi 1</span>
+                            <h4 class="font-bold text-white text-sm leading-snug">Evakuasi Medis Cepat & Sigap</h4>
+                            <p class="text-xs text-slate-400 mt-1 line-clamp-2">Keluarga pasien menceritakan pertolongan ambulans yang tiba tepat waktu saat kondisi darurat.</p>
+                        </div>
+                    </div>
+
+                    <div @click="currentVid = 2" class="cursor-pointer p-4 rounded-2xl transition-all duration-300 flex items-start gap-4 border" :class="currentVid === 2 ? 'bg-white/15 border-primary-400 shadow-lg ring-2 ring-primary-400/40' : 'bg-white/5 border-white/10 hover:bg-white/10'">
+                        <div class="w-12 h-12 rounded-xl bg-sky-600/30 border border-sky-400/30 flex items-center justify-center shrink-0 mt-0.5 text-sky-300">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                        <div class="min-w-0">
+                            <span class="inline-block px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-sky-400/20 text-sky-300 mb-1">Dokumentasi 2</span>
+                            <h4 class="font-bold text-white text-sm leading-snug">Pelayanan Ramah & Penuh Keikhlasan</h4>
+                            <p class="text-xs text-slate-400 mt-1 line-clamp-2">Umpan balik warga atas keramahan paramedis dan supir ambulans selama perjalanan rujukan.</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <a href="{{ route('donasi') }}" class="w-full py-3.5 px-4 rounded-xl bg-primary-600 hover:bg-primary-500 text-white font-extrabold text-xs uppercase tracking-wider transition shadow-lg flex items-center justify-center gap-2 text-center">
+                            Dukung Operasional Ambulans
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Real Patient Reviews (Dynamic Database) -->
+            @if(isset($ratings) && count($ratings) > 0)
+            <div class="pt-8 border-t border-white/10">
+                <div class="text-center mb-8">
+                    <h3 class="text-xl font-bold text-white">Ulasan Terbaru Dari Masyarakat & Keluarga Pasien</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    @foreach($ratings as $r)
+                    <div class="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-xs flex flex-col justify-between hover:bg-white/10 transition">
+                        <div>
+                            <div class="flex text-yellow-400 mb-3 items-center gap-1">
+                                @for($i = 1; $i <= ($r->skor ?: 5); $i++)
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                @endfor
+                            </div>
+                            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4 italic font-normal">"{!! e($r->ulasan) !!}"</p>
+                        </div>
+                        <div class="pt-3 border-t border-white/10">
+                            <p class="font-bold text-white text-xs">{{ $r->nama_tampil }}</p>
+                            <p class="text-[11px] text-primary-300">{{ $r->peran_tampil }}</p>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            @endif
+        </div>
+    </section>
+
     <!-- Bergabung Bersama Kami Section (Pudar / Slate-50) -->
     <section class="py-24 px-6 lg:px-12 bg-slate-50 relative overflow-hidden border-t border-slate-100">
         <!-- Subtle Star of Life Watermark Background -->
@@ -360,7 +458,7 @@
                 Bergabung Bersama Kami
             </span>
             <h2 class="text-3xl md:text-[2.5rem] font-black text-slate-900 mb-14 leading-tight">
-                Jadilah Bagian dari Ambulance Siaga
+                Jadilah Bagian dari Ambulans Siaga
             </h2>
 
             <!-- Focal Point: 3D Coverflow Slider -->
@@ -368,9 +466,10 @@
                  x-data="{ 
                      active: 0, 
                      slides: [
+                        '{{ asset('images/dokumgsc (27).JPG') }}',
+                        '{{ asset('images/dokumgsc (7).JPG') }}',
                         '{{ asset('images/mitra.JPG') }}',
-                        '{{ asset('images/gsc_community_photo.png') }}',
-                        '{{ asset('images/beranda_utama_thumb.jpg') }}'
+                        '{{ asset('images/dokumgsc (28).JPG') }}'
                      ],
                      getPos(i) {
                          if (i === this.active) return 'center';
@@ -444,7 +543,7 @@
                         3
                     </div>
                     <h3 class="font-bold text-slate-800 text-lg mb-2">SIAP BERGABUNG</h3>
-                    <p class="text-sm text-slate-500 leading-relaxed">Selamat! Anda resmi menjadi bagian dari jaringan relawan Ambulance Siaga.</p>
+                    <p class="text-sm text-slate-500 leading-relaxed">Selamat! Anda resmi menjadi bagian dari jaringan relawan Ambulans Siaga.</p>
                 </div>
             </div>
 
@@ -463,7 +562,7 @@
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-12">
                 <h2 class="text-3xl font-black text-slate-900 mb-4">Mitra Fasilitas Kesehatan</h2>
-                <p class="text-slate-500 font-medium">Jaringan Rumah Sakit rujukan darurat 24 Jam yang terhubung dalam ekosistem Ambulance Siaga.</p>
+                <p class="text-slate-500 font-medium">Jaringan Rumah Sakit rujukan darurat 24 Jam yang terhubung dalam ekosistem Ambulans Siaga.</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 @foreach($rumahSakits as $rs)

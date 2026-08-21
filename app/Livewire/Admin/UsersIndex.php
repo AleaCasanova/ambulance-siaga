@@ -169,7 +169,7 @@ class UsersIndex extends Component
             Supir::updateOrCreate(
                 ['user_id' => $user->id],
                 [
-                    'nama_lembaga' => $this->nama_lembaga ?: 'Mitra Ambulance Siaga',
+                    'nama_lembaga' => $this->nama_lembaga ?: 'Mitra Ambulans Siaga',
                     'nama_penanggung_jawab' => $this->nama_penanggung_jawab ?: $user->name,
                     'no_wa' => $this->no_wa ?: $user->phone,
                     'alamat_unit' => $this->alamat_unit ?: '-',

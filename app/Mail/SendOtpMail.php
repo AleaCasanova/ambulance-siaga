@@ -33,7 +33,7 @@ class SendOtpMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Kode OTP Verifikasi Akun Ambulance Siaga - ' . $this->otpCode,
+            subject: 'Kode OTP Verifikasi Akun Ambulans Siaga - ' . $this->otpCode,
         );
     }
 

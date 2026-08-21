@@ -33,9 +33,13 @@ class LaporanExportController extends Controller
         ->setOption('enable-php', true)
         ->setOption('isHtml5ParserEnabled', true);
 
-        $filename = 'Laporan-Ambulans-GSC-' . Carbon::parse($startDate)->format('Ymd') . '-sd-' . Carbon::parse($endDate)->format('Ymd') . '.pdf';
+        $filename = 'Laporan-Ambulans-Siaga-' . Carbon::parse($startDate)->format('Ymd') . '-sd-' . Carbon::parse($endDate)->format('Ymd') . '.pdf';
 
-        return $pdf->download($filename);
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->output();
+        }, $filename, [
+            'Content-Type' => 'application/pdf',
+        ]);
     }
 
     /**
@@ -49,7 +53,7 @@ class LaporanExportController extends Controller
         $spreadsheet = $export->build();
 
         $writer   = new Xlsx($spreadsheet);
-        $filename = 'Laporan-Ambulans-GSC-' . Carbon::parse($startDate)->format('Ymd') . '-sd-' . Carbon::parse($endDate)->format('Ymd') . '.xlsx';
+        $filename = 'Laporan-Ambulans-Siaga-' . Carbon::parse($startDate)->format('Ymd') . '-sd-' . Carbon::parse($endDate)->format('Ymd') . '.xlsx';
         $tmpPath  = storage_path('app/tmp/' . $filename);
 
         // Pastikan direktori tmp ada

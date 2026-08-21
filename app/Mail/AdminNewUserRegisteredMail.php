@@ -33,7 +33,7 @@ class AdminNewUserRegisteredMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: "[Ambulance Siaga] Pendaftaran {$this->accountType} Baru Menunggu Verifikasi: {$this->newUser->name}",
+            subject: "[Ambulans Siaga] Pendaftaran {$this->accountType} Baru Menunggu Verifikasi: {$this->newUser->name}",
         );
     }
 

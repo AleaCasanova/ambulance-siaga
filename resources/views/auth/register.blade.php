@@ -124,7 +124,7 @@
                 <svg class="w-3.5 h-3.5 text-slate-500 group-hover:text-primary-600 transform group-hover:-translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                 </svg>
-                <span>Kembali ke Beranda Ambulance Siaga</span>
+                <span>Kembali ke Beranda Ambulans Siaga</span>
             </a>
         </div>
 

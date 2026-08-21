@@ -99,7 +99,7 @@ class GscSiagaFlowTest extends TestCase
             $order->id,
             $userMasyarakat->id,
             5,
-            'Supir sangat cepat dan tanggap, terima kasih GSC SIAGA!'
+            'Supir sangat cepat dan tanggap, terima kasih Ambulance Siaga!'
         );
 
         $this->assertNotNull($rating);

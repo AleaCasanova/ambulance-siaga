@@ -9,7 +9,7 @@
                 Jadwal Piket Supir & Ambulans
             </h1>
             <p class="text-slate-500 text-[14px] mt-1.5 font-medium max-w-2xl">
-                Kelola jadwal penugasan harian supir dan unit armada mitra Ambulance Siaga.
+                Kelola jadwal penugasan harian supir dan unit armada mitra Ambulans Siaga.
             </p>
         </div>
 

@@ -104,7 +104,7 @@ class PemesananSeeder extends Seeder
             'user_id' => $masyarakatUser->id,
             'supir_id' => $supir1->id,
             'skor' => 5,
-            'ulasan' => 'Alhamdulillah pelayanan Ambulance Siaga sangat cepat dan gratis. Supir ramah serta sabar membantu kakek kami. Semoga berkah selalu!',
+            'ulasan' => 'Alhamdulillah pelayanan Ambulans Siaga sangat cepat dan gratis. Supir ramah serta sabar membantu kakek kami. Semoga berkah selalu!',
         ]);
 
         // 2. Order Aktif (menuju_lokasi / membawa_pasien) - Untuk uji coba Realtime Tracking Map

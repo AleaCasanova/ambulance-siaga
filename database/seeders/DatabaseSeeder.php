@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             AmbulansSeeder::class,
             SettingAplikasiSeeder::class,
             PemesananSeeder::class,
+            DonasiSeeder::class,
         ]);
     }
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kode OTP Verifikasi Akun - Ambulance Siaga</title>
+    <title>Kode OTP Verifikasi Akun - Ambulans Siaga</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #f1f5f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; -webkit-font-smoothing: antialiased;">
     <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #f1f5f9; padding: 30px 15px;">
@@ -18,9 +18,9 @@
                             <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0">
                                 <tr>
                                     <td align="center">
-                                        <!-- Ambulance Siaga Logo Badge -->
+                                        <!-- Ambulans Siaga Logo Badge -->
                                         <div style="display: inline-block; background-color: #009CA6; color: #ffffff; font-weight: 900; font-size: 18px; padding: 10px 20px; border-radius: 10px; letter-spacing: 1px; text-transform: uppercase;">
-                                            🚑 AMBULANCE SIAGA
+                                            🚑 AMBULANS SIAGA
                                         </div>
                                     </td>
                                 </tr>
@@ -42,7 +42,7 @@
                                 Halo, {{ $name }}! 👋
                             </h2>
                             <p style="margin: 0 0 20px 0; font-size: 14px; line-height: 1.6; color: #475569;">
-                                Terima kasih telah mendaftar di <strong>Ambulance Siaga</strong>. Untuk menyelesaikan pendaftaran dan mengaktifkan akun Anda, silakan gunakan kode OTP (One-Time Password) di bawah ini:
+                                Terima kasih telah mendaftar di <strong>Ambulans Siaga</strong>. Untuk menyelesaikan pendaftaran dan mengaktifkan akun Anda, silakan gunakan kode OTP (One-Time Password) di bawah ini:
                             </p>
 
                             <!-- OTP Box -->
@@ -65,7 +65,7 @@
                             <!-- Security Warning -->
                             <div style="background-color: #fffbe6; border-left: 4px solid #f59e0b; padding: 12px 16px; border-radius: 6px; margin-bottom: 25px;">
                                 <p style="margin: 0; font-size: 12px; color: #92400e; line-height: 1.5; font-weight: 600;">
-                                    <strong>⚠️ Peringatan Keamanan:</strong> Jangan berikan kode OTP ini kepada siapa pun, termasuk pihak yang mengatasnamakan Ambulance Siaga.
+                                    <strong>⚠️ Peringatan Keamanan:</strong> Jangan berikan kode OTP ini kepada siapa pun, termasuk pihak yang mengatasnamakan Ambulans Siaga.
                                 </p>
                             </div>
 
@@ -79,10 +79,10 @@
                     <tr>
                         <td style="background-color: #f8fafc; padding: 20px 30px; border-top: 1px solid #e2e8f0; text-align: center;">
                             <p style="margin: 0 0 6px 0; font-size: 12px; font-weight: 700; color: #0F2747;">
-                                Ambulance Siaga — Layanan Gawat Darurat & Medis
+                                Ambulans Siaga — Layanan Gawat Darurat & Medis
                             </p>
                             <p style="margin: 0; font-size: 11px; color: #94a3b8;">
-                                Dikembangkan oleh Yayasan Gerak Sedekah Cilacap (GSC). &copy; {{ date('Y') }} All Rights Reserved.
+                                Ambulans Siaga &copy; {{ date('Y') }} All Rights Reserved.
                             </p>
                         </td>
                     </tr>

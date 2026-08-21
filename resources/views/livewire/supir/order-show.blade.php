@@ -279,7 +279,7 @@
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                    <a href="https://wa.me/6281234560002?text=Halo%20Dispatcher%20GSC,%20saya%20driver%20tugas%20%23{{ $order->kode_order }}%20membutuhkan%20koordinasi."
+                    <a href="https://wa.me/6281234560002?text=Halo%20Dispatcher%20Ambulans%20Siaga,%20saya%20driver%20tugas%20%23{{ $order->kode_order }}%20membutuhkan%20koordinasi."
                        target="_blank"
                        class="p-2.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-800 font-semibold transition-colors flex items-center gap-2">
                         <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>

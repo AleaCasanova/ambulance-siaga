@@ -9,7 +9,7 @@
                 Kelola Rumah Sakit Rujukan
             </h1>
             <p class="text-slate-500 text-[14px] mt-1.5 font-medium max-w-2xl">
-                Daftar rumah sakit dan fasilitas kesehatan mitra Ambulance Siaga.
+                Daftar rumah sakit dan fasilitas kesehatan mitra Ambulans Siaga.
             </p>
         </div>
 

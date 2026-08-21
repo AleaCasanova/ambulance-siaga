@@ -23,10 +23,10 @@
     <div class="flex items-center gap-4">
         <a href="{{ route('home') }}" class="flex items-center gap-3.5 group">
             <div class="w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-white p-1 flex items-center justify-center shadow-lg group-hover:scale-105 transition-all overflow-hidden">
-                <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-full h-full object-contain">
+                <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulans Siaga" class="w-full h-full object-contain">
             </div>
             <div class="flex flex-col">
-                <span class="font-extrabold text-white font-black text-lg sm:text-xl tracking-tight leading-none group-hover:text-primary-100 transition-colors">Ambulance Siaga</span>
+                <span class="font-extrabold text-white font-black text-lg sm:text-xl tracking-tight leading-none group-hover:text-primary-100 transition-colors">Ambulans Siaga</span>
                 <span class="text-primary-100 text-[8px] sm:text-[10px] font-bold tracking-widest uppercase mt-0.5">Layanan Darurat • Multi-Mitra</span>
             </div>
         </a>
@@ -114,7 +114,7 @@
                         <div class="border-t border-slate-100 my-1"></div>
                         <a href="{{ route('masyarakat.info') }}" class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-xs text-slate-700 hover:text-primary-600 hover:bg-sky-50 font-bold transition-all">
                             <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                            <span>Tentang Yayasan GSC</span>
+                            <span>Tentang Ambulans Siaga</span>
                         </a>
                     </div>
                 </div>
@@ -151,7 +151,7 @@
                         <svg class="w-4 h-4 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                     </button>
                     <div x-show="dropOps" x-transition class="absolute left-0 mt-2 w-52 bg-white rounded-2xl shadow-xl border border-slate-200 py-2 z-50" style="display: none;">
-                        <a href="{{ route('operator.orders.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Permintaan Ambulance</a>
+                        <a href="{{ route('operator.orders.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Permintaan Ambulans</a>
                         <a href="{{ route('operator.monitoring') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Tracking Aktif</a>
                     </div>
                 </div>
@@ -391,7 +391,7 @@
                         </a>
                         <a href="{{ route('masyarakat.info') }}" @click="mobileMenuOpen = false" class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold {{ request()->routeIs('masyarakat.info') ? 'bg-sky-50 text-sky-600' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50' }}">
                             <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                            <span>Tentang Yayasan GSC</span>
+                            <span>Tentang Ambulans Siaga</span>
                         </a>
                     </div>
                 </div>
@@ -414,7 +414,7 @@
                     Dashboard
                 </a>
                 <div class="pt-3 pb-1 px-4 text-xs font-black text-slate-400 uppercase tracking-wider">Operasional</div>
-                <a href="{{ route('operator.orders.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Permintaan Ambulance</a>
+                <a href="{{ route('operator.orders.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Permintaan Ambulans</a>
                 <a href="{{ route('operator.monitoring') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 font-medium">Tracking Aktif</a>
             @endif
 

@@ -120,7 +120,7 @@
 
                     <div>
                         <label for="alamat_unit" class="block text-sm font-bold text-slate-700 mb-1.5">
-                            Alamat Unit Ambulance / Posko
+                            Alamat Unit Ambulans / Posko
                         </label>
                         <input id="alamat_unit" name="alamat_unit" type="text"
                                placeholder="Alamat penempatan unit ambulans"

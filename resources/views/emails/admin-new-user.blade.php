@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pendaftaran {{ $accountType }} Baru - Ambulance Siaga</title>
+    <title>Pendaftaran {{ $accountType }} Baru - Ambulans Siaga</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #f1f5f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; -webkit-font-smoothing: antialiased;">
     <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #f1f5f9; padding: 30px 15px;">
@@ -16,7 +16,7 @@
                     <tr>
                         <td style="background-color: #0F2747; padding: 25px 30px; text-align: center;">
                             <div style="display: inline-block; background-color: #009CA6; color: #ffffff; font-weight: 900; font-size: 16px; padding: 8px 18px; border-radius: 8px; letter-spacing: 1px; text-transform: uppercase;">
-                                🚑 AMBULANCE SIAGA ADMIN
+                                🚑 AMBULANS SIAGA ADMIN
                             </div>
                             <div style="margin-top: 10px; color: #94a3b8; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">
                                 Pemberitahuan Registrasi Akun Baru
@@ -36,7 +36,7 @@
                             </h2>
                             
                             <p style="margin: 0 0 20px 0; font-size: 13px; line-height: 1.6; color: #475569;">
-                                Ada pengguna baru yang baru saja mendaftar sebagai <strong>{{ $accountType }}</strong> di sistem Ambulance Siaga dan memerlukan persetujuan/verifikasi dari Administrator agar dapat login dan bertugas.
+                                Ada pengguna baru yang baru saja mendaftar sebagai <strong>{{ $accountType }}</strong> di sistem Ambulans Siaga dan memerlukan persetujuan/verifikasi dari Administrator agar dapat login dan bertugas.
                             </p>
 
                             <!-- Detail Card -->
@@ -88,7 +88,7 @@
                     <tr>
                         <td style="background-color: #f8fafc; padding: 18px 30px; border-top: 1px solid #e2e8f0; text-align: center;">
                             <p style="margin: 0; font-size: 11px; color: #94a3b8;">
-                                Sistem Otomasi Ambulance Siaga &copy; {{ date('Y') }} Yayasan Gerak Sedekah Cilacap.
+                                Sistem Otomasi Ambulans Siaga &copy; {{ date('Y') }}. All Rights Reserved.
                             </p>
                         </td>
                     </tr>

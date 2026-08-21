@@ -7,7 +7,7 @@
             <div class="mb-3 text-center">
                 <h2 class="text-xl sm:text-2xl font-black text-[#0F2747] tracking-tight">Daftar Mitra Armada</h2>
                 <p class="text-[11px] sm:text-xs font-semibold text-slate-500 mt-0.5 leading-relaxed max-w-sm mx-auto">
-                    Daftarkan armada ambulans Anda untuk bergabung bersama jaringan Ambulance Siaga.
+                    Daftarkan armada ambulans Anda untuk bergabung bersama jaringan Ambulans Siaga.
                 </p>
             </div>
 
@@ -141,7 +141,7 @@
                 <svg class="w-3.5 h-3.5 text-slate-500 group-hover:text-primary-600 transform group-hover:-translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                 </svg>
-                <span>Kembali ke Beranda Ambulance Siaga</span>
+                <span>Kembali ke Beranda Ambulans Siaga</span>
             </a>
         </div>
 

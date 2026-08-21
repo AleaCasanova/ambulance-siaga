@@ -8,13 +8,13 @@
             <div class="md:w-1/2 text-white z-10 text-center md:text-left">
                 <span class="inline-flex items-center gap-2 mb-6 bg-white/10 backdrop-blur px-4 py-2 rounded-full border border-white/20 shadow-xl">
                     <svg class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20"><path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"></path></svg>
-                    <span class="font-bold tracking-wider text-xs uppercase">Program Kemanusiaan GSC</span>
+                    <span class="font-bold tracking-wider text-xs uppercase">Program Kemanusiaan & Donasi Operasional</span>
                 </span>
                 <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.15] mb-6 drop-shadow-lg">
                     Bersama Kita Selamatkan Lebih Banyak Nyawa
                 </h1>
                 <p class="text-lg text-sky-100 mb-8 max-w-lg mx-auto md:mx-0 leading-relaxed font-medium">
-                    Ribuan pasien gawat darurat dan keluarga kurang mampu menanti uluran tangan Anda. Donasi Anda menjadi energi operasional Ambulance Siaga 24 Jam.
+                    Ribuan pasien gawat darurat dan keluarga kurang mampu menanti uluran tangan Anda. Donasi Anda menjadi energi operasional Ambulans Siaga 24 Jam.
                 </p>
                 <div class="flex gap-4 justify-center md:justify-start">
                     <button onclick="document.getElementById('form-donasi').scrollIntoView({behavior: 'smooth'})" class="bg-white text-primary-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-slate-50 transition-all shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:scale-105 flex items-center gap-2">
@@ -25,7 +25,7 @@
             </div>
             <div class="md:w-1/2 relative hidden md:block">
                 <div class="absolute right-0 top-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-white/20 rounded-full blur-3xl"></div>
-                <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Ilustrasi Medis" class="relative z-10 rounded-[3rem] shadow-2xl border-4 border-white/30 hover:-translate-y-2 transition-transform duration-500 object-cover w-full h-[400px]">
+                <img src="{{ asset('images/dokumgsc (28).JPG') }}" alt="Aksi Nyata Relawan Ambulans Siaga" class="relative z-10 rounded-[3rem] shadow-2xl border-4 border-white/30 hover:-translate-y-2 transition-transform duration-500 object-cover w-full h-[400px]">
             </div>
         </div>
     </section>
@@ -190,113 +190,302 @@
         </div>
     </section>
 
-    <!-- Recent Donors -->
-    <section class="py-16 px-6 lg:px-12 bg-white">
+    <!-- Recent Donors (Dynamic Database) -->
+    <section class="py-16 px-6 lg:px-12 bg-white relative">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-10">
-                <h2 class="text-3xl font-black text-slate-800 mb-3">Terima Kasih Kepada Para Donatur</h2>
-                <p class="text-slate-500 font-medium">Jazakumullah Khairan Katsiran atas kebaikan Anda. Semoga Allah membalas dengan kebaikan yang berlipat ganda.</p>
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/60 text-emerald-700 text-xs font-bold uppercase tracking-wider mb-3">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    Transparansi & Amanah Donasi
+                </div>
+                <h2 class="text-3xl md:text-4xl font-black text-slate-800 mb-3">Terima Kasih Kepada Para Donatur</h2>
+                <p class="text-slate-500 font-medium max-w-2xl mx-auto text-sm sm:text-base">
+                    Jazakumullah Khairan Katsiran atas kebaikan Anda. Total terkumpul <strong class="text-primary-600 font-black">Rp {{ number_format($totalDonasi, 0, ',', '.') }}</strong> dari <strong class="text-slate-700">{{ $totalDonaturCount }} Orang Baik</strong> untuk operasional ambulans siaga gratis.
+                </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <!-- Mock Donors -->
-                <div class="bg-slate-50 rounded-xl p-5 border border-slate-100 hover:shadow-md transition">
-                    <div class="flex items-center gap-3 mb-3">
-                        <div class="w-10 h-10 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center font-bold">HA</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                @forelse($donaturList as $index => $d)
+                    @php
+                        $displayName = $d->is_anonim ? 'Hamba Allah' : ($d->nama ?: 'Hamba Allah');
+                        $words = explode(' ', trim($displayName));
+                        $initials = count($words) >= 2 
+                            ? strtoupper(substr($words[0], 0, 1) . substr($words[1], 0, 1))
+                            : strtoupper(substr($displayName, 0, 2));
+                        $colors = [
+                            ['bg' => 'bg-sky-100', 'text' => 'text-sky-700'],
+                            ['bg' => 'bg-emerald-100', 'text' => 'text-emerald-700'],
+                            ['bg' => 'bg-amber-100', 'text' => 'text-amber-700'],
+                            ['bg' => 'bg-indigo-100', 'text' => 'text-indigo-700'],
+                            ['bg' => 'bg-rose-100', 'text' => 'text-rose-700'],
+                            ['bg' => 'bg-teal-100', 'text' => 'text-teal-700'],
+                        ];
+                        $theme = $colors[$index % count($colors)];
+                    @endphp
+                    <div class="bg-slate-50/80 rounded-2xl p-5 border border-slate-200/70 hover:border-primary-600/30 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
                         <div>
-                            <h4 class="font-bold text-slate-800 text-sm">Hamba Allah</h4>
-                            <p class="text-xs text-slate-400">10 Menit yang lalu</p>
+                            <div class="flex items-center gap-3.5 mb-3.5">
+                                <div class="w-11 h-11 rounded-full {{ $theme['bg'] }} {{ $theme['text'] }} flex items-center justify-center font-black text-sm shadow-xs shrink-0 group-hover:scale-105 transition-transform">
+                                    {{ $initials }}
+                                </div>
+                                <div class="min-w-0">
+                                    <h4 class="font-extrabold text-slate-800 text-sm truncate">{{ $displayName }}</h4>
+                                    <p class="text-xs text-slate-400 font-medium">{{ $d->created_at ? $d->created_at->diffForHumans() : 'Baru saja' }}</p>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <span class="inline-block px-2.5 py-0.5 rounded-lg bg-emerald-50 border border-emerald-100 text-emerald-700 text-xs font-black">
+                                    Berdonasi Rp {{ number_format($d->nominal, 0, ',', '.') }}
+                                </span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-600 italic leading-relaxed line-clamp-3">
+                                "{{ $d->pesan ?: 'Semoga berkah dan bermanfaat untuk masyarakat yang membutuhkan pertolongan medis.' }}"
+                            </p>
                         </div>
                     </div>
-                    <p class="text-sm font-bold text-primary-600 mb-2">Berdonasi Rp 50.000</p>
-                    <p class="text-xs text-slate-500 italic">"Semoga bermanfaat untuk yang membutuhkan."</p>
-                </div>
-                
-                <div class="bg-slate-50 rounded-xl p-5 border border-slate-100 hover:shadow-md transition">
-                    <div class="flex items-center gap-3 mb-3">
-                        <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">BP</div>
-                        <div>
-                            <h4 class="font-bold text-slate-800 text-sm">Bapak Budi</h4>
-                            <p class="text-xs text-slate-400">1 Jam yang lalu</p>
-                        </div>
+                @empty
+                    <div class="col-span-full text-center py-8 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+                        <p class="text-slate-500 font-semibold text-sm">Belum ada data donasi tercatat. Jadilah donatur pertama hari ini!</p>
                     </div>
-                    <p class="text-sm font-bold text-primary-600 mb-2">Berdonasi Rp 100.000</p>
-                    <p class="text-xs text-slate-500 italic">"Semoga program ini terus berjalan."</p>
-                </div>
-
-                <div class="bg-slate-50 rounded-xl p-5 border border-slate-100 hover:shadow-md transition">
-                    <div class="flex items-center gap-3 mb-3">
-                        <div class="w-10 h-10 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center font-bold">HA</div>
-                        <div>
-                            <h4 class="font-bold text-slate-800 text-sm">Hamba Allah</h4>
-                            <p class="text-xs text-slate-400">3 Jam yang lalu</p>
-                        </div>
-                    </div>
-                    <p class="text-sm font-bold text-primary-600 mb-2">Berdonasi Rp 25.000</p>
-                    <p class="text-xs text-slate-500 italic">"Aamiin yarabbal alamin"</p>
-                </div>
-
-                <div class="bg-slate-50 rounded-xl p-5 border border-slate-100 hover:shadow-md transition">
-                    <div class="flex items-center gap-3 mb-3">
-                        <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center font-bold">IF</div>
-                        <div>
-                            <h4 class="font-bold text-slate-800 text-sm">Ibu Fitri</h4>
-                            <p class="text-xs text-slate-400">5 Jam yang lalu</p>
-                        </div>
-                    </div>
-                    <p class="text-sm font-bold text-primary-600 mb-2">Berdonasi Rp 200.000</p>
-                    <p class="text-xs text-slate-500 italic">"Sehat selalu untuk para relawan"</p>
-                </div>
+                @endforelse
             </div>
             
             <div class="text-center mt-8">
-                <button class="text-slate-500 font-bold text-sm hover:text-primary-600 transition">Lihat Donatur Lainnya</button>
+                <button wire:click="toggleAllDonaturModal" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-slate-100 hover:bg-primary-50 text-slate-700 hover:text-primary-700 font-bold text-sm transition-all duration-200 border border-slate-200">
+                    <svg class="w-4 h-4 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                    Lihat Semua Donatur ({{ $totalDonaturCount }})
+                </button>
+            </div>
+        </div>
+
+        <!-- Modal Semua Donatur -->
+        @if($showAllDonaturModal)
+        <div class="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4" x-transition>
+            <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-slate-100 relative max-h-[85vh] flex flex-col">
+                <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+                    <div>
+                        <h3 class="text-xl font-black text-slate-800">Daftar Seluruh Donatur</h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Total {{ $totalDonaturCount }} transaksi donasi tercatat</p>
+                    </div>
+                    <button wire:click="toggleAllDonaturModal" class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+
+                <div class="overflow-y-auto py-4 space-y-3 flex-1 pr-1 custom-scrollbar">
+                    @forelse($allDonaturList as $d)
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 flex items-start justify-between gap-4">
+                        <div class="flex items-start gap-3">
+                            <div class="w-9 h-9 rounded-full bg-primary-100 text-primary-700 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+                                {{ strtoupper(substr($d->is_anonim ? 'HA' : ($d->nama ?: 'HA'), 0, 2)) }}
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-sm">{{ $d->is_anonim ? 'Hamba Allah' : $d->nama }}</h4>
+                                <p class="text-xs text-slate-500 italic mt-0.5">"{{ $d->pesan ?: 'Semoga berkah.' }}"</p>
+                                <span class="text-[11px] text-slate-400 block mt-1">{{ $d->created_at ? $d->created_at->format('d M Y, H:i') : '-' }}</span>
+                            </div>
+                        </div>
+                        <div class="text-right shrink-0">
+                            <span class="text-sm font-black text-emerald-600">Rp {{ number_format($d->nominal, 0, ',', '.') }}</span>
+                        </div>
+                    </div>
+                    @empty
+                    <p class="text-center text-slate-400 py-8 text-sm">Belum ada data donatur.</p>
+                    @endforelse
+                </div>
+
+                <div class="pt-4 border-t border-slate-100 flex justify-end">
+                    <button wire:click="toggleAllDonaturModal" class="px-6 py-2.5 bg-slate-800 text-white rounded-full font-bold text-xs hover:bg-slate-900 transition">Tutup</button>
+                </div>
+            </div>
+        </div>
+        @endif
+    </section>
+
+    <!-- SECTION VIDEO DOKUMENTASI & TESTIMONI NYATA PASIEN -->
+    <section class="py-20 px-6 lg:px-12 bg-gradient-to-b from-slate-900 to-slate-950 text-white relative overflow-hidden">
+        <!-- Background Ambient Glow -->
+        <div class="absolute top-0 right-1/4 w-96 h-96 bg-primary-600/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-0 left-1/4 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-yellow-300 text-xs font-bold uppercase tracking-wider mb-3">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"></path></svg>
+                    Dokumentasi Video Lapangan
+                </span>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight mb-4">
+                    Suara Hati & Umpan Balik Pasien Terbantu
+                </h2>
+                <p class="text-slate-300 text-sm sm:text-base font-normal leading-relaxed">
+                    Setiap rupiah donasi Anda menjadi bahan bakar dan perawatan armada untuk menjemput harapan mereka yang sedang berjuang di saat kritis.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                <!-- Video Player Container -->
+                <div class="lg:col-span-8">
+                    <div class="relative bg-slate-800/80 rounded-[2.5rem] p-3 sm:p-4 border border-white/15 shadow-2xl overflow-hidden group">
+                        <div class="relative aspect-video rounded-[2rem] overflow-hidden bg-black flex items-center justify-center">
+                            @if($activeVideo === 1)
+                                <video controls class="w-full h-full object-contain" poster="{{ asset('images/dokumgsc (27).JPG') }}">
+                                    <source src="{{ asset('images/videogsc (1).mp4') }}" type="video/mp4">
+                                    Browser Anda tidak mendukung pemutar video HTML5.
+                                </video>
+                            @else
+                                <video controls class="w-full h-full object-contain" poster="{{ asset('images/dokumgsc (28).JPG') }}">
+                                    <source src="{{ asset('images/videogsc (2).mp4') }}" type="video/mp4">
+                                    Browser Anda tidak mendukung pemutar video HTML5.
+                                </video>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Playlist & Highlights -->
+                <div class="lg:col-span-4 space-y-4">
+                    <h3 class="text-lg font-bold text-slate-200 mb-2">Pilih Video Testimoni:</h3>
+                    
+                    <!-- Video Card 1 -->
+                    <button wire:click="setVideo(1)" class="w-full text-left p-4 rounded-2xl transition-all duration-300 flex items-start gap-4 border {{ $activeVideo === 1 ? 'bg-white/15 border-primary-400 shadow-lg ring-2 ring-primary-400/40' : 'bg-white/5 border-white/10 hover:bg-white/10' }}">
+                        <div class="w-12 h-12 rounded-xl bg-primary-600/30 border border-primary-400/30 flex items-center justify-center shrink-0 mt-0.5 text-primary-300">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                        <div class="min-w-0">
+                            <span class="inline-block px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-yellow-400/20 text-yellow-300 mb-1">Video 1</span>
+                            <h4 class="font-bold text-white text-sm leading-snug">Respon Cepat Evakuasi Medis Pasien</h4>
+                            <p class="text-xs text-slate-400 mt-1 line-clamp-2">Ungkapan rasa syukur keluarga pasien saat diantar ke fasilitas kesehatan secara gratis.</p>
+                        </div>
+                    </button>
+
+                    <!-- Video Card 2 -->
+                    <button wire:click="setVideo(2)" class="w-full text-left p-4 rounded-2xl transition-all duration-300 flex items-start gap-4 border {{ $activeVideo === 2 ? 'bg-white/15 border-primary-400 shadow-lg ring-2 ring-primary-400/40' : 'bg-white/5 border-white/10 hover:bg-white/10' }}">
+                        <div class="w-12 h-12 rounded-xl bg-sky-600/30 border border-sky-400/30 flex items-center justify-center shrink-0 mt-0.5 text-sky-300">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                        <div class="min-w-0">
+                            <span class="inline-block px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-sky-400/20 text-sky-300 mb-1">Video 2</span>
+                            <h4 class="font-bold text-white text-sm leading-snug">Pelayanan Ramah & Siaga 24 Jam</h4>
+                            <p class="text-xs text-slate-400 mt-1 line-clamp-2">Testimoni warga dan kerabat atas dedikasi supir serta relawan ambulans di lapangan.</p>
+                        </div>
+                    </button>
+
+                    <!-- Call to Action Box inside Video Section -->
+                    <div class="pt-4">
+                        <div class="p-5 rounded-2xl bg-gradient-to-r from-primary-900/60 to-slate-800/80 border border-primary-500/30">
+                            <p class="text-xs text-slate-300 mb-3 font-medium">Bantu operasional armada tetap bergerak melayani pasien dhuafa setiap hari.</p>
+                            <button onclick="document.getElementById('form-donasi').scrollIntoView({behavior: 'smooth'})" class="w-full py-3 rounded-xl bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-extrabold text-sm transition shadow-lg flex items-center justify-center gap-2">
+                                Salurkan Donasi Sekarang
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Testimonials Slider -->
-    <section class="py-16 px-6 lg:px-12 bg-slate-50 border-t border-slate-100">
+    <!-- Testimonials & Interactive Feedback Section -->
+    <section class="py-20 px-6 lg:px-12 bg-slate-50 border-t border-slate-100">
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-2xl font-black text-slate-800 mb-8 text-center">Apa Kata Mereka?</h2>
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold uppercase tracking-wider mb-3">
+                    <svg class="w-4 h-4 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    Rating Kepuasan {{ $averageRating }} / 5.0 ({{ $totalRatingCount }} Ulasan)
+                </div>
+                <h2 class="text-3xl md:text-4xl font-black text-slate-800 mb-3">Apa Kata Mereka?</h2>
+                <p class="text-slate-500 font-medium text-sm sm:text-base">Pengalaman nyata masyarakat, keluarga pasien, dan donatur terhadap layanan Ambulans Siaga.</p>
+            </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Testi 1 -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                    <div class="flex text-yellow-400 mb-4">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+            <!-- Cards Grid: Dynamic Testimonials -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+                @forelse($testimoniList as $t)
+                <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200/80 hover:shadow-md transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex text-yellow-400 mb-4 items-center gap-1">
+                            @for($s = 1; $s <= ($t->skor ?: 5); $s++)
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            @endfor
+                        </div>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-6 font-medium">"{!! e($t->ulasan) !!}"</p>
                     </div>
-                    <p class="text-slate-600 text-sm leading-relaxed mb-4">"Alhamdulillah, sangat terbantu saat ibu saya harus dirujuk ke RSUD malam hari. Responnya sangat cepat dan tim relawannya ramah. Gratis tanpa dipungut biaya apapun."</p>
-                    <p class="font-bold text-slate-800 text-sm">- Keluarga Pasien, Cilacap Utara</p>
-                </div>
-                <!-- Testi 2 -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                    <div class="flex text-yellow-400 mb-4">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    <div class="pt-4 border-t border-slate-100">
+                        <p class="font-extrabold text-slate-800 text-sm">- {{ $t->nama_tampil }}</p>
+                        <p class="text-xs text-primary-600 font-semibold mt-0.5">{{ $t->peran_tampil }}</p>
                     </div>
-                    <p class="text-slate-600 text-sm leading-relaxed mb-4">"Saya rutin berdonasi tiap bulan di sini. Laporannya transparan dan layanannya benar-benar dirasakan oleh masyarakat menengah ke bawah."</p>
-                    <p class="font-bold text-slate-800 text-sm">- Bapak Supriyanto, Donatur</p>
                 </div>
-                <!-- Testi 3 -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                    <div class="flex text-yellow-400 mb-4">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                @empty
+                <div class="col-span-full text-center py-8 bg-white rounded-2xl border border-slate-200">
+                    <p class="text-slate-500 font-semibold text-sm">Belum ada ulasan tersimpan. Tulis pesan umpan balik pertama Anda di bawah ini!</p>
+                </div>
+                @endforelse
+            </div>
+
+            <!-- Interaktif: Form Kirim Pesan Kebaikan & Umpan Balik Layanan -->
+            <div class="max-w-3xl mx-auto bg-white rounded-[2.5rem] p-8 sm:p-10 shadow-xl border border-slate-200/80 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-primary-600/5 rounded-bl-full pointer-events-none"></div>
+
+                <div class="text-center mb-8">
+                    <span class="text-primary-600 font-extrabold text-xs uppercase tracking-wider block mb-1">Umpan Balik Publik</span>
+                    <h3 class="text-2xl font-black text-slate-800">Kirimkan Doa, Pesan Kebaikan, atau Ulasan Layanan</h3>
+                    <p class="text-slate-500 text-xs sm:text-sm mt-1">Pesan Anda akan tampil di halaman ini dan memberikan semangat bagi para pejuang kemanusiaan.</p>
+                </div>
+
+                @if($feedbackSuccessMessage)
+                <div class="mb-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-bold flex items-center gap-3">
+                    <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                    {{ $feedbackSuccessMessage }}
+                </div>
+                @endif
+
+                <form wire:submit.prevent="kirimUmpanBalik" class="space-y-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Nama Lengkap / Inisial <span class="text-red-500">*</span></label>
+                            <input type="text" wire:model="feedbackNama" placeholder="Contoh: Bapak Hendra / Hamba Allah" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20 text-sm transition">
+                            @error('feedbackNama') <span class="text-xs text-red-500 font-semibold">{{ $message }}</span> @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Status / Peran</label>
+                            <select wire:model="feedbackPeran" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20 text-sm transition bg-white">
+                                <option value="Donatur">Donatur</option>
+                                <option value="Keluarga Pasien">Keluarga Pasien</option>
+                                <option value="Relawan Medis">Relawan Medis</option>
+                                <option value="Masyarakat Umum">Masyarakat Umum</option>
+                            </select>
+                        </div>
                     </div>
-                    <p class="text-slate-600 text-sm leading-relaxed mb-4">"Melihat ambulan siaga lalu-lalang membantu orang kecelakaan tanpa pamrih membuat saya tergerak untuk ikut berdonasi."</p>
-                    <p class="font-bold text-slate-800 text-sm">- Ibu Siti, Relawan Sosial</p>
-                </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Kota / Domisili</label>
+                            <input type="text" wire:model="feedbackLokasi" placeholder="Contoh: Cilacap, Jawa Tengah" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20 text-sm transition">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Rating Kepuasan</label>
+                            <select wire:model="feedbackSkor" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20 text-sm transition bg-white">
+                                <option value="5">⭐⭐⭐⭐⭐ (5/5 - Sangat Puas / Luar Biasa)</option>
+                                <option value="4">⭐⭐⭐⭐ (4/5 - Puas)</option>
+                                <option value="3">⭐⭐⭐ (3/5 - Cukup)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">Pesan Testimoni / Doa Kebaikan <span class="text-red-500">*</span></label>
+                        <textarea wire:model="feedbackPesan" rows="3" placeholder="Tuliskan apresiasi, pengalaman layanan ambulans, atau doa untuk para relawan..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20 text-sm transition"></textarea>
+                        @error('feedbackPesan') <span class="text-xs text-red-500 font-semibold">{{ $message }}</span> @enderror
+                    </div>
+
+                    <div class="text-center pt-2">
+                        <button type="submit" class="inline-flex items-center gap-2 bg-primary-600 text-white px-8 py-3.5 rounded-full font-bold text-sm hover:bg-primary-700 transition shadow-lg hover:shadow-primary-600/30">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                            Kirim Ulasan & Pesan
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </section>
@@ -328,34 +517,34 @@
             activeImage: 0,
             images: [
                 {
-                    src: 'https://images.unsplash.com/photo-1587559070757-f72a388edbba?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-                    thumb: 'https://images.unsplash.com/photo-1587559070757-f72a388edbba?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
-                    title: 'Armada Siaga 24 Jam',
-                    desc: 'Ambulance Siaga selalu siap siaga 24 jam untuk melayani masyarakat yang membutuhkan evakuasi medis darurat.'
+                    src: '{{ asset('images/dokumgsc (27).JPG') }}',
+                    thumb: '{{ asset('images/dokumgsc (27).JPG') }}',
+                    title: 'Armada & Driver Siaga 24 Jam',
+                    desc: 'Ambulans Siaga selalu siap siaga 24 jam untuk melayani masyarakat yang membutuhkan evakuasi medis darurat.'
                 },
                 {
-                    src: 'https://images.unsplash.com/photo-1576091160550-2173ff9e5ee5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-                    thumb: 'https://images.unsplash.com/photo-1576091160550-2173ff9e5ee5?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
-                    title: 'Tim Medis Profesional',
-                    desc: 'Didukung oleh tenaga medis yang terlatih dan berpengalaman dalam menangani berbagai situasi kegawatdaruratan.'
+                    src: '{{ asset('images/dokumgsc (7).JPG') }}',
+                    thumb: '{{ asset('images/dokumgsc (7).JPG') }}',
+                    title: 'Tim Tanggap Darurat Medis & Relawan',
+                    desc: 'Didukung oleh tenaga lapangan dan relawan yang terlatih dan berdedikasi dalam penanganan darurat serta bencana.'
                 },
                 {
-                    src: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-                    thumb: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
-                    title: 'Penanganan Pasien Terpadu',
-                    desc: 'Pelayanan yang mengutamakan keselamatan dan kenyamanan pasien selama perjalanan menuju fasilitas kesehatan.'
+                    src: '{{ asset('images/dokumgsc (21).JPG') }}',
+                    thumb: '{{ asset('images/dokumgsc (21).JPG') }}',
+                    title: 'Peduli Pasien & Masyarakat Dhuafa',
+                    desc: 'Pelayanan kemanusiaan yang tulus menyentuh langsung masyarakat prasejahtera yang membutuhkan bantuan medis.'
                 },
                 {
-                    src: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-                    thumb: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
-                    title: 'Fasilitas Medis Lengkap',
-                    desc: 'Interior ambulance dilengkapi dengan peralatan medis berstandar untuk memantau dan menstabilkan kondisi pasien.'
+                    src: '{{ asset('images/dokumgsc (3).JPG') }}',
+                    thumb: '{{ asset('images/dokumgsc (3).JPG') }}',
+                    title: 'Bantuan Logistik Darurat & Air Bersih',
+                    desc: 'Aksi tanggap darurat menjangkau wilayah krisis dengan penyaluran air bersih dan logistik kesehatan terpadu.'
                 },
                 {
-                    src: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-                    thumb: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
+                    src: '{{ asset('images/dokumgsc (24).JPG') }}',
+                    thumb: '{{ asset('images/dokumgsc (24).JPG') }}',
                     title: 'Dedikasi Relawan Kemanusiaan',
-                    desc: 'Para relawan bekerja tanpa pamrih, menyalurkan amanah donatur langsung kepada masyarakat prasejahtera.'
+                    desc: 'Para relawan bekerja dengan penuh kepedulian, menyalurkan amanah langsung kepada penerima manfaat secara tepat sasaran.'
                 }
             ]
         }">

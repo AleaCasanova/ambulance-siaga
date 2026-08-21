@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'admin@ambulancesiaga.org'],
             [
-                'name'     => 'Admin Ambulance Siaga',
+                'name'     => 'Admin Ambulans Siaga',
                 'password' => Hash::make('password'),
                 'role_id'  => $adminRole->id,
                 'phone'    => '081234560001',
@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'operator@ambulancesiaga.org'],
             [
-                'name'     => 'Operator Ambulance Siaga',
+                'name'     => 'Operator Ambulans Siaga',
                 'password' => Hash::make('password'),
                 'role_id'  => $operatorRole->id,
                 'phone'    => '081234560002',

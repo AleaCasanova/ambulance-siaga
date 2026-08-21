@@ -43,7 +43,7 @@
                     </div>
                     <div>
                         <p class="text-sm font-medium text-white/90">Jaringan</p>
-                        <p class="text-lg font-black text-white">Ambulance Siaga</p>
+                        <p class="text-lg font-black text-white">Ambulans Siaga</p>
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
         <div class="max-w-7xl mx-auto">
             <div class="text-center max-w-3xl mx-auto mb-16 lg:mb-20">
                 <h2 class="text-3xl md:text-4xl font-black text-[#0F2747] tracking-tight mb-6">
-                    Kenapa Bergabung Bersama<br class="hidden sm:block"> Ambulance Siaga?
+                    Kenapa Bergabung Bersama<br class="hidden sm:block"> Ambulans Siaga?
                 </h2>
                 <p class="text-lg text-slate-600 font-medium">
                     Menjadi bagian dari jaringan layanan ambulans terpadu yang berdedikasi membantu masyarakat dengan cepat dan tepat sasaran.
@@ -121,9 +121,9 @@
                      x-data="{ 
                         currentSlide: 0, 
                         slides: [
-                            { image: '{{ asset('images/gsc_community_photo.png') }}', quote: 'Melihat senyum lega keluarga pasien saat tiba di rumah sakit tepat waktu adalah bayaran yang tak ternilai.' },
-                            { image: '{{ asset('images/beranda_utama_bg.jpg') }}', quote: 'Tangan Anda adalah perpanjangan dari kepedulian sesama di saat paling kritis.' },
-                            { image: '{{ asset('images/ambulance_thumb.jpg') }}', quote: 'Setiap putaran roda yang Anda kemudikan membawa harapan bagi kehidupan.' }
+                            { image: '{{ asset('images/mitra.JPG') }}', quote: 'Melihat senyum lega keluarga pasien saat tiba di rumah sakit tepat waktu adalah bayaran yang tak ternilai.' },
+                            { image: '{{ asset('images/dokumgsc (27).JPG') }}', quote: 'Tangan Anda adalah perpanjangan dari kepedulian sesama di saat paling kritis.' },
+                            { image: '{{ asset('images/dokumgsc (7).JPG') }}', quote: 'Setiap putaran roda yang Anda kemudikan membawa harapan bagi kehidupan.' }
                         ] 
                      }" 
                      x-init="setInterval(() => currentSlide = (currentSlide + 1) % slides.length, 5000)">
@@ -231,7 +231,7 @@
                         </div>
                         <div>
                             <h3 class="text-xl font-bold text-[#0F2747] mb-3 lg:mt-2">Siap Bertugas</h3>
-                            <p class="text-slate-600 font-medium leading-relaxed">Pengemudi siap menjadi bagian dari layanan Ambulance Siaga dan menerima tugas.</p>
+                            <p class="text-slate-600 font-medium leading-relaxed">Pengemudi siap menjadi bagian dari layanan Ambulans Siaga dan menerima tugas.</p>
                         </div>
                     </div>
                 </div>
@@ -326,7 +326,7 @@
                         Siap Menjadi Pengemudi <span class="text-teal-300">Siaga?</span>
                     </h2>
                     <p class="text-lg md:text-xl text-sky-100/80 font-medium mb-10 max-w-2xl mx-auto leading-relaxed">
-                        Bergabung bersama Ambulance Siaga dan menjadi bagian dari layanan yang membantu masyarakat mendapatkan pertolongan dengan lebih cepat.
+                        Bergabung bersama Ambulans Siaga dan menjadi bagian dari layanan yang membantu masyarakat mendapatkan pertolongan dengan lebih cepat.
                     </p>
                     <a href="{{ route('register.supir') }}" class="group relative inline-flex items-center justify-center gap-3 bg-primary-600 text-white px-10 py-5 rounded-full font-black text-xl hover:bg-teal-400 hover:text-slate-900 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-teal-400/30 hover:-translate-y-1">
                         Daftar Sebagai Pengemudi

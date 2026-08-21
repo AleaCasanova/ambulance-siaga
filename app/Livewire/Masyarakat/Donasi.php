@@ -3,18 +3,32 @@
 namespace App\Livewire\Masyarakat;
 
 use Livewire\Component;
+use App\Models\Donasi as DonasiModel;
+use App\Models\Rating;
 
 class Donasi extends Component
 {
+    // Form Donasi
     public $sapaan = 'Bapak';
     public $nama;
     public $isAnonim = false;
     public $email;
     public $whatsapp;
     public $pesan;
-    
     public $nominal = 100000;
     public $nominalLainnya;
+
+    // Form Umpan Balik / Ulasan
+    public $feedbackNama;
+    public $feedbackPeran = 'Donatur';
+    public $feedbackLokasi;
+    public $feedbackSkor = 5;
+    public $feedbackPesan;
+    public $feedbackSuccessMessage = null;
+
+    // State Modal & Media
+    public $showAllDonaturModal = false;
+    public $activeVideo = 1;
 
     public function updatedIsAnonim($value)
     {
@@ -23,6 +37,16 @@ class Donasi extends Component
         } else {
             $this->nama = '';
         }
+    }
+
+    public function toggleAllDonaturModal()
+    {
+        $this->showAllDonaturModal = !$this->showAllDonaturModal;
+    }
+
+    public function setVideo($index)
+    {
+        $this->activeVideo = $index;
     }
 
     public function kirimDonasi()
@@ -39,7 +63,7 @@ class Donasi extends Component
             return;
         }
 
-        $donasi = \App\Models\Donasi::create([
+        $donasi = DonasiModel::create([
             'nama' => $this->nama,
             'is_anonim' => $this->isAnonim,
             'email' => $this->email,
@@ -76,8 +100,63 @@ class Donasi extends Component
         }
     }
 
+    public function kirimUmpanBalik()
+    {
+        $this->validate([
+            'feedbackNama' => 'required|min:3|max:100',
+            'feedbackPeran' => 'required',
+            'feedbackPesan' => 'required|min:5|max:500',
+            'feedbackSkor' => 'required|integer|min:1|max:5',
+        ], [
+            'feedbackNama.required' => 'Nama lengkap / inisial wajib diisi.',
+            'feedbackPesan.required' => 'Pesan testimoni / umpan balik wajib diisi.',
+            'feedbackPesan.min' => 'Pesan minimal 5 karakter.',
+        ]);
+
+        Rating::create([
+            'nama_pengirim' => $this->feedbackNama,
+            'peran_pengirim' => $this->feedbackPeran,
+            'asal_kota' => $this->feedbackLokasi ?: 'Indonesia',
+            'skor' => $this->feedbackSkor,
+            'ulasan' => $this->feedbackPesan,
+            'user_id' => auth()->check() ? auth()->id() : null,
+        ]);
+
+        $this->reset(['feedbackNama', 'feedbackLokasi', 'feedbackPesan']);
+        $this->feedbackSkor = 5;
+        $this->feedbackSuccessMessage = 'Jazakallah Khairan! Terima kasih, pesan dan umpan balik Anda berhasil dikirim.';
+    }
+
     public function render()
     {
-        return view('livewire.masyarakat.donasi')->layout('layouts.blank');
+        $donaturList = DonasiModel::where('status', 'success')
+            ->latest()
+            ->take(6)
+            ->get();
+
+        $allDonaturList = $this->showAllDonaturModal 
+            ? DonasiModel::where('status', 'success')->latest()->get()
+            : collect();
+
+        $totalDonasi = DonasiModel::where('status', 'success')->sum('nominal');
+        $totalDonaturCount = DonasiModel::where('status', 'success')->count();
+
+        $testimoniList = Rating::whereNotNull('ulasan')
+            ->latest()
+            ->take(6)
+            ->get();
+
+        $averageRating = round(Rating::avg('skor') ?: 5.0, 1);
+        $totalRatingCount = Rating::whereNotNull('ulasan')->count();
+
+        return view('livewire.masyarakat.donasi', [
+            'donaturList' => $donaturList,
+            'allDonaturList' => $allDonaturList,
+            'totalDonasi' => $totalDonasi,
+            'totalDonaturCount' => $totalDonaturCount,
+            'testimoniList' => $testimoniList,
+            'averageRating' => $averageRating,
+            'totalRatingCount' => $totalRatingCount,
+        ])->layout('layouts.blank');
     }
 }

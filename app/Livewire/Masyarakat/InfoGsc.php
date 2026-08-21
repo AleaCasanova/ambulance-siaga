@@ -10,11 +10,11 @@ class InfoGsc extends Component
 {
     public function render()
     {
-        $namaOrg = SettingAplikasi::getVal('nama_organisasi', 'Ambulance Siaga');
+        $namaOrg = SettingAplikasi::getVal('nama_organisasi', 'Ambulans Siaga');
         $telepon = SettingAplikasi::getVal('telepon_darurat', '0812-3456-7890');
-        $email = SettingAplikasi::getVal('email_organisasi', 'info@ambulancesiaga.org');
-        $alamat = SettingAplikasi::getVal('alamat_kantor', 'Pusat Koordinasi Layanan Ambulance Siaga');
-        $tentang = SettingAplikasi::getVal('tentang_gsc', 'Ambulance Siaga adalah sistem pelayanan ambulans darurat gratis yang mempertemukan masyarakat yang membutuhkan evakuasi medis dengan jaringan armada ambulans dari berbagai mitra kepedulian sosial, lembaga kemanusiaan, dan fasilitas kesehatan. Cepat, tanggap, dan profesional 24 Jam.');
+        $email = SettingAplikasi::getVal('email_organisasi', 'info@ambulansiaga.org');
+        $alamat = SettingAplikasi::getVal('alamat_kantor', 'Pusat Koordinasi Layanan Ambulans Siaga');
+        $tentang = SettingAplikasi::getVal('tentang_gsc', 'Ambulans Siaga adalah platform tanggap darurat terpadu 24 jam yang menghubungkan armada ambulans lintas-mitra untuk melayani evakuasi medis, rujukan, dan gawat darurat secara cepat dan transparan.');
 
         $rumahSakits = RumahSakit::orderBy('nama', 'asc')->get();
 

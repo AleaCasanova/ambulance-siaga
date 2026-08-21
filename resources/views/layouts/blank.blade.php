@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('app.name', 'Ambulance Siaga') }} - Layanan Darurat Terpercaya</title>
+    <title>{{ config('app.name', 'Ambulans Siaga') }} - Layanan Darurat Terpercaya</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('images/logo_ambulansiaga.png') }}">

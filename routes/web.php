@@ -31,20 +31,20 @@ use App\Http\Controllers\MidtransController;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes GSC SIAGA - Yayasan Gerak Sedekah Cilacap
+| Web Routes Ambulans Siaga - Platform Tanggap Darurat Medis
 |--------------------------------------------------------------------------
 */
 
 // Webhook Midtrans
 Route::post('/midtrans/callback', [MidtransController::class, 'callback']);
 
-// Halaman utama: Beranda GSC SIAGA
+// Halaman utama: Beranda Ambulans Siaga
 Route::get('/', Beranda::class)->name('home');
 
-// Halaman Tentang Kami GSC
+// Halaman Tentang Kami
 Route::get('/tentang-kami', InfoGsc::class)->name('masyarakat.info');
 
-// Halaman Donasi GSC
+// Halaman Donasi Operasional
 Route::get('/donasi', Donasi::class)->name('donasi');
 
 // Halaman Kemitraan

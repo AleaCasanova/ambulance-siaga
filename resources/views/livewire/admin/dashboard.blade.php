@@ -2,7 +2,7 @@
     <!-- Header Page -->
     <div class="mb-8 flex flex-col gap-1">
         <h1 class="text-[28px] font-bold text-slate-900 tracking-tight">Dashboard</h1>
-        <p class="text-[15px] text-slate-500 font-medium">Selamat datang kembali. Pantau seluruh aktivitas Ambulance Siaga dari satu tempat.</p>
+        <p class="text-[15px] text-slate-500 font-medium">Selamat datang kembali. Pantau seluruh aktivitas Ambulans Siaga dari satu tempat.</p>
     </div>
 
     <!-- 5 KPI Summary Cards -->

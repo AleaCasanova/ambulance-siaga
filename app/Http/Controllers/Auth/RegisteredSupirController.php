@@ -58,7 +58,7 @@ class RegisteredSupirController extends Controller
         // Create Supir profile
         Supir::create([
             'user_id' => $user->id,
-            'nama_lembaga' => 'Mitra Ambulance Siaga',
+            'nama_lembaga' => 'Mitra Ambulans Siaga',
             'nama_penanggung_jawab' => $user->name,
             'no_wa' => $user->phone,
             'alamat_unit' => '-',

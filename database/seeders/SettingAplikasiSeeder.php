@@ -12,7 +12,7 @@ class SettingAplikasiSeeder extends Seeder
         $settings = [
             [
                 'key' => 'nama_organisasi',
-                'value' => 'Ambulance Siaga',
+                'value' => 'Ambulans Siaga',
                 'type' => 'string',
                 'description' => 'Nama sistem platform layanan ambulans multi-mitra',
             ],
@@ -24,13 +24,13 @@ class SettingAplikasiSeeder extends Seeder
             ],
             [
                 'key' => 'email_organisasi',
-                'value' => 'info@ambulancesiaga.org',
+                'value' => 'info@ambulansiaga.org',
                 'type' => 'string',
-                'description' => 'Email resmi pusat koordinasi Ambulance Siaga',
+                'description' => 'Email resmi pusat koordinasi Ambulans Siaga',
             ],
             [
                 'key' => 'alamat_kantor',
-                'value' => 'Pusat Koordinasi Layanan Ambulance Siaga',
+                'value' => 'Pusat Koordinasi Layanan Ambulans Siaga',
                 'type' => 'string',
                 'description' => 'Alamat pusat koordinasi operasional ambulans',
             ],
@@ -54,9 +54,9 @@ class SettingAplikasiSeeder extends Seeder
             ],
             [
                 'key' => 'tentang_gsc',
-                'value' => 'Ambulance Siaga adalah platform digital layanan darurat medis dan transportasi kemanusiaan yang terintegrasi dengan berbagai mitra penyedia ambulans, rumah sakit, dan lembaga kemanusiaan untuk melayani masyarakat secara gratis, cepat, dan profesional 24 Jam.',
+                'value' => 'Ambulans Siaga adalah platform tanggap darurat terpadu 24 jam yang menghubungkan armada ambulans lintas-mitra untuk melayani evakuasi medis, rujukan, dan gawat darurat secara cepat dan transparan.',
                 'type' => 'string',
-                'description' => 'Deskripsi tentang sistem Ambulance Siaga',
+                'description' => 'Deskripsi tentang sistem Ambulans Siaga',
             ],
         ];
 

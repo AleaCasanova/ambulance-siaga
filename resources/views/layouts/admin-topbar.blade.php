@@ -2,7 +2,7 @@
     $user = auth()->user();
     $avatarUrl = $user?->avatar_url ?? 'https://ui-avatars.com/api/?name=' . urlencode($user?->name ?? 'Admin') . '&color=2563EB&background=EFF6FF&bold=true';
     $userName = $user?->name ?? 'Administrator';
-    $userRole = $user?->role_label ?? 'Admin Ambulance';
+    $userRole = $user?->role_label ?? 'Admin Ambulans';
 @endphp
 
 <!-- Topbar (Fixed) -->

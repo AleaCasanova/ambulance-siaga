@@ -9,7 +9,7 @@
                 Kelola Armada Ambulans
             </h1>
             <p class="text-slate-500 text-[14px] mt-1.5 font-medium max-w-2xl">
-                Daftar armada ambulans mitra Ambulance Siaga, plat nomor, jenis unit, dan perlengkapan medis.
+                Daftar armada ambulans mitra Ambulans Siaga, plat nomor, jenis unit, dan perlengkapan medis.
             </p>
         </div>
 

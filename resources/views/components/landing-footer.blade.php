@@ -12,12 +12,12 @@
                     <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo" class="w-full h-full object-contain">
                 </div>
                 <div>
-                    <span class="text-white font-black text-2xl tracking-tight block leading-none">{{ \App\Models\SettingAplikasi::getVal('nama_organisasi', 'Ambulance Siaga') }}</span>
+                    <span class="text-white font-black text-2xl tracking-tight block leading-none">{{ \App\Models\SettingAplikasi::getVal('nama_organisasi', 'Ambulans Siaga') }}</span>
                     <span class="text-[#4ddae3] text-xs font-bold tracking-widest uppercase mt-1 block">Siaga Darurat Medis</span>
                 </div>
             </div>
             <p class="leading-relaxed mb-8 text-sm md:text-base font-medium text-sky-100/70">
-                Platform layanan antar jemput pasien dan penanganan gawat darurat medis berbasis relawan dan donasi umat di wilayah Kabupaten Cilacap. Kami siap siaga 24 jam untuk melayani umat dengan profesional dan sepenuh hati.
+                Platform tanggap darurat terpadu 24 jam yang menghubungkan armada ambulans lintas-mitra untuk melayani evakuasi medis, rujukan, dan gawat darurat secara cepat, profesional, dan transparan.
             </p>
             
             <!-- Social Media -->
@@ -140,7 +140,7 @@
     </div>
     
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between pt-8 border-t border-white/10 font-medium text-xs md:text-sm relative z-10 gap-4">
-        <p class="text-sky-100/50">&copy; {{ date('Y') }} {{ \App\Models\SettingAplikasi::getVal('nama_organisasi', 'LAZ Gerak Sedekah Cilacap') }}. Seluruh hak cipta dilindungi.</p>
+        <p class="text-sky-100/50">&copy; {{ date('Y') }} {{ \App\Models\SettingAplikasi::getVal('nama_organisasi', 'Ambulans Siaga') }}. Seluruh hak cipta dilindungi.</p>
         <div class="flex items-center gap-6 text-sky-100/50">
             <a href="javascript:void(0)" class="hover:text-white transition-colors">Kebijakan Privasi</a>
             <a href="javascript:void(0)" class="hover:text-white transition-colors">Syarat & Ketentuan</a>

@@ -12,7 +12,7 @@
     <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div class="flex items-center gap-4">
             <div class="w-20 h-20 rounded-full bg-white p-2 flex items-center justify-center shadow-lg border-2 border-primary-100/80 flex-shrink-0 overflow-hidden">
-                <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulance Siaga" class="w-full h-full object-contain">
+                <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulans Siaga" class="w-full h-full object-contain">
             </div>
             <div>
                 <div class="flex items-center gap-3 mb-1">
@@ -133,7 +133,7 @@
                         </div>
                         <div>
                             <span class="inline-block px-2.5 py-0.5 rounded text-[11px] font-bold bg-primary-100 text-primary-700 mb-0.5">
-                                {{ $order->ambulans->kode_ambulans }} • {{ $order->supir->nama_lembaga ?: 'Mitra Ambulance Siaga' }}
+                                {{ $order->ambulans->kode_ambulans }} • {{ $order->supir->nama_lembaga ?: 'Mitra Ambulans Siaga' }}
                             </span>
                             <h3 class="font-bold text-slate-800 text-lg leading-tight">{{ $order->supir->user->name }}</h3>
                             <p class="text-xs text-slate-500">PJ: <strong class="text-slate-700">{{ $order->supir->nama_penanggung_jawab ?: $order->supir->user->name }}</strong> • Plat: <strong class="text-slate-700">{{ $order->ambulans->plat_nomor ?? $order->supir->plat_nomor }}</strong></p>
@@ -166,7 +166,7 @@
             @else
                 <div class="bg-amber-50 rounded-3xl border border-amber-200 p-6 text-center">
                     <p class="text-sm font-bold text-amber-800 mb-1">Ambulans Belum Ditugaskan</p>
-                    <p class="text-xs text-amber-700">Operator sedang memproses dan mencarikan armada ambulans terdekat dari jaringan mitra Ambulance Siaga untuk penjemputan.</p>
+                    <p class="text-xs text-amber-700">Operator sedang memproses dan mencarikan armada ambulans terdekat dari jaringan mitra Ambulans Siaga untuk penjemputan.</p>
                 </div>
             @endif
 
@@ -310,19 +310,19 @@
 
     </div>
 
-    <!-- Rating Modal -->
+    <!-- Rating & Review Modal (Setelah Pesanan Selesai) -->
     @if($showRatingModal)
-        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-xs">
-            <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-200">
-                <div class="text-center mb-6">
-                    <div class="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-4 border border-emerald-100">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-extrabold text-slate-800">Perjalanan Selesai!</h3>
-                    <p class="text-slate-500 text-xs mt-1">Bagaimana pengalaman pelayanan Ambulance Siaga?</p>
+        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-xs animate-fade-in">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-slate-100 text-center relative"
+                 @click.outside="$wire.showRatingModal = false">
+                
+                <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                    </svg>
                 </div>
+                <h3 class="text-xl font-extrabold text-slate-800">Perjalanan Selesai!</h3>
+                <p class="text-slate-500 text-xs mt-1">Bagaimana pengalaman pelayanan Ambulans Siaga?</p>
 
                 <form wire:submit="submitRating" class="space-y-4">
                     <div>
