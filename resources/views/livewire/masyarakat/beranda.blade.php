@@ -2,13 +2,13 @@
 
 
     <!-- Hero Section -->
-    <section class="relative pt-36 sm:pt-40 pb-36 sm:pb-44 px-6 lg:px-12 overflow-hidden bg-primary-600" style="background-image: url('{{ asset('images/beranda_utama_bg.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
-        <!-- Gradient Overlay: Mix of Cyan and White -->
-        <div class="absolute inset-0 bg-gradient-to-r from-primary-600 via-[#009CA6]/80 to-white/60 mix-blend-multiply"></div>
-        <div class="absolute inset-0 bg-gradient-to-r from-primary-600 via-[#009CA6]/80 to-white/60"></div>
+    <section class="relative pt-36 sm:pt-40 pb-28 sm:pb-36 px-6 lg:px-12 overflow-hidden bg-primary-600" style="background-image: url('{{ asset('images/beranda_utama_bg.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+        <!-- Gradient Overlay: Rich Teal/Cyan & Primary (Matching Donasi Hero) -->
+        <div class="absolute inset-0 bg-gradient-to-r from-primary-700 via-[#009CA6]/85 to-primary-600/75 mix-blend-multiply"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-primary-700/90 via-[#009CA6]/80 to-primary-800/75"></div>
         
-        <!-- Gradasi Halus & Samar-samar dari Cyan ke Putih -->
-        <div class="absolute inset-x-0 bottom-0 h-44 sm:h-64 bg-gradient-to-t from-white via-white/60 via-white/15 to-transparent pointer-events-none z-10"></div>
+        <!-- Gradasi Halus ke Bawah Menuju Section Berikutnya -->
+        <div class="absolute inset-x-0 bottom-0 h-28 sm:h-36 bg-gradient-to-t from-white via-white/40 to-transparent pointer-events-none z-10"></div>
 
         <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 relative z-10">
             <!-- Left Text -->
@@ -112,7 +112,7 @@
             <!-- Image Side -->
             <div class="w-full lg:w-1/2">
                 <div class="relative">
-                    <img src="{{ asset('images/dokumgsc (6).JPG') }}" alt="Pusat Operasional & Armada Ambulans Siaga" class="w-full h-[400px] md:h-[500px] object-cover rounded-3xl shadow-lg border border-slate-100">
+                    <img src="{{ asset('images/dokumgsc (6).JPG') }}" alt="Pusat Operasional & Armada Ambulans Siaga" class="w-full h-[400px] md:h-[500px] object-cover rounded-3xl shadow-xl border-4 border-primary-200">
                     
                     <!-- Integrated Stat Box -->
                     <div class="absolute -bottom-6 -right-6 bg-white p-6 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-4 hidden md:flex">
@@ -210,7 +210,7 @@
                 <!-- Card 1 -->
                 <div class="bg-white rounded-[2rem] overflow-hidden shadow-lg shadow-slate-200/50 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group border border-slate-100 flex flex-col">
                     <div class="h-48 overflow-hidden relative">
-                        <img src="{{ asset('images/dokumgsc (27).JPG') }}" alt="Ambulans Gawat Darurat" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <img src="{{ asset('images/dokumgsc (3).jpg') }}" alt="Ambulans Gawat Darurat" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                         <div class="absolute -bottom-1 left-4 bg-white p-2 rounded-t-xl">
                             <div class="bg-red-50 text-red-600 w-12 h-12 rounded-lg flex items-center justify-center">
                                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path></svg>
@@ -226,7 +226,7 @@
                 <!-- Card 2 -->
                 <div class="bg-white rounded-[2rem] overflow-hidden shadow-lg shadow-slate-200/50 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group border border-slate-100 flex flex-col">
                     <div class="h-48 overflow-hidden relative">
-                        <img src="{{ asset('images/dokumgsc (3).JPG') }}" alt="Bantuan Tanggap Darurat" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <img src="{{ asset('images/dokumgsc (14).jpg') }}" alt="Bantuan Tanggap Darurat" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                         <div class="absolute -bottom-1 left-4 bg-white p-2 rounded-t-xl">
                             <div class="bg-sky-50 text-sky-600 w-12 h-12 rounded-lg flex items-center justify-center">
                                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"></path></svg>
@@ -338,108 +338,11 @@
         </div>
     </section>
 
-    <!-- SECTION VIDEO TESTIMONI & ULASAN MASYARAKAT (Beranda) -->
-    <section class="py-24 px-6 lg:px-12 bg-slate-900 text-white relative overflow-hidden">
-        <!-- Glow accents -->
-        <div class="absolute -top-24 -left-24 w-96 h-96 bg-primary-500/15 rounded-full blur-[100px] pointer-events-none"></div>
-        <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-sky-500/15 rounded-full blur-[100px] pointer-events-none"></div>
-
-        <div class="max-w-7xl mx-auto relative z-10" x-data="{ currentVid: 1 }">
-            <div class="text-center max-w-3xl mx-auto mb-14">
-                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-yellow-300 text-xs font-bold uppercase tracking-wider mb-3">
-                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"></path></svg>
-                    Kisah Nyata Lapangan
-                </span>
-                <h2 class="text-3xl md:text-[2.5rem] font-black text-white mb-4 leading-tight">
-                    Suara Hati & Bukti Pelayanan Ambulans Siaga
-                </h2>
-                <p class="text-slate-300 text-sm sm:text-base font-normal leading-relaxed">
-                    Mendengar langsung kelegaan keluarga pasien dan masyarakat yang terbantu evakuasi medis darurat tanpa dipungut biaya sepeserpun.
-                </p>
-            </div>
-
-            <!-- Video Player & Switcher -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mb-16">
-                <div class="lg:col-span-8">
-                    <div class="relative bg-slate-800/90 rounded-[2.5rem] p-3 sm:p-4 border border-white/15 shadow-2xl overflow-hidden">
-                        <div class="relative aspect-video rounded-[2rem] overflow-hidden bg-black flex items-center justify-center">
-                            <video x-show="currentVid === 1" controls class="w-full h-full object-contain" poster="{{ asset('images/beranda_utama_thumb.jpg') }}">
-                                <source src="{{ asset('images/videogsc (1).mp4') }}" type="video/mp4">
-                            </video>
-                            <video x-show="currentVid === 2" controls class="w-full h-full object-contain" poster="{{ asset('images/mitra.jpg') }}" x-cloak>
-                                <source src="{{ asset('images/videogsc (2).mp4') }}" type="video/mp4">
-                            </video>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="lg:col-span-4 space-y-4">
-                    <h3 class="text-base font-bold text-slate-200">Pilih Rekaman Testimoni:</h3>
-                    
-                    <div @click="currentVid = 1" class="cursor-pointer p-4 rounded-2xl transition-all duration-300 flex items-start gap-4 border" :class="currentVid === 1 ? 'bg-white/15 border-primary-400 shadow-lg ring-2 ring-primary-400/40' : 'bg-white/5 border-white/10 hover:bg-white/10'">
-                        <div class="w-12 h-12 rounded-xl bg-primary-600/30 border border-primary-400/30 flex items-center justify-center shrink-0 mt-0.5 text-primary-300">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                        </div>
-                        <div class="min-w-0">
-                            <span class="inline-block px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-yellow-400/20 text-yellow-300 mb-1">Dokumentasi 1</span>
-                            <h4 class="font-bold text-white text-sm leading-snug">Evakuasi Medis Cepat & Sigap</h4>
-                            <p class="text-xs text-slate-400 mt-1 line-clamp-2">Keluarga pasien menceritakan pertolongan ambulans yang tiba tepat waktu saat kondisi darurat.</p>
-                        </div>
-                    </div>
-
-                    <div @click="currentVid = 2" class="cursor-pointer p-4 rounded-2xl transition-all duration-300 flex items-start gap-4 border" :class="currentVid === 2 ? 'bg-white/15 border-primary-400 shadow-lg ring-2 ring-primary-400/40' : 'bg-white/5 border-white/10 hover:bg-white/10'">
-                        <div class="w-12 h-12 rounded-xl bg-sky-600/30 border border-sky-400/30 flex items-center justify-center shrink-0 mt-0.5 text-sky-300">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                        </div>
-                        <div class="min-w-0">
-                            <span class="inline-block px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-sky-400/20 text-sky-300 mb-1">Dokumentasi 2</span>
-                            <h4 class="font-bold text-white text-sm leading-snug">Pelayanan Ramah & Penuh Keikhlasan</h4>
-                            <p class="text-xs text-slate-400 mt-1 line-clamp-2">Umpan balik warga atas keramahan paramedis dan supir ambulans selama perjalanan rujukan.</p>
-                        </div>
-                    </div>
-
-                    <div class="pt-2">
-                        <a href="{{ route('donasi') }}" class="w-full py-3.5 px-4 rounded-xl bg-primary-600 hover:bg-primary-500 text-white font-extrabold text-xs uppercase tracking-wider transition shadow-lg flex items-center justify-center gap-2 text-center">
-                            Dukung Operasional Ambulans
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Real Patient Reviews (Dynamic Database) -->
-            @if(isset($ratings) && count($ratings) > 0)
-            <div class="pt-8 border-t border-white/10">
-                <div class="text-center mb-8">
-                    <h3 class="text-xl font-bold text-white">Ulasan Terbaru Dari Masyarakat & Keluarga Pasien</h3>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    @foreach($ratings as $r)
-                    <div class="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-xs flex flex-col justify-between hover:bg-white/10 transition">
-                        <div>
-                            <div class="flex text-yellow-400 mb-3 items-center gap-1">
-                                @for($i = 1; $i <= ($r->skor ?: 5); $i++)
-                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                                @endfor
-                            </div>
-                            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4 italic font-normal">"{!! e($r->ulasan) !!}"</p>
-                        </div>
-                        <div class="pt-3 border-t border-white/10">
-                            <p class="font-bold text-white text-xs">{{ $r->nama_tampil }}</p>
-                            <p class="text-[11px] text-primary-300">{{ $r->peran_tampil }}</p>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-            </div>
-            @endif
-        </div>
-    </section>
 
     <!-- Bergabung Bersama Kami Section (Pudar / Slate-50) -->
     <section class="py-24 px-6 lg:px-12 bg-slate-50 relative overflow-hidden border-t border-slate-100">
         <!-- Subtle Star of Life Watermark Background -->
-        <div class="absolute top-[48%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1400px] h-[1400px] pointer-events-none flex items-center justify-center z-0 opacity-40">
+        <div class="absolute top-[48%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[850px] sm:w-[1000px] sm:h-[1000px] md:w-[1100px] md:h-[1100px] pointer-events-none flex items-center justify-center z-0 opacity-40">
             <svg viewBox="0 0 100 100" class="w-full h-full text-primary-100 fill-current">
                 <path d="M 40 10 L 60 10 L 60 40 L 90 40 L 90 60 L 60 60 L 60 90 L 40 90 L 40 60 L 10 60 L 10 40 L 40 40 Z" transform="rotate(45 50 50)"/>
                 <path d="M 40 10 L 60 10 L 60 40 L 90 40 L 90 60 L 60 60 L 60 90 L 40 90 L 40 60 L 10 60 L 10 40 L 40 40 Z"/>
@@ -462,7 +365,7 @@
             </h2>
 
             <!-- Focal Point: 3D Coverflow Slider -->
-            <div class="relative w-full max-w-4xl mx-auto mb-20 h-[280px] md:h-[400px] flex justify-center items-center" 
+            <div class="relative w-full max-w-3xl mx-auto mb-14 h-[220px] sm:h-[260px] md:h-[300px] flex justify-center items-center" 
                  x-data="{ 
                      active: 0, 
                      slides: [
@@ -485,14 +388,14 @@
                  }">
                 
                 <!-- Soft Halo -->
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 md:w-[500px] md:h-[500px] bg-sky-300/30 rounded-full blur-[80px] animate-pulse pointer-events-none z-0"></div>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 md:w-[350px] md:h-[350px] bg-sky-300/30 rounded-full blur-[60px] animate-pulse pointer-events-none z-0"></div>
                 
                 <template x-for="(slide, i) in slides" :key="i">
-                    <div class="absolute w-[280px] md:w-[500px] aspect-[4/3] rounded-3xl overflow-hidden transition-all duration-700 ease-in-out cursor-pointer shadow-2xl border-[5px] border-white origin-center"
+                    <div class="absolute w-[220px] sm:w-[280px] md:w-[380px] aspect-[4/3] rounded-2xl md:rounded-3xl overflow-hidden transition-all duration-700 ease-in-out cursor-pointer shadow-xl border-4 border-white origin-center"
                          :class="{
                              'z-30 scale-100 translate-x-0 opacity-100': getPos(i) === 'center',
-                             'z-20 scale-75 translate-x-[60%] md:translate-x-[65%] opacity-60': getPos(i) === 'right',
-                             'z-20 scale-75 -translate-x-[60%] md:-translate-x-[65%] opacity-60': getPos(i) === 'left',
+                             'z-20 scale-75 translate-x-[55%] md:translate-x-[60%] opacity-60': getPos(i) === 'right',
+                             'z-20 scale-75 -translate-x-[55%] md:-translate-x-[60%] opacity-60': getPos(i) === 'left',
                              'opacity-0 scale-50 z-10 translate-x-0': getPos(i) === 'hidden'
                          }"
                          @click="active = i">
@@ -505,53 +408,53 @@
                 </template>
                 
                 <!-- Carousel Navigation -->
-                <div class="absolute -bottom-12 left-0 right-0 flex justify-center gap-3 z-40">
+                <div class="absolute -bottom-8 left-0 right-0 flex justify-center gap-2.5 z-40">
                     <template x-for="(slide, i) in slides" :key="'dot-'+i">
                         <button @click="active = i" 
-                                class="h-2.5 rounded-full transition-all duration-500"
-                                :class="active === i ? 'bg-primary-600 w-8' : 'bg-primary-200 w-2.5 hover:bg-primary-400'"></button>
+                                class="h-2 rounded-full transition-all duration-500"
+                                :class="active === i ? 'bg-primary-600 w-6' : 'bg-primary-200 w-2 hover:bg-primary-400'"></button>
                     </template>
                 </div>
             </div>
 
-            <!-- 3 Steps Visual -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full max-w-4xl mx-auto relative mb-16 mt-8">
+            <!-- 3 Steps Visual (Compact & Balanced) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5 w-full max-w-3xl mx-auto relative mb-12 mt-4">
                 <!-- Connecting Line (Desktop) -->
-                <div class="hidden md:block absolute top-10 left-[20%] right-[20%] h-[2px] bg-slate-200 z-0"></div>
+                <div class="hidden md:block absolute top-8 left-[18%] right-[18%] h-[2px] bg-slate-200 z-0"></div>
 
                 <!-- Step 1 -->
-                <div class="relative z-10 flex flex-col items-center text-center bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
-                    <div class="w-16 h-16 rounded-full bg-sky-50 text-primary-600 flex items-center justify-center font-black text-2xl mb-5 ring-4 ring-slate-50 group-hover:bg-primary-600 group-hover:text-white transition-colors duration-300">
+                <div class="relative z-10 flex flex-col items-center text-center bg-white p-5 sm:p-6 rounded-2xl border border-slate-100 shadow-xs hover:shadow-lg transition-all duration-300 hover:-translate-y-1 group">
+                    <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-sky-50 text-primary-600 flex items-center justify-center font-black text-lg sm:text-xl mb-3 ring-4 ring-slate-50 group-hover:bg-primary-600 group-hover:text-white transition-colors duration-300">
                         1
                     </div>
-                    <h3 class="font-bold text-slate-800 text-lg mb-2">DAFTAR</h3>
-                    <p class="text-sm text-slate-500 leading-relaxed">Lengkapi data pendaftaran Anda secara detail melalui formulir pendaftaran.</p>
+                    <h3 class="font-bold text-slate-800 text-sm sm:text-base mb-1.5">DAFTAR</h3>
+                    <p class="text-xs sm:text-[13px] text-slate-500 leading-relaxed">Lengkapi data pendaftaran Anda secara detail melalui formulir pendaftaran.</p>
                 </div>
 
                 <!-- Step 2 -->
-                <div class="relative z-10 flex flex-col items-center text-center bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
-                    <div class="w-16 h-16 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center font-black text-2xl mb-5 ring-4 ring-slate-50 group-hover:bg-amber-500 group-hover:text-white transition-colors duration-300">
+                <div class="relative z-10 flex flex-col items-center text-center bg-white p-5 sm:p-6 rounded-2xl border border-slate-100 shadow-xs hover:shadow-lg transition-all duration-300 hover:-translate-y-1 group">
+                    <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center font-black text-lg sm:text-xl mb-3 ring-4 ring-slate-50 group-hover:bg-amber-500 group-hover:text-white transition-colors duration-300">
                         2
                     </div>
-                    <h3 class="font-bold text-slate-800 text-lg mb-2">VERIFIKASI</h3>
-                    <p class="text-sm text-slate-500 leading-relaxed">Tim kami akan melakukan pengecekan dan validasi atas data yang dikirim.</p>
+                    <h3 class="font-bold text-slate-800 text-sm sm:text-base mb-1.5">VERIFIKASI</h3>
+                    <p class="text-xs sm:text-[13px] text-slate-500 leading-relaxed">Tim kami akan melakukan pengecekan dan validasi atas data yang dikirim.</p>
                 </div>
 
                 <!-- Step 3 -->
-                <div class="relative z-10 flex flex-col items-center text-center bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
-                    <div class="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center font-black text-2xl mb-5 ring-4 ring-slate-50 group-hover:bg-emerald-500 group-hover:text-white transition-colors duration-300">
+                <div class="relative z-10 flex flex-col items-center text-center bg-white p-5 sm:p-6 rounded-2xl border border-slate-100 shadow-xs hover:shadow-lg transition-all duration-300 hover:-translate-y-1 group">
+                    <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center font-black text-lg sm:text-xl mb-3 ring-4 ring-slate-50 group-hover:bg-emerald-500 group-hover:text-white transition-colors duration-300">
                         3
                     </div>
-                    <h3 class="font-bold text-slate-800 text-lg mb-2">SIAP BERGABUNG</h3>
-                    <p class="text-sm text-slate-500 leading-relaxed">Selamat! Anda resmi menjadi bagian dari jaringan relawan Ambulans Siaga.</p>
+                    <h3 class="font-bold text-slate-800 text-sm sm:text-base mb-1.5">SIAP BERGABUNG</h3>
+                    <p class="text-xs sm:text-[13px] text-slate-500 leading-relaxed">Selamat! Anda resmi menjadi bagian dari jaringan relawan Ambulans Siaga.</p>
                 </div>
             </div>
 
             <!-- CTA Button -->
-            <a href="{{ route('register.supir') }}" class="group relative inline-flex items-center justify-center gap-3 bg-primary-600 text-white px-10 py-5 rounded-full font-black text-lg hover:bg-primary-700 transition-all duration-300 shadow-[0_10px_30px_rgba(0,156,166,0.3)] hover:-translate-y-1 hover:shadow-[0_15px_40px_rgba(0,156,166,0.4)]">
+            <a href="{{ route('register.supir') }}" class="group relative inline-flex items-center justify-center gap-2.5 bg-primary-600 text-white px-8 py-3.5 rounded-full font-extrabold text-base hover:bg-primary-700 transition-all duration-300 shadow-[0_8px_25px_rgba(0,156,166,0.3)] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(0,156,166,0.4)]">
                 Daftar sebagai Pengemudi Ambulans
-                <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
                 </svg>
             </a>
         </div>

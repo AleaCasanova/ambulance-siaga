@@ -22,8 +22,6 @@ class Beranda extends Component
         $totalRelawan = 150 + \App\Models\User::count();
         $totalAmbulans = \App\Models\Ambulans::count();
         $totalRumahSakit = \App\Models\RumahSakit::count();
-        $ratings = \App\Models\Rating::whereNotNull('ulasan')->latest()->take(3)->get();
-
         return view('livewire.masyarakat.beranda', [
             'namaOrg' => $namaOrg,
             'telepon' => $telepon,
@@ -35,7 +33,6 @@ class Beranda extends Component
             'totalRelawan' => $totalRelawan,
             'totalAmbulans' => $totalAmbulans,
             'totalRumahSakit' => $totalRumahSakit,
-            'ratings' => $ratings,
         ])->layout('layouts.blank');
     }
 }

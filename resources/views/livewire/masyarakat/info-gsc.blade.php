@@ -194,54 +194,90 @@
             <!-- ========================================== -->
             <!-- BAGIAN 4: PUSAT KOORDINASI & SEKRETARIAT -->
             <!-- ========================================== -->
-            <div id="koordinasi" class="pt-8 pb-8">
-                <div class="relative bg-[#0F2747] rounded-[2.5rem] p-8 sm:p-12 shadow-2xl overflow-hidden">
-                    <!-- Background Graphics -->
-                    <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 32px 32px;"></div>
-                    <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-primary-600/40 rounded-full blur-3xl"></div>
+            <div id="koordinasi" class="pt-8 pb-12">
+                <div class="bg-white rounded-[2.5rem] border border-slate-200/90 p-8 sm:p-12 shadow-xs relative overflow-hidden">
                     
-                    <div class="relative z-10 flex flex-col lg:flex-row gap-8 lg:items-center lg:justify-between mb-10">
+                    <!-- Header Bar -->
+                    <div class="flex flex-col lg:flex-row gap-6 lg:items-center lg:justify-between pb-8 mb-8 border-b border-slate-100">
                         <div>
-                            <h3 class="text-2xl sm:text-3xl font-black text-white tracking-tight mb-2">Pusat Koordinasi & Sekretariat</h3>
-                            <p class="text-sky-200 text-sm font-medium">Hubungi kami untuk informasi kemitraan, keluhan, atau layanan darurat 24 jam.</p>
+                            <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-50 text-primary-700 font-extrabold text-[11px] uppercase tracking-wider mb-3 border border-primary-200/60">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                                Layanan Resmi & Sekretariat
+                            </span>
+                            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight">Pusat Koordinasi & Sekretariat</h2>
+                            <p class="text-slate-500 text-sm sm:text-base mt-2 font-normal leading-relaxed max-w-2xl">
+                                Hubungi pusat komando kami untuk informasi kemitraan, layanan evakuasi medis darurat, atau rujukan terpadu 24 jam non-stop.
+                            </p>
                         </div>
                         <div class="flex-shrink-0">
-                            <a href="tel:{{ preg_replace('/[^0-9]/', '', $telepon) }}" class="inline-flex items-center gap-3 px-6 py-3.5 rounded-full bg-white hover:bg-slate-50 text-[#0F2747] font-extrabold text-sm transition-all shadow-lg shadow-white/10 group">
-                                <span class="relative flex h-3 w-3">
-                                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-600 opacity-75"></span>
-                                  <span class="relative inline-flex rounded-full h-3 w-3 bg-primary-600"></span>
-                                </span>
+                            <a href="tel:{{ preg_replace('/[^0-9]/', '', $telepon) }}" class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-2xl bg-primary-600 hover:bg-primary-700 text-white font-bold text-sm transition-all duration-200 shadow-md shadow-primary-600/20 hover:shadow-lg hover:shadow-primary-600/30 hover:-translate-y-0.5">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                                 Hubungi Hotline
                             </a>
                         </div>
                     </div>
 
-                    <div class="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-                        <!-- Alamat -->
-                        <div class="p-6 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md hover:bg-white/20 transition-all group">
-                            <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white mb-4">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    <!-- 3 Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Card 1: Alamat -->
+                        <div class="p-6 sm:p-7 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-primary-200 hover:shadow-md transition-all duration-300 flex flex-col justify-between group">
+                            <div>
+                                <div class="w-12 h-12 rounded-xl bg-white shadow-xs border border-slate-200 flex items-center justify-center text-slate-700 mb-5 group-hover:scale-105 group-hover:border-primary-300 group-hover:text-primary-600 transition-all">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </div>
+                                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Alamat Kantor Pusat</span>
+                                <p class="text-sm sm:text-base font-bold text-slate-800 leading-relaxed">{{ $alamat }}</p>
                             </div>
-                            <span class="text-[10px] font-extrabold text-sky-200 block uppercase tracking-wider mb-1.5">Alamat Kantor Pusat</span>
-                            <p class="text-sm font-bold text-white leading-relaxed">{{ $alamat }}</p>
+                            <div class="mt-6 pt-4 border-t border-slate-200/60 flex items-center text-xs font-semibold text-slate-500">
+                                <span class="flex items-center gap-1.5 text-slate-600">
+                                    <svg class="w-4 h-4 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                                    Kantor Pengendali Operasional
+                                </span>
+                            </div>
                         </div>
-                        <!-- Telepon -->
-                        <div class="p-6 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md hover:bg-white/20 transition-all group">
-                            <div class="w-10 h-10 rounded-xl bg-primary-600 flex items-center justify-center text-white mb-4 shadow-lg shadow-[#009CA6]/30">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+
+                        <!-- Card 2: Telepon & Darurat (Highlighted) -->
+                        <div class="p-6 sm:p-7 rounded-2xl bg-gradient-to-br from-primary-50/70 via-white to-sky-50/50 border border-primary-200 hover:border-primary-400 hover:shadow-lg hover:shadow-primary-600/10 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden">
+                            <div class="absolute top-3.5 right-3.5">
+                                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-700 uppercase tracking-wide">
+                                    Siaga 24 Jam
+                                </span>
                             </div>
-                            <span class="text-[10px] font-extrabold text-sky-200 block uppercase tracking-wider mb-1.5">Telepon & Darurat (24 Jam)</span>
-                            <p class="text-lg font-black text-white">{{ $telepon }}</p>
+                            <div>
+                                <div class="w-12 h-12 rounded-xl bg-primary-600 shadow-md shadow-primary-600/30 flex items-center justify-center text-white mb-5 group-hover:scale-105 transition-all">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                                </div>
+                                <span class="text-[11px] font-bold text-primary-800 uppercase tracking-wider block mb-1.5">Telepon & Darurat (24 Jam)</span>
+                                <a href="tel:{{ preg_replace('/[^0-9]/', '', $telepon) }}" class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight hover:text-primary-600 transition-colors block">
+                                    {{ $telepon }}
+                                </a>
+                            </div>
+                            <div class="mt-6 pt-4 border-t border-primary-200/50 flex items-center justify-between text-xs font-semibold text-primary-700">
+                                <span>Panggilan Bebas Pulsa / Darurat</span>
+                                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </div>
                         </div>
-                        <!-- Email -->
-                        <div class="p-6 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md hover:bg-white/20 transition-all group">
-                            <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white mb-4">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+
+                        <!-- Card 3: Email -->
+                        <div class="p-6 sm:p-7 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-primary-200 hover:shadow-md transition-all duration-300 flex flex-col justify-between group">
+                            <div>
+                                <div class="w-12 h-12 rounded-xl bg-white shadow-xs border border-slate-200 flex items-center justify-center text-slate-700 mb-5 group-hover:scale-105 group-hover:border-primary-300 group-hover:text-primary-600 transition-all">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                </div>
+                                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Alamat Email Resmi</span>
+                                <a href="mailto:{{ $email }}" class="text-sm sm:text-base font-bold text-slate-800 hover:text-primary-600 transition-colors block break-all leading-relaxed">
+                                    {{ $email }}
+                                </a>
                             </div>
-                            <span class="text-[10px] font-extrabold text-sky-200 block uppercase tracking-wider mb-1.5">Alamat Email Resmi</span>
-                            <p class="text-sm font-bold text-white">{{ $email }}</p>
+                            <div class="mt-6 pt-4 border-t border-slate-200/60 flex items-center text-xs font-semibold text-slate-500">
+                                <span class="flex items-center gap-1.5 text-slate-600">
+                                    <svg class="w-4 h-4 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    Respon Surat 1x24 Jam
+                                </span>
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </div>
 

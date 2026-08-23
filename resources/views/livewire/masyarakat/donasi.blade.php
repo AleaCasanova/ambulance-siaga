@@ -2,9 +2,15 @@
 
 
     <!-- Hero Section -->
-    <section class="relative bg-gradient-to-br from-primary-600 to-primary-700 pt-40 pb-20 px-6 lg:px-12 overflow-hidden">
-        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 32px 32px;"></div>
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12 relative z-10">
+    <section class="relative pt-40 pb-24 sm:pb-32 px-6 lg:px-12 overflow-hidden bg-primary-600" style="background-image: url('{{ asset('images/donation (5).jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+        <!-- Gradient Overlay: Mix of Cyan and Primary -->
+        <div class="absolute inset-0 bg-gradient-to-r from-primary-700 via-[#009CA6]/85 to-primary-600/75 mix-blend-multiply"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-primary-700/90 via-[#009CA6]/80 to-primary-800/75"></div>
+        
+        <!-- Gradasi Halus ke Bawah Menuju Section Form -->
+        <div class="absolute inset-x-0 bottom-0 h-32 sm:h-44 bg-gradient-to-t from-slate-50 via-slate-50/50 to-transparent pointer-events-none z-10"></div>
+
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12 relative z-20">
             <div class="md:w-1/2 text-white z-10 text-center md:text-left">
                 <span class="inline-flex items-center gap-2 mb-6 bg-white/10 backdrop-blur px-4 py-2 rounded-full border border-white/20 shadow-xl">
                     <svg class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20"><path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"></path></svg>
@@ -25,7 +31,7 @@
             </div>
             <div class="md:w-1/2 relative hidden md:block">
                 <div class="absolute right-0 top-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-white/20 rounded-full blur-3xl"></div>
-                <img src="{{ asset('images/dokumgsc (28).JPG') }}" alt="Aksi Nyata Relawan Ambulans Siaga" class="relative z-10 rounded-[3rem] shadow-2xl border-4 border-white/30 hover:-translate-y-2 transition-transform duration-500 object-cover w-full h-[400px]">
+                <img src="{{ asset('images/donation (3).jpg') }}" alt="Aksi Nyata Relawan Ambulans Siaga" class="relative z-10 rounded-[3rem] shadow-2xl border-4 border-white/30 hover:-translate-y-2 transition-transform duration-500 object-cover w-full h-[400px]">
             </div>
         </div>
     </section>
@@ -56,23 +62,23 @@
                                     ];
                                 @endphp
                                 @foreach($pilihanNominal as $nom => $label)
-                                    <button type="button" wire:click="$set('nominal', '{{ $nom }}')" class="py-2 px-4 rounded-xl border-2 text-center transition-all relative flex flex-col items-center justify-center @if($nominal == $nom) bg-[#f4faef] border-[#8DC63F] text-slate-800 shadow-sm @else bg-white border-slate-100 text-slate-600 hover:border-slate-200 shadow-sm @endif" style="min-height: 4.5rem;">
+                                    <button type="button" wire:click="$set('nominal', '{{ $nom }}')" class="py-2 px-4 rounded-xl border-2 text-center transition-all relative flex flex-col items-center justify-center @if($nominal == $nom) bg-primary-50 border-primary-600 text-primary-950 shadow-sm ring-1 ring-primary-600/30 @else bg-white border-slate-100 text-slate-600 hover:border-slate-200 shadow-sm @endif" style="min-height: 4.5rem;">
                                         <div class="font-bold text-sm">{{ $label }}</div>
                                         @if($nom == 100000)
                                             <div class="text-[10px] text-slate-400 font-normal">sering dipilih</div>
                                         @endif
                                         @if($nominal == $nom)
-                                            <div class="absolute top-1.5 right-1.5 text-[#8DC63F] bg-white rounded-full leading-none">
+                                            <div class="absolute top-1.5 right-1.5 text-primary-600 bg-white rounded-full leading-none shadow-xs">
                                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
                                             </div>
                                         @endif
                                     </button>
                                 @endforeach
-                                <button type="button" wire:click="$set('nominal', 'lainnya')" class="py-2 px-4 rounded-xl border-2 text-center transition-all relative flex flex-col items-center justify-center @if($nominal == 'lainnya') bg-[#f4faef] border-[#8DC63F] text-slate-800 shadow-sm @else bg-white border-slate-100 text-slate-600 hover:border-slate-200 shadow-sm @endif" style="min-height: 4.5rem;">
+                                <button type="button" wire:click="$set('nominal', 'lainnya')" class="py-2 px-4 rounded-xl border-2 text-center transition-all relative flex flex-col items-center justify-center @if($nominal == 'lainnya') bg-primary-50 border-primary-600 text-primary-950 shadow-sm ring-1 ring-primary-600/30 @else bg-white border-slate-100 text-slate-600 hover:border-slate-200 shadow-sm @endif" style="min-height: 4.5rem;">
                                     <div class="font-bold text-sm">Nominal</div>
                                     <div class="text-[10px] text-slate-400 font-normal">lainnya</div>
                                     @if($nominal == 'lainnya')
-                                        <div class="absolute top-1.5 right-1.5 text-[#8DC63F] bg-white rounded-full leading-none">
+                                        <div class="absolute top-1.5 right-1.5 text-primary-600 bg-white rounded-full leading-none shadow-xs">
                                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
                                         </div>
                                     @endif
@@ -81,7 +87,7 @@
                             @if($nominal == 'lainnya')
                                 <div class="relative flex items-center w-full mt-3">
                                     <span class="absolute text-slate-500 font-bold text-base pointer-events-none" style="left: 1.25rem;">Rp</span>
-                                    <input type="number" wire:model.live="nominalLainnya" placeholder="Masukkan Nominal" class="w-full bg-white border border-slate-200 rounded-xl text-slate-500 text-right font-medium focus:ring-2 focus:ring-[#8DC63F]/20 focus:border-[#8DC63F] transition-all placeholder:font-normal placeholder:text-slate-400 placeholder:text-right shadow-sm" style="padding-left: 3.5rem; padding-right: 1.25rem; padding-top: 1rem; padding-bottom: 1rem;">
+                                    <input type="number" wire:model.live="nominalLainnya" placeholder="Masukkan Nominal" class="w-full bg-white border border-slate-200 rounded-xl text-slate-700 text-right font-medium focus:ring-2 focus:ring-primary-500/20 focus:border-primary-600 transition-all placeholder:font-normal placeholder:text-slate-400 placeholder:text-right shadow-sm" style="padding-left: 3.5rem; padding-right: 1.25rem; padding-top: 1rem; padding-bottom: 1rem;">
                                 </div>
                             @endif
                         </div>
@@ -89,7 +95,7 @@
                         <!-- Data Donatur -->
                         <div class="space-y-4 mb-8">
                             <div>
-                                <input type="text" wire:model="nama" placeholder="Nama Lengkap" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg text-slate-800 focus:ring-2 focus:ring-[#8DC63F]/20 focus:border-[#8DC63F] transition-all disabled:opacity-50 disabled:bg-slate-100 disabled:cursor-not-allowed" @if($isAnonim) disabled @endif>
+                                <input type="text" wire:model="nama" placeholder="Nama Lengkap" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg text-slate-800 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-600 transition-all disabled:opacity-50 disabled:bg-slate-100 disabled:cursor-not-allowed" @if($isAnonim) disabled @endif>
                             </div>
                             
                             <!-- Toggle Anonim -->
@@ -101,13 +107,13 @@
                                 </label>
                             </div>
                             <div class="mb-8">
-                                <input type="tel" wire:model="whatsapp" placeholder="No Whatsapp atau Handphone" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg text-slate-800 focus:ring-2 focus:ring-[#8DC63F]/20 focus:border-[#8DC63F] transition-all">
+                                <input type="tel" wire:model="whatsapp" placeholder="No Whatsapp atau Handphone" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg text-slate-800 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-600 transition-all">
                             </div>
                             <div class="mb-8">
-                                <input type="email" wire:model="email" placeholder="Email (optional)" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg text-slate-800 focus:ring-2 focus:ring-[#8DC63F]/20 focus:border-[#8DC63F] transition-all">
+                                <input type="email" wire:model="email" placeholder="Email (optional)" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg text-slate-800 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-600 transition-all">
                             </div>
                             <div class="mb-8">
-                                <textarea wire:model="pesan" rows="4" placeholder="Tuliskan pesan atau doa disini (optional)" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg text-slate-800 focus:ring-2 focus:ring-[#8DC63F]/20 focus:border-[#8DC63F] transition-all resize-none"></textarea>
+                                <textarea wire:model="pesan" rows="4" placeholder="Tuliskan pesan atau doa disini (optional)" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg text-slate-800 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-600 transition-all resize-none"></textarea>
                             </div>
                         </div>
 
