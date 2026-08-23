@@ -34,7 +34,7 @@
                 Tugas Ambulans & Antrean Dispatch
             </h1>
             <p class="text-xs text-slate-500 mt-1">
-                Driver: <strong class="text-slate-700">{{ auth()->user()->name }}</strong> • Armada: <strong class="text-slate-700">{{ $supir?->ambulans?->kode_ambulans ?? 'Unit Ambulans' }} ({{ $supir?->plat_nomor ?? $supir?->ambulans?->plat_nomor ?? '-' }})</strong>
+                Driver: <strong class="text-slate-700">{{ auth()->user()?->name ?? 'Driver' }}</strong> • Armada: <strong class="text-slate-700">{{ $supir?->ambulans?->kode_ambulans ?? 'Unit Ambulans' }} ({{ $supir?->plat_nomor ?? $supir?->ambulans?->plat_nomor ?? '-' }})</strong>
             </p>
         </div>
 
@@ -166,10 +166,10 @@
                                     class="px-3 py-2 rounded-lg text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors">
                                 Peta Rute
                             </button>
-                            <a href="{{ route('supir.tugas.detail', $ao->id) }}"
+                            <button type="button" wire:click="openDetailModal({{ $ao->id }})"
                                class="px-3 py-2 rounded-lg text-xs font-semibold text-slate-700 border border-slate-200 hover:bg-slate-50 transition-colors">
                                 Detail
-                            </a>
+                            </button>
                             <button type="button" wire:click="acceptOrder({{ $ao->id }})"
                                     class="px-4 py-2 rounded-lg text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs transition-colors flex items-center gap-1.5">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
@@ -241,10 +241,10 @@
                                     class="px-3 py-2 rounded-lg text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors">
                                 Peta Rute
                             </button>
-                            <a href="{{ route('supir.tugas.detail', $op->id) }}"
+                            <button type="button" wire:click="openDetailModal({{ $op->id }})"
                                class="px-3 py-2 rounded-lg text-xs font-semibold text-slate-700 border border-slate-200 hover:bg-slate-50 transition-colors">
                                 Detail
-                            </a>
+                            </button>
                             <button type="button" wire:click="takeOrder({{ $op->id }})"
                                     class="px-5 py-2 rounded-lg text-xs font-bold bg-teal-700 hover:bg-teal-800 text-white shadow-xs transition-colors flex items-center gap-1.5">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
@@ -304,6 +304,205 @@
         </div>
 
     </div>
+
+    <!-- Modal Detail Pesanan & Foto Verifikasi Pasien -->
+    @if($showDetailModal && $selectedDetailOrder)
+        <div class="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 bg-slate-900/70 backdrop-blur-xs animate-fade-in"
+             x-data="{ showLightbox: false }">
+            <div class="bg-white rounded-3xl max-w-2xl w-full shadow-2xl border border-slate-100 overflow-hidden relative z-[10000] max-h-[90vh] flex flex-col"
+                 @click.outside="$wire.closeDetailModal()">
+                
+                <!-- Modal Header -->
+                <div class="px-6 py-4 border-b border-slate-100 bg-slate-50/80 flex items-center justify-between gap-3 shrink-0">
+                    <div class="flex items-center gap-2.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-teal-600 animate-pulse"></span>
+                        <div>
+                            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Verifikasi & Detail Pasien</span>
+                            <h3 class="font-extrabold text-slate-800 text-base leading-tight font-mono">
+                                #{{ $selectedDetailOrder->kode_order }}
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-extrabold {{ $selectedDetailOrder->prioritas_badge_classes }}">
+                            PRIORITAS {{ strtoupper($selectedDetailOrder->prioritas) }}
+                        </span>
+                        <button type="button" wire:click="closeDetailModal"
+                                class="w-8 h-8 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-600 flex items-center justify-center transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Modal Body (Scrollable) -->
+                <div class="p-6 space-y-5 overflow-y-auto text-xs text-slate-700">
+                    
+                    <!-- Foto Verifikasi / Bukti Darurat -->
+                    <div>
+                        <span class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider block mb-2">
+                            📸 Foto Kondisi Pasien / Lokasi Penjemputan (Autentikasi GPS)
+                        </span>
+                        
+                        @if($selectedDetailOrder->photo_path)
+                            <div class="relative rounded-2xl overflow-hidden border border-slate-200 bg-slate-900 group cursor-pointer"
+                                 @click="showLightbox = true">
+                                <img src="{{ asset('storage/' . $selectedDetailOrder->photo_path) }}" 
+                                     alt="Foto Pasien & Lokasi" 
+                                     class="w-full h-56 object-cover object-center group-hover:scale-105 transition-transform duration-300">
+                                
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end justify-between p-3.5 text-white">
+                                    <div class="space-y-0.5">
+                                        <div class="flex items-center gap-1.5 text-[11px] font-bold">
+                                            <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                            <span>Foto Terverifikasi Geotagging</span>
+                                        </div>
+                                        <p class="text-[10px] text-slate-300 truncate max-w-[320px]">
+                                            {{ $selectedDetailOrder->photo_address ?: $selectedDetailOrder->lokasi_jemput }}
+                                        </p>
+                                    </div>
+                                    <span class="px-2.5 py-1 rounded-lg bg-white/20 backdrop-blur-md text-[10px] font-bold border border-white/30 flex items-center gap-1">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
+                                        <span>Perbesar</span>
+                                    </span>
+                                </div>
+                            </div>
+                        @else
+                            <div class="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-6 text-center space-y-1.5">
+                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto text-lg">
+                                    📷
+                                </div>
+                                <p class="font-bold text-slate-600">Foto Tidak Dilampirkan</p>
+                                <p class="text-[11px] text-slate-400">Pemesan membuat pesanan tanpa unggahan kamera langsung.</p>
+                            </div>
+                        @endif
+                    </div>
+
+                    <!-- Informasi Pasien -->
+                    <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 space-y-3">
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <div>
+                                <span class="text-slate-400 text-[10px] uppercase font-bold block">Nama Pasien</span>
+                                <span class="font-bold text-slate-800 text-sm">{{ $selectedDetailOrder->nama_pasien }}</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 text-[10px] uppercase font-bold block">Usia Pasien</span>
+                                <span class="font-bold text-slate-800 text-sm">{{ $selectedDetailOrder->usia_pasien ?? '-' }} Thn</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 text-[10px] uppercase font-bold block">No. Kontak / WA</span>
+                                <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $selectedDetailOrder->no_hp_kontak) }}" target="_blank"
+                                   class="font-bold text-emerald-600 hover:underline flex items-center gap-1">
+                                    <span>{{ $selectedDetailOrder->no_hp_kontak }}</span>
+                                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                                </a>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 text-[10px] uppercase font-bold block">Pendamping</span>
+                                <span class="font-bold text-slate-800 text-sm">{{ $selectedDetailOrder->jumlah_pendamping ?? 1 }} Orang</span>
+                            </div>
+                        </div>
+
+                        <!-- Kondisi & Keperluan Medis -->
+                        <div class="pt-2 border-t border-slate-200/60 space-y-1.5">
+                            <span class="text-slate-400 text-[10px] uppercase font-bold block">Keperluan & Kondisi Medis Pasien</span>
+                            <div class="p-3 rounded-xl bg-red-50 border border-red-100 text-red-900 font-semibold leading-relaxed">
+                                <span class="inline-block px-2 py-0.5 rounded bg-red-200 text-red-800 font-extrabold text-[10px] mr-1.5 uppercase">
+                                    {{ $selectedDetailOrder->keperluan_penggunaan ?: 'IGD Darurat' }}
+                                </span>
+                                {{ $selectedDetailOrder->kondisi_pasien ?: ($selectedDetailOrder->diagnosa_medis ?: 'Pasien memerlukan tindakan evakuasi medis darurat segera.') }}
+                            </div>
+                        </div>
+
+                        @if($selectedDetailOrder->catatan_tambahan)
+                            <div class="pt-1">
+                                <span class="text-slate-400 text-[10px] uppercase font-bold block">Catatan Khusus Pemesan</span>
+                                <p class="text-slate-700 italic bg-white p-2.5 rounded-lg border border-slate-200 mt-1">
+                                    &ldquo;{{ $selectedDetailOrder->catatan_tambahan }}&rdquo;
+                                </p>
+                            </div>
+                        @endif
+                    </div>
+
+                    <!-- Rute Titik Jemput & RS -->
+                    <div class="space-y-2">
+                        <span class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider block">
+                            📍 Rencana Jalur Evakuasi
+                        </span>
+                        <div class="p-3.5 rounded-2xl bg-white border border-slate-200 space-y-3 shadow-xs">
+                            <div class="flex items-start gap-2.5">
+                                <div class="w-6 h-6 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+                                    📍
+                                </div>
+                                <div>
+                                    <span class="text-slate-400 text-[10px] uppercase font-bold block">Alamat Titik Penjemputan</span>
+                                    <span class="font-bold text-slate-800">{{ $selectedDetailOrder->lokasi_jemput }}</span>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-2.5 pt-2 border-t border-slate-100">
+                                <div class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+                                    🏥
+                                </div>
+                                <div>
+                                    <span class="text-slate-400 text-[10px] uppercase font-bold block">Rumah Sakit Rujukan / Tujuan</span>
+                                    <span class="font-bold text-emerald-800">{{ $selectedDetailOrder->tujuan_lokasi ?? $selectedDetailOrder->rumahSakit?->nama ?? 'Ditentukan Operator' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="px-6 py-4 border-t border-slate-100 bg-slate-50/80 flex items-center justify-end gap-3 shrink-0">
+                    <button type="button" wire:click="closeDetailModal"
+                            class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors">
+                        Tutup
+                    </button>
+
+                    @if($selectedDetailOrder->status === 'menunggu' && !$selectedDetailOrder->supir_id)
+                        <button type="button" wire:click="takeOrder({{ $selectedDetailOrder->id }})"
+                                class="px-6 py-2.5 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-extrabold text-xs shadow-md shadow-teal-700/20 transition-all flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            <span>✓ Ambil Tugas Penjemputan Ini</span>
+                        </button>
+                    @elseif($selectedDetailOrder->status === 'menunggu_konfirmasi_supir')
+                        <button type="button" wire:click="rejectOrder({{ $selectedDetailOrder->id }})" wire:confirm="Yakin ingin menolak penugasan ini?"
+                                class="px-4 py-2.5 rounded-xl text-xs font-bold text-red-600 hover:bg-red-50 transition-colors">
+                            Tolak
+                        </button>
+                        <button type="button" wire:click="acceptOrder({{ $selectedDetailOrder->id }})"
+                                class="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-md shadow-emerald-600/20 transition-all flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            <span>✓ Terima Tugas</span>
+                        </button>
+                    @endif
+                </div>
+
+            </div>
+
+            <!-- Lightbox Zoom Modal -->
+            @if($selectedDetailOrder->photo_path)
+                <div x-show="showLightbox" 
+                     x-transition:enter="transition ease-out duration-200"
+                     x-transition:enter-start="opacity-0"
+                     x-transition:enter-end="opacity-100"
+                     x-transition:leave="transition ease-in duration-150"
+                     x-transition:leave-start="opacity-100"
+                     x-transition:leave-end="opacity-0"
+                     class="fixed inset-0 z-[20000] bg-black/90 backdrop-blur-md flex items-center justify-center p-4"
+                     @click="showLightbox = false">
+                    <button type="button" @click="showLightbox = false"
+                            class="absolute top-5 right-5 text-white bg-white/20 hover:bg-white/30 rounded-full p-2.5 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                    <img src="{{ asset('storage/' . $selectedDetailOrder->photo_path) }}" 
+                         alt="Foto Pembesaran" 
+                         class="max-w-full max-h-[85vh] rounded-2xl object-contain shadow-2xl"
+                         @click.stop="">
+                </div>
+            @endif
+        </div>
+    @endif
 
     <!-- Leaflet Script for Driver Dispatch Console -->
     <script>

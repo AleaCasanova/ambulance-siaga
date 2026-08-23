@@ -345,7 +345,7 @@
                     <div id="tracking-map" class="w-full h-full z-0"></div>
 
                     <!-- Floating ETA Badge -->
-                    <div x-show="routeDistance"
+                    <div x-show="routeDistance && orderStatus !== 'selesai'"
                          class="absolute top-4 left-4 z-[400] bg-white/95 backdrop-blur-md rounded-2xl p-3.5 shadow-xl border border-slate-100 flex items-center gap-3">
                         <div class="w-10 h-10 rounded-xl bg-primary-700 flex items-center justify-center text-white shadow-md">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
@@ -385,9 +385,9 @@
 
     <!-- Rating & Review Modal (Setelah Pesanan Selesai) -->
     @if($showRatingModal)
-        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-xs animate-fade-in">
-            <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-slate-100 text-center relative"
-                 @click.outside="$wire.showRatingModal = false">
+        <div class="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-xs animate-fade-in">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-slate-100 text-center relative z-[10000]"
+                 @click.outside="$wire.dismissRating()">
                 
                 <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4 shadow-inner">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -421,7 +421,7 @@
                                 class="flex-1 py-3.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-extrabold text-sm shadow-lg shadow-primary-600/30 transition-all">
                             KIRIM ULASAN
                         </button>
-                        <button type="button" wire:click="$set('showRatingModal', false)"
+                        <button type="button" wire:click="dismissRating"
                                 class="px-4 py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold text-sm transition-colors">
                             Lewati
                         </button>

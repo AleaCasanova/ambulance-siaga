@@ -10,6 +10,21 @@ use Livewire\Component;
 
 class TugasIndex extends Component
 {
+    public bool $showDetailModal = false;
+    public ?Pemesanan $selectedDetailOrder = null;
+
+    public function openDetailModal(int $orderId)
+    {
+        $this->selectedDetailOrder = Pemesanan::with(['user.masyarakat', 'ambulans', 'rumahSakit'])->find($orderId);
+        $this->showDetailModal = true;
+    }
+
+    public function closeDetailModal()
+    {
+        $this->showDetailModal = false;
+        $this->selectedDetailOrder = null;
+    }
+
     public function toggleStatusOnline()
     {
         $user = auth()->user();
@@ -157,7 +172,7 @@ class TugasIndex extends Component
                 ->map(function ($order) use ($driverLat, $driverLng) {
                     $dist = $this->calculateDistanceKm($driverLat, $driverLng, (float) $order->jemput_lat, (float) $order->jemput_lng);
                     $order->distance_km = $dist;
-                    $order->distance_text = $dist ? "{$dist} km · ±" . max(3, ceil($dist * 2.5)) . " mnt" : "Kabupaten Cilacap";
+                    $order->distance_text = $dist ? "{$dist} km · ±" . max(2, ceil($dist * 1.1)) . " mnt" : "Kabupaten Cilacap";
                     return $order;
                 });
         }
@@ -172,7 +187,7 @@ class TugasIndex extends Component
             ->map(function ($order) use ($driverLat, $driverLng) {
                 $dist = $this->calculateDistanceKm($driverLat, $driverLng, (float) $order->jemput_lat, (float) $order->jemput_lng);
                 $order->distance_km = $dist;
-                $order->distance_text = $dist ? "{$dist} km · ±" . max(3, ceil($dist * 2.5)) . " mnt" : "Kabupaten Cilacap";
+                $order->distance_text = $dist ? "{$dist} km · ±" . max(2, ceil($dist * 1.1)) . " mnt" : "Kabupaten Cilacap";
                 return $order;
             });
 

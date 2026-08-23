@@ -84,8 +84,20 @@ class OrderShow extends Component
         session()->flash('success', "Status tugas diperbarui ke: " . strtoupper(str_replace('_', ' ', $newStatus)));
 
         $order = Pemesanan::with('latestTracking')->find($this->orderId);
-        $currentLat = $order->latestTracking ? (float)$order->latestTracking->lat : (float)($order->jemput_lat ?: -7.7188);
-        $currentLng = $order->latestTracking ? (float)$order->latestTracking->lng : (float)($order->jemput_lng ?: 109.0159);
+        
+        $poskoLat = -7.7050;
+        $poskoLng = 108.9950;
+
+        if ($newStatus === 'menuju_lokasi' || $newStatus === 'diproses') {
+            $currentLat = $order->latestTracking ? (float)$order->latestTracking->lat : $poskoLat;
+            $currentLng = $order->latestTracking ? (float)$order->latestTracking->lng : $poskoLng;
+        } elseif ($newStatus === 'membawa_pasien') {
+            $currentLat = (float)($order->jemput_lat ?: $poskoLat);
+            $currentLng = (float)($order->jemput_lng ?: $poskoLng);
+        } else {
+            $currentLat = $order->latestTracking ? (float)$order->latestTracking->lat : $poskoLat;
+            $currentLng = $order->latestTracking ? (float)$order->latestTracking->lng : $poskoLng;
+        }
 
         $this->dispatch('status-changed', [
             'status' => $newStatus
@@ -119,6 +131,7 @@ class OrderShow extends Component
             $this->dispatch('gps-updated', [
                 'lat' => (float) $newGps->lat,
                 'lng' => (float) $newGps->lng,
+                'status' => $order->status,
                 'arrived' => $arrived,
             ]);
 
@@ -142,25 +155,25 @@ class OrderShow extends Component
             'latestTracking'
         ])->findOrFail($this->orderId);
 
-        $latCandidate = $order->latestTracking ? (float) $order->latestTracking->lat : ($order->supir?->lokasi_terakhir_lat ?? null);
-        $lngCandidate = $order->latestTracking ? (float) $order->latestTracking->lng : ($order->supir?->lokasi_terakhir_lng ?? null);
+        $poskoLat = -7.7050;
+        $poskoLng = 108.9950;
 
-        // Jika pesanan baru (belum ada tracking GPS aktif) dan posisi supir sama/sangat dekat dengan titik jemput (< 300m),
-        // tempatkan ambulans di Posko Siaga agar supir memulai perjalanan penjemputan dari pangkalan.
-        if (!$order->latestTracking && in_array($order->status, ['diproses', 'menuju_lokasi'])) {
-            if (!$latCandidate || !$lngCandidate || (abs($latCandidate - (float)$order->jemput_lat) < 0.003 && abs($lngCandidate - (float)$order->jemput_lng) < 0.003)) {
-                $latCandidate = -7.7050; // Posko Siaga Cilacap
-                $lngCandidate = 108.9950;
-            }
-        }
-
-        // Validasi Cilacap bounds
-        if (!$latCandidate || !$lngCandidate || $latCandidate > -7.5 || $latCandidate < -7.9 || $lngCandidate < 108.8 || $lngCandidate > 109.2) {
-            $currentLat = -7.7050;
-            $currentLng = 108.9950;
+        if ($order->latestTracking) {
+            $currentLat = (float) $order->latestTracking->lat;
+            $currentLng = (float) $order->latestTracking->lng;
         } else {
-            $currentLat = $latCandidate;
-            $currentLng = $lngCandidate;
+            if (in_array($order->status, ['diproses', 'menuju_lokasi'])) {
+                // Di tahap menuju lokasi, ambulans mulai dari Posko Siaga
+                $currentLat = $poskoLat;
+                $currentLng = $poskoLng;
+            } elseif ($order->status === 'membawa_pasien') {
+                // Di tahap membawa pasien, ambulans mulai dari titik jemput
+                $currentLat = (float) ($order->jemput_lat ?: $poskoLat);
+                $currentLng = (float) ($order->jemput_lng ?: $poskoLng);
+            } else {
+                $currentLat = $poskoLat;
+                $currentLng = $poskoLng;
+            }
         }
 
         return view('livewire.supir.order-show', [

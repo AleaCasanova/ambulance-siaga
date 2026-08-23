@@ -14,6 +14,7 @@ class OrderTracking extends Component
     public int $skor = 5;
     public string $ulasan = '';
     public bool $showRatingModal = false;
+    public bool $ratingDismissed = false;
 
     public function mount($id)
     {
@@ -23,6 +24,12 @@ class OrderTracking extends Component
         if ($order && $order->status === 'selesai' && !$order->rating) {
             $this->showRatingModal = true;
         }
+    }
+
+    public function dismissRating()
+    {
+        $this->showRatingModal = false;
+        $this->ratingDismissed = true;
     }
 
     /**
@@ -45,6 +52,7 @@ class OrderTracking extends Component
             $this->dispatch('gps-updated', [
                 'lat' => (float) $newGps->lat,
                 'lng' => (float) $newGps->lng,
+                'status' => $order->status,
                 'arrived' => $arrived,
             ]);
         } else {
@@ -62,6 +70,7 @@ class OrderTracking extends Component
         $service->submitRating($this->orderId, auth()->id(), $this->skor, $this->ulasan);
 
         $this->showRatingModal = false;
+        $this->ratingDismissed = true;
         session()->flash('success', 'Terima kasih atas ulasan dan rating Anda untuk pelayanan Ambulans Siaga!');
     }
 
@@ -76,26 +85,30 @@ class OrderTracking extends Component
             'rating'
         ])->findOrFail($this->orderId);
 
-        // Ambil koordinat saat ini untuk update JS Leaflet
-        $latCandidate = $order->latestTracking ? (float) $order->latestTracking->lat : ($order->supir?->lokasi_terakhir_lat ?? null);
-        $lngCandidate = $order->latestTracking ? (float) $order->latestTracking->lng : ($order->supir?->lokasi_terakhir_lng ?? null);
-
-        // Jika pesanan baru (belum ada tracking GPS aktif) dan posisi supir sama/sangat dekat dengan titik jemput (< 300m),
-        // tempatkan ambulans di Posko Siaga agar supir memulai perjalanan penjemputan dari pangkalan.
-        if (!$order->latestTracking && in_array($order->status, ['diproses', 'menuju_lokasi'])) {
-            if (!$latCandidate || !$lngCandidate || (abs($latCandidate - (float)$order->jemput_lat) < 0.003 && abs($lngCandidate - (float)$order->jemput_lng) < 0.003)) {
-                $latCandidate = -7.7050; // Posko Siaga Cilacap
-                $lngCandidate = 108.9950;
-            }
+        // Otomatis buka pop-up ulasan & bintang saat supir menyelesaikan tugas
+        if ($order->status === 'selesai' && !$order->rating && !$this->ratingDismissed) {
+            $this->showRatingModal = true;
         }
 
-        // Validasi Cilacap bounds
-        if (!$latCandidate || !$lngCandidate || $latCandidate > -7.5 || $latCandidate < -7.9 || $lngCandidate < 108.8 || $lngCandidate > 109.2) {
-            $currentLat = -7.7050;
-            $currentLng = 108.9950;
+        $poskoLat = -7.7050;
+        $poskoLng = 108.9950;
+
+        if ($order->latestTracking) {
+            $currentLat = (float) $order->latestTracking->lat;
+            $currentLng = (float) $order->latestTracking->lng;
         } else {
-            $currentLat = $latCandidate;
-            $currentLng = $lngCandidate;
+            if (in_array($order->status, ['diproses', 'menuju_lokasi'])) {
+                // Di tahap menuju lokasi, ambulans mulai dari Posko Siaga
+                $currentLat = $poskoLat;
+                $currentLng = $poskoLng;
+            } elseif ($order->status === 'membawa_pasien') {
+                // Di tahap membawa pasien, ambulans mulai dari titik jemput
+                $currentLat = (float) ($order->jemput_lat ?: $poskoLat);
+                $currentLng = (float) ($order->jemput_lng ?: $poskoLng);
+            } else {
+                $currentLat = $poskoLat;
+                $currentLng = $poskoLng;
+            }
         }
 
         // Dispatch event agar peta Leaflet otomatis update saat polling

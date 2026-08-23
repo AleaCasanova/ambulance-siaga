@@ -274,6 +274,53 @@
                 @endif
             </div>
 
+            <!-- Card: Foto Verifikasi & Kondisi Pasien (Geotagging) -->
+            @if($order->photo_path)
+                <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs space-y-3" x-data="{ showPhotoZoom: false }">
+                    <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-sm">📸</span>
+                            <h3 class="text-sm font-bold text-slate-900">Foto Pasien & Lokasi Penjemputan</h3>
+                        </div>
+                        <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                            Geotagged
+                        </span>
+                    </div>
+
+                    <div class="relative rounded-xl overflow-hidden border border-slate-200 group cursor-pointer"
+                         @click="showPhotoZoom = true">
+                        <img src="{{ asset('storage/' . $order->photo_path) }}" 
+                             alt="Foto Pasien" 
+                             class="w-full h-44 object-cover object-center group-hover:scale-105 transition-transform duration-300">
+                        <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5 backdrop-blur-xs">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
+                            <span>Klik untuk Perbesar Foto</span>
+                        </div>
+                    </div>
+                    
+                    @if($order->photo_address)
+                        <p class="text-[11px] text-slate-500 italic">
+                            📍 {{ $order->photo_address }}
+                        </p>
+                    @endif
+
+                    <!-- Lightbox Modal -->
+                    <div x-show="showPhotoZoom" 
+                         x-transition
+                         class="fixed inset-0 z-[20000] bg-black/90 backdrop-blur-md flex items-center justify-center p-4"
+                         @click="showPhotoZoom = false" style="display: none;">
+                        <button type="button" @click="showPhotoZoom = false"
+                                class="absolute top-5 right-5 text-white bg-white/20 hover:bg-white/30 rounded-full p-2.5 transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </button>
+                        <img src="{{ asset('storage/' . $order->photo_path) }}" 
+                             alt="Foto Pembesaran" 
+                             class="max-w-full max-h-[85vh] rounded-2xl object-contain shadow-2xl"
+                             @click.stop="">
+                    </div>
+                </div>
+            @endif
+
             <!-- Card: Safety Center (Pusat Keselamatan Driver) 🛡 -->
             <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs space-y-3">
                 <div class="flex items-center justify-between pb-2 border-b border-slate-100">
