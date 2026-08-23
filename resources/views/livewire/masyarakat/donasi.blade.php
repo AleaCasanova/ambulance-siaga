@@ -204,50 +204,119 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                @forelse($donaturList as $index => $d)
-                    @php
-                        $displayName = $d->is_anonim ? 'Hamba Allah' : ($d->nama ?: 'Hamba Allah');
-                        $words = explode(' ', trim($displayName));
-                        $initials = count($words) >= 2 
-                            ? strtoupper(substr($words[0], 0, 1) . substr($words[1], 0, 1))
-                            : strtoupper(substr($displayName, 0, 2));
-                        $colors = [
-                            ['bg' => 'bg-sky-100', 'text' => 'text-sky-700'],
-                            ['bg' => 'bg-emerald-100', 'text' => 'text-emerald-700'],
-                            ['bg' => 'bg-amber-100', 'text' => 'text-amber-700'],
-                            ['bg' => 'bg-indigo-100', 'text' => 'text-indigo-700'],
-                            ['bg' => 'bg-rose-100', 'text' => 'text-rose-700'],
-                            ['bg' => 'bg-teal-100', 'text' => 'text-teal-700'],
-                        ];
-                        $theme = $colors[$index % count($colors)];
-                    @endphp
-                    <div class="bg-slate-50/80 rounded-2xl p-5 border border-slate-200/70 hover:border-primary-600/30 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
-                        <div>
-                            <div class="flex items-center gap-3.5 mb-3.5">
-                                <div class="w-11 h-11 rounded-full {{ $theme['bg'] }} {{ $theme['text'] }} flex items-center justify-center font-black text-sm shadow-xs shrink-0 group-hover:scale-105 transition-transform">
-                                    {{ $initials }}
-                                </div>
-                                <div class="min-w-0">
-                                    <h4 class="font-extrabold text-slate-800 text-sm truncate">{{ $displayName }}</h4>
-                                    <p class="text-xs text-slate-400 font-medium">{{ $d->created_at ? $d->created_at->diffForHumans() : 'Baru saja' }}</p>
-                                </div>
+            @php
+                $donaturChunks = $donaturList->chunk(3);
+                $totalChunks = count($donaturChunks);
+            @endphp
+
+            <div x-data="{
+                currentSlide: 0,
+                totalSlides: {{ max(1, $totalChunks) }},
+                paused: false,
+                next() {
+                    if (this.totalSlides > 1) {
+                        this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
+                    }
+                },
+                prev() {
+                    if (this.totalSlides > 1) {
+                        this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
+                    }
+                },
+                init() {
+                    setInterval(() => {
+                        if (!this.paused && this.totalSlides > 1) {
+                            this.next();
+                        }
+                    }, 4500);
+                }
+            }"
+            @mouseenter="paused = true"
+            @mouseleave="paused = false"
+            class="relative">
+                
+                @if($totalChunks > 0)
+                    <!-- Cards Container -->
+                    <div class="relative min-h-[175px]">
+                        @foreach($donaturChunks as $chunkIndex => $chunk)
+                            <div x-show="currentSlide === {{ $chunkIndex }}"
+                                 x-transition:enter="transition ease-out duration-500 transform"
+                                 x-transition:enter-start="opacity-0 translate-y-4 sm:translate-x-8"
+                                 x-transition:enter-end="opacity-100 translate-y-0 sm:translate-x-0"
+                                 x-transition:leave="transition ease-in duration-300 transform absolute inset-0"
+                                 x-transition:leave-start="opacity-100 translate-y-0 sm:translate-x-0"
+                                 x-transition:leave-end="opacity-0 -translate-y-4 sm:-translate-x-8"
+                                 class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+                                 x-cloak>
+                                @foreach($chunk as $index => $d)
+                                    @php
+                                        $displayName = $d->is_anonim ? 'Hamba Allah' : ($d->nama ?: 'Hamba Allah');
+                                        $words = explode(' ', trim($displayName));
+                                        $initials = count($words) >= 2 
+                                            ? strtoupper(substr($words[0], 0, 1) . substr($words[1], 0, 1))
+                                            : strtoupper(substr($displayName, 0, 2));
+                                        $colors = [
+                                            ['bg' => 'bg-sky-100', 'text' => 'text-sky-700'],
+                                            ['bg' => 'bg-emerald-100', 'text' => 'text-emerald-700'],
+                                            ['bg' => 'bg-amber-100', 'text' => 'text-amber-700'],
+                                            ['bg' => 'bg-indigo-100', 'text' => 'text-indigo-700'],
+                                            ['bg' => 'bg-rose-100', 'text' => 'text-rose-700'],
+                                            ['bg' => 'bg-teal-100', 'text' => 'text-teal-700'],
+                                        ];
+                                        $theme = $colors[($chunkIndex * 3 + $loop->index) % count($colors)];
+                                    @endphp
+                                    <div class="bg-slate-50/80 rounded-2xl p-5 border border-slate-200/70 hover:border-primary-600/30 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
+                                        <div>
+                                            <div class="flex items-center gap-3.5 mb-3.5">
+                                                <div class="w-11 h-11 rounded-full {{ $theme['bg'] }} {{ $theme['text'] }} flex items-center justify-center font-black text-sm shadow-xs shrink-0 group-hover:scale-105 transition-transform">
+                                                    {{ $initials }}
+                                                </div>
+                                                <div class="min-w-0">
+                                                    <h4 class="font-extrabold text-slate-800 text-sm truncate">{{ $displayName }}</h4>
+                                                    <p class="text-xs text-slate-400 font-medium">{{ $d->created_at ? $d->created_at->diffForHumans() : 'Baru saja' }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <span class="inline-block px-2.5 py-0.5 rounded-lg bg-emerald-50 border border-emerald-100 text-emerald-700 text-xs font-black">
+                                                    Berdonasi Rp {{ number_format($d->nominal, 0, ',', '.') }}
+                                                </span>
+                                            </div>
+                                            <p class="text-xs sm:text-sm text-slate-600 italic leading-relaxed line-clamp-3">
+                                                "{{ $d->pesan ?: 'Semoga berkah dan bermanfaat untuk masyarakat yang membutuhkan pertolongan medis.' }}"
+                                            </p>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
-                            <div class="mb-3">
-                                <span class="inline-block px-2.5 py-0.5 rounded-lg bg-emerald-50 border border-emerald-100 text-emerald-700 text-xs font-black">
-                                    Berdonasi Rp {{ number_format($d->nominal, 0, ',', '.') }}
-                                </span>
-                            </div>
-                            <p class="text-xs sm:text-sm text-slate-600 italic leading-relaxed line-clamp-3">
-                                "{{ $d->pesan ?: 'Semoga berkah dan bermanfaat untuk masyarakat yang membutuhkan pertolongan medis.' }}"
-                            </p>
-                        </div>
+                        @endforeach
                     </div>
-                @empty
-                    <div class="col-span-full text-center py-8 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+
+                    <!-- Slide Controls (Dots & Prev/Next Arrows) -->
+                    @if($totalChunks > 1)
+                        <div class="flex items-center justify-center gap-3 mt-6">
+                            <button @click="prev()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-primary-50 text-slate-600 hover:text-primary-600 flex items-center justify-center transition border border-slate-200/80 shadow-xs" title="Sebelumnya">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+                            </button>
+                            
+                            <!-- Dots indicator -->
+                            <div class="flex items-center gap-1.5">
+                                @for($i = 0; $i < $totalChunks; $i++)
+                                    <button @click="currentSlide = {{ $i }}" 
+                                            class="h-2 rounded-full transition-all duration-300"
+                                            :class="currentSlide === {{ $i }} ? 'w-6 bg-primary-600' : 'w-2 bg-slate-300 hover:bg-slate-400'"></button>
+                                @endfor
+                            </div>
+
+                            <button @click="next()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-primary-50 text-slate-600 hover:text-primary-600 flex items-center justify-center transition border border-slate-200/80 shadow-xs" title="Selanjutnya">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+                            </button>
+                        </div>
+                    @endif
+                @else
+                    <div class="text-center py-8 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
                         <p class="text-slate-500 font-semibold text-sm">Belum ada data donasi tercatat. Jadilah donatur pertama hari ini!</p>
                     </div>
-                @endforelse
+                @endif
             </div>
             
             <div class="text-center mt-8">
@@ -302,91 +371,180 @@
         @endif
     </section>
 
-    <!-- SECTION VIDEO DOKUMENTASI & TESTIMONI NYATA PASIEN -->
-    <section class="py-20 px-6 lg:px-12 bg-gradient-to-b from-slate-900 to-slate-950 text-white relative overflow-hidden">
-        <!-- Background Ambient Glow -->
-        <div class="absolute top-0 right-1/4 w-96 h-96 bg-primary-600/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute bottom-0 left-1/4 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <!-- Bottom CTA Redesign (Gallery & Video Dokumentasi Kegiatan) -->
+    <section class="relative py-24 px-6 lg:px-12 bg-white overflow-hidden">
+        
+        <!-- Soft Blue Gradient Background -->
+        <div class="absolute inset-0 bg-gradient-to-b from-sky-50/40 via-white to-white pointer-events-none"></div>
 
-        <div class="max-w-7xl mx-auto relative z-10">
-            <div class="text-center max-w-3xl mx-auto mb-12">
-                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-yellow-300 text-xs font-bold uppercase tracking-wider mb-3">
-                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"></path></svg>
-                    Dokumentasi Video Lapangan
-                </span>
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight mb-4">
-                    Suara Hati & Umpan Balik Pasien Terbantu
-                </h2>
-                <p class="text-slate-300 text-sm sm:text-base font-normal leading-relaxed">
-                    Setiap rupiah donasi Anda menjadi bahan bakar dan perawatan armada untuk menjemput harapan mereka yang sedang berjuang di saat kritis.
-                </p>
-            </div>
+        <!-- Soft Glow Behind Gallery (Right side) -->
+        <div class="absolute right-0 top-1/2 -translate-y-1/2 w-[500px] md:w-[700px] h-[500px] md:h-[700px] bg-gradient-to-tr from-primary-600/5 to-sky-300/5 rounded-full blur-[80px] pointer-events-none"></div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-                <!-- Video Player Container -->
-                <div class="lg:col-span-8">
-                    <div class="relative bg-slate-800/80 rounded-[2.5rem] p-3 sm:p-4 border border-white/15 shadow-2xl overflow-hidden group">
-                        <div class="relative aspect-video rounded-[2rem] overflow-hidden bg-black flex items-center justify-center">
-                            @if($activeVideo === 1)
-                                <video controls class="w-full h-full object-contain" poster="{{ asset('images/dokumgsc (27).JPG') }}">
-                                    <source src="{{ asset('images/videogsc (1).mp4') }}" type="video/mp4">
-                                    Browser Anda tidak mendukung pemutar video HTML5.
-                                </video>
-                            @else
-                                <video controls class="w-full h-full object-contain" poster="{{ asset('images/dokumgsc (28).JPG') }}">
-                                    <source src="{{ asset('images/videogsc (2).mp4') }}" type="video/mp4">
-                                    Browser Anda tidak mendukung pemutar video HTML5.
-                                </video>
-                            @endif
-                        </div>
+        <!-- Star of Life Watermark (Top Left) -->
+        <div class="absolute -left-10 -top-10 pointer-events-none rotate-12 text-primary-600" style="opacity: 0.04;">
+            <svg class="w-48 h-48 md:w-72 md:h-72" viewBox="0 0 512 512" fill="currentColor">
+                <path d="M213.3 22.5h85.4v149.3l129.3-74.6 42.7 73.9-129.3 74.6 129.3 74.6-42.7 73.9-129.3-74.6v149.3h-85.4V319.6l-129.3 74.6-42.7-73.9 129.3-74.6-129.3-74.6 42.7-73.9 129.3 74.6V22.5z"/>
+            </svg>
+        </div>
+
+        <!-- ECG Line Watermark (Bottom Right) -->
+        <div class="absolute -right-5 bottom-5 pointer-events-none text-primary-600" style="opacity: 0.05;">
+            <svg class="w-72 md:w-96 h-24 md:h-32" viewBox="0 0 512 150" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M0,75 L50,75 L70,60 L90,75 L120,75 L150,20 L180,130 L210,75 L250,75 L270,55 L290,75 L512,75" />
+            </svg>
+        </div>
+        
+        <div class="max-w-7xl mx-auto relative z-10" x-data="{
+            activeMedia: 0,
+            media: [
+                {
+                    type: 'video',
+                    src: '{{ asset('images/videogsc (1).mp4') }}',
+                    thumb: '{{ asset('images/beranda_utama_thumb.jpg') }}',
+                    badge: 'Video Testimoni',
+                    title: 'Video Testimoni: Respon Cepat Evakuasi Medis',
+                    desc: 'Ungkapan rasa syukur keluarga pasien saat diantar ke fasilitas kesehatan rujukan secara gratis dan tepat waktu.'
+                },
+                {
+                    type: 'video',
+                    src: '{{ asset('images/videogsc (2).mp4') }}',
+                    thumb: '{{ asset('images/mitra.jpg') }}',
+                    badge: 'Video Testimoni',
+                    title: 'Video Testimoni: Pelayanan Ramah & Siaga 24 Jam',
+                    desc: 'Testimoni warga dan kerabat atas dedikasi supir serta relawan Ambulans Siaga dalam melayani masyarakat.'
+                },
+                {
+                    type: 'image',
+                    src: '{{ asset('images/dokumgsc (27).JPG') }}',
+                    thumb: '{{ asset('images/dokumgsc (27).JPG') }}',
+                    badge: 'Foto Dokumentasi',
+                    title: 'Armada & Driver Siaga 24 Jam',
+                    desc: 'Ambulans Siaga selalu siap siaga 24 jam untuk melayani masyarakat yang membutuhkan evakuasi medis darurat.'
+                },
+                {
+                    type: 'image',
+                    src: '{{ asset('images/dokumgsc (7).JPG') }}',
+                    thumb: '{{ asset('images/dokumgsc (7).JPG') }}',
+                    badge: 'Foto Dokumentasi',
+                    title: 'Tim Tanggap Darurat Medis & Relawan',
+                    desc: 'Didukung oleh tenaga lapangan dan relawan yang terlatih dan berdedikasi dalam penanganan darurat serta bencana.'
+                },
+                {
+                    type: 'image',
+                    src: '{{ asset('images/dokumgsc (21).JPG') }}',
+                    thumb: '{{ asset('images/dokumgsc (21).JPG') }}',
+                    badge: 'Foto Dokumentasi',
+                    title: 'Peduli Pasien & Masyarakat Dhuafa',
+                    desc: 'Pelayanan kemanusiaan yang tulus menyentuh langsung masyarakat prasejahtera yang membutuhkan bantuan medis.'
+                },
+                {
+                    type: 'image',
+                    src: '{{ asset('images/dokumgsc (3).JPG') }}',
+                    thumb: '{{ asset('images/dokumgsc (3).JPG') }}',
+                    badge: 'Foto Dokumentasi',
+                    title: 'Bantuan Logistik Darurat & Air Bersih',
+                    desc: 'Aksi tanggap darurat menjangkau wilayah krisis dengan penyaluran air bersih dan logistik kesehatan terpadu.'
+                },
+                {
+                    type: 'image',
+                    src: '{{ asset('images/dokumgsc (24).JPG') }}',
+                    thumb: '{{ asset('images/dokumgsc (24).JPG') }}',
+                    badge: 'Foto Dokumentasi',
+                    title: 'Dedikasi Relawan Kemanusiaan',
+                    desc: 'Para relawan bekerja dengan penuh kepedulian, menyalurkan amanah donasi langsung kepada penerima manfaat secara tepat sasaran.'
+                }
+            ]
+        }">
+            <div class="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
+                
+                <!-- Left Column (Text & CTA) -->
+                <div class="w-full lg:w-[40%] flex flex-col justify-center text-center lg:text-left">
+                    <span class="inline-flex items-center gap-2 mb-4 bg-primary-50 text-primary-700 px-4 py-1.5 rounded-full border border-primary-200 text-xs font-bold uppercase tracking-wider w-fit mx-auto lg:mx-0">
+                        <svg class="w-3.5 h-3.5 text-primary-600" fill="currentColor" viewBox="0 0 20 20"><path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"/></svg>
+                        Dokumentasi Aksi Nyata & Video
+                    </span>
+                    <h2 class="text-3xl md:text-4xl lg:text-[2.5rem] font-black text-slate-800 leading-[1.3] mb-8">
+                        Satu aksi kebaikan Anda hari ini, bisa jadi adalah jawaban atas doa mereka yang sedang dalam kesulitan darurat medis.
+                    </h2>
+                    <div class="w-20 h-1.5 bg-primary-600 rounded-full mb-10 mx-auto lg:mx-0"></div>
+                    <div class="flex justify-center lg:justify-start">
+                        <button onclick="document.getElementById('form-donasi').scrollIntoView({behavior: 'smooth'})" class="bg-primary-600 text-white px-10 py-5 rounded-full font-bold text-lg hover:bg-primary-700 transition-all duration-300 shadow-[0_10px_25px_rgba(0,156,166,0.3)] hover:shadow-[0_15px_35px_rgba(0,156,166,0.4)] hover:-translate-y-1.5 flex items-center gap-3 w-fit group">
+                            Donasi Sekarang
+                            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </button>
                     </div>
                 </div>
 
-                <!-- Video Playlist & Highlights -->
-                <div class="lg:col-span-4 space-y-4">
-                    <h3 class="text-lg font-bold text-slate-200 mb-2">Pilih Video Testimoni:</h3>
-                    
-                    <!-- Video Card 1 -->
-                    <button wire:click="setVideo(1)" class="w-full text-left p-4 rounded-2xl transition-all duration-300 flex items-start gap-4 border {{ $activeVideo === 1 ? 'bg-white/15 border-primary-400 shadow-lg ring-2 ring-primary-400/40' : 'bg-white/5 border-white/10 hover:bg-white/10' }}">
-                        <div class="w-12 h-12 rounded-xl bg-primary-600/30 border border-primary-400/30 flex items-center justify-center shrink-0 mt-0.5 text-primary-300">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                <!-- Right Column (Interactive Gallery with Video & Photos) -->
+                <div class="w-full lg:w-[60%]">
+                    <div class="bg-white/90 backdrop-blur-sm rounded-[2rem] p-5 sm:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.04)] border border-slate-100">
+                        
+                        <!-- Main Media Container -->
+                        <div class="relative w-full aspect-video rounded-[1.5rem] overflow-hidden mb-6 bg-slate-900 shadow-inner group">
+                            <template x-for="(item, index) in media" :key="index">
+                                <div x-show="activeMedia === index" 
+                                     x-transition:enter="transition ease-out duration-300" 
+                                     x-transition:enter-start="opacity-0 scale-[1.02]" 
+                                     x-transition:enter-end="opacity-100 scale-100"
+                                     class="absolute inset-0 w-full h-full flex items-center justify-center bg-black">
+                                    
+                                    <template x-if="item.type === 'video'">
+                                        <video :src="item.src" :poster="item.thumb" controls class="w-full h-full object-contain">
+                                            Browser Anda tidak mendukung tag video HTML5.
+                                        </video>
+                                    </template>
+                                    
+                                    <template x-if="item.type === 'image'">
+                                        <img :src="item.src" :alt="item.title" class="w-full h-full object-cover">
+                                    </template>
+                                </div>
+                            </template>
                         </div>
-                        <div class="min-w-0">
-                            <span class="inline-block px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-yellow-400/20 text-yellow-300 mb-1">Video 1</span>
-                            <h4 class="font-bold text-white text-sm leading-snug">Respon Cepat Evakuasi Medis Pasien</h4>
-                            <p class="text-xs text-slate-400 mt-1 line-clamp-2">Ungkapan rasa syukur keluarga pasien saat diantar ke fasilitas kesehatan secara gratis.</p>
-                        </div>
-                    </button>
 
-                    <!-- Video Card 2 -->
-                    <button wire:click="setVideo(2)" class="w-full text-left p-4 rounded-2xl transition-all duration-300 flex items-start gap-4 border {{ $activeVideo === 2 ? 'bg-white/15 border-primary-400 shadow-lg ring-2 ring-primary-400/40' : 'bg-white/5 border-white/10 hover:bg-white/10' }}">
-                        <div class="w-12 h-12 rounded-xl bg-sky-600/30 border border-sky-400/30 flex items-center justify-center shrink-0 mt-0.5 text-sky-300">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        <!-- Caption & Badge -->
+                        <div class="mb-6 px-2 min-h-[4.5rem]">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="px-2.5 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider"
+                                      :class="media[activeMedia].type === 'video' ? 'bg-amber-100 text-amber-800' : 'bg-primary-100 text-primary-800'"
+                                      x-text="media[activeMedia].badge"></span>
+                                <h3 class="text-lg sm:text-xl font-bold text-slate-800" x-text="media[activeMedia].title"></h3>
+                            </div>
+                            <p class="text-slate-500 leading-relaxed text-xs sm:text-sm" x-text="media[activeMedia].desc"></p>
                         </div>
-                        <div class="min-w-0">
-                            <span class="inline-block px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-sky-400/20 text-sky-300 mb-1">Video 2</span>
-                            <h4 class="font-bold text-white text-sm leading-snug">Pelayanan Ramah & Siaga 24 Jam</h4>
-                            <p class="text-xs text-slate-400 mt-1 line-clamp-2">Testimoni warga dan kerabat atas dedikasi supir serta relawan ambulans di lapangan.</p>
-                        </div>
-                    </button>
 
-                    <!-- Call to Action Box inside Video Section -->
-                    <div class="pt-4">
-                        <div class="p-5 rounded-2xl bg-gradient-to-r from-primary-900/60 to-slate-800/80 border border-primary-500/30">
-                            <p class="text-xs text-slate-300 mb-3 font-medium">Bantu operasional armada tetap bergerak melayani pasien dhuafa setiap hari.</p>
-                            <button onclick="document.getElementById('form-donasi').scrollIntoView({behavior: 'smooth'})" class="w-full py-3 rounded-xl bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-extrabold text-sm transition shadow-lg flex items-center justify-center gap-2">
-                                Salurkan Donasi Sekarang
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                            </button>
+                        <!-- Thumbnails (With Video Play Indicator) -->
+                        <div class="flex gap-3 sm:gap-4 overflow-x-auto pb-4 pt-2 px-1 custom-scrollbar snap-x">
+                            <template x-for="(item, index) in media" :key="index">
+                                <div @click="activeMedia = index" 
+                                     class="relative w-20 sm:w-24 md:w-28 aspect-video rounded-xl overflow-hidden cursor-pointer shrink-0 snap-center border-[3px] transition-all duration-300 group/thumb hover:-translate-y-1 hover:scale-[1.05] shadow-xs"
+                                     :class="activeMedia === index ? 'border-primary-600 shadow-[0_6px_16px_rgba(0,156,166,0.35)] scale-[1.05] z-10' : 'border-slate-200/80 opacity-75 hover:opacity-100 hover:border-primary-400'">
+                                    
+                                    <img :src="item.thumb" :alt="item.title" class="w-full h-full object-cover transition-transform duration-500" :class="activeMedia === index ? 'scale-105' : 'group-hover/thumb:scale-110'">
+                                    
+                                    <!-- Video Play Icon Badge on Thumbnail -->
+                                    <template x-if="item.type === 'video'">
+                                        <div class="absolute inset-0 bg-black/35 flex items-center justify-center">
+                                            <div class="w-6 h-6 rounded-full bg-amber-400 text-slate-900 flex items-center justify-center shadow-md">
+                                                <svg class="w-3.5 h-3.5 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                            </div>
+                                        </div>
+                                    </template>
+
+                                    <!-- Active State Inner Gradient -->
+                                    <div class="absolute inset-0 bg-gradient-to-t from-primary-600/40 to-transparent opacity-0 transition-opacity duration-300 pointer-events-none" :class="activeMedia === index ? 'opacity-100' : ''"></div>
+                                </div>
+                            </template>
                         </div>
+
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
 
-    <!-- Testimonials & Interactive Feedback Section -->
-    <section class="py-20 px-6 lg:px-12 bg-slate-50 border-t border-slate-100">
+    <!-- Testimonials & Interactive Feedback Section (Di Paling Bawah Setelah Dokumentasi) -->
+    <section class="py-20 px-6 lg:px-12 bg-slate-50 border-t border-slate-200/80">
         <div class="max-w-7xl mx-auto">
             <div class="text-center max-w-3xl mx-auto mb-12">
                 <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold uppercase tracking-wider mb-3">
@@ -397,10 +555,10 @@
                 <p class="text-slate-500 font-medium text-sm sm:text-base">Pengalaman nyata masyarakat, keluarga pasien, dan donatur terhadap layanan Ambulans Siaga.</p>
             </div>
             
-            <!-- Cards Grid: Dynamic Testimonials -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+            <!-- Cards Grid: Menampilkan Tepat 3 Card -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 @forelse($testimoniList as $t)
-                <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200/80 hover:shadow-md transition flex flex-col justify-between">
+                <div class="bg-white p-6 sm:p-7 rounded-[2rem] shadow-sm border border-slate-200/80 hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
                     <div>
                         <div class="flex text-yellow-400 mb-4 items-center gap-1">
                             @for($s = 1; $s <= ($t->skor ?: 5); $s++)
@@ -419,6 +577,14 @@
                     <p class="text-slate-500 font-semibold text-sm">Belum ada ulasan tersimpan. Tulis pesan umpan balik pertama Anda di bawah ini!</p>
                 </div>
                 @endforelse
+            </div>
+
+            <!-- Tombol Lihat Semua Ulasan -->
+            <div class="text-center mb-16">
+                <button wire:click="toggleAllReviewModal" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white hover:bg-primary-50 text-slate-700 hover:text-primary-700 font-bold text-sm transition-all duration-200 border border-slate-200 shadow-xs">
+                    <svg class="w-4 h-4 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    Lihat Semua Ulasan ({{ $totalRatingCount }})
+                </button>
             </div>
 
             <!-- Interaktif: Form Kirim Pesan Kebaikan & Umpan Balik Layanan -->
@@ -488,135 +654,46 @@
                 </form>
             </div>
         </div>
-    </section>
 
-    <!-- Bottom CTA Redesign (Gallery) -->
-    <section class="relative py-24 px-6 lg:px-12 bg-white overflow-hidden">
-        
-        <!-- Soft Blue Gradient Background -->
-        <div class="absolute inset-0 bg-gradient-to-b from-sky-50/40 via-white to-white pointer-events-none"></div>
-
-        <!-- Soft Glow Behind Gallery (Right side) -->
-        <div class="absolute right-0 top-1/2 -translate-y-1/2 w-[500px] md:w-[700px] h-[500px] md:h-[700px] bg-gradient-to-tr from-primary-600/5 to-sky-300/5 rounded-full blur-[80px] pointer-events-none"></div>
-
-        <!-- Star of Life Watermark (Top Left) -->
-        <div class="absolute -left-10 -top-10 pointer-events-none rotate-12 text-primary-600" style="opacity: 0.04;">
-            <svg class="w-48 h-48 md:w-72 md:h-72" viewBox="0 0 512 512" fill="currentColor">
-                <path d="M213.3 22.5h85.4v149.3l129.3-74.6 42.7 73.9-129.3 74.6 129.3 74.6-42.7 73.9-129.3-74.6v149.3h-85.4V319.6l-129.3 74.6-42.7-73.9 129.3-74.6-129.3-74.6 42.7-73.9 129.3 74.6V22.5z"/>
-            </svg>
-        </div>
-
-        <!-- ECG Line Watermark (Bottom Right) -->
-        <div class="absolute -right-5 bottom-5 pointer-events-none text-primary-600" style="opacity: 0.05;">
-            <svg class="w-72 md:w-96 h-24 md:h-32" viewBox="0 0 512 150" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M0,75 L50,75 L70,60 L90,75 L120,75 L150,20 L180,130 L210,75 L250,75 L270,55 L290,75 L512,75" />
-            </svg>
-        </div>
-        
-        <div class="max-w-7xl mx-auto relative z-10" x-data="{
-            activeImage: 0,
-            images: [
-                {
-                    src: '{{ asset('images/dokumgsc (27).JPG') }}',
-                    thumb: '{{ asset('images/dokumgsc (27).JPG') }}',
-                    title: 'Armada & Driver Siaga 24 Jam',
-                    desc: 'Ambulans Siaga selalu siap siaga 24 jam untuk melayani masyarakat yang membutuhkan evakuasi medis darurat.'
-                },
-                {
-                    src: '{{ asset('images/dokumgsc (7).JPG') }}',
-                    thumb: '{{ asset('images/dokumgsc (7).JPG') }}',
-                    title: 'Tim Tanggap Darurat Medis & Relawan',
-                    desc: 'Didukung oleh tenaga lapangan dan relawan yang terlatih dan berdedikasi dalam penanganan darurat serta bencana.'
-                },
-                {
-                    src: '{{ asset('images/dokumgsc (21).JPG') }}',
-                    thumb: '{{ asset('images/dokumgsc (21).JPG') }}',
-                    title: 'Peduli Pasien & Masyarakat Dhuafa',
-                    desc: 'Pelayanan kemanusiaan yang tulus menyentuh langsung masyarakat prasejahtera yang membutuhkan bantuan medis.'
-                },
-                {
-                    src: '{{ asset('images/dokumgsc (3).JPG') }}',
-                    thumb: '{{ asset('images/dokumgsc (3).JPG') }}',
-                    title: 'Bantuan Logistik Darurat & Air Bersih',
-                    desc: 'Aksi tanggap darurat menjangkau wilayah krisis dengan penyaluran air bersih dan logistik kesehatan terpadu.'
-                },
-                {
-                    src: '{{ asset('images/dokumgsc (24).JPG') }}',
-                    thumb: '{{ asset('images/dokumgsc (24).JPG') }}',
-                    title: 'Dedikasi Relawan Kemanusiaan',
-                    desc: 'Para relawan bekerja dengan penuh kepedulian, menyalurkan amanah langsung kepada penerima manfaat secara tepat sasaran.'
-                }
-            ]
-        }">
-            <div class="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
-                
-                <!-- Left Column (Text & CTA) -->
-                <div class="w-full lg:w-[40%] flex flex-col justify-center text-center lg:text-left">
-                    <h2 class="text-3xl md:text-4xl lg:text-[2.5rem] font-black text-slate-800 leading-[1.3] mb-8">
-                        Satu aksi kebaikan Anda hari ini, bisa jadi adalah jawaban atas doa mereka yang sedang dalam kesulitan darurat medis.
-                    </h2>
-                    <div class="w-20 h-1.5 bg-primary-600 rounded-full mb-10 mx-auto lg:mx-0"></div>
-                    <div class="flex justify-center lg:justify-start">
-                        <button onclick="document.getElementById('form-donasi').scrollIntoView({behavior: 'smooth'})" class="bg-primary-600 text-white px-10 py-5 rounded-full font-bold text-lg hover:bg-primary-700 transition-all duration-300 shadow-[0_10px_25px_rgba(0,156,166,0.3)] hover:shadow-[0_15px_35px_rgba(0,156,166,0.4)] hover:-translate-y-1.5 flex items-center gap-3 w-fit group">
-                            Donasi Sekarang
-                            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                        </button>
+        <!-- Modal Semua Ulasan -->
+        @if($showAllReviewModal)
+        <div class="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4" x-transition>
+            <div class="bg-white rounded-3xl max-w-3xl w-full p-6 sm:p-8 shadow-2xl border border-slate-100 relative max-h-[85vh] flex flex-col">
+                <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+                    <div>
+                        <h3 class="text-xl font-black text-slate-800">Semua Ulasan & Testimoni</h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Total {{ $totalRatingCount }} ulasan dari masyarakat dan donatur</p>
                     </div>
+                    <button wire:click="toggleAllReviewModal" class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
                 </div>
 
-                <!-- Right Column (Interactive Gallery) -->
-                <div class="w-full lg:w-[60%]">
-                    <div class="bg-white/80 backdrop-blur-sm rounded-[2rem] p-5 sm:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.03)] border border-white/50">
-                        
-                        <!-- Main Image Container -->
-                        <div class="relative w-full aspect-video rounded-[1.5rem] overflow-hidden mb-6 bg-slate-100 shadow-inner group">
-                            <template x-for="(image, index) in images" :key="index">
-                                <img x-show="activeImage === index" 
-                                     x-transition:enter="transition ease-out duration-500" 
-                                     x-transition:enter-start="opacity-0 scale-[1.05]" 
-                                     x-transition:enter-end="opacity-100 scale-100" 
-                                     :src="image.src" 
-                                     :alt="image.title"
-                                     class="absolute inset-0 w-full h-full object-cover" x-cloak>
-                            </template>
+                <div class="overflow-y-auto py-4 space-y-3 flex-1 pr-1 custom-scrollbar">
+                    @forelse($allReviewList as $t)
+                    <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-100">
+                        <div class="flex text-yellow-400 mb-2 items-center gap-1">
+                            @for($s = 1; $s <= ($t->skor ?: 5); $s++)
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            @endfor
                         </div>
-
-                        <!-- Caption -->
-                        <div class="mb-6 px-2 min-h-[4.5rem]">
-                            <h3 class="text-xl font-bold text-slate-800 mb-2" x-text="images[activeImage].title"></h3>
-                            <p class="text-slate-500 leading-relaxed text-sm" x-text="images[activeImage].desc"></p>
+                        <p class="text-slate-700 text-sm leading-relaxed mb-3">"{!! e($t->ulasan) !!}"</p>
+                        <div class="flex items-center justify-between text-xs text-slate-400 pt-2 border-t border-slate-200/60">
+                            <span class="font-bold text-slate-700">{{ $t->nama_tampil }} <span class="text-primary-600 font-semibold">({{ $t->peran_tampil }})</span></span>
+                            <span>{{ $t->created_at ? $t->created_at->format('d M Y') : '' }}</span>
                         </div>
-
-                        <!-- Thumbnails -->
-                        <div class="flex gap-4 overflow-x-auto pb-6 pt-4 px-2 custom-scrollbar snap-x">
-                            <template x-for="(image, index) in images" :key="index">
-                                <div @click="activeImage = index" 
-                                     class="relative w-20 md:w-28 aspect-video rounded-xl overflow-hidden cursor-pointer shrink-0 snap-center border-[3px] transition-all duration-300 group/thumb hover:-translate-y-2 hover:scale-[1.06] hover:shadow-[0_12px_25px_rgba(0,0,0,0.15)]"
-                                     :class="activeImage === index ? 'border-primary-600 shadow-[0_8px_20px_rgba(0,156,166,0.3)] scale-[1.05] z-10' : 'border-transparent opacity-75 hover:opacity-100 hover:border-primary-600/30'">
-                                    
-                                    <img :src="image.thumb" :alt="image.title" class="w-full h-full object-cover transition-transform duration-500" :class="activeImage === index ? 'scale-110' : 'group-hover/thumb:scale-110'">
-                                    
-                                    <!-- Hover Overlay -->
-                                    <div class="absolute inset-0 bg-primary-600/50 opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-300 flex items-center justify-center overflow-hidden backdrop-blur-[2px]">
-                                        <!-- Plus Icon (Animated from bottom) -->
-                                        <div class="flex items-center justify-center transform translate-y-12 group-hover/thumb:translate-y-0 transition-transform duration-500 ease-out">
-                                            <div class="bg-white p-2 rounded-full shadow-lg">
-                                                <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"></path></svg>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Active State Inner Gradient -->
-                                    <div class="absolute inset-0 bg-gradient-to-t from-primary-600/40 to-transparent opacity-0 transition-opacity duration-300 pointer-events-none" :class="activeImage === index ? 'opacity-100' : ''"></div>
-                                </div>
-                            </template>
-                        </div>
-
                     </div>
+                    @empty
+                    <p class="text-center text-slate-400 py-8 text-sm">Belum ada data ulasan.</p>
+                    @endforelse
                 </div>
 
+                <div class="pt-4 border-t border-slate-100 flex justify-end">
+                    <button wire:click="toggleAllReviewModal" class="px-6 py-2.5 bg-slate-800 text-white rounded-full font-bold text-xs hover:bg-slate-900 transition">Tutup</button>
+                </div>
             </div>
         </div>
+        @endif
     </section>
 
     <x-landing-footer />

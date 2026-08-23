@@ -28,7 +28,7 @@ class Donasi extends Component
 
     // State Modal & Media
     public $showAllDonaturModal = false;
-    public $activeVideo = 1;
+    public $showAllReviewModal = false;
 
     public function updatedIsAnonim($value)
     {
@@ -44,9 +44,9 @@ class Donasi extends Component
         $this->showAllDonaturModal = !$this->showAllDonaturModal;
     }
 
-    public function setVideo($index)
+    public function toggleAllReviewModal()
     {
-        $this->activeVideo = $index;
+        $this->showAllReviewModal = !$this->showAllReviewModal;
     }
 
     public function kirimDonasi()
@@ -131,7 +131,7 @@ class Donasi extends Component
     {
         $donaturList = DonasiModel::where('status', 'success')
             ->latest()
-            ->take(6)
+            ->take(12)
             ->get();
 
         $allDonaturList = $this->showAllDonaturModal 
@@ -143,8 +143,12 @@ class Donasi extends Component
 
         $testimoniList = Rating::whereNotNull('ulasan')
             ->latest()
-            ->take(6)
+            ->take(3)
             ->get();
+
+        $allReviewList = $this->showAllReviewModal
+            ? Rating::whereNotNull('ulasan')->latest()->get()
+            : collect();
 
         $averageRating = round(Rating::avg('skor') ?: 5.0, 1);
         $totalRatingCount = Rating::whereNotNull('ulasan')->count();
@@ -155,6 +159,7 @@ class Donasi extends Component
             'totalDonasi' => $totalDonasi,
             'totalDonaturCount' => $totalDonaturCount,
             'testimoniList' => $testimoniList,
+            'allReviewList' => $allReviewList,
             'averageRating' => $averageRating,
             'totalRatingCount' => $totalRatingCount,
         ])->layout('layouts.blank');

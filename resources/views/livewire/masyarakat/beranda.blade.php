@@ -363,10 +363,10 @@
                 <div class="lg:col-span-8">
                     <div class="relative bg-slate-800/90 rounded-[2.5rem] p-3 sm:p-4 border border-white/15 shadow-2xl overflow-hidden">
                         <div class="relative aspect-video rounded-[2rem] overflow-hidden bg-black flex items-center justify-center">
-                            <video x-show="currentVid === 1" controls class="w-full h-full object-contain" poster="{{ asset('images/dokumgsc (27).JPG') }}">
+                            <video x-show="currentVid === 1" controls class="w-full h-full object-contain" poster="{{ asset('images/beranda_utama_thumb.jpg') }}">
                                 <source src="{{ asset('images/videogsc (1).mp4') }}" type="video/mp4">
                             </video>
-                            <video x-show="currentVid === 2" controls class="w-full h-full object-contain" poster="{{ asset('images/dokumgsc (28).JPG') }}" x-cloak>
+                            <video x-show="currentVid === 2" controls class="w-full h-full object-contain" poster="{{ asset('images/mitra.jpg') }}" x-cloak>
                                 <source src="{{ asset('images/videogsc (2).mp4') }}" type="video/mp4">
                             </video>
                         </div>
