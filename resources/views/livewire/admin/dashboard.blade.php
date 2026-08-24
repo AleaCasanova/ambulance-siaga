@@ -186,11 +186,11 @@
             // Leaflet Map Initialization
             const map = L.map('liveAmbulanceMap', {
                 zoomControl: false,
-                scrollWheelZoom: false // Enterprise standard: map scroll is usually disabled to not interfere with page scroll
+                scrollWheelZoom: true
             }).setView([-7.7188, 109.0156], 12); // Default Cilacap
 
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors',
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
                 maxZoom: 19
             }).addTo(map);
             
@@ -199,20 +199,25 @@
             const driversData = @json($activeDrivers);
             const markers = [];
 
-            // Custom Icon Generation
+            // Authentic Classic Leaflet 3D Colored Pins
             const getIcon = (status) => {
-                let colorClass = 'custom-green-icon'; // Available
-                if (status === 'Emergency') colorClass = 'custom-red-icon';
-                if (status === 'On Duty') colorClass = 'custom-yellow-icon';
-                if (status === 'Offline') colorClass = ''; // Default/grayish
+                let color = 'green'; // Available
+
+                if (status === 'Emergency') {
+                    color = 'red'; // Emergency (Classic Red Pin)
+                } else if (status === 'On Duty') {
+                    color = 'orange'; // On Duty (Classic Orange/Yellow Pin)
+                } else if (status === 'Offline') {
+                    color = 'grey'; // Offline (Classic Grey Pin)
+                }
 
                 return L.icon({
-                    iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                    iconUrl: `https://cdn.jsdelivr.net/gh/pointhi/leaflet-color-markers@master/img/marker-icon-2x-${color}.png`,
                     shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
                     iconSize: [25, 41],
                     iconAnchor: [12, 41],
                     popupAnchor: [1, -34],
-                    className: colorClass
+                    shadowSize: [41, 41]
                 });
             };
 
