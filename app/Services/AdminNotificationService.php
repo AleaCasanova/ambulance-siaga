@@ -70,7 +70,7 @@ class AdminNotificationService
     public static function notifyNewMitraRegistered(User $user, array $details = []): void
     {
         $admins = self::getAdmins();
-        $lembaga = $details['nama_lembaga'] ?? ($user->supir?->nama_lembaga ?: 'Mitra Lembaga');
+        $lembaga = $details['nama_lembaga'] ?? ($user->mitra?->nama_mitra ?? ($user->supir?->nama_lembaga ?: 'Mitra Lembaga'));
 
         foreach ($admins as $admin) {
             Notifikasi::create([

@@ -93,7 +93,7 @@ class Dashboard extends Component
                     'lat' => $supir->lokasi_terakhir_lat,
                     'lng' => $supir->lokasi_terakhir_lng,
                     'status' => $statusMap,
-                    'destination' => $activeOrder ? ($activeOrder->rumahSakit->nama ?? $activeOrder->lokasi_tujuan) : '-',
+                    'destination' => $activeOrder ? ($activeOrder->rumahSakit->nama ?? $activeOrder->tujuan_lokasi) : '-',
                 ];
             });
 

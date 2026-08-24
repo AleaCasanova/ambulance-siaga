@@ -189,7 +189,7 @@ class MasyarakatController extends Controller
             'ambulans',
             'supir.user',
             'rumahSakit',
-            'statusPerjalanan.user',
+            'statusPerjalanan.creator',
             'trackingGps' => fn($q) => $q->latest('recorded_at')->limit(50),
             'latestTracking',
             'rating'
@@ -396,9 +396,12 @@ class MasyarakatController extends Controller
     public function getDonasi(Request $request)
     {
         $user = $request->user();
-        $userDonations = Donasi::where('user_id', $user->id)->latest()->get();
+        $userDonations = Donasi::where('email', $user->email)
+            ->orWhere('whatsapp', $user->phone)
+            ->latest()
+            ->get();
 
-        $totalTerkumpul = Donasi::where('status_pembayaran', 'paid')->sum('nominal');
+        $totalTerkumpul = Donasi::whereIn('status', ['success', 'settlement'])->sum('nominal');
 
         return response()->json([
             'success' => true,
@@ -519,7 +522,7 @@ class MasyarakatController extends Controller
                     'status' => $st->status,
                     'keterangan' => $st->keterangan,
                     'created_at' => $st->created_at?->toIso8601String(),
-                    'created_by_name' => $st->user?->name ?? 'Sistem',
+                    'created_by_name' => $st->creator?->name ?? $st->user?->name ?? 'Sistem',
                 ];
             });
 

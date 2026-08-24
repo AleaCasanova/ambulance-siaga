@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Ambulans;
 use App\Models\Mitra;
+use App\Models\Role;
 use App\Models\Supir;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -13,12 +14,14 @@ class MitraSeeder extends Seeder
 {
     public function run(): void
     {
+        $mitraRole = Role::where('name', 'mitra')->first();
+
         $user = User::firstOrCreate(
             ['email' => 'mitra@ambulansiaga.com'],
             [
                 'name' => 'PMI Kabupaten Cilacap',
                 'password' => Hash::make('password'),
-                'role_id' => 1,
+                'role_id' => $mitraRole?->id ?? 1,
                 'phone' => '081234567899',
                 'email_verified_at' => now(),
             ]

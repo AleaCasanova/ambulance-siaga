@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Mail\SendOtpMail;
+use App\Models\Mitra;
 use App\Models\OtpVerification;
 use App\Models\Role;
-use App\Models\Supir;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -42,7 +42,7 @@ class RegisteredMitraController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $supirRole = Role::where('name', 'supir')->first();
+        $mitraRole = Role::where('name', 'mitra')->first();
         
         // User (sebagai penanggung jawab / pengelola)
         $user = User::create([
@@ -50,25 +50,19 @@ class RegisteredMitraController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
-            'role_id' => $supirRole?->id, // Mitra armada juga menggunakan role supir (sebagai pemilik unit)
+            'role_id' => $mitraRole?->id,
             'is_active' => false, // Mitra armada harus diverifikasi oleh admin
             'email_verified_at' => null,
         ]);
 
-        // Create Supir profile untuk menyimpan info Lembaga
-        Supir::create([
+        // Create Mitra profile untuk menyimpan info Lembaga
+        Mitra::create([
             'user_id' => $user->id,
-            'nama_lembaga' => $request->nama_lembaga,
-            'nama_penanggung_jawab' => $user->name,
-            'no_wa' => $user->phone,
-            'alamat_unit' => '-',
-            'merk_kendaraan' => '-',
-            'plat_nomor' => '-', // Default karena bisa saja lebih dari 1 armada
-            'nomor_sim' => '-',
-            'nomor_stnk' => '-',
-            'status_online' => false,
-            'lokasi_terakhir_lat' => -7.7188,
-            'lokasi_terakhir_lng' => 109.0159,
+            'nama_mitra' => $request->nama_lembaga,
+            'penanggung_jawab' => $user->name,
+            'no_telp' => $user->phone,
+            'alamat' => '-',
+            'is_active' => true,
         ]);
 
         event(new Registered($user));

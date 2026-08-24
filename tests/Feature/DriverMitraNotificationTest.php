@@ -85,5 +85,16 @@ class DriverMitraNotificationTest extends TestCase
             'user_id' => $admin->id,
             'title' => 'Pendaftaran Mitra Baru',
         ]);
+
+        $mitraRole = Role::where('name', 'mitra')->first();
+        $this->assertDatabaseHas('users', [
+            'email' => $uniqueMitraEmail,
+            'role_id' => $mitraRole->id,
+        ]);
+
+        $this->assertDatabaseHas('mitras', [
+            'nama_mitra' => 'RS Harapan Sehat',
+            'penanggung_jawab' => 'Koordinator Mitra',
+        ]);
     }
 }
