@@ -12,24 +12,24 @@
             <!-- Left Text Content -->
             <div class="lg:w-[55%] text-white z-10 text-center lg:text-left">
                 <!-- Top Badge matching Beranda -->
-                <div class="inline-flex items-center gap-2 mb-6 bg-white/10 backdrop-blur px-4 py-2 rounded-full border border-white/20 shadow-xl">
-                    <svg class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                    <span class="font-bold tracking-wider text-xs uppercase text-white">Pendaftaran Mitra Terbuka</span>
+                <div class="inline-flex items-center gap-2 mb-4 sm:mb-6 bg-white/10 backdrop-blur px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full border border-white/20 shadow-xl">
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    <span class="font-bold tracking-wider text-[10px] sm:text-xs uppercase text-white">Pendaftaran Mitra Terbuka</span>
                 </div>
                 
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-black leading-[1.15] mb-6 drop-shadow-lg text-white">
+                <h1 class="text-2xl sm:text-4xl lg:text-6xl font-black leading-tight sm:leading-[1.15] mb-4 sm:mb-6 drop-shadow-lg text-white">
                     Menjadi <span class="text-teal-200">Mitra Armada</span> <br class="hidden lg:block">
                     Siaga Ambulans
                 </h1>
                 
-                <p class="text-lg sm:text-xl text-sky-100 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium">
+                <p class="text-xs sm:text-base lg:text-lg text-sky-100 mb-6 sm:mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium">
                     Bergabung menjadi bagian dari jaringan layanan ambulans yang membantu masyarakat mendapatkan pertolongan dengan lebih cepat dan aman.
                 </p>
                 
-                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                    <a href="{{ route('register.mitra') }}" class="group relative inline-flex justify-center items-center gap-2 bg-white text-primary-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-slate-50 transition-all shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:scale-105">
+                <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
+                    <a href="{{ route('register.mitra') }}" class="group relative inline-flex justify-center items-center gap-2 bg-white text-primary-600 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-xs sm:text-base hover:bg-slate-50 transition-all shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:scale-105">
                         Daftar Sebagai Mitra Armada
-                        <svg class="w-6 h-6 text-primary-600 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        <svg class="w-4 h-4 sm:w-6 sm:h-6 text-primary-600 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                     </a>
                 </div>
             </div>
@@ -51,13 +51,13 @@
     </section>
 
     <!-- Section 2: Kenapa Bergabung? -->
-    <section class="py-24 px-6 lg:px-12 bg-white">
+    <section class="py-14 sm:py-24 px-6 lg:px-12 bg-white">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center max-w-3xl mx-auto mb-16 lg:mb-20">
-                <h2 class="text-3xl md:text-4xl font-black text-[#0F2747] tracking-tight mb-6">
+            <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-16 lg:mb-20">
+                <h2 class="text-xl sm:text-3xl md:text-4xl font-black text-[#0F2747] tracking-tight mb-3 sm:mb-6">
                     Kenapa Bergabung Bersama<br class="hidden sm:block"> Ambulans Siaga?
                 </h2>
-                <p class="text-lg text-slate-600 font-medium">
+                <p class="text-xs sm:text-base lg:text-lg text-slate-600 font-medium leading-relaxed">
                     Menjadi bagian dari jaringan layanan ambulans terpadu yang berdedikasi membantu masyarakat dengan cepat dan tepat sasaran.
                 </p>
             </div>

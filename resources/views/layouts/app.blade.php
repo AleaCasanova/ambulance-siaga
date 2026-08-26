@@ -85,13 +85,13 @@
                     @endif
 
                     <!-- Page Slot Content -->
-                    <div class="pb-16 lg:pb-0">
+                    <div class="{{ auth()->check() ? 'pb-16 lg:pb-0' : '' }}">
                         {{ $slot }}
                     </div>
                 </main>
 
                 <!-- Footer -->
-                <div class="pb-16 lg:pb-0">
+                <div class="{{ auth()->check() ? 'pb-16 lg:pb-0' : '' }}">
                     <x-landing-footer />
                 </div>
             </div>
