@@ -7,7 +7,9 @@ use App\Models\Role;
 use App\Models\User;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class DriverMitraNotificationTest extends TestCase
@@ -33,6 +35,8 @@ class DriverMitraNotificationTest extends TestCase
 
         $uniqueDriverEmail = 'driver_' . uniqid() . '@test.com';
 
+        Storage::fake('public');
+
         $response = $this->post('/register-supir', [
             'name' => 'Driver Baru',
             'email' => $uniqueDriverEmail,
@@ -41,6 +45,9 @@ class DriverMitraNotificationTest extends TestCase
             'password_confirmation' => 'password123',
             'nomor_sim' => 'SIM-B1-123456',
             'plat_nomor' => 'R 1234 AB',
+            'foto_ktp' => UploadedFile::fake()->image('ktp.jpg'),
+            'foto_sim' => UploadedFile::fake()->image('sim.jpg'),
+            'foto_skck' => UploadedFile::fake()->image('skck.jpg'),
         ]);
 
         $response->assertRedirect(route('verification.otp.show'));
@@ -60,6 +67,7 @@ class DriverMitraNotificationTest extends TestCase
     public function test_admin_receives_notification_when_mitra_registers(): void
     {
         Mail::fake();
+        Storage::fake('public');
 
         $adminRole = Role::where('name', 'admin')->first();
         $admin = User::factory()->create([
@@ -77,6 +85,10 @@ class DriverMitraNotificationTest extends TestCase
             'phone' => '081255554444',
             'password' => 'password123',
             'password_confirmation' => 'password123',
+            'plat_nomor_unit' => 'R 9999 ZZ',
+            'foto_ktp_pj' => UploadedFile::fake()->image('ktp_pj.jpg'),
+            'foto_legalitas' => UploadedFile::fake()->image('legalitas.jpg'),
+            'foto_ambulans' => UploadedFile::fake()->image('ambulans.jpg'),
         ]);
 
         $response->assertRedirect(route('verification.otp.show'));

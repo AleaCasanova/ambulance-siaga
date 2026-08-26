@@ -50,8 +50,8 @@
                         ['url' => route('masyarakat.info'), 'label' => 'Tentang Kami'],
                         ['url' => route('masyarakat.order.create'), 'label' => 'Pesan Ambulans'],
                         ['url' => route('donasi'), 'label' => 'Donasi & Infaq'],
-                        ['url' => route('mitra.pengemudi'), 'label' => 'Mitra Pengemudi'],
-                        ['url' => route('mitra.armada'), 'label' => 'Mitra Armada'],
+                        ['url' => route('mitra.pengemudi'), 'label' => 'Mitra Driver'],
+                        ['url' => route('mitra.armada'), 'label' => 'Mitra Lembaga'],
                     ];
                 } elseif ($user->hasRole('masyarakat') || !$user->role_id) {
                     // Masyarakat (Sudah Login)
