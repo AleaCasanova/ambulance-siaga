@@ -35,12 +35,14 @@ Route::middleware('guest')->group(function () {
     Route::get('register-supir', [RegisteredSupirController::class, 'create'])
         ->name('register.supir');
 
-    Route::post('register-supir', [RegisteredSupirController::class, 'store']);
+    Route::post('register-supir', [RegisteredSupirController::class, 'store'])
+        ->name('register.supir.store');
 
     Route::get('register-mitra', [RegisteredMitraController::class, 'create'])
         ->name('register.mitra');
 
-    Route::post('register-mitra', [RegisteredMitraController::class, 'store']);
+    Route::post('register-mitra', [RegisteredMitraController::class, 'store'])
+        ->name('register.mitra.store');
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');

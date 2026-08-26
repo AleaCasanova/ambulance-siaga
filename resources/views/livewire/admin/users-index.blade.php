@@ -314,9 +314,158 @@
                                 </div>
                             </div>
 
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Nomor SKCK Kepolisian</label>
+                                    <input type="text" wire:model="nomor_skck" placeholder="Nomor SKCK"
+                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 bg-white">
+                                    @error('nomor_skck') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">NIK KTP Driver</label>
+                                    <input type="text" wire:model="nik" placeholder="16 Digit NIK KTP"
+                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 bg-white">
+                                </div>
+                            </div>
+
+                            <!-- Lampiran Dokumen Fisik Supir -->
+                            <div class="pt-2 border-t border-sky-200/60">
+                                <label class="block text-[11px] font-black text-sky-900 uppercase tracking-wider mb-2">
+                                    Lampiran Foto Dokumen Pendaftaran Supir:
+                                </label>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+                                    <!-- KTP -->
+                                    <div class="p-2 rounded-xl border border-slate-200 bg-white shadow-xs">
+                                        <span class="text-[10px] font-bold text-slate-500 block mb-1">Foto e-KTP</span>
+                                        @if($foto_ktp)
+                                            <a href="{{ asset('storage/' . $foto_ktp) }}" target="_blank" class="block group">
+                                                <img src="{{ asset('storage/' . $foto_ktp) }}" class="w-full h-14 object-cover rounded-lg border border-slate-200 group-hover:opacity-80 transition-opacity">
+                                                <span class="text-[9px] font-extrabold text-sky-600 hover:underline mt-0.5 block">Lihat KTP</span>
+                                            </a>
+                                        @else
+                                            <div class="h-14 rounded-lg bg-slate-100 flex items-center justify-center text-[10px] text-slate-400">Belum Ada</div>
+                                        @endif
+                                    </div>
+
+                                    <!-- SIM -->
+                                    <div class="p-2 rounded-xl border border-slate-200 bg-white shadow-xs">
+                                        <span class="text-[10px] font-bold text-slate-500 block mb-1">Foto SIM</span>
+                                        @if($foto_sim)
+                                            <a href="{{ asset('storage/' . $foto_sim) }}" target="_blank" class="block group">
+                                                <img src="{{ asset('storage/' . $foto_sim) }}" class="w-full h-14 object-cover rounded-lg border border-slate-200 group-hover:opacity-80 transition-opacity">
+                                                <span class="text-[9px] font-extrabold text-sky-600 hover:underline mt-0.5 block">Lihat SIM</span>
+                                            </a>
+                                        @else
+                                            <div class="h-14 rounded-lg bg-slate-100 flex items-center justify-center text-[10px] text-slate-400">Belum Ada</div>
+                                        @endif
+                                    </div>
+
+                                    <!-- STNK -->
+                                    <div class="p-2 rounded-xl border border-slate-200 bg-white shadow-xs">
+                                        <span class="text-[10px] font-bold text-slate-500 block mb-1">Foto STNK</span>
+                                        @if($foto_stnk)
+                                            <a href="{{ asset('storage/' . $foto_stnk) }}" target="_blank" class="block group">
+                                                <img src="{{ asset('storage/' . $foto_stnk) }}" class="w-full h-14 object-cover rounded-lg border border-slate-200 group-hover:opacity-80 transition-opacity">
+                                                <span class="text-[9px] font-extrabold text-sky-600 hover:underline mt-0.5 block">Lihat STNK</span>
+                                            </a>
+                                        @else
+                                            <div class="h-14 rounded-lg bg-slate-100 flex items-center justify-center text-[10px] text-slate-400">Belum Ada</div>
+                                        @endif
+                                    </div>
+
+                                    <!-- SKCK -->
+                                    <div class="p-2 rounded-xl border border-slate-200 bg-white shadow-xs">
+                                        <span class="text-[10px] font-bold text-slate-500 block mb-1">Foto SKCK</span>
+                                        @if($foto_skck)
+                                            <a href="{{ asset('storage/' . $foto_skck) }}" target="_blank" class="block group">
+                                                <img src="{{ asset('storage/' . $foto_skck) }}" class="w-full h-14 object-cover rounded-lg border border-slate-200 group-hover:opacity-80 transition-opacity">
+                                                <span class="text-[9px] font-extrabold text-sky-600 hover:underline mt-0.5 block">Lihat SKCK</span>
+                                            </a>
+                                        @else
+                                            <div class="h-14 rounded-lg bg-slate-100 flex items-center justify-center text-[10px] text-slate-400">Belum Ada</div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="flex items-center gap-2 pt-1">
                                 <input type="checkbox" wire:model="status_online" id="status_online" class="rounded border-slate-300 text-sky-600 focus:ring-sky-500">
                                 <label for="status_online" class="text-xs font-bold text-slate-700">Supir Sedang Online (Siaga Bertugas)</label>
+                            </div>
+                        </div>
+                    @elseif($selectedRole && $selectedRole->name === 'mitra')
+                        <div class="p-4 rounded-2xl bg-teal-50/70 border border-teal-100 space-y-3">
+                            <h4 class="text-xs font-extrabold text-teal-800 uppercase tracking-wider">Informasi Mitra Lembaga / Instansi & Legalitas</h4>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Nama Lembaga / Yayasan</label>
+                                    <input type="text" wire:model="nama_lembaga" placeholder="Nama Lembaga / Yayasan"
+                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-teal-500 focus:ring-2 focus:ring-teal-200 bg-white">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Nama Penanggung Jawab</label>
+                                    <input type="text" wire:model="nama_penanggung_jawab" placeholder="Nama Penanggung Jawab"
+                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-teal-500 focus:ring-2 focus:ring-teal-200 bg-white">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Nomor Izin / Legalitas</label>
+                                    <input type="text" wire:model="nomor_legalitas" placeholder="Nomor Izin / Akta / NIB"
+                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-teal-500 focus:ring-2 focus:ring-teal-200 bg-white">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Plat Nomor Armada Utama</label>
+                                    <input type="text" wire:model="plat_nomor" placeholder="Plat Nomor Unit"
+                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-teal-500 focus:ring-2 focus:ring-teal-200 bg-white">
+                                </div>
+                            </div>
+
+                            <!-- Galeri Dokumen Legalitas Mitra -->
+                            <div class="pt-2 border-t border-teal-200/60">
+                                <label class="block text-[11px] font-black text-teal-900 uppercase tracking-wider mb-2">Dokumen Fisik & Legalitas Lembaga</label>
+                                <div class="grid grid-cols-3 gap-2 text-center">
+                                    <!-- KTP PJ -->
+                                    <div class="p-2 rounded-xl border border-slate-200 bg-white shadow-xs">
+                                        <span class="text-[10px] font-bold text-slate-500 block mb-1">KTP PJ</span>
+                                        @if($foto_ktp_pj)
+                                            <a href="{{ asset('storage/' . $foto_ktp_pj) }}" target="_blank" class="block group">
+                                                <img src="{{ asset('storage/' . $foto_ktp_pj) }}" class="w-full h-14 object-cover rounded-lg border border-slate-200 group-hover:opacity-80 transition-opacity">
+                                                <span class="text-[9px] font-extrabold text-teal-600 hover:underline mt-0.5 block">Lihat KTP</span>
+                                            </a>
+                                        @else
+                                            <div class="h-14 rounded-lg bg-slate-100 flex items-center justify-center text-[10px] text-slate-400">Belum Ada</div>
+                                        @endif
+                                    </div>
+
+                                    <!-- Legalitas -->
+                                    <div class="p-2 rounded-xl border border-slate-200 bg-white shadow-xs">
+                                        <span class="text-[10px] font-bold text-slate-500 block mb-1">Surat Izin / Legalitas</span>
+                                        @if($foto_legalitas)
+                                            <a href="{{ asset('storage/' . $foto_legalitas) }}" target="_blank" class="block group">
+                                                <img src="{{ asset('storage/' . $foto_legalitas) }}" class="w-full h-14 object-cover rounded-lg border border-slate-200 group-hover:opacity-80 transition-opacity">
+                                                <span class="text-[9px] font-extrabold text-teal-600 hover:underline mt-0.5 block">Lihat Izin</span>
+                                            </a>
+                                        @else
+                                            <div class="h-14 rounded-lg bg-slate-100 flex items-center justify-center text-[10px] text-slate-400">Belum Ada</div>
+                                        @endif
+                                    </div>
+
+                                    <!-- Foto Ambulans -->
+                                    <div class="p-2 rounded-xl border border-slate-200 bg-white shadow-xs">
+                                        <span class="text-[10px] font-bold text-slate-500 block mb-1">Unit Ambulans / STNK</span>
+                                        @if($foto_ambulans)
+                                            <a href="{{ asset('storage/' . $foto_ambulans) }}" target="_blank" class="block group">
+                                                <img src="{{ asset('storage/' . $foto_ambulans) }}" class="w-full h-14 object-cover rounded-lg border border-slate-200 group-hover:opacity-80 transition-opacity">
+                                                <span class="text-[9px] font-extrabold text-teal-600 hover:underline mt-0.5 block">Lihat Unit</span>
+                                            </a>
+                                        @else
+                                            <div class="h-14 rounded-lg bg-slate-100 flex items-center justify-center text-[10px] text-slate-400">Belum Ada</div>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     @elseif($selectedRole && $selectedRole->name === 'masyarakat')

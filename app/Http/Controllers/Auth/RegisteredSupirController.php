@@ -41,31 +41,61 @@ class RegisteredSupirController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'nomor_sim' => ['required', 'string', 'max:50'],
             'plat_nomor' => ['required', 'string', 'max:30'],
+            'nik' => ['nullable', 'string', 'max:30'],
+            'nomor_skck' => ['nullable', 'string', 'max:50'],
+            'foto_ktp' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'],
+            'foto_sim' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'],
+            'foto_stnk' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'],
+            'foto_skck' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'],
+            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'],
+        ], [
+            'foto_ktp.required' => 'Foto fisik e-KTP wajib diunggah.',
+            'foto_sim.required' => 'Foto fisik SIM (A/B1) wajib diunggah.',
+            'foto_skck.required' => 'Foto fisik surat SKCK wajib diunggah.',
+            'nomor_sim.required' => 'Nomor SIM wajib diisi.',
+            'plat_nomor.required' => 'Plat nomor kendaraan wajib diisi.',
         ]);
 
         $supirRole = Role::where('name', 'supir')->first();
         
+        $avatarPath = null;
+        if ($request->hasFile('avatar')) {
+            $avatarPath = $request->file('avatar')->store('avatars', 'public');
+        }
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
+            'avatar' => $avatarPath,
             'password' => Hash::make($request->password),
             'role_id' => $supirRole?->id,
             'is_active' => false, // Supir must be verified by admin
             'email_verified_at' => null,
         ]);
 
+        // Upload Dokumen Pendukung Supir
+        $fotoKtp = $request->hasFile('foto_ktp') ? $request->file('foto_ktp')->store('dokumen/ktp', 'public') : null;
+        $fotoSim = $request->hasFile('foto_sim') ? $request->file('foto_sim')->store('dokumen/sim', 'public') : null;
+        $fotoStnk = $request->hasFile('foto_stnk') ? $request->file('foto_stnk')->store('dokumen/stnk', 'public') : null;
+        $fotoSkck = $request->hasFile('foto_skck') ? $request->file('foto_skck')->store('dokumen/skck', 'public') : null;
+
         // Create Supir profile
         Supir::create([
             'user_id' => $user->id,
-            'nama_lembaga' => 'Mitra Ambulans Siaga',
+            'nama_lembaga' => 'Mitra Pengemudi Perorangan',
             'nama_penanggung_jawab' => $user->name,
             'no_wa' => $user->phone,
-            'alamat_unit' => '-',
-            'merk_kendaraan' => '-',
+            'nik' => $request->nik,
+            'foto_ktp' => $fotoKtp,
+            'merk_kendaraan' => $request->merk_kendaraan ?? 'Ambulans Siaga Unit',
             'plat_nomor' => $request->plat_nomor,
             'nomor_sim' => $request->nomor_sim,
-            'nomor_stnk' => '-',
+            'foto_sim' => $fotoSim,
+            'nomor_stnk' => $request->nomor_stnk ?? '-',
+            'foto_stnk' => $fotoStnk,
+            'nomor_skck' => $request->nomor_skck,
+            'foto_skck' => $fotoSkck,
             'status_online' => false,
             'lokasi_terakhir_lat' => -7.7188,
             'lokasi_terakhir_lng' => 109.0159,

@@ -114,35 +114,12 @@
 
             <!-- Teks Registrasi -->
             <div class="mt-4 text-center">
-                <p class="text-[11px] sm:text-xs font-medium text-slate-600 mb-4">
+                <p class="text-[11px] sm:text-xs font-medium text-slate-600">
                     Belum memiliki akun?
                     <a href="{{ route('register') }}" class="font-extrabold text-primary-600 hover:text-[#007b83] hover:underline ms-1">
                         Daftar Akun
                     </a>
                 </p>
-
-                <!-- Separator -->
-                <div class="relative flex items-center justify-center my-4">
-                    <div class="absolute inset-0 flex items-center">
-                        <div class="w-full border-t border-slate-200"></div>
-                    </div>
-                    <div class="relative bg-white px-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
-                        atau
-                    </div>
-                </div>
-
-                <!-- Driver Registration CTA -->
-                <div class="mt-4 flex flex-col items-center gap-2">
-                    <p class="text-[11px] font-semibold text-slate-600">
-                        Ingin bergabung sebagai Pengemudi Ambulans?
-                    </p>
-                    <a href="{{ route('register.supir') }}" class="group w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border-2 border-slate-200 bg-white hover:border-primary-600 hover:bg-primary-50/50 text-slate-700 hover:text-primary-700 font-extrabold text-[11px] uppercase tracking-wider transition-all shadow-sm">
-                        Daftar Sebagai Pengemudi
-                        <svg class="w-4 h-4 text-slate-400 group-hover:text-primary-600 transform group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-                        </svg>
-                    </a>
-                </div>
             </div>
         </div>
 

@@ -265,19 +265,21 @@
                 </div>
             </div>
         @else
-            <div class="hidden lg:flex items-center gap-4 sm:gap-5">
-                <a href="{{ route('login') }}"
-                   class="text-sm font-semibold text-white/90 hover:text-white transition-colors">
-                    Login
-                </a>
-                
-                <div class="hidden sm:block w-px h-5 bg-white/20"></div>
+            @if(!request()->routeIs('mitra.*'))
+                <div class="hidden lg:flex items-center gap-4 sm:gap-5">
+                    <a href="{{ route('login') }}"
+                       class="text-sm font-semibold text-white/90 hover:text-white transition-colors">
+                        Login
+                    </a>
+                    
+                    <div class="hidden sm:block w-px h-5 bg-white/20"></div>
 
-                <a href="{{ route('register') }}"
-                   class="inline-flex items-center justify-center px-5 py-2 rounded-full bg-white hover:bg-slate-50 text-teal-600 text-sm font-bold shadow-sm hover:shadow-md transition-all">
-                    Daftar Akun
-                </a>
-            </div>
+                    <a href="{{ route('register') }}"
+                       class="inline-flex items-center justify-center px-5 py-2 rounded-full bg-white hover:bg-slate-50 text-teal-600 text-sm font-bold shadow-sm hover:shadow-md transition-all">
+                        Daftar Akun
+                    </a>
+                </div>
+            @endif
         @endif
 
         <!-- Hamburger Toggle (Mobile < lg) -->

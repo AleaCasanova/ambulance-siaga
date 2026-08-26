@@ -16,8 +16,15 @@ class Mitra extends Model
         'user_id',
         'nama_mitra',
         'penanggung_jawab',
+        'nik_pj',
+        'foto_ktp_pj',
         'no_telp',
         'alamat',
+        'nomor_legalitas',
+        'foto_legalitas',
+        'plat_nomor_unit',
+        'merk_kendaraan',
+        'foto_ambulans',
         'is_active',
     ];
 

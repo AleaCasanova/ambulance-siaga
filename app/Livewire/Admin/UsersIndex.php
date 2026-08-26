@@ -32,7 +32,7 @@ class UsersIndex extends Component
     public string $password = '';
     public bool $is_active = true;
 
-    // Supir Fields
+    // Supir & Mitra Fields
     public string $nama_lembaga = '';
     public string $nama_penanggung_jawab = '';
     public string $no_wa = '';
@@ -41,6 +41,17 @@ class UsersIndex extends Component
     public string $plat_nomor = '';
     public string $nomor_sim = '';
     public string $nomor_stnk = '';
+    public string $nomor_skck = '';
+    public string $foto_ktp = '';
+    public string $foto_sim = '';
+    public string $foto_stnk = '';
+    public string $foto_skck = '';
+    public string $foto_ktp_pj = '';
+    public string $foto_legalitas = '';
+    public string $foto_ambulans = '';
+    public string $nomor_legalitas = '';
+    public string $plat_nomor_unit = '';
+    public string $avatar_url = '';
     public bool $status_online = false;
 
     // Masyarakat Fields
@@ -48,7 +59,7 @@ class UsersIndex extends Component
     public string $alamat = '';
     public string $kontak_darurat = '';
 
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'name' => 'required|string|max:255',
@@ -56,17 +67,15 @@ class UsersIndex extends Component
             'phone' => 'nullable|string|max:20',
             'role_id' => 'required|exists:roles,id',
             'password' => $this->isEdit ? 'nullable|min:6' : 'required|min:6',
-            'nomor_sim' => 'nullable|string|max:50',
-            'nomor_stnk' => 'nullable|string|max:50',
-            'nama_lembaga' => 'nullable|string|max:150',
-            'nama_penanggung_jawab' => 'nullable|string|max:150',
+            'is_active' => 'boolean',
+            // Supir/Masyarakat optional validations
+            'nama_lembaga' => 'nullable|string|max:255',
+            'nama_penanggung_jawab' => 'nullable|string|max:255',
             'no_wa' => 'nullable|string|max:30',
             'alamat_unit' => 'nullable|string|max:255',
             'merk_kendaraan' => 'nullable|string|max:100',
             'plat_nomor' => 'nullable|string|max:30',
             'nik' => 'nullable|string|max:30',
-            'alamat' => 'nullable|string|max:255',
-            'kontak_darurat' => 'nullable|string|max:30',
         ];
     }
 
@@ -85,7 +94,9 @@ class UsersIndex extends Component
         $this->reset([
             'userId', 'name', 'email', 'phone', 'role_id', 'password', 'is_active',
             'nama_lembaga', 'nama_penanggung_jawab', 'no_wa', 'alamat_unit', 'merk_kendaraan', 'plat_nomor',
-            'nomor_sim', 'nomor_stnk', 'status_online', 'nik', 'alamat', 'kontak_darurat'
+            'nomor_sim', 'nomor_stnk', 'nomor_skck', 'foto_ktp', 'foto_sim', 'foto_stnk', 'foto_skck',
+            'foto_ktp_pj', 'foto_legalitas', 'foto_ambulans', 'nomor_legalitas', 'plat_nomor_unit', 'avatar_url',
+            'status_online', 'nik', 'alamat', 'kontak_darurat'
         ]);
         $this->is_active = true;
         $this->isEdit = false;
@@ -102,7 +113,7 @@ class UsersIndex extends Component
 
     public function openEditModal($id)
     {
-        $user = User::with(['supir', 'masyarakat'])->findOrFail($id);
+        $user = User::with(['supir', 'masyarakat', 'mitra'])->findOrFail($id);
         $this->userId = $user->id;
         $this->name = $user->name;
         $this->email = $user->email;
@@ -110,20 +121,33 @@ class UsersIndex extends Component
         $this->role_id = $user->role_id;
         $this->is_active = (bool) $user->is_active;
         $this->password = '';
+        $this->avatar_url = (string) ($user->avatar ?? '');
 
         // Load Supir profile
-        $this->nama_lembaga = (string) ($user->supir?->nama_lembaga ?? '');
-        $this->nama_penanggung_jawab = (string) ($user->supir?->nama_penanggung_jawab ?? '');
-        $this->no_wa = (string) ($user->supir?->no_wa ?? '');
-        $this->alamat_unit = (string) ($user->supir?->alamat_unit ?? '');
-        $this->merk_kendaraan = (string) ($user->supir?->merk_kendaraan ?? '');
-        $this->plat_nomor = (string) ($user->supir?->plat_nomor ?? '');
+        $this->nama_lembaga = (string) ($user->mitra?->nama_mitra ?? $user->supir?->nama_lembaga ?? '');
+        $this->nama_penanggung_jawab = (string) ($user->mitra?->penanggung_jawab ?? $user->supir?->nama_penanggung_jawab ?? '');
+        $this->no_wa = (string) ($user->mitra?->no_telp ?? $user->supir?->no_wa ?? '');
+        $this->alamat_unit = (string) ($user->mitra?->alamat ?? $user->supir?->alamat_unit ?? '');
+        $this->merk_kendaraan = (string) ($user->mitra?->merk_kendaraan ?? $user->supir?->merk_kendaraan ?? '');
+        $this->plat_nomor = (string) ($user->mitra?->plat_nomor_unit ?? $user->supir?->plat_nomor ?? '');
         $this->nomor_sim = (string) ($user->supir?->nomor_sim ?? '');
         $this->nomor_stnk = (string) ($user->supir?->nomor_stnk ?? '');
+        $this->nomor_skck = (string) ($user->supir?->nomor_skck ?? '');
+        $this->foto_ktp = (string) ($user->supir?->foto_ktp ?? '');
+        $this->foto_sim = (string) ($user->supir?->foto_sim ?? '');
+        $this->foto_stnk = (string) ($user->supir?->foto_stnk ?? '');
+        $this->foto_skck = (string) ($user->supir?->foto_skck ?? '');
         $this->status_online = (bool) ($user->supir?->status_online ?? false);
 
+        // Load Mitra Profile
+        $this->foto_ktp_pj = (string) ($user->mitra?->foto_ktp_pj ?? '');
+        $this->foto_legalitas = (string) ($user->mitra?->foto_legalitas ?? '');
+        $this->foto_ambulans = (string) ($user->mitra?->foto_ambulans ?? '');
+        $this->nomor_legalitas = (string) ($user->mitra?->nomor_legalitas ?? '');
+        $this->plat_nomor_unit = (string) ($user->mitra?->plat_nomor_unit ?? '');
+
         // Load Masyarakat profile
-        $this->nik = (string) ($user->masyarakat?->nik ?? '');
+        $this->nik = (string) ($user->masyarakat?->nik ?? $user->supir?->nik ?? $user->mitra?->nik_pj ?? '');
         $this->alamat = (string) ($user->masyarakat?->alamat ?? '');
         $this->kontak_darurat = (string) ($user->masyarakat?->kontak_darurat ?? '');
 
