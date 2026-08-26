@@ -12,20 +12,20 @@
 
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12 relative z-20">
             <div class="md:w-1/2 text-white z-10 text-center md:text-left">
-                <span class="inline-flex items-center gap-2 mb-4 sm:mb-6 bg-white/10 backdrop-blur px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full border border-white/20 shadow-xl">
-                    <svg class="w-4 h-4 sm:w-5 sm:h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20"><path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"></path></svg>
-                    <span class="font-bold tracking-wider text-[10px] sm:text-xs uppercase">Program Kemanusiaan & Donasi Operasional</span>
+                <span class="inline-flex items-center gap-2 mb-6 bg-white/10 backdrop-blur px-4 py-2 rounded-full border border-white/20 shadow-xl">
+                    <svg class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20"><path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"></path></svg>
+                    <span class="font-bold tracking-wider text-xs uppercase">Program Kemanusiaan & Donasi Operasional</span>
                 </span>
-                <h1 class="text-2xl sm:text-4xl lg:text-6xl font-black leading-tight sm:leading-[1.15] mb-4 sm:mb-6 drop-shadow-lg">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.15] mb-6 drop-shadow-lg">
                     Bersama Kita Selamatkan Lebih Banyak Nyawa
                 </h1>
-                <p class="text-xs sm:text-base lg:text-lg text-sky-100 mb-6 sm:mb-8 max-w-lg mx-auto md:mx-0 leading-relaxed font-medium">
+                <p class="text-lg text-sky-100 mb-8 max-w-lg mx-auto md:mx-0 leading-relaxed font-medium">
                     Ribuan pasien gawat darurat dan keluarga kurang mampu menanti uluran tangan Anda. Donasi Anda menjadi energi operasional Ambulans Siaga 24 Jam.
                 </p>
-                <div class="flex gap-3 sm:gap-4 justify-center md:justify-start">
-                    <button onclick="document.getElementById('form-donasi').scrollIntoView({behavior: 'smooth'})" class="bg-white text-primary-600 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-xs sm:text-base hover:bg-slate-50 transition-all shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:scale-105 flex items-center gap-2">
+                <div class="flex gap-4 justify-center md:justify-start">
+                    <button onclick="document.getElementById('form-donasi').scrollIntoView({behavior: 'smooth'})" class="bg-white text-primary-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-slate-50 transition-all shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:scale-105 flex items-center gap-2">
                         Donasi Sekarang
-                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
                     </button>
                 </div>
             </div>
@@ -42,11 +42,11 @@
             
             <!-- Left: Donation Form -->
             <div class="lg:w-[55%]">
-                <div class="bg-white rounded-2xl sm:rounded-[2.5rem] shadow-[0_20px_50px_rgb(0,0,0,0.05)] border border-slate-100 p-6 sm:p-8 md:p-12 relative overflow-hidden">
+                <div class="bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgb(0,0,0,0.05)] border border-slate-100 p-8 sm:p-12 relative overflow-hidden">
                     <div class="absolute top-0 right-0 w-32 h-32 bg-primary-600/5 rounded-bl-full -z-0"></div>
                     
-                    <h2 class="text-xl sm:text-3xl font-black text-slate-800 mb-1.5 sm:mb-2 relative z-10">Mulai Berdonasi</h2>
-                    <p class="text-xs sm:text-base text-slate-500 mb-6 sm:mb-8 font-medium relative z-10">Pilih nominal atau masukkan nominal donasi terbaik Anda.</p>
+                    <h2 class="text-3xl font-black text-slate-800 mb-2 relative z-10">Mulai Berdonasi</h2>
+                    <p class="text-slate-500 mb-8 font-medium relative z-10">Pilih nominal atau masukkan nominal donasi terbaik Anda.</p>
 
                     <form wire:submit.prevent="kirimDonasi" class="relative z-10">
                         <!-- Nominal Selection -->
@@ -213,48 +213,46 @@
             @php
                 $donaturChunks = $donaturList->chunk(3);
                 $totalChunks = count($donaturChunks);
-                $totalDonaturItems = count($donaturList);
             @endphp
 
-            @if($totalDonaturItems > 0)
-                <!-- ================= DESKTOP VIEW: 3 CARDS PER SLIDE (hidden md:block) ================= -->
-                <div class="hidden md:block relative"
-                     x-data="{
-                         currentSlide: 0,
-                         totalSlides: {{ max(1, $totalChunks) }},
-                         paused: false,
-                         next() {
-                             if (this.totalSlides > 1) {
-                                 this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
-                             }
-                         },
-                         prev() {
-                             if (this.totalSlides > 1) {
-                                 this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
-                             }
-                         },
-                         init() {
-                             setInterval(() => {
-                                 if (!this.paused && this.totalSlides > 1) {
-                                     this.next();
-                                 }
-                             }, 4500);
-                         }
-                     }"
-                     @mouseenter="paused = true"
-                     @mouseleave="paused = false">
-                    
-                    <!-- Desktop Cards Container -->
+            <div x-data="{
+                currentSlide: 0,
+                totalSlides: {{ max(1, $totalChunks) }},
+                paused: false,
+                next() {
+                    if (this.totalSlides > 1) {
+                        this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
+                    }
+                },
+                prev() {
+                    if (this.totalSlides > 1) {
+                        this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
+                    }
+                },
+                init() {
+                    setInterval(() => {
+                        if (!this.paused && this.totalSlides > 1) {
+                            this.next();
+                        }
+                    }, 4500);
+                }
+            }"
+            @mouseenter="paused = true"
+            @mouseleave="paused = false"
+            class="relative">
+                
+                @if($totalChunks > 0)
+                    <!-- Cards Container -->
                     <div class="relative min-h-[175px]">
                         @foreach($donaturChunks as $chunkIndex => $chunk)
                             <div x-show="currentSlide === {{ $chunkIndex }}"
                                  x-transition:enter="transition ease-out duration-500 transform"
-                                 x-transition:enter-start="opacity-0 translate-x-8"
-                                 x-transition:enter-end="opacity-100 translate-x-0"
+                                 x-transition:enter-start="opacity-0 translate-y-4 sm:translate-x-8"
+                                 x-transition:enter-end="opacity-100 translate-y-0 sm:translate-x-0"
                                  x-transition:leave="transition ease-in duration-300 transform absolute inset-0"
-                                 x-transition:leave-start="opacity-100 translate-x-0"
-                                 x-transition:leave-end="opacity-0 -translate-x-8"
-                                 class="grid grid-cols-2 lg:grid-cols-3 gap-5"
+                                 x-transition:leave-start="opacity-100 translate-y-0 sm:translate-x-0"
+                                 x-transition:leave-end="opacity-0 -translate-y-4 sm:-translate-x-8"
+                                 class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
                                  x-cloak>
                                 @foreach($chunk as $index => $d)
                                     @php
@@ -299,13 +297,14 @@
                         @endforeach
                     </div>
 
-                    <!-- Desktop Slide Controls -->
+                    <!-- Slide Controls (Dots & Prev/Next Arrows) -->
                     @if($totalChunks > 1)
                         <div class="flex items-center justify-center gap-3 mt-6">
                             <button @click="prev()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-primary-50 text-slate-600 hover:text-primary-600 flex items-center justify-center transition border border-slate-200/80 shadow-xs" title="Sebelumnya">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
                             </button>
                             
+                            <!-- Dots indicator -->
                             <div class="flex items-center gap-1.5">
                                 @for($i = 0; $i < $totalChunks; $i++)
                                     <button @click="currentSlide = {{ $i }}" 
@@ -319,113 +318,12 @@
                             </button>
                         </div>
                     @endif
-                </div>
-
-                <!-- ================= MOBILE VIEW: 1 CARD PERIODIC AUTO-SLIDER (md:hidden) ================= -->
-                <div class="md:hidden relative"
-                     x-data="{
-                         current: 0,
-                         total: {{ $totalDonaturItems }},
-                         paused: false,
-                         touchStartX: 0,
-                         touchEndX: 0,
-                         next() {
-                             if (this.total > 1) {
-                                 this.current = (this.current + 1) % this.total;
-                             }
-                         },
-                         prev() {
-                             if (this.total > 1) {
-                                 this.current = (this.current - 1 + this.total) % this.total;
-                             }
-                         },
-                         init() {
-                             setInterval(() => {
-                                 if (!this.paused && this.total > 1) {
-                                     this.next();
-                                 }
-                             }, 3800);
-                         }
-                     }"
-                     @mouseenter="paused = true"
-                     @mouseleave="paused = false"
-                     @touchstart="paused = true; touchStartX = $event.changedTouches[0].screenX"
-                     @touchend="paused = false; touchEndX = $event.changedTouches[0].screenX; if (touchStartX - touchEndX > 40) next(); if (touchEndX - touchStartX > 40) prev();">
-                    
-                    <div class="relative overflow-hidden rounded-2xl shadow-sm">
-                        <div class="flex transition-transform duration-500 ease-out"
-                             :style="'transform: translateX(-' + (current * 100) + '%)'">
-                            @foreach($donaturList as $index => $d)
-                                @php
-                                    $displayName = $d->is_anonim ? 'Hamba Allah' : ($d->nama ?: 'Hamba Allah');
-                                    $words = explode(' ', trim($displayName));
-                                    $initials = count($words) >= 2 
-                                        ? strtoupper(substr($words[0], 0, 1) . substr($words[1], 0, 1))
-                                        : strtoupper(substr($displayName, 0, 2));
-                                    $colors = [
-                                        ['bg' => 'bg-sky-100', 'text' => 'text-sky-700'],
-                                        ['bg' => 'bg-emerald-100', 'text' => 'text-emerald-700'],
-                                        ['bg' => 'bg-amber-100', 'text' => 'text-amber-700'],
-                                        ['bg' => 'bg-indigo-100', 'text' => 'text-indigo-700'],
-                                        ['bg' => 'bg-rose-100', 'text' => 'text-rose-700'],
-                                        ['bg' => 'bg-teal-100', 'text' => 'text-teal-700'],
-                                    ];
-                                    $theme = $colors[$loop->index % count($colors)];
-                                @endphp
-                                <div class="w-full flex-shrink-0">
-                                    <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex flex-col justify-between min-h-[175px]">
-                                        <div>
-                                            <div class="flex items-center gap-3.5 mb-3">
-                                                <div class="w-10 h-10 rounded-full {{ $theme['bg'] }} {{ $theme['text'] }} flex items-center justify-center font-black text-xs shadow-xs shrink-0">
-                                                    {{ $initials }}
-                                                </div>
-                                                <div class="min-w-0">
-                                                    <h4 class="font-extrabold text-slate-800 text-sm truncate">{{ $displayName }}</h4>
-                                                    <p class="text-xs text-slate-400 font-medium">{{ $d->created_at ? $d->created_at->diffForHumans() : 'Baru saja' }}</p>
-                                                </div>
-                                            </div>
-                                            <div class="mb-2.5">
-                                                <span class="inline-block px-2.5 py-0.5 rounded-lg bg-emerald-50 border border-emerald-100 text-emerald-700 text-xs font-black">
-                                                    Berdonasi Rp {{ number_format($d->nominal, 0, ',', '.') }}
-                                                </span>
-                                            </div>
-                                            <p class="text-xs text-slate-600 italic leading-relaxed line-clamp-3">
-                                                "{{ $d->pesan ?: 'Semoga berkah dan bermanfaat untuk masyarakat yang membutuhkan pertolongan medis.' }}"
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
+                @else
+                    <div class="text-center py-8 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+                        <p class="text-slate-500 font-semibold text-sm">Belum ada data donasi tercatat. Jadilah donatur pertama hari ini!</p>
                     </div>
-
-                    <!-- Mobile Slide Controls (Dots & Arrows) -->
-                    @if($totalDonaturItems > 1)
-                        <div class="flex items-center justify-center gap-3 mt-4">
-                            <button @click="prev()" type="button" aria-label="Sebelumnya" class="w-7 h-7 rounded-full bg-white hover:bg-primary-50 text-slate-600 hover:text-primary-600 flex items-center justify-center transition border border-slate-200 shadow-xs active:scale-95">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
-                            </button>
-                            
-                            <div class="flex items-center gap-1.5">
-                                @foreach($donaturList as $i => $d)
-                                    <button @click="current = {{ $i }}" 
-                                            type="button"
-                                            class="h-1.5 rounded-full transition-all duration-300"
-                                            :class="current === {{ $i }} ? 'w-5 bg-primary-600' : 'w-1.5 bg-slate-300 hover:bg-slate-400'"></button>
-                                @endforeach
-                            </div>
-
-                            <button @click="next()" type="button" aria-label="Berikutnya" class="w-7 h-7 rounded-full bg-white hover:bg-primary-50 text-slate-600 hover:text-primary-600 flex items-center justify-center transition border border-slate-200 shadow-xs active:scale-95">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
-                            </button>
-                        </div>
-                    @endif
-                </div>
-            @else
-                <div class="text-center py-8 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
-                    <p class="text-slate-500 font-semibold text-sm">Belum ada data donasi tercatat. Jadilah donatur pertama hari ini!</p>
-                </div>
-            @endif
+                @endif
+            </div>
             
             <div class="text-center mt-8">
                 <button wire:click="toggleAllDonaturModal" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-slate-100 hover:bg-primary-50 text-slate-700 hover:text-primary-700 font-bold text-sm transition-all duration-200 border border-slate-200">
@@ -663,8 +561,8 @@
                 <p class="text-slate-500 font-medium text-sm sm:text-base">Pengalaman nyata masyarakat, keluarga pasien, dan donatur terhadap layanan Ambulans Siaga.</p>
             </div>
             
-            <!-- ================= DESKTOP VIEW: 3 CARDS GRID (hidden md:grid) ================= -->
-            <div class="hidden md:grid md:grid-cols-3 gap-6 mb-8">
+            <!-- Cards Grid: Menampilkan Tepat 3 Card -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 @forelse($testimoniList as $t)
                 <div class="bg-white p-6 sm:p-7 rounded-[2rem] shadow-sm border border-slate-200/80 hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
                     <div>
@@ -687,88 +585,6 @@
                 @endforelse
             </div>
 
-            <!-- ================= MOBILE VIEW: 1 CARD PERIODIC AUTO-SLIDER (md:hidden) ================= -->
-            <div class="md:hidden mb-8 relative"
-                 x-data="{
-                     current: 0,
-                     total: {{ count($testimoniList) }},
-                     paused: false,
-                     touchStartX: 0,
-                     touchEndX: 0,
-                     next() {
-                         if (this.total > 1) {
-                             this.current = (this.current + 1) % this.total;
-                         }
-                     },
-                     prev() {
-                         if (this.total > 1) {
-                             this.current = (this.current - 1 + this.total) % this.total;
-                         }
-                     },
-                     init() {
-                         setInterval(() => {
-                             if (!this.paused && this.total > 1) {
-                                 this.next();
-                             }
-                         }, 4200);
-                     }
-                 }"
-                 @mouseenter="paused = true"
-                 @mouseleave="paused = false"
-                 @touchstart="paused = true; touchStartX = $event.changedTouches[0].screenX"
-                 @touchend="paused = false; touchEndX = $event.changedTouches[0].screenX; if (touchStartX - touchEndX > 40) next(); if (touchEndX - touchStartX > 40) prev();">
-                 
-                <div class="relative overflow-hidden rounded-[2rem] shadow-sm">
-                    <div class="flex transition-transform duration-500 ease-out"
-                         :style="'transform: translateX(-' + (current * 100) + '%)'">
-                        @forelse($testimoniList as $t)
-                        <div class="w-full flex-shrink-0">
-                            <div class="bg-white p-6 sm:p-7 rounded-[2rem] shadow-sm border border-slate-200/80 flex flex-col justify-between min-h-[220px]">
-                                <div>
-                                    <div class="flex text-yellow-400 mb-3 items-center gap-1">
-                                        @for($s = 1; $s <= ($t->skor ?: 5); $s++)
-                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                                        @endfor
-                                    </div>
-                                    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-5 font-medium">"{!! e($t->ulasan) !!}"</p>
-                                </div>
-                                <div class="pt-3 border-t border-slate-100">
-                                    <p class="font-extrabold text-slate-800 text-xs sm:text-sm">- {{ $t->nama_tampil }}</p>
-                                    <p class="text-[11px] sm:text-xs text-primary-600 font-semibold mt-0.5">{{ $t->peran_tampil }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        @empty
-                        <div class="w-full text-center py-8 bg-white rounded-2xl border border-slate-200">
-                            <p class="text-slate-500 font-semibold text-sm">Belum ada ulasan tersimpan. Tulis pesan umpan balik pertama Anda di bawah ini!</p>
-                        </div>
-                        @endforelse
-                    </div>
-                </div>
-
-                <!-- Mobile Slide Controls (Dots & Arrows) -->
-                @if(count($testimoniList) > 1)
-                    <div class="flex items-center justify-center gap-3 mt-4">
-                        <button @click="prev()" type="button" aria-label="Sebelumnya" class="w-7 h-7 rounded-full bg-white hover:bg-primary-50 text-slate-600 hover:text-primary-600 flex items-center justify-center transition border border-slate-200 shadow-xs active:scale-95">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
-                        </button>
-                        
-                        <div class="flex items-center gap-1.5">
-                            @foreach($testimoniList as $i => $t)
-                                <button @click="current = {{ $i }}" 
-                                        type="button"
-                                        class="h-1.5 rounded-full transition-all duration-300"
-                                        :class="current === {{ $i }} ? 'w-5 bg-primary-600' : 'w-1.5 bg-slate-300 hover:bg-slate-400'"></button>
-                            @endforeach
-                        </div>
-
-                        <button @click="next()" type="button" aria-label="Berikutnya" class="w-7 h-7 rounded-full bg-white hover:bg-primary-50 text-slate-600 hover:text-primary-600 flex items-center justify-center transition border border-slate-200 shadow-xs active:scale-95">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
-                        </button>
-                    </div>
-                @endif
-            </div>
-
             <!-- Tombol Lihat Semua Ulasan -->
             <div class="text-center mb-16">
                 <button wire:click="toggleAllReviewModal" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white hover:bg-primary-50 text-slate-700 hover:text-primary-700 font-bold text-sm transition-all duration-200 border border-slate-200 shadow-xs">
@@ -778,129 +594,67 @@
             </div>
 
             <!-- Interaktif: Form Kirim Pesan Kebaikan & Umpan Balik Layanan -->
-            <div class="max-w-3xl mx-auto bg-white rounded-[2.5rem] p-6 sm:p-10 shadow-xl border border-slate-200/80 relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-36 h-36 bg-gradient-to-bl from-primary-600/10 via-teal-500/5 to-transparent rounded-bl-full pointer-events-none"></div>
+            <div class="max-w-3xl mx-auto bg-white rounded-[2.5rem] p-8 sm:p-10 shadow-xl border border-slate-200/80 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-primary-600/5 rounded-bl-full pointer-events-none"></div>
 
                 <div class="text-center mb-8">
                     <span class="text-primary-600 font-extrabold text-xs uppercase tracking-wider block mb-1">Umpan Balik Publik</span>
-                    <h3 class="text-2xl sm:text-3xl font-black text-slate-800">Kirimkan Doa, Pesan Kebaikan, atau Ulasan Layanan</h3>
-                    <p class="text-slate-500 text-xs sm:text-sm mt-1 max-w-lg mx-auto">Pesan Anda akan tampil di halaman ini dan memberikan semangat bagi para pejuang kemanusiaan.</p>
+                    <h3 class="text-2xl font-black text-slate-800">Kirimkan Doa, Pesan Kebaikan, atau Ulasan Layanan</h3>
+                    <p class="text-slate-500 text-xs sm:text-sm mt-1">Pesan Anda akan tampil di halaman ini dan memberikan semangat bagi para pejuang kemanusiaan.</p>
                 </div>
 
                 @if($feedbackSuccessMessage)
-                <div class="mb-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-bold flex items-center gap-3 shadow-xs"
-                     x-data="{ show: true }" x-show="show" x-transition>
-                    <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-                    </div>
-                    <span class="flex-1">{{ $feedbackSuccessMessage }}</span>
+                <div class="mb-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-bold flex items-center gap-3">
+                    <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                    {{ $feedbackSuccessMessage }}
                 </div>
                 @endif
 
-                <form wire:submit.prevent="kirimUmpanBalik" class="space-y-6">
-                    
-                    <!-- Rating Star Picker Section (Center Box) -->
-                    <div class="bg-gradient-to-b from-slate-50 to-amber-50/30 rounded-2xl p-5 sm:p-6 border border-slate-200/70 text-center"
-                         x-data="{ 
-                             hoverRating: 0,
-                             ratingLabels: {
-                                 1: 'Perlu Peningkatan (1/5)',
-                                 2: 'Kurang Puas (2/5)',
-                                 3: 'Cukup Baik (3/5)',
-                                 4: 'Puas & Membantu (4/5)',
-                                 5: 'Sangat Puas & Luar Biasa (5/5)'
-                             }
-                         }">
-                        <label class="block text-xs sm:text-sm font-extrabold text-slate-700 uppercase tracking-wider mb-2">
-                            Beri Rating Penilaian <span class="text-red-500">*</span>
-                        </label>
-                        
-                        <!-- 5 Interactive Stars -->
-                        <div class="flex items-center justify-center gap-2 sm:gap-3 my-2" @mouseleave="hoverRating = 0">
-                            @for($i = 1; $i <= 5; $i++)
-                                <button type="button" 
-                                        @mouseenter="hoverRating = {{ $i }}"
-                                        wire:click="$set('feedbackSkor', {{ $i }})"
-                                        class="p-1 rounded-xl transition-all duration-200 transform hover:scale-125 focus:outline-none group active:scale-95 cursor-pointer"
-                                        aria-label="Beri rating {{ $i }} bintang">
-                                    <svg class="w-8 h-8 sm:w-10 sm:h-10 transition-colors duration-200 filter drop-shadow-xs"
-                                         :class="(hoverRating ? hoverRating >= {{ $i }} : {{ $feedbackSkor }} >= {{ $i }}) ? 'text-amber-400 fill-amber-400' : 'text-slate-200 fill-slate-200'"
-                                         viewBox="0 0 24 24">
-                                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                                    </svg>
-                                </button>
-                            @endfor
-                        </div>
-
-                        <!-- Dynamic Label Text -->
-                        <p class="text-xs sm:text-sm font-bold text-amber-800 transition-all min-h-[20px] mt-1"
-                           x-text="ratingLabels[hoverRating || {{ $feedbackSkor }}]">
-                        </p>
-                    </div>
-
-                    <!-- Input Grid: Nama & Peran -->
+                <form wire:submit.prevent="kirimUmpanBalik" class="space-y-5">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1.5">Nama Lengkap / Inisial <span class="text-red-500">*</span></label>
-                            <input type="text" wire:model="feedbackNama" placeholder="Contoh: Bapak Hendra / Hamba Allah" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20 text-sm transition bg-white">
-                            @error('feedbackNama') <span class="text-xs text-red-500 font-semibold block mt-1">{{ $message }}</span> @enderror
+                            <input type="text" wire:model="feedbackNama" placeholder="Contoh: Bapak Hendra / Hamba Allah" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20 text-sm transition">
+                            @error('feedbackNama') <span class="text-xs text-red-500 font-semibold">{{ $message }}</span> @enderror
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Status / Peran <span class="text-red-500">*</span></label>
-                            <div class="relative" x-data="{ open: false }">
-                                <button type="button" @click="open = !open" @click.outside="open = false"
-                                        class="w-full flex items-center justify-between px-4 py-3 rounded-xl border border-slate-200 bg-white text-sm font-semibold text-slate-800 shadow-xs hover:border-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-600/20 transition-all cursor-pointer">
-                                    <span class="truncate">{{ $feedbackPeran ?? 'Pilih Status / Peran' }}</span>
-                                    <svg class="w-4 h-4 text-slate-400 ml-2 flex-shrink-0 transition-transform duration-200" :class="open ? 'rotate-180 text-primary-600' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                                </button>
-
-                                <!-- Floating Menu (Admin Style) -->
-                                <div x-show="open" 
-                                     x-transition:enter="transition ease-out duration-150"
-                                     x-transition:enter-start="opacity-0 scale-95 -translate-y-1"
-                                     x-transition:enter-end="opacity-100 scale-100 translate-y-0"
-                                     x-transition:leave="transition ease-in duration-100"
-                                     x-transition:leave-start="opacity-100 scale-100 translate-y-0"
-                                     x-transition:leave-end="opacity-0 scale-95 -translate-y-1"
-                                     class="absolute left-0 top-full mt-1.5 w-full bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 overflow-hidden"
-                                     style="display: none;">
-                                    @php
-                                        $peranOptions = ['Donatur', 'Keluarga Pasien', 'Relawan Medis', 'Masyarakat Umum'];
-                                    @endphp
-                                    @foreach($peranOptions as $opt)
-                                        <button type="button" @click="$wire.set('feedbackPeran', '{{ $opt }}'); open = false"
-                                                class="w-full text-left px-4 py-2.5 text-xs sm:text-sm font-semibold flex items-center justify-between transition-colors cursor-pointer {{ $feedbackPeran === $opt ? 'text-primary-600 bg-sky-50/70 font-bold' : 'text-slate-700 hover:bg-sky-50/50 hover:text-primary-600' }}">
-                                            <span>{{ $opt }}</span>
-                                            @if($feedbackPeran === $opt)
-                                                <svg class="w-4 h-4 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-                                            @endif
-                                        </button>
-                                    @endforeach
-                                </div>
-                            </div>
-                            @error('feedbackPeran') <span class="text-xs text-red-500 font-semibold block mt-1">{{ $message }}</span> @enderror
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Status / Peran</label>
+                            <select wire:model="feedbackPeran" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20 text-sm transition bg-white">
+                                <option value="Donatur">Donatur</option>
+                                <option value="Keluarga Pasien">Keluarga Pasien</option>
+                                <option value="Relawan Medis">Relawan Medis</option>
+                                <option value="Masyarakat Umum">Masyarakat Umum</option>
+                            </select>
                         </div>
                     </div>
 
-                    <!-- Kota / Domisili -->
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1.5">Kota / Domisili <span class="text-slate-400 font-normal">(Opsional)</span></label>
-                        <input type="text" wire:model="feedbackLokasi" placeholder="Contoh: Cilacap, Jawa Tengah" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20 text-sm transition bg-white">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Kota / Domisili</label>
+                            <input type="text" wire:model="feedbackLokasi" placeholder="Contoh: Cilacap, Jawa Tengah" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20 text-sm transition">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Rating Kepuasan</label>
+                            <select wire:model="feedbackSkor" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20 text-sm transition bg-white">
+                                <option value="5">⭐⭐⭐⭐⭐ (5/5 - Sangat Puas / Luar Biasa)</option>
+                                <option value="4">⭐⭐⭐⭐ (4/5 - Puas)</option>
+                                <option value="3">⭐⭐⭐ (3/5 - Cukup)</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <!-- Pesan Testimoni / Doa Kebaikan -->
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1.5">Pesan Testimoni / Doa Kebaikan <span class="text-red-500">*</span></label>
-                        <textarea wire:model="feedbackPesan" rows="3" placeholder="Tuliskan apresiasi, pengalaman layanan ambulans, atau doa untuk para relawan..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20 text-sm transition bg-white leading-relaxed"></textarea>
-                        @error('feedbackPesan') <span class="text-xs text-red-500 font-semibold block mt-1">{{ $message }}</span> @enderror
+                        <textarea wire:model="feedbackPesan" rows="3" placeholder="Tuliskan apresiasi, pengalaman layanan ambulans, atau doa untuk para relawan..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20 text-sm transition"></textarea>
+                        @error('feedbackPesan') <span class="text-xs text-red-500 font-semibold">{{ $message }}</span> @enderror
                     </div>
 
-                    <!-- Submit Button -->
                     <div class="text-center pt-2">
-                        <button type="submit" 
-                                class="inline-flex items-center justify-center bg-primary-600 text-white px-8 py-3.5 rounded-full font-bold text-sm hover:bg-primary-700 active:scale-95 transition-all shadow-lg hover:shadow-xl shadow-primary-600/30 w-full sm:w-auto cursor-pointer">
-                            <span>Kirim Ulasan & Pesan</span>
+                        <button type="submit" class="inline-flex items-center gap-2 bg-primary-600 text-white px-8 py-3.5 rounded-full font-bold text-sm hover:bg-primary-700 transition shadow-lg hover:shadow-primary-600/30">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                            Kirim Ulasan & Pesan
                         </button>
                     </div>
                 </form>

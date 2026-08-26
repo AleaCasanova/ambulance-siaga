@@ -29,7 +29,7 @@
 
     @include('layouts.header')
     
-    <main class="{{ auth()->check() ? 'pb-16 lg:pb-0' : '' }}">
+    <main class="pb-16 lg:pb-0">
         {{ $slot }}
     </main>
 
