@@ -12,7 +12,6 @@
         <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-slate-50 via-slate-50/40 to-transparent pointer-events-none z-10"></div>
 
         <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 relative z-10">
-<<<<<<< HEAD
             <!-- Left: Hero Text Content -->
             <div class="lg:w-[55%] text-white z-10 text-center lg:text-left space-y-6">
                 
@@ -50,7 +49,6 @@
                     <a href="{{ route('login') }}" 
                        class="w-full sm:w-auto inline-flex justify-center items-center gap-2 bg-white/10 backdrop-blur-sm border-2 border-white/40 text-white px-7 py-4 rounded-full font-bold text-base hover:bg-white/20 hover:border-white transition-all">
                         <span>Masuk ke Web Portal</span>
-=======
             <!-- Left Text Content -->
             <div class="lg:w-[55%] text-white z-10 text-center lg:text-left">
                 <!-- Top Badge matching Beranda -->
@@ -72,7 +70,6 @@
                     <a href="{{ route('register.supir') }}" class="group relative inline-flex justify-center items-center gap-2 bg-white text-primary-600 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-xs sm:text-base hover:bg-slate-50 transition-all shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:scale-105">
                         Daftar Sebagai Pengemudi
                         <svg class="w-4 h-4 sm:w-6 sm:h-6 text-primary-600 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
->>>>>>> e00563d75a35805f971880b2f6a486b92e0fc414
                     </a>
                 </div>
             </div>

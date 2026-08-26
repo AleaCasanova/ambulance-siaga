@@ -12,7 +12,6 @@
         <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-slate-50 via-slate-50/40 to-transparent pointer-events-none z-10"></div>
 
         <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 relative z-10">
-<<<<<<< HEAD
             <!-- Left: Hero Text Content -->
             <div class="lg:w-[55%] text-white z-10 text-center lg:text-left space-y-6">
                 
@@ -50,7 +49,6 @@
                     <a href="{{ route('login') }}" 
                        class="w-full sm:w-auto inline-flex justify-center items-center gap-2 bg-white/10 backdrop-blur-sm border-2 border-white/40 text-white px-7 py-4 rounded-full font-bold text-base hover:bg-white/20 hover:border-white transition-all">
                         <span>Masuk ke Web Portal</span>
-=======
             <!-- Left Text Content -->
             <div class="lg:w-[55%] text-white z-10 text-center lg:text-left">
                 <!-- Top Badge matching Beranda -->
@@ -72,7 +70,6 @@
                     <a href="{{ route('register.mitra') }}" class="group relative inline-flex justify-center items-center gap-2 bg-white text-primary-600 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-xs sm:text-base hover:bg-slate-50 transition-all shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:scale-105">
                         Daftar Sebagai Mitra Armada
                         <svg class="w-4 h-4 sm:w-6 sm:h-6 text-primary-600 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
->>>>>>> e00563d75a35805f971880b2f6a486b92e0fc414
                     </a>
                 </div>
             </div>
@@ -110,13 +107,11 @@
         </div>
     </section>
 
-<<<<<<< HEAD
     <!-- Section 2: Keunggulan Mitra Lembaga (Curved Primary Banner) -->
     <section class="py-12 md:py-16 px-4 sm:px-6 lg:px-8">
         <div class="max-w-7xl mx-auto">
             <!-- Curved Primary Teal Container -->
             <div class="relative bg-gradient-to-br from-primary-700 via-[#009CA6] to-[#0F2747] rounded-[2.5rem] sm:rounded-[3.5rem] p-8 sm:p-12 md:p-16 text-white shadow-2xl overflow-hidden">
-=======
     <!-- Section 2: Kenapa Bergabung? -->
     <section class="py-14 sm:py-24 px-6 lg:px-12 bg-white">
         <div class="max-w-7xl mx-auto">
@@ -396,7 +391,6 @@
                 <!-- Decorative Elements inside card -->
                 <div class="absolute top-0 right-0 w-64 h-64 bg-primary-600/30 blur-[80px] rounded-full pointer-events-none -mt-10 -mr-10"></div>
                 <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/20 blur-[80px] rounded-full pointer-events-none -mb-10 -ml-10"></div>
->>>>>>> e00563d75a35805f971880b2f6a486b92e0fc414
                 
                 <!-- Background Pattern Curves -->
                 <div class="absolute -right-20 -top-20 w-80 h-80 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
