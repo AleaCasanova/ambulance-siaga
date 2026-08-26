@@ -8,7 +8,7 @@
         <!-- Header Page -->
     <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div class="flex items-center gap-4">
-            <div class="w-20 h-20 rounded-full bg-white p-2 flex items-center justify-center shadow-lg border-2 border-primary-100/80 flex-shrink-0 overflow-hidden">
+            <div class="hidden sm:flex w-20 h-20 rounded-full bg-white p-2 items-center justify-center shadow-lg border-2 border-primary-100/80 flex-shrink-0 overflow-hidden">
                 <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulans Siaga" class="w-full h-full object-contain">
             </div>
             <div>
@@ -89,6 +89,66 @@
                            placeholder="Contoh: Jl. Gatot Subroto No. 45 (Depan Gerbang Merah / Samping Masjid)"
                            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-primary-600 focus:ring-4 focus:ring-primary-600/10 text-sm font-medium transition-all">
                     @error('lokasi_jemput') <p class="text-xs text-red-600 font-medium mt-1">{{ $message }}</p> @enderror
+                </div>
+
+                <!-- Slot Map untuk Tampilan Mobile: Terletak di antara Alamat dan Titik Koordinat (lg:hidden) -->
+                <div id="mobile-map-slot" wire:ignore class="block lg:hidden">
+                    <!-- Map Card Container -->
+                    <div id="map-card-wrapper" class="w-full">
+                        <div class="bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl border border-slate-200/80 p-4 sm:p-5 shadow-lg shadow-slate-200/50 flex flex-col relative overflow-hidden">
+                            <!-- Decorative Blob -->
+                            <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-primary-600/15 rounded-full blur-2xl pointer-events-none"></div>
+                            
+                            <div class="flex items-center justify-between gap-3 mb-3 relative z-10">
+                                <div>
+                                    <h2 class="font-bold text-slate-800 text-xs sm:text-sm md:text-base flex items-center gap-1.5 sm:gap-2">
+                                        <span class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-primary-600"></span>
+                                        <span>Peta Penentuan Titik Jemput (Cilacap)</span>
+                                    </h2>
+                                    <p class="text-[11px] sm:text-xs text-slate-500 mt-0.5">Klik di mana saja pada peta untuk menentukan koordinat.</p>
+                                </div>
+                                <button type="button" @click="resetToDefault()"
+                                        class="px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-[11px] sm:text-xs font-bold bg-slate-100 hover:bg-primary-600/10 hover:text-primary-600 text-slate-700 transition-all flex items-center gap-1 flex-shrink-0 border border-slate-200/60 shadow-2xs">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    </svg>
+                                    <span>Pusat Cilacap</span>
+                                </button>
+                            </div>
+
+                            <!-- Leaflet Container: Ukuran Kotak 1:1 di Mobile, Tinggi Optimal di Desktop -->
+                            <div class="relative w-full aspect-square lg:aspect-auto lg:h-[450px] rounded-2xl border border-slate-200 shadow-inner overflow-hidden z-10">
+                                <div id="booking-map" class="absolute inset-0 w-full h-full"></div>
+
+                                <!-- Estimasi Waktu (ETA Card) -->
+                                <div x-show="routeSummary" x-transition style="display: none;"
+                                     class="absolute top-3 left-3 right-3 sm:right-auto sm:max-w-xs z-[1000] bg-white/95 backdrop-blur-md p-3 rounded-xl sm:rounded-2xl border border-slate-200/80 shadow-xl flex items-center gap-2.5">
+                                    <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-primary-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-primary-600/30">
+                                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center gap-1.5 mb-0.5">
+                                            <span class="text-xs sm:text-sm font-extrabold text-slate-800" x-text="routeEta"></span>
+                                            <span class="text-[9px] sm:text-[10px] font-bold text-primary-700 bg-primary-50 px-2 py-0.5 rounded-full border border-primary-100" x-text="routeDistance"></span>
+                                        </div>
+                                        <p class="text-[10px] sm:text-[11px] text-slate-500 font-medium truncate" x-text="'Rute: ' + routeSummary"></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Info Box Koordinat Terpilih (Khusus Desktop) -->
+                            <div class="hidden lg:flex mt-4 pt-3.5 border-t border-slate-100 items-center justify-between text-xs text-slate-600">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                                    <span class="font-semibold text-slate-700">Koordinat Aktif:</span>
+                                </div>
+                                <div class="font-mono font-bold text-slate-800 bg-slate-100 px-2.5 py-1 rounded-lg">
+                                    <span x-text="lat.toFixed(6)"></span>, <span x-text="lng.toFixed(6)"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Koordinat GPS -->
@@ -228,62 +288,8 @@
             </form>
         </div>
 
-        <!-- Right Column: Leaflet Map (Sticky on Desktop) -->
-        <div class="lg:col-span-6 flex flex-col lg:sticky lg:top-24 self-start">
-            <div class="bg-white/95 backdrop-blur-md rounded-3xl border border-white/60 p-5 sm:p-6 shadow-2xl shadow-slate-200/50 flex flex-col relative overflow-hidden">
-                <!-- Decorative Blob -->
-                <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-primary-600/15 rounded-full blur-2xl pointer-events-none"></div>
-                
-                <div class="flex items-center justify-between gap-3 mb-4 relative z-10">
-                    <div>
-                        <h2 class="font-bold text-slate-800 text-sm sm:text-base flex items-center gap-2">
-                            <span class="w-2.5 h-2.5 rounded-full bg-primary-600"></span>
-                            <span>Peta Penentuan Titik Jemput (Cilacap)</span>
-                        </h2>
-                        <p class="text-xs text-slate-500 mt-0.5">Klik di mana saja pada peta untuk menentukan koordinat penjemputan.</p>
-                    </div>
-                    <button type="button" @click="resetToDefault()"
-                            class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-primary-600/10 hover:text-primary-600 text-slate-700 transition-all flex items-center gap-1.5 flex-shrink-0 border border-slate-200/60 shadow-2xs">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                        </svg>
-                        <span>Pusat Cilacap</span>
-                    </button>
-                </div>
-
-                <!-- Leaflet Container dengan wire:ignore agar tidak terhapus saat Livewire re-render -->
-                <div wire:ignore class="relative w-full rounded-2xl border border-slate-200 shadow-inner overflow-hidden z-10" style="height: 450px; min-height: 450px; width: 100%;">
-                    <div id="booking-map" class="w-full h-full" style="height: 450px; min-height: 450px; width: 100%;"></div>
-
-                    <!-- Estimasi Waktu (ETA Card) -->
-                    <div x-show="routeSummary" x-transition style="display: none;"
-                         class="absolute top-4 left-4 right-4 sm:right-auto sm:max-w-xs z-[1000] bg-white/95 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200/80 shadow-xl flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-primary-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-primary-600/30">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center gap-2 mb-0.5">
-                                <span class="text-sm font-extrabold text-slate-800" x-text="routeEta"></span>
-                                <span class="text-[10px] font-bold text-primary-700 bg-primary-50 px-2.5 py-0.5 rounded-full border border-primary-100" x-text="routeDistance"></span>
-                            </div>
-                            <p class="text-[11px] text-slate-500 font-medium truncate" x-text="'Rute Evakuasi: ' + routeSummary"></p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Info Box Koordinat Terpilih di bawah peta -->
-                <div class="mt-4 pt-3.5 border-t border-slate-100 flex items-center justify-between text-xs text-slate-600">
-                    <div class="flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                        <span class="font-semibold text-slate-700">Koordinat Aktif:</span>
-                    </div>
-                    <div class="font-mono font-bold text-slate-800 bg-slate-100 px-2.5 py-1 rounded-lg">
-                        <span x-text="lat.toFixed(6)"></span>, <span x-text="lng.toFixed(6)"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- Right Column: Desktop Map Slot (Sticky on Desktop, hidden on Mobile) -->
+        <div id="desktop-map-slot" wire:ignore class="hidden lg:block lg:col-span-6 lg:sticky lg:top-24 self-start"></div>
 
     </div>
     </main>
@@ -305,55 +311,89 @@
                 routeEta: '',
                 routeSummary: '',
 
-                initMap() {
-                    // Initialize Leaflet
-                    this.map = L.map('booking-map', {
-                        zoomControl: true
-                    }).setView([this.lat, this.lng], 14);
+                mountMapResponsive() {
+                    const mapCard = document.getElementById('map-card-wrapper');
+                    const mobileSlot = document.getElementById('mobile-map-slot');
+                    const desktopSlot = document.getElementById('desktop-map-slot');
 
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-                        maxZoom: 19
-                    }).addTo(this.map);
+                    if (!mapCard || !mobileSlot || !desktopSlot) return;
 
-                    const jemputIcon = L.divIcon({
-                        className: 'custom-jemput-icon',
-                        html: `<div style="background: linear-gradient(135deg, #3B82F6, #1D4ED8); width: 38px; height: 38px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 12px rgba(59,130,246,0.5); display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: move;">📍</div>`,
-                        iconSize: [38, 38],
-                        iconAnchor: [19, 38]
-                    });
-
-                    // Create Draggable Marker
-                    this.marker = L.marker([this.lat, this.lng], {
-                        draggable: true,
-                        icon: jemputIcon
-                    }).addTo(this.map)
-                    .bindPopup('<b>Titik Penjemputan Pasien</b><br>Geser atau klik peta untuk ubah')
-                    .openPopup();
-
-                    // Map Click Listener
-                    this.map.on('click', (e) => {
-                        this.setMarkerPosition(e.latlng.lat, e.latlng.lng);
-                    });
-
-                    // Marker Drag End Listener
-                    this.marker.on('dragend', (e) => {
-                        const pos = e.target.getLatLng();
-                        this.setMarkerPosition(pos.lat, pos.lng);
-                    });
-
-                    if (this.selectedRsId) {
-                        this.updateHospitalMarker(this.selectedRsId);
-                    }
-
-                    setTimeout(() => {
-                        if (this.map) {
-                            this.map.invalidateSize();
+                    if (window.innerWidth < 1024) {
+                        if (!mobileSlot.contains(mapCard)) {
+                            mobileSlot.appendChild(mapCard);
                         }
-                    }, 350);
+                    } else {
+                        if (!desktopSlot.contains(mapCard)) {
+                            desktopSlot.appendChild(mapCard);
+                        }
+                    }
+                },
 
-                    window.addEventListener('resize', () => {
-                        if (this.map) {
+                initMap() {
+                    this.mountMapResponsive();
+
+                    this.$nextTick(() => {
+                        const mapEl = document.getElementById('booking-map');
+                        if (!mapEl) return;
+
+                        if (!this.map) {
+                            // Initialize Leaflet
+                            this.map = L.map('booking-map', {
+                                zoomControl: true
+                            }).setView([this.lat, this.lng], 14);
+
+                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                                maxZoom: 19
+                            }).addTo(this.map);
+
+                            const jemputIcon = L.divIcon({
+                                className: 'custom-jemput-icon',
+                                html: `<div style="background: linear-gradient(135deg, #3B82F6, #1D4ED8); width: 38px; height: 38px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 12px rgba(59,130,246,0.5); display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: move;">📍</div>`,
+                                iconSize: [38, 38],
+                                iconAnchor: [19, 38]
+                            });
+
+                            // Create Draggable Marker
+                            this.marker = L.marker([this.lat, this.lng], {
+                                draggable: true,
+                                icon: jemputIcon
+                            }).addTo(this.map)
+                            .bindPopup('<b>Titik Penjemputan Pasien</b><br>Geser atau klik peta untuk ubah')
+                            .openPopup();
+
+                            // Map Click Listener
+                            this.map.on('click', (e) => {
+                                this.setMarkerPosition(e.latlng.lat, e.latlng.lng);
+                            });
+
+                            // Marker Drag End Listener
+                            this.marker.on('dragend', (e) => {
+                                const pos = e.target.getLatLng();
+                                this.setMarkerPosition(pos.lat, pos.lng);
+                            });
+
+                            if (this.selectedRsId) {
+                                this.updateHospitalMarker(this.selectedRsId);
+                            }
+
+                            setTimeout(() => {
+                                if (this.map) {
+                                    this.map.invalidateSize();
+                                }
+                            }, 300);
+
+                            let resizeTimer;
+                            window.addEventListener('resize', () => {
+                                clearTimeout(resizeTimer);
+                                resizeTimer = setTimeout(() => {
+                                    this.mountMapResponsive();
+                                    if (this.map) {
+                                        this.map.invalidateSize();
+                                    }
+                                }, 150);
+                            });
+                        } else {
                             this.map.invalidateSize();
                         }
                     });
