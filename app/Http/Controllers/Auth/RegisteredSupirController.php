@@ -63,10 +63,13 @@ class RegisteredSupirController extends Controller
             $avatarPath = $request->file('avatar')->store('avatars', 'public');
         }
 
+        $cleanPhone = preg_replace('/^(\+?62|0)+/', '', $request->phone);
+        $formattedPhone = '0' . $cleanPhone;
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'phone' => $request->phone,
+            'phone' => $formattedPhone,
             'avatar' => $avatarPath,
             'password' => Hash::make($request->password),
             'role_id' => $supirRole?->id,

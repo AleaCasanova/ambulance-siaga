@@ -107,12 +107,7 @@
                         
                         <!-- Card 1: Waktu Fleksibel -->
                         <div class="bg-white rounded-3xl p-6 sm:p-8 text-slate-800 shadow-xl border border-white/40 flex flex-col items-start hover:-translate-y-1.5 transition-all duration-300">
-                            <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-6 shadow-sm">
-                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                </svg>
-                            </div>
-                            <h3 class="text-xl sm:text-2xl font-black text-[#0F2747] mb-2">Waktu Fleksibel</h3>
+                            <h3 class="text-xl font-black text-[#0F2747] mb-2.5">Waktu Fleksibel</h3>
                             <p class="text-slate-600 text-sm font-medium leading-relaxed">
                                 Anda dapat menerima penugasan darurat kapan pun Anda memiliki waktu luang dan mengaktifkan status "Siaga Online".
                             </p>
@@ -120,12 +115,7 @@
 
                         <!-- Card 2: Sistem Penugasan Pintar -->
                         <div class="bg-white rounded-3xl p-6 sm:p-8 text-slate-800 shadow-xl border border-white/40 flex flex-col items-start hover:-translate-y-1.5 transition-all duration-300">
-                            <div class="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mb-6 shadow-sm">
-                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
-                                </svg>
-                            </div>
-                            <h3 class="text-xl sm:text-2xl font-black text-[#0F2747] mb-2">Sistem Pintar</h3>
+                            <h3 class="text-xl font-black text-[#0F2747] mb-2.5">Sistem Pintar</h3>
                             <p class="text-slate-600 text-sm font-medium leading-relaxed">
                                 Tidak perlu bingung mencari jalan. Aplikasi memandu Anda menuju lokasi jemput pasien dan rumah sakit tujuan dengan akurat.
                             </p>
@@ -133,12 +123,7 @@
 
                         <!-- Card 3: Pahlawan Kemanusiaan -->
                         <div class="bg-white rounded-3xl p-6 sm:p-8 text-slate-800 shadow-xl border border-white/40 flex flex-col items-start hover:-translate-y-1.5 transition-all duration-300">
-                            <div class="w-14 h-14 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center mb-6 shadow-sm">
-                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                                </svg>
-                            </div>
-                            <h3 class="text-xl sm:text-2xl font-black text-[#0F2747] mb-2">Aksi Kemanusiaan</h3>
+                            <h3 class="text-xl font-black text-[#0F2747] mb-2.5">Aksi Kemanusiaan</h3>
                             <p class="text-slate-600 text-sm font-medium leading-relaxed">
                                 Waktu dan tenaga yang Anda berikan berdampak langsung dalam menyelamatkan nyawa seseorang di saat paling kritis.
                             </p>
@@ -146,9 +131,9 @@
 
                     </div>
 
-                    <!-- Bottom Bulb Note -->
-                    <div class="flex items-center justify-center gap-3 max-w-3xl mx-auto text-center text-xs sm:text-sm font-medium text-white/90 bg-white/10 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/20">
-                        <span class="text-lg">💡</span>
+                    <!-- Bottom Note -->
+                    <div class="flex items-center justify-center gap-3 max-w-3xl mx-auto text-center text-xs sm:text-sm font-medium text-white/90 bg-white/10 backdrop-blur-md px-6 py-3.5 rounded-2xl border border-white/20">
+                        <svg class="w-4 h-4 text-teal-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         <span>Ambulans Siaga memastikan seluruh pengemudi terverifikasi secara resmi demi menjamin keselamatan dan kenyamanan pasien selama perjalanan.</span>
                     </div>
 
@@ -193,109 +178,82 @@
                 <div class="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
                     
                     <!-- Connector line behind badges (desktop only) -->
-                    <div class="hidden md:block absolute top-[118px] left-[15%] right-[15%] h-0.5 bg-slate-200 -z-0"></div>
+                    <div class="hidden md:block absolute top-[22px] left-[15%] right-[15%] h-0.5 bg-slate-200 -z-0"></div>
 
                     <!-- STEP 1: Identitas Pribadi -->
                     <div class="flex flex-col items-center text-center">
-                        <div class="h-20 flex items-center justify-center mb-4">
-                            <div class="w-16 h-12 rounded-xl bg-sky-100 border-2 border-sky-300 flex items-center justify-center shadow-sm relative">
-                                <svg class="w-7 h-7 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"/></svg>
-                                <div class="absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] font-black">✓</div>
-                            </div>
-                        </div>
-
-                        <div class="w-10 h-10 rounded-full bg-primary-50 border-2 border-primary-600 text-primary-600 font-black text-sm flex items-center justify-center mb-5 shadow-sm relative z-10">
-                            1
+                        <div class="w-11 h-11 rounded-2xl bg-primary-600 text-white font-black text-sm flex items-center justify-center mb-5 shadow-md shadow-primary-600/20 relative z-10">
+                            01
                         </div>
 
                         <h3 class="text-xl font-black text-[#0F2747] mb-4">
                             Identitas Driver
                         </h3>
 
-                        <ul class="text-left space-y-2.5 text-xs sm:text-sm text-slate-600 font-medium max-w-xs">
-                            <li class="flex items-start gap-2">
-                                <span class="text-primary-600 font-black">•</span>
+                        <ul class="text-left space-y-3 text-xs sm:text-sm text-slate-600 font-medium max-w-xs">
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                                 <span>Kartu Tanda Penduduk (KTP) Asli</span>
                             </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-primary-600 font-black">•</span>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                                 <span>Nomor HP / WhatsApp aktif</span>
                             </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-primary-600 font-black">•</span>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                                 <span>Alamat email aktif untuk akun login</span>
                             </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-primary-600 font-black">•</span>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                                 <span>Pas foto terbaru (tampilan rapi)</span>
                             </li>
                         </ul>
                     </div>
 
-                    <!-- STEP 2: Kualifikasi Mengemudi -->
+                    <!-- STEP 2: SIM & Kendaraan -->
                     <div class="flex flex-col items-center text-center">
-                        <div class="h-20 flex items-center justify-center mb-4">
-                            <div class="w-16 h-14 rounded-2xl bg-teal-50 border-2 border-teal-200 flex items-center justify-center shadow-sm">
-                                <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                            </div>
-                        </div>
-
-                        <div class="w-10 h-10 rounded-full bg-primary-50 border-2 border-primary-600 text-primary-600 font-black text-sm flex items-center justify-center mb-5 shadow-sm relative z-10">
-                            2
+                        <div class="w-11 h-11 rounded-2xl bg-primary-600 text-white font-black text-sm flex items-center justify-center mb-5 shadow-md shadow-primary-600/20 relative z-10">
+                            02
                         </div>
 
                         <h3 class="text-xl font-black text-[#0F2747] mb-4">
-                            Kualifikasi Berkendara
+                            SIM & Kendaraan
                         </h3>
 
-                        <ul class="text-left space-y-2.5 text-xs sm:text-sm text-slate-600 font-medium max-w-xs">
-                            <li class="flex items-start gap-2">
-                                <span class="text-primary-600 font-black">•</span>
+                        <ul class="text-left space-y-3 text-xs sm:text-sm text-slate-600 font-medium max-w-xs">
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                                 <span>SIM A / B1 yang masih aktif & sah</span>
                             </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-primary-600 font-black">•</span>
-                                <span>Surat Keterangan Sehat dari faskes</span>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                <span>Foto lembar STNK & pajak aktif</span>
                             </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-primary-600 font-black">•</span>
-                                <span>SKCK (Surat Catatan Kepolisian)</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-primary-600 font-black">•</span>
-                                <span>Sertifikat P3K / BLS (nilai tambah)</span>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                <span>Data plat nomor & tipe kendaraan</span>
                             </li>
                         </ul>
                     </div>
 
                     <!-- STEP 3: Dokumen Keamanan (SKCK) -->
                     <div class="flex flex-col items-center text-center">
-                        <div class="h-20 flex items-center justify-center mb-4">
-                            <div class="w-16 h-12 rounded-xl bg-amber-100 border-2 border-amber-300 flex items-center justify-center shadow-sm">
-                                <svg class="w-8 h-8 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                            </div>
-                        </div>
-
-                        <div class="w-10 h-10 rounded-full bg-primary-50 border-2 border-primary-600 text-primary-600 font-black text-sm flex items-center justify-center mb-5 shadow-sm relative z-10">
-                            3
+                        <div class="w-11 h-11 rounded-2xl bg-primary-600 text-white font-black text-sm flex items-center justify-center mb-5 shadow-md shadow-primary-600/20 relative z-10">
+                            03
                         </div>
 
                         <h3 class="text-xl font-black text-[#0F2747] mb-4">
                             Dokumen SKCK
                         </h3>
 
-                        <ul class="text-left space-y-2.5 text-xs sm:text-sm text-slate-600 font-medium max-w-xs">
-                            <li class="flex items-start gap-2">
-                                <span class="text-primary-600 font-black">•</span>
+                        <ul class="text-left space-y-3 text-xs sm:text-sm text-slate-600 font-medium max-w-xs">
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                                 <span>SKCK resmi aktif dari Kepolisian (Wajib)</span>
                             </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-primary-600 font-black">•</span>
-                                <span>Surat Keterangan Sehat dari faskes</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-primary-600 font-black">•</span>
-                                <span>Sertifikat P3K / BLS (nilai tambah)</span>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                <span>Foto fisik lembar SKCK asli & masih berlaku</span>
                             </li>
                         </ul>
                     </div>
@@ -311,8 +269,8 @@
         <div class="max-w-7xl mx-auto space-y-8">
             
             <!-- Warning Box -->
-            <div class="bg-[#fef3c7] border border-[#fde68a] rounded-3xl p-6 sm:p-8 flex items-start gap-4 shadow-sm">
-                <div class="w-10 h-10 rounded-full bg-amber-500 text-white flex items-center justify-center shrink-0 font-black text-lg shadow-sm">
+            <div class="bg-amber-50/80 border border-amber-200/80 rounded-3xl p-6 sm:p-8 flex items-start gap-4 shadow-sm">
+                <div class="w-10 h-10 rounded-2xl bg-amber-500 text-white flex items-center justify-center shrink-0 font-black text-base shadow-sm">
                     !
                 </div>
                 <div class="space-y-1">
@@ -325,18 +283,28 @@
                 </div>
             </div>
 
-            <!-- Call to Action Banner -->
-            <div class="relative bg-gradient-to-r from-primary-700 via-primary-600 to-[#0F2747] rounded-[2.5rem] sm:rounded-[3.5rem] p-8 sm:p-12 md:p-16 text-white shadow-2xl overflow-hidden">
-                <div class="absolute -right-16 -bottom-16 w-80 h-80 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+            <!-- Call to Action Banner (Opsi C: 3 Langkah Cepat + Watermark Logo Emboss) -->
+            <div class="relative bg-gradient-to-br from-primary-700 via-[#009CA6] to-[#0F2747] rounded-[2.5rem] sm:rounded-[3.5rem] p-8 sm:p-12 md:p-14 text-white shadow-2xl overflow-hidden">
+                
+                <!-- Ambient Glow & Watermark Logo Emboss -->
+                <div class="absolute -right-16 -bottom-16 w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -right-8 -top-8 w-64 h-64 bg-teal-400/10 rounded-full blur-2xl pointer-events-none"></div>
+                <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="" class="absolute -right-10 -bottom-10 w-72 h-72 object-contain opacity-5 pointer-events-none -rotate-12 select-none">
 
-                <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
-                    <div class="space-y-6 text-center lg:text-left max-w-2xl">
-                        <h3 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white leading-tight tracking-tight">
+                <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-10">
+                    
+                    <!-- Left: Headline, Hashtag, Button -->
+                    <div class="space-y-6 text-center lg:text-left max-w-xl">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-xs font-bold text-teal-100">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                            <span>Pendaftaran Driver Terbuka</span>
+                        </div>
+                        <h3 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white leading-[1.2] tracking-tight">
                             Siaga mengantarkan harapan, yuk gabung jadi Pengemudi sekarang! <br>
                             <span class="text-teal-200">#PahlawanKemanusiaan</span>
                         </h3>
                         
-                        <div>
+                        <div class="pt-2">
                             <a href="{{ route('register.supir') }}" 
                                class="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-white hover:bg-slate-50 text-primary-700 font-black text-base shadow-xl hover:shadow-2xl transition-all transform active:scale-95">
                                 <span>Daftar Sebagai Pengemudi</span>
@@ -345,16 +313,51 @@
                         </div>
                     </div>
 
-                    <div class="relative shrink-0 hidden sm:block">
-                        <div class="w-44 h-44 sm:w-56 sm:h-56 rounded-full bg-white/10 p-3 flex items-center justify-center border-4 border-white/20">
-                            <div class="w-full h-full rounded-full bg-white flex flex-col items-center justify-center p-4 shadow-inner text-center">
-                                <svg class="w-16 h-16 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                                </svg>
-                                <span class="text-xs font-black text-slate-800 mt-2">Pengemudi Siaga</span>
+                    <!-- Right: Quick 3-Step Journey Card -->
+                    <div class="w-full lg:w-80 shrink-0">
+                        <div class="bg-white/10 backdrop-blur-md rounded-3xl p-6 border border-white/20 shadow-xl space-y-4">
+                            <div class="flex items-center justify-between border-b border-white/15 pb-3">
+                                <span class="text-[11px] font-black uppercase tracking-wider text-teal-200">Alur Bergabung</span>
+                                <span class="text-[10px] font-bold text-white/80 px-2 py-0.5 rounded-full bg-white/10">3 Langkah Cepat</span>
+                            </div>
+
+                            <div class="space-y-3.5 text-left">
+                                <!-- Step 1 -->
+                                <div class="flex items-start gap-3">
+                                    <div class="w-7 h-7 rounded-lg bg-teal-400/20 border border-teal-300/40 text-teal-200 font-black text-xs flex items-center justify-center shrink-0 mt-0.5">
+                                        1
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-black text-white">Isi Formulir Online</p>
+                                        <p class="text-[11px] text-sky-100/80 font-medium">Unggah SIM, e-KTP & berkas pendukung</p>
+                                    </div>
+                                </div>
+
+                                <!-- Step 2 -->
+                                <div class="flex items-start gap-3">
+                                    <div class="w-7 h-7 rounded-lg bg-teal-400/20 border border-teal-300/40 text-teal-200 font-black text-xs flex items-center justify-center shrink-0 mt-0.5">
+                                        2
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-black text-white">Verifikasi Dokumen</p>
+                                        <p class="text-[11px] text-sky-100/80 font-medium">Validasi cepat data oleh tim Siaga</p>
+                                    </div>
+                                </div>
+
+                                <!-- Step 3 -->
+                                <div class="flex items-start gap-3">
+                                    <div class="w-7 h-7 rounded-lg bg-teal-400/20 border border-teal-300/40 text-teal-200 font-black text-xs flex items-center justify-center shrink-0 mt-0.5">
+                                        3
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-black text-white">Aktif & Siap Bertugas</p>
+                                        <p class="text-[11px] text-sky-100/80 font-medium">Mulai terima penugasan darurat</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
 

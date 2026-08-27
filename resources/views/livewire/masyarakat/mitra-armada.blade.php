@@ -107,12 +107,7 @@
                         
                         <!-- Card 1: Optimalisasi Armada -->
                         <div class="bg-white rounded-3xl p-6 sm:p-8 text-slate-800 shadow-xl border border-white/40 flex flex-col items-start hover:-translate-y-1.5 transition-all duration-300">
-                            <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-6 shadow-sm">
-                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                                </svg>
-                            </div>
-                            <h3 class="text-xl sm:text-2xl font-black text-[#0F2747] mb-2">Optimalisasi Armada</h3>
+                            <h3 class="text-xl font-black text-[#0F2747] mb-2.5">Optimalisasi Armada</h3>
                             <p class="text-slate-600 text-sm font-medium leading-relaxed">
                                 Unit ambulans yang sedang standby dapat menerima panggilan darurat terdekat sehingga utilisasi armada meningkat.
                             </p>
@@ -120,12 +115,7 @@
 
                         <!-- Card 2: Manajemen Terpadu -->
                         <div class="bg-white rounded-3xl p-6 sm:p-8 text-slate-800 shadow-xl border border-white/40 flex flex-col items-start hover:-translate-y-1.5 transition-all duration-300">
-                            <div class="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mb-6 shadow-sm">
-                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                                </svg>
-                            </div>
-                            <h3 class="text-xl sm:text-2xl font-black text-[#0F2747] mb-2">Manajemen Terpadu</h3>
+                            <h3 class="text-xl font-black text-[#0F2747] mb-2.5">Manajemen Terpadu</h3>
                             <p class="text-slate-600 text-sm font-medium leading-relaxed">
                                 Pantau aktivitas penugasan, status armada, dan log riwayat perjalanan secara real-time melalui dasbor web portal.
                             </p>
@@ -133,12 +123,7 @@
 
                         <!-- Card 3: Sinergi Relawan -->
                         <div class="bg-white rounded-3xl p-6 sm:p-8 text-slate-800 shadow-xl border border-white/40 flex flex-col items-start hover:-translate-y-1.5 transition-all duration-300">
-                            <div class="w-14 h-14 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center mb-6 shadow-sm">
-                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                                </svg>
-                            </div>
-                            <h3 class="text-xl sm:text-2xl font-black text-[#0F2747] mb-2">Sinergi Relawan</h3>
+                            <h3 class="text-xl font-black text-[#0F2747] mb-2.5">Sinergi Relawan</h3>
                             <p class="text-slate-600 text-sm font-medium leading-relaxed">
                                 Terhubung dengan jaringan pengemudi siaga terlatih apabila lembaga Anda memerlukan driver ambulans cadangan.
                             </p>
@@ -146,9 +131,9 @@
 
                     </div>
 
-                    <!-- Bottom Bulb Note -->
-                    <div class="flex items-center justify-center gap-3 max-w-3xl mx-auto text-center text-xs sm:text-sm font-medium text-white/90 bg-white/10 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/20">
-                        <span class="text-lg">💡</span>
+                    <!-- Bottom Note -->
+                    <div class="flex items-center justify-center gap-3 max-w-3xl mx-auto text-center text-xs sm:text-sm font-medium text-white/90 bg-white/10 backdrop-blur-md px-6 py-3.5 rounded-2xl border border-white/20">
+                        <svg class="w-4 h-4 text-teal-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         <span>Ambulans Siaga memverifikasi legalitas instansi dan kelayakan armada demi standarisasi pelayanan medis darurat.</span>
                     </div>
 
@@ -193,109 +178,86 @@
                 <div class="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
                     
                     <!-- Connector line behind badges (desktop only) -->
-                    <div class="hidden md:block absolute top-[118px] left-[15%] right-[15%] h-0.5 bg-slate-200 -z-0"></div>
+                    <div class="hidden md:block absolute top-[22px] left-[15%] right-[15%] h-0.5 bg-slate-200 -z-0"></div>
 
                     <!-- STEP 1: Penanggung Jawab Lembaga -->
                     <div class="flex flex-col items-center text-center">
-                        <div class="h-20 flex items-center justify-center mb-4">
-                            <div class="w-16 h-12 rounded-xl bg-sky-100 border-2 border-sky-300 flex items-center justify-center shadow-sm relative">
-                                <svg class="w-7 h-7 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"/></svg>
-                                <div class="absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] font-black">✓</div>
-                            </div>
-                        </div>
-
-                        <div class="w-10 h-10 rounded-full bg-primary-50 border-2 border-primary-600 text-primary-600 font-black text-sm flex items-center justify-center mb-5 shadow-sm relative z-10">
-                            1
+                        <div class="w-11 h-11 rounded-2xl bg-primary-600 text-white font-black text-sm flex items-center justify-center mb-5 shadow-md shadow-primary-600/20 relative z-10">
+                            01
                         </div>
 
                         <h3 class="text-xl font-black text-[#0F2747] mb-4">
-                            Penanggung Jawab
+                            Profil & Penanggung Jawab
                         </h3>
 
-                        <ul class="text-left space-y-2.5 text-xs sm:text-sm text-slate-600 font-medium max-w-xs">
-                            <li class="flex items-start gap-2">
-                                <span class="text-primary-600 font-black">•</span>
-                                <span>KTP Pimpinan / Penanggung Jawab</span>
+                        <ul class="text-left space-y-3 text-xs sm:text-sm text-slate-600 font-medium max-w-xs">
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                <span>Nama resmi Lembaga / Yayasan / RS</span>
                             </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-primary-600 font-black">•</span>
-                                <span>Nomor HP & WhatsApp resmi lembaga</span>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                <span>Alamat kantor / posko operasional</span>
                             </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-primary-600 font-black">•</span>
-                                <span>Email resmi lembaga/instansi</span>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                <span>e-KTP & NIK Penanggung Jawab</span>
                             </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-primary-600 font-black">•</span>
-                                <span>Surat Kuasa / SK Tugas (jika diwakilkan)</span>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                <span>Email resmi & No. WhatsApp aktif</span>
                             </li>
                         </ul>
                     </div>
 
-                    <!-- STEP 2: Legalitas & Detail Armada -->
+                    <!-- STEP 2: Legalitas Lembaga -->
                     <div class="flex flex-col items-center text-center">
-                        <div class="h-20 flex items-center justify-center mb-4">
-                            <div class="w-16 h-14 rounded-2xl bg-teal-50 border-2 border-teal-200 flex items-center justify-center shadow-sm">
-                                <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-                            </div>
-                        </div>
-
-                        <div class="w-10 h-10 rounded-full bg-primary-50 border-2 border-primary-600 text-primary-600 font-black text-sm flex items-center justify-center mb-5 shadow-sm relative z-10">
-                            2
+                        <div class="w-11 h-11 rounded-2xl bg-primary-600 text-white font-black text-sm flex items-center justify-center mb-5 shadow-md shadow-primary-600/20 relative z-10">
+                            02
                         </div>
 
                         <h3 class="text-xl font-black text-[#0F2747] mb-4">
-                            Legalitas & Armada
+                            Legalitas Lembaga
                         </h3>
 
-                        <ul class="text-left space-y-2.5 text-xs sm:text-sm text-slate-600 font-medium max-w-xs">
-                            <li class="flex items-start gap-2">
-                                <span class="text-primary-600 font-black">•</span>
-                                <span>Nama Yayasan / RS / Klinik / Ormas</span>
+                        <ul class="text-left space-y-3 text-xs sm:text-sm text-slate-600 font-medium max-w-xs">
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                <span>Nomor Izin / Akta Yayasan / NIB</span>
                             </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-primary-600 font-black">•</span>
-                                <span>NIB / Izin Operasional & NPWP Lembaga</span>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                <span>Foto fisik dokumen legalitas resmi</span>
                             </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-primary-600 font-black">•</span>
-                                <span>Alamat kantor operasional & Pool</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-primary-600 font-black">•</span>
-                                <span>STNK & Foto unit armada ambulans</span>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                <span>Akta Notaris / Legalitas Resmi Lembaga</span>
                             </li>
                         </ul>
                     </div>
 
-                    <!-- STEP 3: Rekening Bank Lembaga -->
+                    <!-- STEP 3: Armada Ambulans -->
                     <div class="flex flex-col items-center text-center">
-                        <div class="h-20 flex items-center justify-center mb-4">
-                            <div class="w-16 h-12 rounded-xl bg-amber-100 border-2 border-amber-300 flex items-center justify-center shadow-sm">
-                                <svg class="w-8 h-8 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
-                            </div>
-                        </div>
-
-                        <div class="w-10 h-10 rounded-full bg-primary-50 border-2 border-primary-600 text-primary-600 font-black text-sm flex items-center justify-center mb-5 shadow-sm relative z-10">
-                            3
+                        <div class="w-11 h-11 rounded-2xl bg-primary-600 text-white font-black text-sm flex items-center justify-center mb-5 shadow-md shadow-primary-600/20 relative z-10">
+                            03
                         </div>
 
                         <h3 class="text-xl font-black text-[#0F2747] mb-4">
-                            Rekening Lembaga
+                            Armada Ambulans
                         </h3>
 
-                        <ul class="text-left space-y-2.5 text-xs sm:text-sm text-slate-600 font-medium max-w-xs">
-                            <li class="flex items-start gap-2">
-                                <span class="text-primary-600 font-black">•</span>
-                                <span>Nama Bank Penyedia</span>
+                        <ul class="text-left space-y-3 text-xs sm:text-sm text-slate-600 font-medium max-w-xs">
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                <span>Plat nomor unit ambulans utama</span>
                             </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-primary-600 font-black">•</span>
-                                <span>Nomor Rekening Lembaga</span>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                <span>Tipe / merk kendaraan ambulans</span>
                             </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-primary-600 font-black">•</span>
-                                <span>Rekening resmi atas nama Lembaga / Yayasan</span>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                <span>Foto fisik unit ambulans operasional</span>
                             </li>
                         </ul>
                     </div>
@@ -311,8 +273,8 @@
         <div class="max-w-7xl mx-auto space-y-8">
             
             <!-- Warning Box -->
-            <div class="bg-[#fef3c7] border border-[#fde68a] rounded-3xl p-6 sm:p-8 flex items-start gap-4 shadow-sm">
-                <div class="w-10 h-10 rounded-full bg-amber-500 text-white flex items-center justify-center shrink-0 font-black text-lg shadow-sm">
+            <div class="bg-amber-50/80 border border-amber-200/80 rounded-3xl p-6 sm:p-8 flex items-start gap-4 shadow-sm">
+                <div class="w-10 h-10 rounded-2xl bg-amber-500 text-white flex items-center justify-center shrink-0 font-black text-base shadow-sm">
                     !
                 </div>
                 <div class="space-y-1">
@@ -320,23 +282,33 @@
                         PENTING!
                     </h4>
                     <p class="text-xs sm:text-sm font-semibold text-amber-900/90 leading-relaxed">
-                        Pastikan data legalitas lembaga dan kelayakan STNK armada sudah lengkap untuk mempercepat proses persetujuan kemitraan instansi Anda.
+                        Pastikan data legalitas lembaga dan identitas unit ambulans sudah lengkap dan jelas untuk mempercepat proses verifikasi kemitraan instansi Anda.
                     </p>
                 </div>
             </div>
 
-            <!-- Call to Action Banner -->
-            <div class="relative bg-gradient-to-r from-primary-700 via-primary-600 to-[#0F2747] rounded-[2.5rem] sm:rounded-[3.5rem] p-8 sm:p-12 md:p-16 text-white shadow-2xl overflow-hidden">
-                <div class="absolute -right-16 -bottom-16 w-80 h-80 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+            <!-- Call to Action Banner (Opsi C: 3 Langkah Mudah + Watermark Logo Emboss) -->
+            <div class="relative bg-gradient-to-br from-primary-700 via-[#009CA6] to-[#0F2747] rounded-[2.5rem] sm:rounded-[3.5rem] p-8 sm:p-12 md:p-14 text-white shadow-2xl overflow-hidden">
+                
+                <!-- Ambient Glow & Watermark Logo Emboss -->
+                <div class="absolute -right-16 -bottom-16 w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -right-8 -top-8 w-64 h-64 bg-teal-400/10 rounded-full blur-2xl pointer-events-none"></div>
+                <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="" class="absolute -right-10 -bottom-10 w-72 h-72 object-contain opacity-5 pointer-events-none -rotate-12 select-none">
 
-                <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
-                    <div class="space-y-6 text-center lg:text-left max-w-2xl">
-                        <h3 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white leading-tight tracking-tight">
+                <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-10">
+                    
+                    <!-- Left: Headline, Hashtag, Button -->
+                    <div class="space-y-6 text-center lg:text-left max-w-xl">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-xs font-bold text-teal-100">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                            <span>Pendaftaran Mitra Armada Terbuka</span>
+                        </div>
+                        <h3 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white leading-[1.2] tracking-tight">
                             Pasukan siaga kemanusiaan, yuk gabung jadi Mitra sekarang! <br>
                             <span class="text-teal-200">#AksiKemanusiaan</span>
                         </h3>
                         
-                        <div>
+                        <div class="pt-2">
                             <a href="{{ route('register.mitra') }}" 
                                class="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-white hover:bg-slate-50 text-primary-700 font-black text-base shadow-xl hover:shadow-2xl transition-all transform active:scale-95">
                                 <span>Daftar Mitra Armada</span>
@@ -345,16 +317,51 @@
                         </div>
                     </div>
 
-                    <div class="relative shrink-0 hidden sm:block">
-                        <div class="w-44 h-44 sm:w-56 sm:h-56 rounded-full bg-white/10 p-3 flex items-center justify-center border-4 border-white/20">
-                            <div class="w-full h-full rounded-full bg-white flex flex-col items-center justify-center p-4 shadow-inner text-center">
-                                <svg class="w-16 h-16 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-                                </svg>
-                                <span class="text-xs font-black text-slate-800 mt-2">Mitra Armada Siaga</span>
+                    <!-- Right: Quick 3-Step Journey Card -->
+                    <div class="w-full lg:w-80 shrink-0">
+                        <div class="bg-white/10 backdrop-blur-md rounded-3xl p-6 border border-white/20 shadow-xl space-y-4">
+                            <div class="flex items-center justify-between border-b border-white/15 pb-3">
+                                <span class="text-[11px] font-black uppercase tracking-wider text-teal-200">Alur Kemitraan</span>
+                                <span class="text-[10px] font-bold text-white/80 px-2 py-0.5 rounded-full bg-white/10">3 Langkah Mudah</span>
+                            </div>
+
+                            <div class="space-y-3.5 text-left">
+                                <!-- Step 1 -->
+                                <div class="flex items-start gap-3">
+                                    <div class="w-7 h-7 rounded-lg bg-teal-400/20 border border-teal-300/40 text-teal-200 font-black text-xs flex items-center justify-center shrink-0 mt-0.5">
+                                        1
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-black text-white">Registrasi Instansi</p>
+                                        <p class="text-[11px] text-sky-100/80 font-medium">Input data yayasan/lembaga & armada</p>
+                                    </div>
+                                </div>
+
+                                <!-- Step 2 -->
+                                <div class="flex items-start gap-3">
+                                    <div class="w-7 h-7 rounded-lg bg-teal-400/20 border border-teal-300/40 text-teal-200 font-black text-xs flex items-center justify-center shrink-0 mt-0.5">
+                                        2
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-black text-white">Verifikasi Legalitas</p>
+                                        <p class="text-[11px] text-sky-100/80 font-medium">Validasi izin faskes / akta yayasan</p>
+                                    </div>
+                                </div>
+
+                                <!-- Step 3 -->
+                                <div class="flex items-start gap-3">
+                                    <div class="w-7 h-7 rounded-lg bg-teal-400/20 border border-teal-300/40 text-teal-200 font-black text-xs flex items-center justify-center shrink-0 mt-0.5">
+                                        3
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-black text-white">Integrasi Portal Siaga</p>
+                                        <p class="text-[11px] text-sky-100/80 font-medium">Kelola armada di dasbor terpadu</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
 

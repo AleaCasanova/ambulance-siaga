@@ -136,6 +136,7 @@
                 this.errorMessage = 'Alamat email resmi lembaga wajib diisi dengan format yang benar.';
                 return;
             }
+            this.phone = this.phone ? this.phone.replace(/^(\+?62|0)+/, '').replace(/\D/g, '') : '';
             if (!this.phone || this.phone.length < 8) {
                 this.errorMessage = 'Nomor telepon / WhatsApp resmi lembaga wajib diisi (minimal 8 digit).';
                 return;
@@ -189,7 +190,7 @@
                 return;
             }
             if (!this.previewAmbulans) {
-                this.errorMessage = 'Foto fisik unit ambulans / lembar STNK wajib diambil / diunggah.';
+                this.errorMessage = 'Foto fisik unit ambulans wajib diambil / diunggah.';
                 return;
             }
             this.step = 7;
@@ -213,44 +214,24 @@
                 <!-- Brand Header -->
                 <div class="flex items-center justify-between pb-4 border-b border-slate-100">
                     <div class="flex items-center gap-2.5">
-                        <div class="w-8 h-8 rounded-xl bg-primary-600/10 text-primary-600 flex items-center justify-center font-black">
-                            🏥
+                        <div class="w-9 h-9 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center p-1.5 shadow-xs">
+                            <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulans Siaga" class="w-full h-full object-contain">
                         </div>
-                        <span class="text-sm font-black text-[#0F2747] tracking-tight">Ambulans Siaga</span>
-                    </div>
-                    <span class="text-[11px] font-bold text-slate-400">Mitra Lembaga</span>
-                </div>
-
-                <!-- Hero Graphic Container -->
-                <div class="my-6 text-center">
-                    <div class="relative w-full h-44 rounded-2xl bg-gradient-to-br from-primary-600 via-[#009CA6] to-[#0F2747] p-4 flex items-center justify-center overflow-hidden shadow-md">
-                        <div class="absolute -right-8 -top-8 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
-                        <div class="absolute -left-8 -bottom-8 w-32 h-32 bg-black/15 rounded-full blur-xl"></div>
-                        
-                        <div class="relative z-10 flex items-center gap-4 text-white">
-                            <div class="w-20 h-20 rounded-full bg-white/20 backdrop-blur-md border-2 border-white/40 flex items-center justify-center shadow-lg">
-                                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-                                </svg>
-                            </div>
-                            <div class="text-left">
-                                <span class="inline-block px-2.5 py-0.5 rounded-full bg-teal-300/20 border border-teal-200/40 text-[10px] font-black uppercase tracking-wider text-teal-100 mb-1">
-                                    Jaringan Multi-Mitra
-                                </span>
-                                <h3 class="text-lg font-black leading-tight text-white">Mitra Armada</h3>
-                                <p class="text-xs text-sky-100/90 font-medium">Lembaga / Yayasan / RS</p>
-                            </div>
+                        <div>
+                            <span class="text-sm font-black text-[#0F2747] tracking-tight block leading-none">Ambulans Siaga</span>
+                            <span class="text-[10px] font-bold text-slate-400">Portal Kemitraan</span>
                         </div>
                     </div>
+                    <span class="text-[11px] font-extrabold px-2.5 py-1 rounded-full bg-teal-50 text-primary-700 border border-teal-200/60">Mitra Lembaga</span>
                 </div>
 
                 <!-- Headline & Subtitle -->
-                <div class="text-center space-y-1.5 mb-8">
+                <div class="text-center space-y-2 my-8">
                     <h2 class="text-xl sm:text-2xl font-black text-[#0F2747] tracking-tight">
                         Daftarkan Armada Lembaga Anda <br>
                         <span class="text-primary-600">Bergabung Bersama Jaringan Siaga</span>
                     </h2>
-                    <p class="text-xs sm:text-sm text-slate-500 font-medium max-w-sm mx-auto">
+                    <p class="text-xs sm:text-sm text-slate-500 font-medium max-w-sm mx-auto leading-relaxed">
                         Integrasikan armada ambulans yayasan/instansi Anda untuk pelayanan darurat yang lebih luas dan terkoordinasi.
                     </p>
                 </div>
@@ -288,20 +269,28 @@
                 @csrf
 
                 <!-- ========================================================================= -->
+                <!-- STEPPER HEADER (Clean Pill Badge & Back Button) -->
+                <!-- ========================================================================= -->
+                <div x-show="step >= 2" class="mb-5 pb-4 border-b border-slate-100 flex items-center justify-between">
+                    <!-- Back Button -->
+                    <button type="button" 
+                            @click="step > 1 ? step-- : step = 1; stopCamera();" 
+                            class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all cursor-pointer">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                        <span>Kembali</span>
+                    </button>
+
+                    <!-- Step Pill Badge -->
+                    <span class="text-xs font-black tracking-tight px-3.5 py-1.5 rounded-full border transition-all"
+                          :class="step === 7 ? 'bg-emerald-50 text-emerald-800 border-emerald-200' : 'bg-teal-50 text-primary-800 border-teal-200'"
+                          x-text="step === 7 ? 'Langkah Terakhir (6 dari 6)' : 'Langkah ' + (step - 1) + ' dari 6'">
+                    </span>
+                </div>
+
+                <!-- ========================================================================= -->
                 <!-- SLIDE 2: AKUN & KONTAK RESMI LEMBAGA -->
                 <!-- ========================================================================= -->
                 <div x-show="step === 2" style="display: none;" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-x-4" x-transition:enter-end="opacity-100 translate-x-0">
-                    <div class="flex items-center justify-between mb-4">
-                        <button type="button" @click="step = 1; stopCamera();" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition-colors cursor-pointer">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-                        </button>
-                        <span class="text-xs font-black text-primary-600 bg-primary-50 px-3 py-1 rounded-full border border-primary-200">Langkah 1 dari 6</span>
-                    </div>
-
-                    <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden mb-5">
-                        <div class="bg-primary-600 h-full w-[16%] transition-all duration-300"></div>
-                    </div>
-
                     <div class="mb-5">
                         <h3 class="text-xl font-black text-[#0F2747] tracking-tight">Akun & Kontak Lembaga</h3>
                         <p class="text-xs text-slate-500 font-medium mt-0.5">Gunakan email & nomor telepon resmi instansi / yayasan Anda.</p>
@@ -313,15 +302,12 @@
                             <label class="block text-[11px] font-black text-slate-700 uppercase tracking-wider mb-1">
                                 Email Resmi Lembaga <span class="text-red-500">*</span>
                             </label>
-                            <div class="relative">
-                                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm">✉️</span>
-                                <input type="email" 
-                                       name="email"
-                                       x-model="email" 
-                                       autocomplete="off"
-                                       placeholder="contoh: yayasan.peduli@gmail.com" 
-                                       class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-sm font-bold text-[#0F2747] placeholder:text-slate-400 focus:bg-white focus:border-primary-600 outline-none transition-all">
-                            </div>
+                            <input type="email" 
+                                   name="email" 
+                                   x-model="email" 
+                                   autocomplete="off"
+                                   placeholder="contoh: yayasan.peduli@gmail.com" 
+                                   class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-sm font-bold text-[#0F2747] placeholder:text-slate-400 focus:bg-white focus:border-primary-600 outline-none transition-all">
                             <x-input-error :messages="$errors->get('email')" class="mt-1 text-[11px]" />
                         </div>
 
@@ -337,6 +323,7 @@
                                 <input type="tel" 
                                        name="phone"
                                        x-model="phone" 
+                                       @input="phone = phone.replace(/^(\+?62|0)+/, '').replace(/\D/g, '')"
                                        autocomplete="off"
                                        placeholder="81234567890" 
                                        class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-sm font-bold text-[#0F2747] placeholder:text-slate-400 focus:bg-white focus:border-primary-600 outline-none transition-all">
@@ -368,17 +355,6 @@
                 <!-- SLIDE 3: DATA PROFIL LEMBAGA & KATA SANDI -->
                 <!-- ========================================================================= -->
                 <div x-show="step === 3" style="display: none;" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-x-4" x-transition:enter-end="opacity-100 translate-x-0">
-                    <div class="flex items-center justify-between mb-4">
-                        <button type="button" @click="step = 2; stopCamera();" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition-colors cursor-pointer">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-                        </button>
-                        <span class="text-xs font-black text-primary-600 bg-primary-50 px-3 py-1 rounded-full border border-primary-200">Langkah 2 dari 6</span>
-                    </div>
-
-                    <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden mb-5">
-                        <div class="bg-primary-600 h-full w-[33%] transition-all duration-300"></div>
-                    </div>
-
                     <div class="mb-5">
                         <h3 class="text-xl font-black text-[#0F2747] tracking-tight">Profil Lembaga & Kata Sandi</h3>
                         <p class="text-xs text-slate-500 font-medium mt-0.5">Nama resmi instansi/yayasan dan kata sandi akun pengelola.</p>
@@ -453,17 +429,6 @@
                 <!-- SLIDE 4: PENANGGUNG JAWAB & FOTO E-KTP PJ -->
                 <!-- ========================================================================= -->
                 <div x-show="step === 4" style="display: none;" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-x-4" x-transition:enter-end="opacity-100 translate-x-0">
-                    <div class="flex items-center justify-between mb-4">
-                        <button type="button" @click="step = 3; stopCamera();" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition-colors cursor-pointer">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-                        </button>
-                        <span class="text-xs font-black text-primary-600 bg-primary-50 px-3 py-1 rounded-full border border-primary-200">Langkah 3 dari 6</span>
-                    </div>
-
-                    <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden mb-5">
-                        <div class="bg-primary-600 h-full w-[50%] transition-all duration-300"></div>
-                    </div>
-
                     <div class="mb-4">
                         <h3 class="text-xl font-black text-[#0F2747] tracking-tight">Penanggung Jawab Lembaga</h3>
                         <p class="text-xs text-slate-500 font-medium mt-0.5">Identitas pimpinan / pengelola resmi yang bertanggung jawab.</p>
@@ -505,7 +470,7 @@
                             <template x-if="activeCamera === 'previewKtpPj'">
                                 <div class="rounded-2xl bg-slate-900 text-white p-3 space-y-2.5 shadow-md border border-slate-800">
                                     <div class="flex items-center justify-between">
-                                        <span class="text-xs font-black text-white">📸 Posisikan e-KTP PJ di Dalam Kotak</span>
+                                        <span class="text-xs font-black text-white">Posisikan e-KTP di Dalam Kotak</span>
                                         <button type="button" @click="stopCamera()" class="w-6 h-6 rounded-full bg-slate-800 text-slate-300 text-xs flex items-center justify-center hover:bg-slate-700 cursor-pointer">✕</button>
                                     </div>
                                     <div class="relative w-full h-56 bg-black rounded-xl overflow-hidden flex items-center justify-center">
@@ -521,11 +486,12 @@
                                         </div>
                                     </div>
                                     <div class="flex items-center justify-between pt-1">
-                                        <button type="button" @click="switchCamera()" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold cursor-pointer">
-                                            🔄 Putar
+                                        <button type="button" @click="switchCamera()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold cursor-pointer">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                                            <span>Putar Kamera</span>
                                         </button>
                                         <button type="button" @click="capturePhoto()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary-600 hover:bg-primary-700 text-white text-xs font-black shadow-md active:scale-95 transition-all cursor-pointer">
-                                            📸 Ambil Foto
+                                            Ambil Foto
                                         </button>
                                         <button type="button" @click="stopCamera()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold cursor-pointer">
                                             Batal
@@ -548,11 +514,11 @@
                                     <div class="flex items-center gap-2">
                                         <button type="button" 
                                                 @click="startCamera('previewKtpPj', 'foto_ktp_pj', 'e-KTP PJ harus muat di kotak', 'environment', 'card')" 
-                                                class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-full bg-primary-600 hover:bg-primary-700 text-white text-xs font-bold shadow-xs cursor-pointer active:scale-95 transition-all">
-                                            <span>📸</span> Buka Kamera
+                                                class="flex-1 sm:flex-none inline-flex items-center justify-center px-4 py-2 rounded-full bg-primary-600 hover:bg-primary-700 text-white text-xs font-bold shadow-xs cursor-pointer active:scale-95 transition-all">
+                                            Buka Kamera
                                         </button>
-                                        <label for="foto_ktp_pj" class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-full bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold cursor-pointer transition-colors shadow-xs">
-                                            <span>📁</span> File
+                                        <label for="foto_ktp_pj" class="flex-1 sm:flex-none inline-flex items-center justify-center px-4 py-2 rounded-full bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold cursor-pointer transition-colors shadow-xs">
+                                            Pilih File
                                         </label>
                                     </div>
                                 </div>
@@ -564,17 +530,17 @@
                                         <img :src="previewKtpPj" class="w-14 h-10 object-cover rounded-xl border border-teal-300 shadow-xs">
                                         <div>
                                             <p class="text-xs font-bold text-teal-900 flex items-center gap-1">
-                                                <span>✓</span> e-KTP PJ Terpilih
+                                                <span class="text-emerald-600 font-black">✓</span> e-KTP PJ Terpilih
                                             </p>
                                             <p class="text-[10px] text-slate-400">Siap diunggah</p>
                                         </div>
                                     </div>
                                     <div class="flex items-center gap-2">
-                                        <button type="button" @click="startCamera('previewKtpPj', 'foto_ktp_pj', 'e-KTP PJ harus muat di kotak', 'environment', 'card')" class="text-xs text-primary-600 hover:underline font-bold">
-                                            Ulang
-                                        </button>
-                                        <button type="button" @click="removeFile('foto_ktp_pj', 'previewKtpPj')" class="text-xs text-red-500 hover:text-red-700 font-bold px-1.5">
-                                            ✕
+                                        <button type="button" 
+                                                @click="startCamera('previewKtpPj', 'foto_ktp_pj', 'e-KTP PJ harus muat di kotak', 'environment', 'card')" 
+                                                class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-white hover:bg-slate-100 border border-slate-200 text-primary-700 text-xs font-bold shadow-2xs transition-all cursor-pointer">
+                                            <svg class="w-3.5 h-3.5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                                            <span>Ganti Foto</span>
                                         </button>
                                     </div>
                                 </div>
@@ -598,20 +564,9 @@
                 <!-- SLIDE 5: LEGALITAS & SURAT IZIN LEMBAGA -->
                 <!-- ========================================================================= -->
                 <div x-show="step === 5" style="display: none;" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-x-4" x-transition:enter-end="opacity-100 translate-x-0">
-                    <div class="flex items-center justify-between mb-4">
-                        <button type="button" @click="step = 4; stopCamera();" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition-colors cursor-pointer">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-                        </button>
-                        <span class="text-xs font-black text-primary-600 bg-primary-50 px-3 py-1 rounded-full border border-primary-200">Langkah 4 dari 6</span>
-                    </div>
-
-                    <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden mb-5">
-                        <div class="bg-primary-600 h-full w-[66%] transition-all duration-300"></div>
-                    </div>
-
                     <div class="mb-4">
                         <h3 class="text-xl font-black text-[#0F2747] tracking-tight">Legalitas / Izin Operasional</h3>
-                        <p class="text-xs text-slate-500 font-medium mt-0.5">Surat Izin Operasional, Akta Notaris Yayasan, NIB, atau SK Lembaga.</p>
+                        <p class="text-xs text-slate-500 font-medium mt-0.5">Surat Izin Operasional, Akta Notaris Yayasan, NIB, atau SK Lembaga Resmi.</p>
                     </div>
 
                     <div class="space-y-4 mb-6">
@@ -630,13 +585,13 @@
                         <!-- Camera / Upload Dokumen Legalitas -->
                         <div>
                             <label class="block text-[11px] font-black text-slate-700 uppercase tracking-wider mb-1.5">
-                                Foto Fisik Dokumen Legalitas <span class="text-red-500">*</span>
+                                Foto Dokumen Legalitas (NIB / Akta Notaris Yayasan) <span class="text-red-500">*</span>
                             </label>
 
                             <template x-if="activeCamera === 'previewLegalitas'">
                                 <div class="rounded-2xl bg-slate-900 text-white p-3 space-y-2.5 shadow-md border border-slate-800">
                                     <div class="flex items-center justify-between">
-                                        <span class="text-xs font-black text-white">📸 Posisikan Dokumen Legalitas di Dalam Kotak</span>
+                                        <span class="text-xs font-black text-white">Posisikan Dokumen Legalitas di Dalam Kotak</span>
                                         <button type="button" @click="stopCamera()" class="w-6 h-6 rounded-full bg-slate-800 text-slate-300 text-xs flex items-center justify-center hover:bg-slate-700 cursor-pointer">✕</button>
                                     </div>
                                     <div class="relative w-full h-56 bg-black rounded-xl overflow-hidden flex items-center justify-center">
@@ -652,11 +607,12 @@
                                         </div>
                                     </div>
                                     <div class="flex items-center justify-between pt-1">
-                                        <button type="button" @click="switchCamera()" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold cursor-pointer">
-                                            🔄 Putar
+                                        <button type="button" @click="switchCamera()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold cursor-pointer">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                                            <span>Putar Kamera</span>
                                         </button>
                                         <button type="button" @click="capturePhoto()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary-600 hover:bg-primary-700 text-white text-xs font-black shadow-md active:scale-95 transition-all cursor-pointer">
-                                            📸 Ambil Foto
+                                            Ambil Foto
                                         </button>
                                         <button type="button" @click="stopCamera()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold cursor-pointer">
                                             Batal
@@ -672,18 +628,18 @@
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                                         </div>
                                         <div class="text-left">
-                                            <p class="text-xs font-bold text-slate-700">Foto Surat Izin / Legalitas</p>
-                                            <p class="text-[10px] text-slate-400">Buka kamera atau unggah file</p>
+                                            <p class="text-xs font-bold text-slate-700">Foto Dokumen Legalitas</p>
+                                            <p class="text-[10px] text-slate-400">NIB / Akta Notaris Yayasan</p>
                                         </div>
                                     </div>
                                     <div class="flex items-center gap-2">
                                         <button type="button" 
                                                 @click="startCamera('previewLegalitas', 'foto_legalitas', 'Dokumen Legalitas harus muat di kotak', 'environment', 'card')" 
-                                                class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-full bg-primary-600 hover:bg-primary-700 text-white text-xs font-bold shadow-xs cursor-pointer active:scale-95 transition-all">
-                                            <span>📸</span> Buka Kamera
+                                                class="flex-1 sm:flex-none inline-flex items-center justify-center px-4 py-2 rounded-full bg-primary-600 hover:bg-primary-700 text-white text-xs font-bold shadow-xs cursor-pointer active:scale-95 transition-all">
+                                            Buka Kamera
                                         </button>
-                                        <label for="foto_legalitas" class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-full bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold cursor-pointer transition-colors shadow-xs">
-                                            <span>📁</span> File
+                                        <label for="foto_legalitas" class="flex-1 sm:flex-none inline-flex items-center justify-center px-4 py-2 rounded-full bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold cursor-pointer transition-colors shadow-xs">
+                                            Pilih File
                                         </label>
                                     </div>
                                 </div>
@@ -695,17 +651,17 @@
                                         <img :src="previewLegalitas" class="w-14 h-10 object-cover rounded-xl border border-teal-300 shadow-xs">
                                         <div>
                                             <p class="text-xs font-bold text-teal-900 flex items-center gap-1">
-                                                <span>✓</span> Dokumen Legalitas Terpilih
+                                                <span class="text-emerald-600 font-black">✓</span> Dokumen Legalitas Terpilih
                                             </p>
                                             <p class="text-[10px] text-slate-400">Siap diunggah</p>
                                         </div>
                                     </div>
                                     <div class="flex items-center gap-2">
-                                        <button type="button" @click="startCamera('previewLegalitas', 'foto_legalitas', 'Dokumen Legalitas harus muat di kotak', 'environment', 'card')" class="text-xs text-primary-600 hover:underline font-bold">
-                                            Ulang
-                                        </button>
-                                        <button type="button" @click="removeFile('foto_legalitas', 'previewLegalitas')" class="text-xs text-red-500 hover:text-red-700 font-bold px-1.5">
-                                            ✕
+                                        <button type="button" 
+                                                @click="startCamera('previewLegalitas', 'foto_legalitas', 'Dokumen Legalitas harus muat di kotak', 'environment', 'card')" 
+                                                class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-white hover:bg-slate-100 border border-slate-200 text-primary-700 text-xs font-bold shadow-2xs transition-all cursor-pointer">
+                                            <svg class="w-3.5 h-3.5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                                            <span>Ganti Foto</span>
                                         </button>
                                     </div>
                                 </div>
@@ -729,17 +685,6 @@
                 <!-- SLIDE 6: DATA ARMADA AMBULANS LEMBAGA -->
                 <!-- ========================================================================= -->
                 <div x-show="step === 6" style="display: none;" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-x-4" x-transition:enter-end="opacity-100 translate-x-0">
-                    <div class="flex items-center justify-between mb-4">
-                        <button type="button" @click="step = 5; stopCamera();" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition-colors cursor-pointer">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-                        </button>
-                        <span class="text-xs font-black text-primary-600 bg-primary-50 px-3 py-1 rounded-full border border-primary-200">Langkah 5 dari 6</span>
-                    </div>
-
-                    <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden mb-5">
-                        <div class="bg-primary-600 h-full w-[83%] transition-all duration-300"></div>
-                    </div>
-
                     <div class="mb-4">
                         <h3 class="text-xl font-black text-[#0F2747] tracking-tight">Armada Ambulans Utama</h3>
                         <p class="text-xs text-slate-500 font-medium mt-0.5">Daftarkan unit ambulans operasional utama lembaga Anda.</p>
@@ -775,20 +720,20 @@
                         <!-- Camera / Upload Foto Ambulans -->
                         <div>
                             <label class="block text-[11px] font-black text-slate-700 uppercase tracking-wider mb-1.5">
-                                Foto Fisik Unit Ambulans / STNK <span class="text-red-500">*</span>
+                                Foto Fisik Unit Ambulans <span class="text-red-500">*</span>
                             </label>
 
                             <template x-if="activeCamera === 'previewAmbulans'">
                                 <div class="rounded-2xl bg-slate-900 text-white p-3 space-y-2.5 shadow-md border border-slate-800">
                                     <div class="flex items-center justify-between">
-                                        <span class="text-xs font-black text-white">📸 Posisikan Ambulans / STNK di Dalam Kotak</span>
+                                        <span class="text-xs font-black text-white">Posisikan Unit Ambulans di Dalam Kotak</span>
                                         <button type="button" @click="stopCamera()" class="w-6 h-6 rounded-full bg-slate-800 text-slate-300 text-xs flex items-center justify-center hover:bg-slate-700 cursor-pointer">✕</button>
                                     </div>
                                     <div class="relative w-full h-56 bg-black rounded-xl overflow-hidden flex items-center justify-center">
                                         <video id="webcam-video-previewAmbulans" autoplay playsinline muted class="w-full h-full object-cover"></video>
                                         <div class="absolute inset-3 rounded-xl border-2 border-dashed border-teal-400 pointer-events-none flex flex-col justify-between p-2.5 bg-teal-500/5 shadow-[0_0_0_9999px_rgba(0,0,0,0.4)]">
                                             <span class="text-[9px] font-black uppercase tracking-wider bg-teal-500/80 text-white px-2 py-0.5 rounded-md w-max">
-                                                Foto Pas di Kotak
+                                                Ambulans Pas di Kotak
                                             </span>
                                             <div class="flex justify-between">
                                                 <div class="w-4 h-4 border-b-2 border-l-2 border-teal-300"></div>
@@ -797,11 +742,12 @@
                                         </div>
                                     </div>
                                     <div class="flex items-center justify-between pt-1">
-                                        <button type="button" @click="switchCamera()" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold cursor-pointer">
-                                            🔄 Putar
+                                        <button type="button" @click="switchCamera()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold cursor-pointer">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                                            <span>Putar Kamera</span>
                                         </button>
                                         <button type="button" @click="capturePhoto()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary-600 hover:bg-primary-700 text-white text-xs font-black shadow-md active:scale-95 transition-all cursor-pointer">
-                                            📸 Ambil Foto
+                                            Ambil Foto
                                         </button>
                                         <button type="button" @click="stopCamera()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold cursor-pointer">
                                             Batal
@@ -817,18 +763,18 @@
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 16l-4-4m0 0l-4 4m4-4v12M5 8h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V10a2 2 0 012-2z"/></svg>
                                         </div>
                                         <div class="text-left">
-                                            <p class="text-xs font-bold text-slate-700">Foto Ambulans / STNK</p>
-                                            <p class="text-[10px] text-slate-400">Buka kamera atau unggah file</p>
+                                            <p class="text-xs font-bold text-slate-700">Foto Unit Ambulans</p>
+                                            <p class="text-[10px] text-slate-400">Tampak bodi mobil & plat nomor jelas</p>
                                         </div>
                                     </div>
                                     <div class="flex items-center gap-2">
                                         <button type="button" 
-                                                @click="startCamera('previewAmbulans', 'foto_ambulans', 'Foto Ambulans/STNK harus muat di kotak', 'environment', 'card')" 
-                                                class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-full bg-primary-600 hover:bg-primary-700 text-white text-xs font-bold shadow-xs cursor-pointer active:scale-95 transition-all">
-                                            <span>📸</span> Buka Kamera
+                                                @click="startCamera('previewAmbulans', 'foto_ambulans', 'Foto Ambulans harus muat di kotak', 'environment', 'card')" 
+                                                class="flex-1 sm:flex-none inline-flex items-center justify-center px-4 py-2 rounded-full bg-primary-600 hover:bg-primary-700 text-white text-xs font-bold shadow-xs cursor-pointer active:scale-95 transition-all">
+                                            Buka Kamera
                                         </button>
-                                        <label for="foto_ambulans" class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-full bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold cursor-pointer transition-colors shadow-xs">
-                                            <span>📁</span> File
+                                        <label for="foto_ambulans" class="flex-1 sm:flex-none inline-flex items-center justify-center px-4 py-2 rounded-full bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold cursor-pointer transition-colors shadow-xs">
+                                            Pilih File
                                         </label>
                                     </div>
                                 </div>
@@ -840,17 +786,17 @@
                                         <img :src="previewAmbulans" class="w-14 h-10 object-cover rounded-xl border border-teal-300 shadow-xs">
                                         <div>
                                             <p class="text-xs font-bold text-teal-900 flex items-center gap-1">
-                                                <span>✓</span> Foto Ambulans / STNK Terpilih
+                                                <span class="text-emerald-600 font-black">✓</span> Foto Unit Ambulans Terpilih
                                             </p>
                                             <p class="text-[10px] text-slate-400">Siap diunggah</p>
                                         </div>
                                     </div>
                                     <div class="flex items-center gap-2">
-                                        <button type="button" @click="startCamera('previewAmbulans', 'foto_ambulans', 'Foto Ambulans/STNK harus muat di kotak', 'environment', 'card')" class="text-xs text-primary-600 hover:underline font-bold">
-                                            Ulang
-                                        </button>
-                                        <button type="button" @click="removeFile('foto_ambulans', 'previewAmbulans')" class="text-xs text-red-500 hover:text-red-700 font-bold px-1.5">
-                                            ✕
+                                        <button type="button" 
+                                                @click="startCamera('previewAmbulans', 'foto_ambulans', 'Foto Ambulans harus muat di kotak', 'environment', 'card')" 
+                                                class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-white hover:bg-slate-100 border border-slate-200 text-primary-700 text-xs font-bold shadow-2xs transition-all cursor-pointer">
+                                            <svg class="w-3.5 h-3.5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                                            <span>Ganti Foto</span>
                                         </button>
                                     </div>
                                 </div>
@@ -874,17 +820,6 @@
                 <!-- SLIDE 7: KONFIRMASI & KIRIM PENDAFTARAN MITRA LEMBAGA -->
                 <!-- ========================================================================= -->
                 <div x-show="step === 7" style="display: none;" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-x-4" x-transition:enter-end="opacity-100 translate-x-0">
-                    <div class="flex items-center justify-between mb-4">
-                        <button type="button" @click="step = 6; stopCamera();" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition-colors cursor-pointer">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-                        </button>
-                        <span class="text-xs font-black text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">Langkah Terakhir (6 dari 6)</span>
-                    </div>
-
-                    <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden mb-5">
-                        <div class="bg-emerald-500 h-full w-[100%] transition-all duration-300"></div>
-                    </div>
-
                     <div class="mb-4">
                         <h3 class="text-xl font-black text-[#0F2747] tracking-tight">Konfirmasi Pendaftaran</h3>
                         <p class="text-xs text-slate-500 font-medium mt-0.5">Periksa kembali ringkasan data sebelum mengirimkan pendaftaran.</p>
@@ -906,7 +841,7 @@
                         </div>
                         <div class="flex justify-between items-center pb-2 border-b border-slate-200/80">
                             <span class="text-slate-500 font-semibold">No. Telepon / WA:</span>
-                            <span class="font-bold text-slate-800" x-text="'+62 ' + phone"></span>
+                            <span class="font-bold text-slate-800" x-text="'+62 ' + (phone ? phone.replace(/^(\+?62|0)+/, '') : '')"></span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-slate-500 font-semibold">Plat Armada Utama:</span>
@@ -916,7 +851,7 @@
 
                     <!-- Final Notice Banner -->
                     <div class="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-start gap-2.5 mb-6">
-                        <span class="text-emerald-600 text-base">🛡️</span>
+                        <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                         <p class="text-xs font-semibold text-emerald-900 leading-tight">
                             Data pendaftaran lembaga Anda akan diverifikasi oleh Administrator Ambulans Siaga sebelum akun diaktifkan secara resmi.
                         </p>

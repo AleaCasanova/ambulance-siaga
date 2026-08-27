@@ -62,14 +62,12 @@
                     <span>Kemitraan</span>
                     <svg class="w-3.5 h-3.5 transition-transform" :class="{ 'rotate-180': dropMitra }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                 </button>
-                <div x-show="dropMitra" x-transition.opacity.duration.200ms class="absolute left-0 mt-3 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 z-50" style="display: none;">
-                    <a href="{{ route('mitra.pengemudi') }}" class="flex items-center gap-2.5 px-4 py-3 rounded-xl text-xs text-slate-700 hover:text-primary-600 hover:bg-sky-50 font-bold transition-all">
-                        <svg class="w-4 h-4 text-primary-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                        <span>Mitra Driver</span>
+                <div x-show="dropMitra" x-transition.opacity.duration.200ms class="absolute left-0 mt-3 w-52 bg-white rounded-2xl shadow-xl border border-slate-100 p-1.5 z-50" style="display: none;">
+                    <a href="{{ route('mitra.pengemudi') }}" class="block px-4 py-2.5 rounded-xl text-xs text-slate-700 hover:text-primary-600 hover:bg-sky-50 font-bold transition-all">
+                        Mitra Driver
                     </a>
-                    <a href="{{ route('mitra.armada') }}" class="flex items-center gap-2.5 px-4 py-3 rounded-xl text-xs text-slate-700 hover:text-primary-600 hover:bg-sky-50 font-bold transition-all">
-                        <svg class="w-4 h-4 text-primary-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h8m-8 4h8m-8 4h4m5-10H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2V7a2 2 0 00-2-2z"/></svg>
-                        <span>Mitra Lembaga</span>
+                    <a href="{{ route('mitra.armada') }}" class="block px-4 py-2.5 rounded-xl text-xs text-slate-700 hover:text-primary-600 hover:bg-sky-50 font-bold transition-all">
+                        Mitra Lembaga
                     </a>
                 </div>
             </div>

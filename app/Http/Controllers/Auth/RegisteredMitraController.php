@@ -53,17 +53,20 @@ class RegisteredMitraController extends Controller
             'name.required' => 'Nama penanggung jawab wajib diisi.',
             'foto_ktp_pj.required' => 'Foto fisik e-KTP penanggung jawab wajib diunggah.',
             'foto_legalitas.required' => 'Foto fisik dokumen legalitas/izin operasional wajib diunggah.',
-            'foto_ambulans.required' => 'Foto fisik unit ambulans/STNK wajib diunggah.',
+            'foto_ambulans.required' => 'Foto fisik unit ambulans wajib diunggah.',
             'plat_nomor_unit.required' => 'Plat nomor unit ambulans wajib diisi.',
         ]);
 
         $mitraRole = Role::where('name', 'mitra')->first();
         
+        $cleanPhone = preg_replace('/^(\+?62|0)+/', '', $request->phone);
+        $formattedPhone = '0' . $cleanPhone;
+
         // User (sebagai penanggung jawab / akun pengelola lembaga)
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'phone' => $request->phone,
+            'phone' => $formattedPhone,
             'password' => Hash::make($request->password),
             'role_id' => $mitraRole?->id,
             'is_active' => false, // Mitra armada harus diverifikasi oleh admin
