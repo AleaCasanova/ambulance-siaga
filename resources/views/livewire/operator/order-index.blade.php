@@ -141,46 +141,63 @@
                             <!-- Aksi -->
                             <td class="py-3 px-4 text-right whitespace-nowrap">
                                 <div class="flex items-center justify-end gap-1.5 flex-nowrap">
-                                    <!-- Link Tracking -->
+                                    <!-- Link Tracking (Peta) -->
                                     <a href="{{ route('masyarakat.tracking', $order->id) }}" target="_blank"
-                                       class="p-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-colors shadow-sm" title="Lihat Peta Realtime">
+                                       class="w-8 h-8 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-all flex items-center justify-center shadow-xs" 
+                                       title="Lihat Peta Realtime">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        </svg>
+                                    </a>
+
+                                    <!-- Detail (Mata / Eye) -->
+                                    <button type="button" wire:click="openDetailModal({{ $order->id }})"
+                                            title="Lihat Detail Pesanan"
+                                            class="w-8 h-8 rounded-lg border border-slate-200 bg-white hover:bg-sky-50 hover:text-sky-600 text-slate-600 transition-all flex items-center justify-center shadow-xs">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                                         </svg>
-                                    </a>
-
-                                    <!-- Detail -->
-                                    <button type="button" wire:click="openDetailModal({{ $order->id }})"
-                                            class="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 font-semibold text-[11px] transition-colors shadow-sm">
-                                        Detail
                                     </button>
 
-                                    <!-- Edit -->
+                                    <!-- Edit (Pena / Pencil) -->
                                     <button type="button" wire:click="openEditModal({{ $order->id }})"
-                                            class="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 font-semibold text-[11px] transition-colors shadow-sm">
-                                        Edit
+                                            title="Edit Pesanan"
+                                            class="w-8 h-8 rounded-lg border border-slate-200 bg-white hover:bg-amber-50 hover:text-amber-600 text-slate-600 transition-all flex items-center justify-center shadow-xs">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                        </svg>
                                     </button>
 
                                     <!-- Tugaskan / Selesai -->
                                     @if($order->status === 'menunggu')
                                         <button type="button" wire:click="openAssignModal({{ $order->id }})"
-                                                class="px-2.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-bold text-[11px] shadow-sm transition-colors">
-                                            Tugaskan
+                                                title="Tugaskan Ambulans & Driver"
+                                                class="w-8 h-8 rounded-lg bg-sky-600 hover:bg-sky-700 text-white transition-all flex items-center justify-center shadow-xs">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                                            </svg>
                                         </button>
                                     @elseif(in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien']))
                                         <button type="button" wire:click="updateStatus({{ $order->id }}, 'selesai')"
                                                 wire:confirm="Tandai pesanan ini selesai ditangani di RS?"
-                                                class="px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] shadow-sm transition-colors">
-                                            Selesai
+                                                title="Selesaikan Pesanan"
+                                                class="w-8 h-8 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white transition-all flex items-center justify-center shadow-xs">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M5 13l4 4L19 7"/>
+                                            </svg>
                                         </button>
                                     @endif
 
-                                    <!-- Hapus -->
+                                    <!-- Hapus (Trash) -->
                                     <button type="button" wire:click="deleteOrder({{ $order->id }})"
                                             wire:confirm="Yakin ingin menghapus pesanan ini dari database?"
-                                            class="px-2.5 py-1.5 rounded-lg border border-red-200 bg-red-50 hover:bg-red-100 text-red-600 font-semibold text-[11px] transition-colors shadow-sm">
-                                        Hapus
+                                            title="Hapus Pesanan"
+                                            class="w-8 h-8 rounded-lg border border-slate-200 bg-white hover:bg-rose-50 hover:text-rose-600 text-slate-600 transition-all flex items-center justify-center shadow-xs">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                        </svg>
                                     </button>
                                 </div>
                             </td>
@@ -204,67 +221,69 @@
 
     <!-- MODAL 1: ASSIGN ARMADA & SUPIR -->
     @if($showAssignModal)
-        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-xs">
-            <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200">
-                <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
-                    <h3 class="text-lg font-extrabold text-slate-800">Tugaskan Armada Ambulans</h3>
-                    <button wire:click="closeAssignModal" class="text-slate-400 hover:text-slate-600">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 overflow-hidden">
+            <div class="relative bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between shrink-0 bg-white">
+                    <h3 class="text-base font-bold text-slate-900">Tugaskan Armada Ambulans</h3>
+                    <button wire:click="closeAssignModal" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                         </svg>
                     </button>
                 </div>
 
-                <!-- Map Radar Penugasan -->
-                @if($assignOrderData)
-                <div x-data="assignMapAlpine(@js($assignOrderData), @js($assignDriversData))" 
-                     @select-driver.window="$wire.set('selectedSupirId', $event.detail.supir); $wire.set('selectedAmbulansId', $event.detail.amb);"
-                     class="mb-6">
-                    <p class="text-sm font-bold text-slate-700 mb-2">Peta Radar Armada Siaga</p>
-                    <div class="p-1 border-2 border-slate-200 rounded-2xl bg-white shadow-sm">
-                        <div x-ref="mapContainer" class="h-64 w-full rounded-xl z-0" wire:ignore></div>
-                    </div>
-                    <p class="text-xs text-slate-500 mt-2 flex items-center gap-2">
-                        <span>📍 Merah: Pasien</span>
-                        <span>|</span>
-                        <span>🚑 Hijau: Ambulans Siaga (Klik untuk tugaskan)</span>
-                    </p>
-                </div>
-                @endif
+                <form wire:submit="assignOrder" class="flex flex-col grow overflow-hidden">
+                    <div class="px-6 py-5 overflow-y-auto space-y-4 grow">
+                        <!-- Map Radar Penugasan -->
+                        @if($assignOrderData)
+                            <div x-data="assignMapAlpine(@js($assignOrderData), @js($assignDriversData))" 
+                                 @select-driver.window="$wire.set('selectedSupirId', $event.detail.supir); $wire.set('selectedAmbulansId', $event.detail.amb);">
+                                <p class="text-xs font-semibold text-slate-700 mb-1.5">Peta Radar Armada Siaga Terdekat</p>
+                                <div class="border border-slate-200 rounded-xl overflow-hidden shadow-2xs">
+                                    <div x-ref="mapContainer" class="h-52 w-full z-0" wire:ignore></div>
+                                </div>
+                                <p class="text-[11px] text-slate-500 mt-1.5 flex items-center gap-2">
+                                    <span>📍 Merah: Pasien</span>
+                                    <span>•</span>
+                                    <span>🚑 Hijau: Ambulans Siaga (Klik pin untuk pilih)</span>
+                                </p>
+                            </div>
+                        @endif
 
-                <form wire:submit="assignOrder" class="space-y-5">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-2">Pilih Unit Ambulans Siaga</label>
-                        <select wire:model="selectedAmbulansId" required
-                                class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm font-semibold focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
-                            <option value="">-- Pilih Ambulans --</option>
-                            @foreach($availableAmbulances as $amb)
-                                <option value="{{ $amb->id }}">{{ $amb->kode_ambulans }} - {{ $amb->plat_nomor }} ({{ $amb->jenis_ambulans }})</option>
-                            @endforeach
-                        </select>
-                        @error('selectedAmbulansId') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Pilih Unit Ambulans Siaga</label>
+                            <select wire:model="selectedAmbulansId" required
+                                    class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-800 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                <option value="">-- Pilih Ambulans --</option>
+                                @foreach($availableAmbulances as $amb)
+                                    <option value="{{ $amb->id }}">{{ $amb->kode_ambulans }} - {{ $amb->plat_nomor }} ({{ $amb->jenis_ambulans }})</option>
+                                @endforeach
+                            </select>
+                            @error('selectedAmbulansId') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Pilih Supir Ambulans</label>
+                            <select wire:model="selectedSupirId" required
+                                    class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-800 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                <option value="">-- Pilih Supir --</option>
+                                @foreach($onlineSupirs as $spr)
+                                    <option value="{{ $spr->id }}">{{ $spr->user->name ?? 'Supir ID ' . $spr->id }} (SIM: {{ $spr->nomor_sim ?? '-' }})</option>
+                                @endforeach
+                            </select>
+                            @error('selectedSupirId') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                        </div>
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-2">Pilih Supir Ambulans</label>
-                        <select wire:model="selectedSupirId" required
-                                class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm font-semibold focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
-                            <option value="">-- Pilih Supir --</option>
-                            @foreach($onlineSupirs as $spr)
-                                <option value="{{ $spr->id }}">{{ $spr->user->name ?? 'Supir ID ' . $spr->id }} (SIM: {{ $spr->nomor_sim ?? '-' }})</option>
-                            @endforeach
-                        </select>
-                        @error('selectedSupirId') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div class="flex gap-3 pt-4 border-t border-slate-100">
-                        <button type="submit"
-                                class="flex-1 py-3.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-extrabold text-sm shadow-lg shadow-sky-600/30 transition-all">
-                            TUGASKAN SEKARANG
-                        </button>
+                    <div class="px-6 py-3.5 border-t border-slate-100 flex items-center justify-end gap-2.5 shrink-0 bg-slate-50/80">
                         <button type="button" wire:click="closeAssignModal"
-                                class="px-5 py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold text-sm transition-colors">
+                                class="px-4 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-slate-600 font-semibold text-xs transition-colors shadow-xs">
                             Batal
+                        </button>
+                        <button type="submit"
+                                class="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-bold text-xs shadow-xs transition-all">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                            <span>Tugaskan Sekarang</span>
                         </button>
                     </div>
                 </form>
@@ -274,59 +293,62 @@
 
     <!-- MODAL 2: CREATE MANUAL ORDER (HOTLINE) -->
     @if($showCreateModal)
-        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-xs overflow-y-auto">
-            <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 my-8">
-                <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
-                    <h3 class="text-lg font-extrabold text-slate-800">Buat Pesanan Darurat (Hotline Manual)</h3>
-                    <button wire:click="$set('showCreateModal', false)" class="text-slate-400 hover:text-slate-600">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 overflow-hidden">
+            <div class="relative bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between shrink-0 bg-white">
+                    <h3 class="text-base font-bold text-slate-900">Buat Pesanan Darurat (Hotline Manual)</h3>
+                    <button wire:click="$set('showCreateModal', false)" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                         </svg>
                     </button>
                 </div>
 
-                <form wire:submit="saveManualOrder" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Nama Pasien / Pemanggil</label>
-                        <input type="text" wire:model="nama_pasien" required placeholder="Contoh: Bpk. Ahmad"
-                               class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
-                        @error('nama_pasien') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
+                <form wire:submit="saveManualOrder" class="flex flex-col grow overflow-hidden">
+                    <div class="px-6 py-5 overflow-y-auto space-y-4 grow">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Pasien / Pemanggil</label>
+                            <input type="text" wire:model="nama_pasien" required placeholder="Contoh: Bpk. Ahmad"
+                                   class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                            @error('nama_pasien') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Kondisi Darurat / Kejadian</label>
+                            <input type="text" wire:model="kondisi_pasien" required placeholder="Contoh: Sesak nafas akut mendadak"
+                                   class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                            @error('kondisi_pasien') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Alamat / Lokasi Penjemputan</label>
+                            <input type="text" wire:model="lokasi_jemput" required placeholder="Jl. Gatot Subroto No. 45, Cilacap..."
+                                   class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                            @error('lokasi_jemput') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Pilih Rumah Sakit Tujuan (Rujukan)</label>
+                            <select wire:model="rumah_sakit_id"
+                                    class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-800 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                <option value="">-- Pilihlah RS Rujukan (Opsional) --</option>
+                                @foreach($rumahSakits as $rs)
+                                    <option value="{{ $rs->id }}">{{ $rs->nama }}</option>
+                                @endforeach
+                            </select>
+                            @error('rumah_sakit_id') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                        </div>
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Kondisi Darurat / Kejadian</label>
-                        <input type="text" wire:model="kondisi_pasien" required placeholder="Contoh: Sesak nafas akut mendadak"
-                               class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
-                        @error('kondisi_pasien') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Alamat / Lokasi Penjemputan</label>
-                        <input type="text" wire:model="lokasi_jemput" required placeholder="Jl. Gatot Subroto No. 45, Cilacap..."
-                               class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
-                        @error('lokasi_jemput') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Pilih Rumah Sakit Tujuan (Rujukan)</label>
-                        <select wire:model="rumah_sakit_id"
-                                class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-semibold focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
-                            <option value="">-- Pilihlah RS Rujukan (Opsional) --</option>
-                            @foreach($rumahSakits as $rs)
-                                <option value="{{ $rs->id }}">{{ $rs->nama }}</option>
-                            @endforeach
-                        </select>
-                        @error('rumah_sakit_id') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div class="flex gap-3 pt-4 border-t border-slate-100">
-                        <button type="submit"
-                                class="flex-1 py-3.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-extrabold text-sm shadow-lg shadow-sky-600/30 transition-all">
-                            BUAT PESANAN DARURAT
-                        </button>
+                    <div class="px-6 py-3.5 border-t border-slate-100 flex items-center justify-end gap-2.5 shrink-0 bg-slate-50/80">
                         <button type="button" wire:click="$set('showCreateModal', false)"
-                                class="px-5 py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold text-sm transition-colors">
+                                class="px-4 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-slate-600 font-semibold text-xs transition-colors shadow-xs">
                             Batal
+                        </button>
+                        <button type="submit"
+                                class="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-bold text-xs shadow-xs transition-all">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                            <span>Buat Pesanan Darurat</span>
                         </button>
                     </div>
                 </form>
@@ -336,73 +358,76 @@
 
     <!-- MODAL 3: EDIT ORDER -->
     @if($showEditModal)
-        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-xs overflow-y-auto">
-            <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 my-8">
-                <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
-                    <h3 class="text-lg font-extrabold text-slate-800">Edit Detail Pesanan</h3>
-                    <button wire:click="$set('showEditModal', false)" class="text-slate-400 hover:text-slate-600">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 overflow-hidden">
+            <div class="relative bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between shrink-0 bg-white">
+                    <h3 class="text-base font-bold text-slate-900">Edit Detail Pesanan</h3>
+                    <button wire:click="$set('showEditModal', false)" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                         </svg>
                     </button>
                 </div>
 
-                <form wire:submit="saveEditOrder" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Nama Pasien</label>
-                        <input type="text" wire:model="edit_nama_pasien" required
-                               class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
-                        @error('edit_nama_pasien') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
+                <form wire:submit="saveEditOrder" class="flex flex-col grow overflow-hidden">
+                    <div class="px-6 py-5 overflow-y-auto space-y-4 grow">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Pasien</label>
+                            <input type="text" wire:model="edit_nama_pasien" required
+                                   class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                            @error('edit_nama_pasien') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Kondisi Pasien / Darurat</label>
+                            <input type="text" wire:model="edit_kondisi_pasien" required
+                                   class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                            @error('edit_kondisi_pasien') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Alamat Penjemputan</label>
+                            <input type="text" wire:model="edit_lokasi_jemput" required
+                                   class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                            @error('edit_lokasi_jemput') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Rumah Sakit Tujuan</label>
+                            <select wire:model="edit_rumah_sakit_id"
+                                    class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-800 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                <option value="">-- Pilihlah RS Rujukan --</option>
+                                @foreach($rumahSakits as $rs)
+                                    <option value="{{ $rs->id }}">{{ $rs->nama }}</option>
+                                @endforeach
+                            </select>
+                            @error('edit_rumah_sakit_id') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Status Pesanan</label>
+                            <select wire:model="edit_status" required
+                                    class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-800 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                <option value="menunggu">Menunggu Penugasan</option>
+                                <option value="diproses">Ditugaskan (Diproses)</option>
+                                <option value="menuju_lokasi">Menuju Lokasi Jemput</option>
+                                <option value="membawa_pasien">Membawa Pasien ke RS</option>
+                                <option value="selesai">Selesai</option>
+                                <option value="dibatalkan">Dibatalkan</option>
+                            </select>
+                            @error('edit_status') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                        </div>
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Kondisi Pasien / Darurat</label>
-                        <input type="text" wire:model="edit_kondisi_pasien" required
-                               class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
-                        @error('edit_kondisi_pasien') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Alamat Penjemputan</label>
-                        <input type="text" wire:model="edit_lokasi_jemput" required
-                               class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
-                        @error('edit_lokasi_jemput') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Rumah Sakit Tujuan</label>
-                        <select wire:model="edit_rumah_sakit_id"
-                                class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-semibold focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
-                            <option value="">-- Pilihlah RS Rujukan --</option>
-                            @foreach($rumahSakits as $rs)
-                                <option value="{{ $rs->id }}">{{ $rs->nama }}</option>
-                            @endforeach
-                        </select>
-                        @error('edit_rumah_sakit_id') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Status Pesanan</label>
-                        <select wire:model="edit_status" required
-                                class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-semibold focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
-                            <option value="menunggu">Menunggu Penugasan</option>
-                            <option value="diproses">Ditugaskan (Diproses)</option>
-                            <option value="menuju_lokasi">Menuju Lokasi Jemput</option>
-                            <option value="membawa_pasien">Membawa Pasien ke RS</option>
-                            <option value="selesai">Selesai</option>
-                            <option value="dibatalkan">Dibatalkan</option>
-                        </select>
-                        @error('edit_status') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div class="flex gap-3 pt-4 border-t border-slate-100">
-                        <button type="submit"
-                                class="flex-1 py-3.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-extrabold text-sm shadow-lg shadow-sky-600/30 transition-all">
-                            SIMPAN PERUBAHAN
-                        </button>
+                    <div class="px-6 py-3.5 border-t border-slate-100 flex items-center justify-end gap-2.5 shrink-0 bg-slate-50/80">
                         <button type="button" wire:click="$set('showEditModal', false)"
-                                class="px-5 py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold text-sm transition-colors">
+                                class="px-4 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-slate-600 font-semibold text-xs transition-colors shadow-xs">
                             Batal
+                        </button>
+                        <button type="submit"
+                                class="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-bold text-xs shadow-xs transition-all">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span>Simpan Perubahan</span>
                         </button>
                     </div>
                 </form>
@@ -412,17 +437,17 @@
 
     <!-- MODAL 4: DETAIL ORDER & FOTO VERIFIKASI -->
     @if($showDetailModal && $detailOrder)
-        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm overflow-y-auto" x-data="{ zoomPhoto: false }">
-            <div class="bg-white rounded-3xl max-w-4xl w-full shadow-2xl border border-slate-200 my-8 flex flex-col max-h-[90vh]">
+        <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 overflow-hidden" x-data="{ zoomPhoto: false }">
+            <div class="relative bg-white rounded-2xl max-w-4xl w-full shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
                 
                 <!-- Modal Header -->
-                <div class="flex items-center justify-between p-6 border-b border-slate-100 bg-slate-50/50 rounded-t-3xl shrink-0">
+                <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between shrink-0 bg-white">
                     <div>
-                        <h3 class="text-xl font-extrabold text-slate-800">Detail Pesanan #{{ $detailOrder->kode_order }}</h3>
-                        <p class="text-xs font-semibold text-slate-500 mt-1">Dibuat pada: {{ $detailOrder->created_at->format('d M Y, H:i') }} WIB</p>
+                        <h3 class="text-base font-bold text-slate-900">Detail Pesanan #{{ $detailOrder->kode_order }}</h3>
+                        <p class="text-xs text-slate-500 mt-0.5">Dibuat pada: {{ $detailOrder->created_at->format('d M Y, H:i') }} WIB</p>
                     </div>
-                    <button wire:click="closeDetailModal" class="p-2 rounded-xl hover:bg-slate-200 text-slate-400 hover:text-slate-600 transition-colors">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button wire:click="closeDetailModal" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                         </svg>
                     </button>
@@ -547,9 +572,9 @@
                 </div>
                 
                 <!-- Modal Footer -->
-                <div class="p-5 border-t border-slate-100 bg-slate-50 rounded-b-3xl flex justify-end shrink-0">
-                    <button type="button" wire:click="closeDetailModal" class="px-6 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-sm shadow-md transition-colors">
-                        Tutup Detail
+                <div class="px-6 py-3.5 border-t border-slate-100 flex items-center justify-end shrink-0 bg-slate-50/80">
+                    <button type="button" wire:click="closeDetailModal" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-semibold text-xs transition-colors shadow-xs">
+                        Tutup Rincian
                     </button>
                 </div>
             </div>

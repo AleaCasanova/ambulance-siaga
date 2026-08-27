@@ -1,57 +1,22 @@
 <div>
     <!-- Header -->
-    <div class="mb-8 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
-        <div class="flex-1">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-slate-100 text-slate-500 uppercase tracking-wider mb-2.5">
-                {{ $isSupirPage ? 'Manajemen Armada & Supir' : 'Manajemen Sistem RBAC' }}
-            </span>
-            <h1 class="text-2xl sm:text-[28px] font-bold text-slate-900 tracking-tight leading-tight">
+    <div class="mb-7 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div>
+            <h1 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
                 {{ $isSupirPage ? 'Kelola Supir' : 'Kelola Pengguna & Role' }}
             </h1>
-            <p class="text-slate-500 text-[14px] mt-1.5 font-medium max-w-2xl">
-                {{ $isSupirPage ? 'Daftar pengemudi ambulans mitra Ambulans Siaga beserta status SIM dan kesiapan online.' : 'Daftar akun pengguna sistem Ambulans Siaga (Super Admin, Admin, Operator, Supir, Masyarakat).' }}
+            <p class="text-slate-500 text-xs sm:text-sm mt-1">
+                {{ $isSupirPage ? 'Daftar pengemudi ambulans mitra beserta status SIM dan kesiapan bertugas.' : 'Manajemen data akun seluruh pengguna sistem Ambulans Siaga.' }}
             </p>
         </div>
 
-        <div class="flex items-center gap-2.5 shrink-0">
+        <div class="flex items-center gap-3 shrink-0">
             <input type="text" wire:model.live.debounce.300ms="search"
                    placeholder="Cari nama, email, SIM..."
-                   class="w-40 sm:w-52 px-3.5 py-2 rounded-xl border border-slate-300 bg-white text-xs font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 shadow-xs">
-
-            @if(!$isSupirPage)
-                <div class="relative" x-data="{ open: false }">
-                    <button type="button" @click="open = !open" @click.outside="open = false"
-                            class="flex items-center justify-between gap-2 px-3.5 py-2 rounded-xl border border-slate-300 bg-white text-xs font-semibold text-slate-700 shadow-xs hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-100 transition-all whitespace-nowrap">
-                        <span>
-                            @php
-                                $activeRole = $roles->firstWhere('id', $roleFilter);
-                            @endphp
-                            {{ $activeRole ? ($activeRole->label ?? $activeRole->name) : 'Semua Role' }}
-                        </span>
-                        <svg class="w-3.5 h-3.5 text-slate-400 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                    </button>
-
-                    <div x-show="open" x-transition.opacity.duration.150ms
-                         class="absolute right-0 top-full mt-1.5 w-44 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 overflow-hidden"
-                         style="display: none;">
-                        <button type="button" @click="$wire.set('roleFilter', ''); open = false"
-                                class="w-full text-left px-3.5 py-2 text-xs font-semibold flex items-center justify-between hover:bg-sky-50 hover:text-sky-600 transition-colors {{ $roleFilter === '' ? 'text-sky-600 bg-sky-50/50' : 'text-slate-700' }}">
-                            <span>Semua Role</span>
-                            @if($roleFilter === '') <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> @endif
-                        </button>
-                        @foreach($roles as $rl)
-                            <button type="button" @click="$wire.set('roleFilter', '{{ $rl->id }}'); open = false"
-                                    class="w-full text-left px-3.5 py-2 text-xs font-semibold flex items-center justify-between hover:bg-sky-50 hover:text-sky-600 transition-colors {{ (string)$roleFilter === (string)$rl->id ? 'text-sky-600 bg-sky-50/50' : 'text-slate-700' }}">
-                                <span>{{ $rl->label ?? $rl->name }}</span>
-                                @if((string)$roleFilter === (string)$rl->id) <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> @endif
-                            </button>
-                        @endforeach
-                    </div>
-                </div>
-            @endif
+                   class="w-44 sm:w-60 px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-xs font-medium focus:border-slate-400 focus:ring-2 focus:ring-slate-100 shadow-xs transition-all">
 
             <button type="button" wire:click="openCreateModal"
-                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs shadow-md shadow-sky-600/30 transition-all whitespace-nowrap">
+                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-semibold text-xs shadow-xs transition-all whitespace-nowrap">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
                 </svg>
@@ -60,99 +25,164 @@
         </div>
     </div>
 
-    <!-- Table Users -->
-    <div class="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
+    @if(!$isSupirPage)
+        <!-- Role Filter Tabs (Clean & Elegant Segmented Control) -->
+        <div class="mb-5 flex items-center justify-between border-b border-slate-200/80 pb-3">
+            <div class="flex items-center gap-1.5 overflow-x-auto scrollbar-none py-0.5">
+                <!-- Tab: Semua -->
+                <button type="button" 
+                        wire:click="setRoleFilter('')"
+                        class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap {{ $roleFilter === '' ? 'bg-slate-900 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
+                    <span>Semua Role</span>
+                    @if($totalUnverified > 0)
+                        <span class="px-1.5 py-0.5 rounded-full text-[10px] font-bold leading-none {{ $roleFilter === '' ? 'bg-rose-500 text-white' : 'bg-rose-100 text-rose-600' }}">
+                            {{ $totalUnverified }}
+                        </span>
+                    @endif
+                </button>
+
+                @foreach($roles as $rl)
+                    @php
+                        $isCurrentRole = (string)$roleFilter === (string)$rl->id;
+                        $unverifiedCount = $unverifiedCounts[$rl->id] ?? 0;
+                        $displayLabel = match($rl->name) {
+                            'supir' => 'Driver',
+                            'mitra' => 'Mitra',
+                            'masyarakat' => 'Masyarakat',
+                            'operator' => 'Operator',
+                            'admin' => 'Admin',
+                            default => ($rl->label ?? ucfirst($rl->name)),
+                        };
+                    @endphp
+
+                    <button type="button" 
+                            wire:click="setRoleFilter('{{ $rl->id }}')"
+                            class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap {{ $isCurrentRole ? 'bg-slate-900 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
+                        <span>{{ $displayLabel }}</span>
+                        @if($unverifiedCount > 0)
+                            <span class="px-1.5 py-0.5 rounded-full text-[10px] font-bold leading-none {{ $isCurrentRole ? 'bg-rose-500 text-white' : 'bg-rose-100 text-rose-600' }}">
+                                {{ $unverifiedCount }}
+                            </span>
+                        @endif
+                    </button>
+                @endforeach
+            </div>
+
+            <div class="hidden sm:block text-xs font-medium text-slate-400 shrink-0">
+                Total {{ $users->total() }} akun
+            </div>
+        </div>
+    @endif
+
+    <!-- Table Users (DGV) -->
+    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                        <th class="py-3 px-6 whitespace-nowrap">Pengguna & Email</th>
-                        <th class="py-3 px-6 whitespace-nowrap">Role / Hak Akses</th>
-                        <th class="py-3 px-6 whitespace-nowrap">Kontak / Telepon</th>
-                        <th class="py-3 px-6 whitespace-nowrap">Info Khusus (SIM / NIK)</th>
-                        <th class="py-3 px-6 whitespace-nowrap">Status Akun</th>
-                        <th class="py-3 px-6 whitespace-nowrap text-right">Aksi</th>
+                    <tr class="bg-slate-50/75 border-b border-slate-200 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
+                        <th class="py-3 px-5 whitespace-nowrap">Pengguna</th>
+                        <th class="py-3 px-5 whitespace-nowrap">Role</th>
+                        <th class="py-3 px-5 whitespace-nowrap">Kontak</th>
+                        <th class="py-3 px-5 whitespace-nowrap">Info Khusus</th>
+                        <th class="py-3 px-5 whitespace-nowrap">Status</th>
+                        <th class="py-3 px-5 whitespace-nowrap text-right">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 text-sm">
                     @forelse($users as $user)
-                        <tr class="hover:bg-slate-50/50 transition-colors">
-                            <td class="py-4 px-6">
-                                <span class="font-extrabold text-slate-800 block">{{ $user->name }}</span>
-                                <span class="text-xs text-slate-500 block">{{ $user->email }}</span>
-                            </td>
-                            <td class="py-4 px-6">
-                                <div class="flex items-center gap-1.5 font-bold text-sm
-                                    @if($user->isAdmin()) text-sky-600
-                                    @elseif($user->isOperator()) text-purple-600
-                                    @elseif($user->isSupir()) text-emerald-600
-                                    @else text-slate-600 @endif">
-                                    <span class="w-1.5 h-1.5 rounded-full 
-                                        @if($user->isAdmin()) bg-sky-500
-                                        @elseif($user->isOperator()) bg-purple-500
-                                        @elseif($user->isSupir()) bg-emerald-500
-                                        @else bg-slate-500 @endif"></span>
-                                    {{ $user->role_label }}
+                        <tr class="hover:bg-slate-50/60 transition-colors">
+                            <td class="py-3 px-5">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-slate-100 border border-slate-200/80 text-slate-600 font-bold text-xs flex items-center justify-center shrink-0">
+                                        {{ strtoupper(substr($user->name, 0, 2)) }}
+                                    </div>
+                                    <div class="min-w-0">
+                                        <span class="font-bold text-slate-900 text-xs sm:text-sm block truncate">{{ $user->name }}</span>
+                                        <span class="text-[11px] text-slate-400 block truncate">{{ $user->email }}</span>
+                                    </div>
                                 </div>
                             </td>
-                            <td class="py-4 px-6">
-                                <span class="font-semibold text-slate-700 text-xs">{{ $user->phone ?: '-' }}</span>
+                            <td class="py-3 px-5 whitespace-nowrap">
+                                <span class="text-xs font-medium text-slate-700">{{ $user->role_label }}</span>
                             </td>
-                            <td class="py-4 px-6">
+                            <td class="py-3 px-5 whitespace-nowrap">
+                                <span class="text-xs text-slate-600 font-medium">{{ $user->phone ?: '-' }}</span>
+                            </td>
+                            <td class="py-3 px-5">
                                 @if($user->isSupir())
-                                    <div class="text-xs">
-                                        <span class="font-bold text-slate-700 block">SIM: {{ $user->supir?->nomor_sim ?: 'Belum Ada' }}</span>
-                                        <span class="inline-flex items-center gap-1 font-extrabold {{ $user->supir?->status_online ? 'text-emerald-600' : 'text-slate-400' }}">
-                                            <span class="w-1.5 h-1.5 rounded-full {{ $user->supir?->status_online ? 'bg-emerald-500' : 'bg-slate-300' }}"></span>
-                                            {{ $user->supir?->status_online ? 'Online' : 'Offline' }}
-                                        </span>
+                                    <div class="text-xs space-y-0.5">
+                                        <span class="font-medium text-slate-700 block">SIM: {{ $user->supir?->nomor_sim ?: '-' }}</span>
+                                        <span class="text-[11px] text-slate-400 block">Plat: {{ $user->supir?->plat_nomor ?: '-' }}</span>
+                                    </div>
+                                @elseif($user->isMitra())
+                                    <div class="text-xs space-y-0.5">
+                                        <span class="font-medium text-slate-700 block">{{ $user->mitra?->nama_mitra ?: 'Mitra Lembaga' }}</span>
+                                        <span class="text-[11px] text-slate-400 block">Plat: {{ $user->mitra?->plat_nomor_unit ?: '-' }}</span>
                                     </div>
                                 @elseif($user->hasRole('masyarakat'))
-                                    <div class="text-xs">
-                                        <span class="font-bold text-slate-700 block">NIK: {{ $user->masyarakat?->nik ?: '-' }}</span>
-                                        <span class="text-slate-500 truncate max-w-xs block">{{ $user->masyarakat?->alamat ?: '-' }}</span>
+                                    <div class="text-xs space-y-0.5">
+                                        <span class="font-medium text-slate-700 block">NIK: {{ $user->masyarakat?->nik ?: '-' }}</span>
+                                        <span class="text-[11px] text-slate-400 truncate max-w-xs block">{{ $user->masyarakat?->alamat ?: '-' }}</span>
                                     </div>
                                 @else
                                     <span class="text-xs text-slate-400 font-medium">-</span>
                                 @endif
                             </td>
-                            <td class="py-4 px-6 whitespace-nowrap">
+                            <td class="py-3 px-5 whitespace-nowrap">
                                 @if($user->is_active)
-                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/60 shadow-xs">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200/50">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                                         <span>Aktif</span>
                                     </span>
                                 @else
-                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200/60 shadow-xs">
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-amber-50 text-amber-700 border border-amber-200/60">
                                         <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
                                         <span>Perlu Verifikasi</span>
                                     </span>
                                 @endif
                             </td>
-                            <td class="py-4 px-6 text-right whitespace-nowrap">
+                            <td class="py-3 px-5 text-right whitespace-nowrap">
                                 <div class="flex items-center justify-end gap-1.5">
                                     @if(!$user->is_active && $user->id !== auth()->id())
+                                        <!-- Verifikasi (Checkmark) -->
                                         <button type="button" wire:click="toggleActive({{ $user->id }})"
                                                 wire:confirm="Verifikasi dan aktifkan akun '{{ $user->name }}' sekarang?"
                                                 title="Verifikasi & Aktifkan Akun"
-                                                class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-emerald-300 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] transition-all shadow-xs shadow-emerald-600/20">
-                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                                class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white border border-emerald-200/80 transition-all flex items-center justify-center shadow-xs">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M5 13l4 4L19 7"/>
                                             </svg>
-                                            <span>Verifikasi</span>
+                                        </button>
+
+                                        <!-- Review Dokumen (Eye / Mata) -->
+                                        <button type="button" wire:click="openEditModal({{ $user->id }})"
+                                                title="Review Dokumen Pendaftaran"
+                                                class="w-8 h-8 rounded-lg bg-white text-slate-600 hover:text-sky-600 hover:bg-sky-50 border border-slate-200 transition-all flex items-center justify-center shadow-xs">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                            </svg>
+                                        </button>
+                                    @else
+                                        <!-- Edit (Pencil / Pena) -->
+                                        <button type="button" wire:click="openEditModal({{ $user->id }})"
+                                                title="Edit Pengguna"
+                                                class="w-8 h-8 rounded-lg bg-white text-slate-600 hover:text-amber-600 hover:bg-amber-50 border border-slate-200 transition-all flex items-center justify-center shadow-xs">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                            </svg>
                                         </button>
                                     @endif
 
-                                    <button type="button" wire:click="openEditModal({{ $user->id }})"
-                                            class="px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-[11px] transition-colors shadow-xs">
-                                        Edit
-                                    </button>
-
                                     @if($user->id !== auth()->id())
+                                        <!-- Hapus (Trash / Tempat Sampah) -->
                                         <button type="button" wire:click="deleteUser({{ $user->id }})"
-                                                wire:confirm="Yakin ingin menghapus pengguna ini beserta seluruh data relasinya?"
-                                                class="px-3 py-1.5 rounded-lg border border-red-200 bg-red-50 hover:bg-red-100 text-red-600 font-semibold text-[11px] transition-colors shadow-xs">
-                                            Hapus
+                                                wire:confirm="Yakin ingin menghapus pengguna ini?"
+                                                title="Hapus Pengguna"
+                                                class="w-8 h-8 rounded-lg bg-white text-slate-600 hover:text-rose-600 hover:bg-rose-50 border border-slate-200 transition-all flex items-center justify-center shadow-xs">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                            </svg>
                                         </button>
                                     @endif
                                 </div>
@@ -161,7 +191,7 @@
                     @empty
                         <tr>
                             <td colspan="6" class="py-12 text-center text-slate-400">
-                                <p class="text-sm font-semibold">Tidak ditemukan pengguna dengan kriteria pencarian</p>
+                                <p class="text-xs font-medium">Tidak ada data pengguna ditemukan</p>
                             </td>
                         </tr>
                     @endforelse
@@ -170,346 +200,388 @@
         </div>
 
         <!-- Pagination -->
-        <div class="px-6 py-4 border-t border-slate-100">
+        <div class="px-5 py-3.5 border-t border-slate-100">
             {{ $users->links() }}
         </div>
     </div>
 
-    <!-- Modal Form Create / Edit -->
+    <!-- Modal Form Create / Edit (Spacious, Elegant & No Top Clip) -->
     @if($showModal)
-        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-xs overflow-y-auto">
-            <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 my-8">
-                <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
-                    <h3 class="text-lg font-extrabold text-slate-800">
-                        {{ $isEdit ? 'Edit Data Pengguna' : 'Tambahkan Pengguna Baru' }}
-                    </h3>
-                    <button wire:click="$set('showModal', false)" class="text-slate-400 hover:text-slate-600">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
+        <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 overflow-hidden">
+            <div class="relative bg-white rounded-2xl max-w-3xl lg:max-w-4xl w-full shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                
+                <!-- Fixed Header (Never Cut Off) -->
+                <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between shrink-0 bg-white">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl {{ $isEdit && !$is_active ? 'bg-amber-50 text-amber-600' : 'bg-primary-50 text-primary-600' }} flex items-center justify-center font-bold shrink-0">
+                            @if($isEdit && !$is_active)
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                            @elseif($isEdit)
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                            @else
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
+                            @endif
+                        </div>
+                        <div>
+                            <h3 class="text-sm sm:text-base font-bold text-slate-900">
+                                {{ $isEdit ? ($is_active ? 'Edit Data Pengguna' : 'Review & Verifikasi Dokumen Pendaftaran') : 'Tambah Pengguna Baru' }}
+                            </h3>
+                            <p class="text-xs text-slate-500">
+                                {{ $isEdit ? 'Periksa informasi akun, berkas dokumen pendaftaran, dan peran pengguna.' : 'Lengkapi data formulir di bawah ini untuk membuat akun baru.' }}
+                            </p>
+                        </div>
+                    </div>
+                    <button type="button" wire:click="$set('showModal', false)" 
+                            class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                 </div>
 
-                <form wire:submit="saveUser" class="space-y-4">
-                    <!-- Nama -->
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Nama Lengkap</label>
-                        <input type="text" wire:model="name" required placeholder="Contoh: Budi Santoso"
-                               class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
-                        @error('name') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
-                    </div>
+                <!-- Scrollable Form Body -->
+                <form wire:submit="saveUser" id="userForm" class="flex flex-col grow overflow-hidden">
+                    <div class="px-6 py-5 overflow-y-auto space-y-5 grow">
+                        
+                        <!-- Alert Banner for Pending Accounts -->
+                        @if($isEdit && !$is_active)
+                            <div class="p-3.5 rounded-xl bg-amber-50 border border-amber-200/90 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
+                                <div class="flex items-center gap-2.5 min-w-0">
+                                    <span class="w-8 h-8 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center shrink-0">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                                    </span>
+                                    <div class="min-w-0">
+                                        <p class="text-xs font-bold text-amber-900">Menunggu Verifikasi & Persetujuan Admin</p>
+                                        <p class="text-[11px] text-amber-700">Periksa kesesuaian dokumen pendaftaran di bawah sebelum menyetujui akun.</p>
+                                    </div>
+                                </div>
+                                <button type="button" wire:click="toggleActive({{ $userId }})"
+                                        wire:confirm="Verifikasi dan aktifkan akun '{{ $name }}' sekarang?"
+                                        class="inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs transition-colors shrink-0 whitespace-nowrap">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                    <span>Verifikasi & Aktifkan</span>
+                                </button>
+                            </div>
+                        @endif
 
-                    <!-- Email -->
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Alamat Email</label>
-                        <input type="email" wire:model="email" required placeholder="email@contoh.com"
-                               class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
-                        @error('email') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
-                    </div>
+                        <!-- SECTION 1: INFORMASI AKUN DASAR (2 Columns Grid) -->
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-primary-600"></span>
+                                Informasi Akun Dasar
+                            </h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                                <!-- Nama Lengkap -->
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Lengkap</label>
+                                    <input type="text" wire:model="name" required placeholder="Contoh: Budi Santoso"
+                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                    @error('name') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                                </div>
 
-                    <!-- Telepon -->
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Nomor Telepon / WhatsApp</label>
-                        <input type="text" wire:model="phone" placeholder="Contoh: 081234567890"
-                               class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
-                        @error('phone') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
-                    </div>
+                                <!-- Email -->
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">Alamat Email</label>
+                                    <input type="email" wire:model="email" required placeholder="email@contoh.com"
+                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                    @error('email') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                                </div>
 
-                    <!-- Role -->
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Role / Hak Akses</label>
-                        <div class="relative" x-data="{ open: false }">
-                            <button type="button" @click="open = !open" @click.outside="open = false"
-                                    class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-200">
-                                <span>
-                                    @php
-                                        $selectedRoleObj = $roles->firstWhere('id', $role_id);
-                                    @endphp
-                                    {{ $selectedRoleObj ? ($selectedRoleObj->label ?? $selectedRoleObj->name) : '-- Pilih Role --' }}
-                                </span>
-                                <svg class="w-4 h-4 text-slate-400 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                            </button>
+                                <!-- Telepon -->
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">Nomor Telepon / WhatsApp</label>
+                                    <input type="text" wire:model="phone" placeholder="Contoh: 081234567890"
+                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                    @error('phone') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                                </div>
 
-                            <div x-show="open" x-transition.opacity.duration.150ms
-                                 class="absolute left-0 top-full mt-1.5 w-full bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 overflow-hidden"
-                                 style="display: none;">
-                                @foreach($roles as $rl)
-                                    <button type="button" @click="$wire.set('role_id', {{ $rl->id }}); open = false"
-                                            class="w-full text-left px-4 py-2.5 text-xs font-semibold flex items-center justify-between hover:bg-sky-50 hover:text-sky-600 transition-colors {{ (int)$role_id === (int)$rl->id ? 'text-sky-600 bg-sky-50/50' : 'text-slate-700' }}">
-                                        <span>{{ $rl->label ?? $rl->name }}</span>
-                                        @if((int)$role_id === (int)$rl->id) <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> @endif
-                                    </button>
-                                @endforeach
+                                <!-- Role Selector -->
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">Role / Hak Akses</label>
+                                    <select wire:model.live="role_id" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-800 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                        <option value="">-- Pilih Role --</option>
+                                        @foreach($roles as $rl)
+                                            <option value="{{ $rl->id }}">{{ $rl->label ?? ucfirst($rl->name) }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('role_id') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                                </div>
                             </div>
                         </div>
-                        @error('role_id') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
-                    </div>
 
-                    <!-- PENGATURAN KHUSUS SUPIR -->
-                    @php
-                        $selectedRole = $roles->firstWhere('id', $role_id);
-                    @endphp
+                        <!-- SECTION 2: INFORMASI KHUSUS SESUAI PERAN -->
+                        @php
+                            $selectedRole = $roles->firstWhere('id', $role_id);
+                        @endphp
 
-                    @if($selectedRole && $selectedRole->name === 'supir')
-                        <div class="p-4 rounded-2xl bg-sky-50/70 border border-sky-100 space-y-3">
-                            <h4 class="text-xs font-extrabold text-sky-800 uppercase tracking-wider">Informasi Lembaga Mitra & Armada Supir</h4>
-
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-700 mb-1">Nama Lembaga / Organisasi</label>
-                                    <input type="text" wire:model="nama_lembaga" placeholder="Contoh: PMI Cilacap / RS Mitra"
-                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 bg-white">
-                                    @error('nama_lembaga') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                        @if($selectedRole && $selectedRole->name === 'supir')
+                            <!-- Role Supir (Driver) Data & Documents -->
+                            <div class="p-4 rounded-xl bg-slate-50/80 border border-slate-200 space-y-3.5">
+                                <div class="flex items-center justify-between">
+                                    <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                        Informasi Lembaga & Kendaraan Driver
+                                    </h4>
+                                    <label class="inline-flex items-center gap-1.5 cursor-pointer normal-case text-xs font-semibold text-slate-700">
+                                        <input type="checkbox" wire:model="status_online" class="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500">
+                                        <span>Status Online (Siaga)</span>
+                                    </label>
                                 </div>
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-700 mb-1">Nama Penanggung Jawab</label>
-                                    <input type="text" wire:model="nama_penanggung_jawab" placeholder="Nama PJ / Koordinator"
-                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 bg-white">
-                                    @error('nama_penanggung_jawab') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                    <div>
+                                        <label class="block text-[11px] font-medium text-slate-600 mb-1">Nama Lembaga / Mitra</label>
+                                        <input type="text" wire:model="nama_lembaga" placeholder="PMI Cilacap / RS Mitra"
+                                               class="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-xs bg-white focus:border-primary-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-medium text-slate-600 mb-1">Nama Penanggung Jawab</label>
+                                        <input type="text" wire:model="nama_penanggung_jawab" placeholder="Nama Koordinator"
+                                               class="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-xs bg-white focus:border-primary-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-medium text-slate-600 mb-1">Alamat Pos / Unit</label>
+                                        <input type="text" wire:model="alamat_unit" placeholder="Alamat pangkalan armada"
+                                               class="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-xs bg-white focus:border-primary-500">
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                    <div>
+                                        <label class="block text-[11px] font-medium text-slate-600 mb-1">Plat Nomor Mobil</label>
+                                        <input type="text" wire:model="plat_nomor" placeholder="R 1234 XY"
+                                               class="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-mono uppercase bg-white focus:border-primary-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-medium text-slate-600 mb-1">Merk / Tipe Mobil</label>
+                                        <input type="text" wire:model="merk_kendaraan" placeholder="APV / HiAce"
+                                               class="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-xs bg-white focus:border-primary-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-medium text-slate-600 mb-1">Nomor SIM</label>
+                                        <input type="text" wire:model="nomor_sim" placeholder="SIM A / B1"
+                                               class="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-xs bg-white focus:border-primary-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-medium text-slate-600 mb-1">NIK Driver</label>
+                                        <input type="text" wire:model="nik" placeholder="16 digit NIK"
+                                               class="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-xs bg-white focus:border-primary-500">
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block text-[11px] font-medium text-slate-600 mb-1">Nomor STNK</label>
+                                        <input type="text" wire:model="nomor_stnk" placeholder="Nomor STNK kendaraan"
+                                               class="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-xs bg-white focus:border-primary-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-medium text-slate-600 mb-1">Nomor SKCK Kepolisian</label>
+                                        <input type="text" wire:model="nomor_skck" placeholder="Nomor SKCK"
+                                               class="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-xs bg-white focus:border-primary-500">
+                                    </div>
+                                </div>
+
+                                <!-- Lampiran Foto Dokumen Supir (4 Columns Gallery) -->
+                                <div class="pt-2 border-t border-slate-200">
+                                    <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-2">
+                                        Lampiran Dokumen Pendaftaran:
+                                    </label>
+                                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                                        <!-- e-KTP -->
+                                        <div class="p-2 rounded-lg border border-slate-200 bg-white text-center shadow-2xs">
+                                            <span class="text-[10px] font-semibold text-slate-500 block mb-1">Foto e-KTP</span>
+                                            @if($foto_ktp)
+                                                <a href="{{ asset('storage/' . $foto_ktp) }}" target="_blank" class="block group">
+                                                    <img src="{{ asset('storage/' . $foto_ktp) }}" class="w-full h-14 object-cover rounded border border-slate-100 group-hover:opacity-80 transition-opacity">
+                                                    <span class="text-[10px] font-bold text-primary-600 group-hover:underline mt-1 block">Lihat Foto &nearr;</span>
+                                                </a>
+                                            @else
+                                                <div class="h-14 rounded bg-slate-50 border border-dashed border-slate-200 flex items-center justify-center text-[10px] text-slate-400">Belum Ada</div>
+                                            @endif
+                                        </div>
+
+                                        <!-- SIM -->
+                                        <div class="p-2 rounded-lg border border-slate-200 bg-white text-center shadow-2xs">
+                                            <span class="text-[10px] font-semibold text-slate-500 block mb-1">Foto SIM</span>
+                                            @if($foto_sim)
+                                                <a href="{{ asset('storage/' . $foto_sim) }}" target="_blank" class="block group">
+                                                    <img src="{{ asset('storage/' . $foto_sim) }}" class="w-full h-14 object-cover rounded border border-slate-100 group-hover:opacity-80 transition-opacity">
+                                                    <span class="text-[10px] font-bold text-primary-600 group-hover:underline mt-1 block">Lihat Foto &nearr;</span>
+                                                </a>
+                                            @else
+                                                <div class="h-14 rounded bg-slate-50 border border-dashed border-slate-200 flex items-center justify-center text-[10px] text-slate-400">Belum Ada</div>
+                                            @endif
+                                        </div>
+
+                                        <!-- STNK -->
+                                        <div class="p-2 rounded-lg border border-slate-200 bg-white text-center shadow-2xs">
+                                            <span class="text-[10px] font-semibold text-slate-500 block mb-1">Foto STNK</span>
+                                            @if($foto_stnk)
+                                                <a href="{{ asset('storage/' . $foto_stnk) }}" target="_blank" class="block group">
+                                                    <img src="{{ asset('storage/' . $foto_stnk) }}" class="w-full h-14 object-cover rounded border border-slate-100 group-hover:opacity-80 transition-opacity">
+                                                    <span class="text-[10px] font-bold text-primary-600 group-hover:underline mt-1 block">Lihat Foto &nearr;</span>
+                                                </a>
+                                            @else
+                                                <div class="h-14 rounded bg-slate-50 border border-dashed border-slate-200 flex items-center justify-center text-[10px] text-slate-400">Belum Ada</div>
+                                            @endif
+                                        </div>
+
+                                        <!-- SKCK -->
+                                        <div class="p-2 rounded-lg border border-slate-200 bg-white text-center shadow-2xs">
+                                            <span class="text-[10px] font-semibold text-slate-500 block mb-1">Foto SKCK</span>
+                                            @if($foto_skck)
+                                                <a href="{{ asset('storage/' . $foto_skck) }}" target="_blank" class="block group">
+                                                    <img src="{{ asset('storage/' . $foto_skck) }}" class="w-full h-14 object-cover rounded border border-slate-100 group-hover:opacity-80 transition-opacity">
+                                                    <span class="text-[10px] font-bold text-primary-600 group-hover:underline mt-1 block">Lihat Foto &nearr;</span>
+                                                </a>
+                                            @else
+                                                <div class="h-14 rounded bg-slate-50 border border-dashed border-slate-200 flex items-center justify-center text-[10px] text-slate-400">Belum Ada</div>
+                                            @endif
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                        @elseif($selectedRole && $selectedRole->name === 'mitra')
+                            <!-- Role Mitra Lembaga Data & Documents -->
+                            <div class="p-4 rounded-xl bg-slate-50/80 border border-slate-200 space-y-3.5">
+                                <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span>
+                                    Informasi Mitra Lembaga & Legalitas
+                                </h4>
 
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-700 mb-1">No. WhatsApp (WA)</label>
-                                    <input type="text" wire:model="no_wa" placeholder="081xxx (Aktif WA)"
-                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 bg-white">
-                                    @error('no_wa') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block text-[11px] font-medium text-slate-600 mb-1">Nama Lembaga / Yayasan</label>
+                                        <input type="text" wire:model="nama_lembaga" placeholder="Contoh: Klinik Medika Siaga"
+                                               class="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-xs bg-white focus:border-primary-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-medium text-slate-600 mb-1">Nama Penanggung Jawab</label>
+                                        <input type="text" wire:model="nama_penanggung_jawab" placeholder="Nama Koordinator PJ"
+                                               class="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-xs bg-white focus:border-primary-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-medium text-slate-600 mb-1">Nomor Izin / Legalitas</label>
+                                        <input type="text" wire:model="nomor_legalitas" placeholder="NIB / Akta Notaris"
+                                               class="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-xs bg-white focus:border-primary-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-medium text-slate-600 mb-1">Plat Nomor Armada Utama</label>
+                                        <input type="text" wire:model="plat_nomor" placeholder="Plat nomor unit"
+                                               class="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-xs uppercase font-mono bg-white focus:border-primary-500">
+                                    </div>
                                 </div>
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-700 mb-1">Alamat Unit Ambulance</label>
-                                    <input type="text" wire:model="alamat_unit" placeholder="Alamat pos/unit armada"
-                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 bg-white">
-                                    @error('alamat_unit') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+
+                                <!-- Galeri Dokumen Legalitas Mitra (3 Columns) -->
+                                <div class="pt-2 border-t border-slate-200">
+                                    <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-2">
+                                        Dokumen Fisik & Legalitas Lembaga:
+                                    </label>
+                                    <div class="grid grid-cols-3 gap-2.5">
+                                        <!-- KTP PJ -->
+                                        <div class="p-2 rounded-lg border border-slate-200 bg-white text-center shadow-2xs">
+                                            <span class="text-[10px] font-semibold text-slate-500 block mb-1">KTP Penanggung Jawab</span>
+                                            @if($foto_ktp_pj)
+                                                <a href="{{ asset('storage/' . $foto_ktp_pj) }}" target="_blank" class="block group">
+                                                    <img src="{{ asset('storage/' . $foto_ktp_pj) }}" class="w-full h-14 object-cover rounded border border-slate-100 group-hover:opacity-80 transition-opacity">
+                                                    <span class="text-[10px] font-bold text-primary-600 group-hover:underline mt-1 block">Lihat KTP &nearr;</span>
+                                                </a>
+                                            @else
+                                                <div class="h-14 rounded bg-slate-50 border border-dashed border-slate-200 flex items-center justify-center text-[10px] text-slate-400">Belum Ada</div>
+                                            @endif
+                                        </div>
+
+                                        <!-- Legalitas -->
+                                        <div class="p-2 rounded-lg border border-slate-200 bg-white text-center shadow-2xs">
+                                            <span class="text-[10px] font-semibold text-slate-500 block mb-1">Surat Izin / Legalitas</span>
+                                            @if($foto_legalitas)
+                                                <a href="{{ asset('storage/' . $foto_legalitas) }}" target="_blank" class="block group">
+                                                    <img src="{{ asset('storage/' . $foto_legalitas) }}" class="w-full h-14 object-cover rounded border border-slate-100 group-hover:opacity-80 transition-opacity">
+                                                    <span class="text-[10px] font-bold text-primary-600 group-hover:underline mt-1 block">Lihat Izin &nearr;</span>
+                                                </a>
+                                            @else
+                                                <div class="h-14 rounded bg-slate-50 border border-dashed border-slate-200 flex items-center justify-center text-[10px] text-slate-400">Belum Ada</div>
+                                            @endif
+                                        </div>
+
+                                        <!-- Foto Ambulans -->
+                                        <div class="p-2 rounded-lg border border-slate-200 bg-white text-center shadow-2xs">
+                                            <span class="text-[10px] font-semibold text-slate-500 block mb-1">Unit Ambulans / STNK</span>
+                                            @if($foto_ambulans)
+                                                <a href="{{ asset('storage/' . $foto_ambulans) }}" target="_blank" class="block group">
+                                                    <img src="{{ asset('storage/' . $foto_ambulans) }}" class="w-full h-14 object-cover rounded border border-slate-100 group-hover:opacity-80 transition-opacity">
+                                                    <span class="text-[10px] font-bold text-primary-600 group-hover:underline mt-1 block">Lihat Unit &nearr;</span>
+                                                </a>
+                                            @else
+                                                <div class="h-14 rounded bg-slate-50 border border-dashed border-slate-200 flex items-center justify-center text-[10px] text-slate-400">Belum Ada</div>
+                                            @endif
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-700 mb-1">Merk Kendaraan</label>
-                                    <input type="text" wire:model="merk_kendaraan" placeholder="Contoh: Toyota HiAce / APV"
-                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 bg-white">
-                                    @error('merk_kendaraan') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                        @elseif($selectedRole && $selectedRole->name === 'masyarakat')
+                            <!-- Role Masyarakat Data -->
+                            <div class="p-4 rounded-xl bg-slate-50/80 border border-slate-200 space-y-3">
+                                <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                                    Informasi Warga / Masyarakat
+                                </h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block text-[11px] font-medium text-slate-600 mb-1">Nomor KTP (NIK)</label>
+                                        <input type="text" wire:model="nik" placeholder="16 Digit NIK KTP"
+                                               class="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-xs bg-white focus:border-primary-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-medium text-slate-600 mb-1">Kontak Darurat</label>
+                                        <input type="text" wire:model="kontak_darurat" placeholder="Nomor kontak darurat"
+                                               class="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-xs bg-white focus:border-primary-500">
+                                    </div>
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold text-slate-700 mb-1">Plat No. Kendaraan</label>
-                                    <input type="text" wire:model="plat_nomor" placeholder="Contoh: R 9988 ZZ"
-                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 bg-white">
-                                    @error('plat_nomor') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-700 mb-1">Nomor SIM Driver</label>
-                                    <input type="text" wire:model="nomor_sim" placeholder="SIM A / B1 Umum"
-                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 bg-white">
-                                    @error('nomor_sim') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-700 mb-1">STNK Kendaraan</label>
-                                    <input type="text" wire:model="nomor_stnk" placeholder="Nomor STNK"
-                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 bg-white">
-                                    @error('nomor_stnk') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                                    <label class="block text-[11px] font-medium text-slate-600 mb-1">Alamat Tempat Tinggal</label>
+                                    <input type="text" wire:model="alamat" placeholder="Jl. Raya Cilacap No. 10..."
+                                           class="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-xs bg-white focus:border-primary-500">
                                 </div>
                             </div>
+                        @endif
 
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-700 mb-1">Nomor SKCK Kepolisian</label>
-                                    <input type="text" wire:model="nomor_skck" placeholder="Nomor SKCK"
-                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 bg-white">
-                                    @error('nomor_skck') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-700 mb-1">NIK KTP Driver</label>
-                                    <input type="text" wire:model="nik" placeholder="16 Digit NIK KTP"
-                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 bg-white">
-                                </div>
-                            </div>
-
-                            <!-- Lampiran Dokumen Fisik Supir -->
-                            <div class="pt-2 border-t border-sky-200/60">
-                                <label class="block text-[11px] font-black text-sky-900 uppercase tracking-wider mb-2">
-                                    Lampiran Foto Dokumen Pendaftaran Supir:
+                        <!-- SECTION 3: KEAMANAN & STATUS AKUN (2 Columns) -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
+                            <!-- Password -->
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">
+                                    Kata Sandi {{ $isEdit ? '(Kosongkan jika tetap)' : '' }}
                                 </label>
-                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
-                                    <!-- KTP -->
-                                    <div class="p-2 rounded-xl border border-slate-200 bg-white shadow-xs">
-                                        <span class="text-[10px] font-bold text-slate-500 block mb-1">Foto e-KTP</span>
-                                        @if($foto_ktp)
-                                            <a href="{{ asset('storage/' . $foto_ktp) }}" target="_blank" class="block group">
-                                                <img src="{{ asset('storage/' . $foto_ktp) }}" class="w-full h-14 object-cover rounded-lg border border-slate-200 group-hover:opacity-80 transition-opacity">
-                                                <span class="text-[9px] font-extrabold text-sky-600 hover:underline mt-0.5 block">Lihat KTP</span>
-                                            </a>
-                                        @else
-                                            <div class="h-14 rounded-lg bg-slate-100 flex items-center justify-center text-[10px] text-slate-400">Belum Ada</div>
-                                        @endif
-                                    </div>
-
-                                    <!-- SIM -->
-                                    <div class="p-2 rounded-xl border border-slate-200 bg-white shadow-xs">
-                                        <span class="text-[10px] font-bold text-slate-500 block mb-1">Foto SIM</span>
-                                        @if($foto_sim)
-                                            <a href="{{ asset('storage/' . $foto_sim) }}" target="_blank" class="block group">
-                                                <img src="{{ asset('storage/' . $foto_sim) }}" class="w-full h-14 object-cover rounded-lg border border-slate-200 group-hover:opacity-80 transition-opacity">
-                                                <span class="text-[9px] font-extrabold text-sky-600 hover:underline mt-0.5 block">Lihat SIM</span>
-                                            </a>
-                                        @else
-                                            <div class="h-14 rounded-lg bg-slate-100 flex items-center justify-center text-[10px] text-slate-400">Belum Ada</div>
-                                        @endif
-                                    </div>
-
-                                    <!-- STNK -->
-                                    <div class="p-2 rounded-xl border border-slate-200 bg-white shadow-xs">
-                                        <span class="text-[10px] font-bold text-slate-500 block mb-1">Foto STNK</span>
-                                        @if($foto_stnk)
-                                            <a href="{{ asset('storage/' . $foto_stnk) }}" target="_blank" class="block group">
-                                                <img src="{{ asset('storage/' . $foto_stnk) }}" class="w-full h-14 object-cover rounded-lg border border-slate-200 group-hover:opacity-80 transition-opacity">
-                                                <span class="text-[9px] font-extrabold text-sky-600 hover:underline mt-0.5 block">Lihat STNK</span>
-                                            </a>
-                                        @else
-                                            <div class="h-14 rounded-lg bg-slate-100 flex items-center justify-center text-[10px] text-slate-400">Belum Ada</div>
-                                        @endif
-                                    </div>
-
-                                    <!-- SKCK -->
-                                    <div class="p-2 rounded-xl border border-slate-200 bg-white shadow-xs">
-                                        <span class="text-[10px] font-bold text-slate-500 block mb-1">Foto SKCK</span>
-                                        @if($foto_skck)
-                                            <a href="{{ asset('storage/' . $foto_skck) }}" target="_blank" class="block group">
-                                                <img src="{{ asset('storage/' . $foto_skck) }}" class="w-full h-14 object-cover rounded-lg border border-slate-200 group-hover:opacity-80 transition-opacity">
-                                                <span class="text-[9px] font-extrabold text-sky-600 hover:underline mt-0.5 block">Lihat SKCK</span>
-                                            </a>
-                                        @else
-                                            <div class="h-14 rounded-lg bg-slate-100 flex items-center justify-center text-[10px] text-slate-400">Belum Ada</div>
-                                        @endif
-                                    </div>
-                                </div>
+                                <input type="password" wire:model="password" {{ $isEdit ? '' : 'required' }} placeholder="••••••••"
+                                       class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                @error('password') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
                             </div>
 
-                            <div class="flex items-center gap-2 pt-1">
-                                <input type="checkbox" wire:model="status_online" id="status_online" class="rounded border-slate-300 text-sky-600 focus:ring-sky-500">
-                                <label for="status_online" class="text-xs font-bold text-slate-700">Supir Sedang Online (Siaga Bertugas)</label>
-                            </div>
-                        </div>
-                    @elseif($selectedRole && $selectedRole->name === 'mitra')
-                        <div class="p-4 rounded-2xl bg-teal-50/70 border border-teal-100 space-y-3">
-                            <h4 class="text-xs font-extrabold text-teal-800 uppercase tracking-wider">Informasi Mitra Lembaga / Instansi & Legalitas</h4>
-
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-700 mb-1">Nama Lembaga / Yayasan</label>
-                                    <input type="text" wire:model="nama_lembaga" placeholder="Nama Lembaga / Yayasan"
-                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-teal-500 focus:ring-2 focus:ring-teal-200 bg-white">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-700 mb-1">Nama Penanggung Jawab</label>
-                                    <input type="text" wire:model="nama_penanggung_jawab" placeholder="Nama Penanggung Jawab"
-                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-teal-500 focus:ring-2 focus:ring-teal-200 bg-white">
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-700 mb-1">Nomor Izin / Legalitas</label>
-                                    <input type="text" wire:model="nomor_legalitas" placeholder="Nomor Izin / Akta / NIB"
-                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-teal-500 focus:ring-2 focus:ring-teal-200 bg-white">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-700 mb-1">Plat Nomor Armada Utama</label>
-                                    <input type="text" wire:model="plat_nomor" placeholder="Plat Nomor Unit"
-                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:border-teal-500 focus:ring-2 focus:ring-teal-200 bg-white">
-                                </div>
-                            </div>
-
-                            <!-- Galeri Dokumen Legalitas Mitra -->
-                            <div class="pt-2 border-t border-teal-200/60">
-                                <label class="block text-[11px] font-black text-teal-900 uppercase tracking-wider mb-2">Dokumen Fisik & Legalitas Lembaga</label>
-                                <div class="grid grid-cols-3 gap-2 text-center">
-                                    <!-- KTP PJ -->
-                                    <div class="p-2 rounded-xl border border-slate-200 bg-white shadow-xs">
-                                        <span class="text-[10px] font-bold text-slate-500 block mb-1">KTP PJ</span>
-                                        @if($foto_ktp_pj)
-                                            <a href="{{ asset('storage/' . $foto_ktp_pj) }}" target="_blank" class="block group">
-                                                <img src="{{ asset('storage/' . $foto_ktp_pj) }}" class="w-full h-14 object-cover rounded-lg border border-slate-200 group-hover:opacity-80 transition-opacity">
-                                                <span class="text-[9px] font-extrabold text-teal-600 hover:underline mt-0.5 block">Lihat KTP</span>
-                                            </a>
-                                        @else
-                                            <div class="h-14 rounded-lg bg-slate-100 flex items-center justify-center text-[10px] text-slate-400">Belum Ada</div>
-                                        @endif
-                                    </div>
-
-                                    <!-- Legalitas -->
-                                    <div class="p-2 rounded-xl border border-slate-200 bg-white shadow-xs">
-                                        <span class="text-[10px] font-bold text-slate-500 block mb-1">Surat Izin / Legalitas</span>
-                                        @if($foto_legalitas)
-                                            <a href="{{ asset('storage/' . $foto_legalitas) }}" target="_blank" class="block group">
-                                                <img src="{{ asset('storage/' . $foto_legalitas) }}" class="w-full h-14 object-cover rounded-lg border border-slate-200 group-hover:opacity-80 transition-opacity">
-                                                <span class="text-[9px] font-extrabold text-teal-600 hover:underline mt-0.5 block">Lihat Izin</span>
-                                            </a>
-                                        @else
-                                            <div class="h-14 rounded-lg bg-slate-100 flex items-center justify-center text-[10px] text-slate-400">Belum Ada</div>
-                                        @endif
-                                    </div>
-
-                                    <!-- Foto Ambulans -->
-                                    <div class="p-2 rounded-xl border border-slate-200 bg-white shadow-xs">
-                                        <span class="text-[10px] font-bold text-slate-500 block mb-1">Unit Ambulans / STNK</span>
-                                        @if($foto_ambulans)
-                                            <a href="{{ asset('storage/' . $foto_ambulans) }}" target="_blank" class="block group">
-                                                <img src="{{ asset('storage/' . $foto_ambulans) }}" class="w-full h-14 object-cover rounded-lg border border-slate-200 group-hover:opacity-80 transition-opacity">
-                                                <span class="text-[9px] font-extrabold text-teal-600 hover:underline mt-0.5 block">Lihat Unit</span>
-                                            </a>
-                                        @else
-                                            <div class="h-14 rounded-lg bg-slate-100 flex items-center justify-center text-[10px] text-slate-400">Belum Ada</div>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @elseif($selectedRole && $selectedRole->name === 'masyarakat')
-                        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-                            <h4 class="text-xs font-extrabold text-slate-800 uppercase tracking-wider">Informasi Warga / Masyarakat</h4>
+                            <!-- Is Active Checkbox in neat card -->
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Nomor KTP (NIK)</label>
-                                <input type="text" wire:model="nik" placeholder="16 Digit NIK KTP"
-                                       class="w-full px-4 py-2 rounded-xl border border-slate-300 text-sm font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 bg-white">
-                                @error('nik') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Alamat Tempat Tinggal</label>
-                                <input type="text" wire:model="alamat" placeholder="Jl. Raya Cilacap No. 10..."
-                                       class="w-full px-4 py-2 rounded-xl border border-slate-300 text-sm font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 bg-white">
-                                @error('alamat') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Status Login Akun</label>
+                                <label class="flex items-center gap-2.5 px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-slate-100/70 cursor-pointer transition-colors">
+                                    <input type="checkbox" wire:model="is_active" class="rounded border-slate-300 text-primary-600 focus:ring-primary-500">
+                                    <div class="text-xs">
+                                        <span class="font-bold text-slate-800 block">Akun Aktif & Terverifikasi</span>
+                                    </div>
+                                </label>
                             </div>
                         </div>
-                    @endif
-
-                    <!-- Password -->
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">
-                            Kata Sandi {{ $isEdit ? '(Kosongkan jika tidak diubah)' : '' }}
-                        </label>
-                        <input type="password" wire:model="password" {{ $isEdit ? '' : 'required' }}
-                               class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
-                        @error('password') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
                     </div>
 
-                    <!-- Is Active -->
-                    <div class="flex items-center gap-2 pt-1">
-                        <input type="checkbox" wire:model="is_active" id="is_active" class="rounded border-slate-300 text-sky-600 focus:ring-sky-500">
-                        <label for="is_active" class="text-xs font-bold text-slate-700">Akun Aktif & Dapat Login</label>
-                    </div>
-
-                    <div class="flex gap-3 pt-4 border-t border-slate-100">
-                        <button type="submit"
-                                class="flex-1 py-3.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-extrabold text-sm shadow-lg shadow-sky-600/30 transition-all">
-                            SIMPAN DATA
-                        </button>
+                    <!-- Fixed Footer (Always Visible at Bottom) -->
+                    <div class="px-6 py-3.5 border-t border-slate-100 flex items-center justify-end gap-2.5 shrink-0 bg-slate-50/80">
                         <button type="button" wire:click="$set('showModal', false)"
-                                class="px-5 py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold text-sm transition-colors">
+                                class="px-4 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-slate-600 font-semibold text-xs transition-colors shadow-xs">
                             Batal
+                        </button>
+                        <button type="submit"
+                                class="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-bold text-xs shadow-xs transition-all">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>{{ $isEdit ? 'Simpan Perubahan' : 'Tambah Pengguna' }}</span>
                         </button>
                     </div>
                 </form>

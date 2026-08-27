@@ -111,12 +111,24 @@
                                     <span>{{ $spr->status_online ? 'Online (Standby)' : 'Offline (Libur)' }}</span>
                                 </button>
                             </td>
-                            <td class="py-4 px-6 text-right">
-                                <button type="button" wire:click="openEditModal({{ $spr->id }})"
-                                        class="p-2 rounded-xl bg-slate-100 hover:bg-sky-50 hover:text-sky-600 text-slate-600 transition-colors"
-                                        title="Edit Profil Driver">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
-                                </button>
+                            <td class="py-3 px-6 text-right whitespace-nowrap">
+                                <div class="flex items-center justify-end gap-1.5">
+                                    <button type="button" wire:click="openEditModal({{ $spr->id }})"
+                                            title="Edit Profil Driver"
+                                            class="w-8 h-8 rounded-lg bg-white text-slate-600 hover:text-amber-600 hover:bg-amber-50 border border-slate-200 transition-all flex items-center justify-center shadow-xs">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                        </svg>
+                                    </button>
+                                    <button type="button" wire:click="deleteSupir({{ $spr->id }})"
+                                            wire:confirm="Yakin ingin menghapus akun driver ini dari lembaga?"
+                                            title="Hapus Driver"
+                                            class="w-8 h-8 rounded-lg bg-white text-slate-600 hover:text-rose-600 hover:bg-rose-50 border border-slate-200 transition-all flex items-center justify-center shadow-xs">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                        </svg>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     @empty
@@ -139,65 +151,71 @@
 
     <!-- Modal Tambah / Edit Driver -->
     @if($isModalOpen)
-        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
-            <div class="w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-slate-200 p-6 sm:p-8 relative">
-                <button type="button" wire:click="closeModal" class="absolute right-5 top-5 text-slate-400 hover:text-slate-600 text-xl font-bold">
-                    &times;
-                </button>
-
-                <h3 class="text-lg font-bold text-slate-900 mb-1">
-                    {{ $supirId ? 'Ubah Data Driver' : 'Daftarkan Driver Resmi Lembaga' }}
-                </h3>
-                <p class="text-xs text-slate-500 mb-6">Driver akan memiliki akun untuk login ke aplikasi driver dan navigasi GPS.</p>
-
-                <form wire:submit.prevent="save" class="space-y-4">
+        <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 overflow-hidden">
+            <div class="relative bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between shrink-0 bg-white">
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Nama Lengkap Driver</label>
-                        <input type="text" wire:model="name" required placeholder="Nama Lengkap Petugas"
-                               class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-semibold focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
-                        @error('name') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
+                        <h3 class="text-base font-bold text-slate-900">
+                            {{ $supirId ? 'Ubah Data Driver' : 'Daftarkan Driver Resmi Lembaga' }}
+                        </h3>
+                        <p class="text-xs text-slate-500">Driver akan memiliki akun untuk login ke aplikasi.</p>
                     </div>
+                    <button type="button" wire:click="closeModal" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
 
-                    @if(!$supirId)
-                        <div class="grid grid-cols-2 gap-4">
+                <form wire:submit.prevent="save" class="flex flex-col grow overflow-hidden">
+                    <div class="px-6 py-5 overflow-y-auto space-y-4 grow">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Lengkap Driver</label>
+                            <input type="text" wire:model="name" required placeholder="Nama Lengkap Petugas"
+                                   class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                            @error('name') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                        </div>
+
+                        @if(!$supirId)
+                            <div class="grid grid-cols-2 gap-3.5">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">Alamat Email</label>
+                                    <input type="email" wire:model="email" required placeholder="driver@lembaga.com"
+                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                    @error('email') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">Password Akun</label>
+                                    <input type="password" wire:model="password" required placeholder="Min. 6 karakter"
+                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                    @error('password') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
+                                </div>
+                            </div>
+                        @endif
+
+                        <div class="grid grid-cols-2 gap-3.5">
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Alamat Email</label>
-                                <input type="email" wire:model="email" required placeholder="driver@lembaga.com"
-                                       class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
-                                @error('email') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Nomor WhatsApp / HP</label>
+                                <input type="text" wire:model="phone" placeholder="08123456789"
+                                       class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                @error('phone') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Password Akun</label>
-                                <input type="password" wire:model="password" required placeholder="Minimal 6 karakter"
-                                       class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
-                                @error('password') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Nomor SIM (Wajib Aktif)</label>
+                                <input type="text" wire:model="nomor_sim" required placeholder="Cth: 1234-5678-9012"
+                                       class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                @error('nomor_sim') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
                             </div>
-                        </div>
-                    @endif
-
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Nomor WhatsApp / HP</label>
-                            <input type="text" wire:model="phone" placeholder="08123456789"
-                                   class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
-                            @error('phone') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Nomor SIM (Wajib Aktif)</label>
-                            <input type="text" wire:model="nomor_sim" required placeholder="Cth: 1234-5678-9012"
-                                   class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-semibold focus:border-sky-500 focus:ring-2 focus:ring-sky-200">
-                            @error('nomor_sim') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
                         </div>
                     </div>
 
-                    <div class="flex gap-3 pt-4 border-t border-slate-100">
+                    <div class="px-6 py-3.5 border-t border-slate-100 flex items-center justify-end gap-2.5 shrink-0 bg-slate-50/80">
                         <button type="button" wire:click="closeModal"
-                                class="flex-1 py-2.5 rounded-xl border border-slate-300 text-slate-700 text-sm font-bold hover:bg-slate-50 transition-colors">
+                                class="px-4 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-slate-600 font-semibold text-xs transition-colors shadow-xs">
                             Batal
                         </button>
                         <button type="submit"
-                                class="flex-1 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-sm font-bold shadow-md shadow-sky-600/30 transition-all">
-                            {{ $supirId ? 'Simpan Perubahan' : 'Daftarkan Driver' }}
+                                class="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-bold text-xs shadow-xs transition-all">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span>{{ $supirId ? 'Simpan Perubahan' : 'Daftarkan Driver' }}</span>
                         </button>
                     </div>
                 </form>

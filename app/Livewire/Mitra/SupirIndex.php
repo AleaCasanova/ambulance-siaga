@@ -163,6 +163,18 @@ class SupirIndex extends Component
         session()->flash('message', "Status piket {$supir->user?->name} berhasil diperbarui.");
     }
 
+    public function deleteSupir($id)
+    {
+        $mitra = $this->mitra;
+        $supir = Supir::where('mitra_id', $mitra ? $mitra->id : 0)->findOrFail($id);
+        $name = $supir->user?->name ?? 'Driver';
+        if ($supir->user) {
+            $supir->user->delete();
+        }
+        $supir->delete();
+        session()->flash('message', "Akun driver {$name} berhasil dihapus.");
+    }
+
     public function render()
     {
         $mitra = $this->mitra;

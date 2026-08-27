@@ -130,12 +130,12 @@ class AmbulansIndex extends Component
         $this->closeModal();
     }
 
-    public function updateStatus($id, $newStatus)
+    public function deleteAmbulans($id)
     {
         $mitra = $this->mitra;
         $amb = Ambulans::where('mitra_id', $mitra ? $mitra->id : 0)->findOrFail($id);
-        $amb->update(['status' => $newStatus]);
-        session()->flash('message', "Status unit {$amb->kode_ambulans} diubah menjadi {$newStatus}.");
+        $amb->delete();
+        session()->flash('message', "Armada {$amb->kode_ambulans} berhasil dihapus.");
     }
 
     public function render()

@@ -202,12 +202,17 @@
                                     <span class="text-slate-300">-</span>
                                 @endif
                             </td>
-                            <td class="py-4 px-6 text-right print:hidden whitespace-nowrap">
-                                <button type="button" wire:click="deleteReport({{ $row->id }})"
-                                        wire:confirm="Yakin ingin menghapus data laporan pesanan ini dari database?"
-                                        class="px-3 py-1.5 rounded-lg border border-red-200 bg-red-50 hover:bg-red-100 text-red-600 font-semibold text-[11px] transition-colors shadow-sm">
-                                    Hapus
-                                </button>
+                            <td class="py-3 px-6 text-right print:hidden whitespace-nowrap">
+                                <div class="flex items-center justify-end">
+                                    <button type="button" wire:click="deleteReport({{ $row->id }})"
+                                            wire:confirm="Yakin ingin menghapus data laporan pesanan ini dari database?"
+                                            title="Hapus Laporan"
+                                            class="w-8 h-8 rounded-lg bg-white text-slate-600 hover:text-rose-600 hover:bg-rose-50 border border-slate-200 transition-all flex items-center justify-center shadow-xs">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                        </svg>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     @empty

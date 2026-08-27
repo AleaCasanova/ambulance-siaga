@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Masyarakat;
+use App\Models\Mitra;
 use App\Models\Role;
 use App\Models\Supir;
 use App\Models\User;
@@ -19,6 +20,12 @@ class UsersIndex extends Component
 
     public function updatingSearch() { $this->resetPage(); }
     public function updatingRoleFilter() { $this->resetPage(); }
+
+    public function setRoleFilter(string $roleId = '')
+    {
+        $this->roleFilter = $roleId;
+        $this->resetPage();
+    }
 
     // Modal Form State
     public bool $showModal = false;
@@ -68,7 +75,7 @@ class UsersIndex extends Component
             'role_id' => 'required|exists:roles,id',
             'password' => $this->isEdit ? 'nullable|min:6' : 'required|min:6',
             'is_active' => 'boolean',
-            // Supir/Masyarakat optional validations
+            // Supir/Masyarakat/Mitra optional validations
             'nama_lembaga' => 'nullable|string|max:255',
             'nama_penanggung_jawab' => 'nullable|string|max:255',
             'no_wa' => 'nullable|string|max:30',
@@ -193,7 +200,7 @@ class UsersIndex extends Component
             Supir::updateOrCreate(
                 ['user_id' => $user->id],
                 [
-                    'nama_lembaga' => $this->nama_lembaga ?: 'Mitra Ambulans Siaga',
+                    'nama_lembaga' => $this->nama_lembaga ?: 'Mitra Pengemudi Perorangan',
                     'nama_penanggung_jawab' => $this->nama_penanggung_jawab ?: $user->name,
                     'no_wa' => $this->no_wa ?: $user->phone,
                     'alamat_unit' => $this->alamat_unit ?: '-',
@@ -204,6 +211,21 @@ class UsersIndex extends Component
                     'status_online' => $this->status_online,
                     'lokasi_terakhir_lat' => -7.7188,
                     'lokasi_terakhir_lng' => 109.0159,
+                ]
+            );
+        } elseif ($role && $role->name === 'mitra') {
+            Mitra::updateOrCreate(
+                ['user_id' => $user->id],
+                [
+                    'nama_mitra' => $this->nama_lembaga ?: 'Mitra Lembaga',
+                    'penanggung_jawab' => $this->nama_penanggung_jawab ?: $user->name,
+                    'nik_pj' => $this->nik ?: '-',
+                    'no_telp' => $this->no_wa ?: $user->phone,
+                    'alamat' => $this->alamat_unit ?: '-',
+                    'nomor_legalitas' => $this->nomor_legalitas ?: '-',
+                    'plat_nomor_unit' => $this->plat_nomor ?: '-',
+                    'merk_kendaraan' => $this->merk_kendaraan ?: '-',
+                    'is_active' => $this->is_active,
                 ]
             );
         } elseif ($role && $role->name === 'masyarakat') {
@@ -252,6 +274,9 @@ class UsersIndex extends Component
         if ($user->supir) {
             $user->supir->delete();
         }
+        if ($user->mitra) {
+            $user->mitra->delete();
+        }
         if ($user->masyarakat) {
             $user->masyarakat->delete();
         }
@@ -262,7 +287,9 @@ class UsersIndex extends Component
 
     public function render()
     {
-        $query = User::with(['role', 'supir', 'masyarakat'])->orderBy('name', 'asc');
+        $query = User::with(['role', 'supir', 'masyarakat', 'mitra'])
+            ->orderBy('is_active', 'asc') // Unverified (0) appears first
+            ->orderBy('created_at', 'desc');
 
         if ($this->roleFilter) {
             $query->where('role_id', $this->roleFilter);
@@ -274,17 +301,44 @@ class UsersIndex extends Component
                   ->orWhere('email', 'like', '%' . $this->search . '%')
                   ->orWhere('phone', 'like', '%' . $this->search . '%')
                   ->orWhereHas('supir', function ($s) {
-                      $s->where('nomor_sim', 'like', '%' . $this->search . '%');
+                      $s->where('nomor_sim', 'like', '%' . $this->search . '%')
+                        ->orWhere('plat_nomor', 'like', '%' . $this->search . '%')
+                        ->orWhere('nama_lembaga', 'like', '%' . $this->search . '%');
+                  })
+                  ->orWhereHas('mitra', function ($m) {
+                      $m->where('nama_mitra', 'like', '%' . $this->search . '%')
+                        ->orWhere('plat_nomor_unit', 'like', '%' . $this->search . '%')
+                        ->orWhere('nomor_legalitas', 'like', '%' . $this->search . '%');
+                  })
+                  ->orWhereHas('masyarakat', function ($ms) {
+                      $ms->where('nik', 'like', '%' . $this->search . '%')
+                         ->orWhere('alamat', 'like', '%' . $this->search . '%');
                   });
             });
         }
 
-        $users = $query->paginate(6);
-        $roles = Role::all();
+        $users = $query->paginate(10);
+
+        // Sorting roles: Admin, Operator, Mitra, Supir (Driver), Masyarakat
+        $roleOrder = ['admin' => 1, 'operator' => 2, 'mitra' => 3, 'supir' => 4, 'masyarakat' => 5];
+        $roles = Role::all()->sortBy(function ($role) use ($roleOrder) {
+            return $roleOrder[$role->name] ?? 99;
+        });
+
+        // Unverified counts per role
+        $unverifiedCounts = User::where('is_active', false)
+            ->selectRaw('role_id, count(*) as total')
+            ->groupBy('role_id')
+            ->pluck('total', 'role_id')
+            ->toArray();
+
+        $totalUnverified = User::where('is_active', false)->count();
 
         return view('livewire.admin.users-index', [
             'users' => $users,
             'roles' => $roles,
+            'unverifiedCounts' => $unverifiedCounts,
+            'totalUnverified' => $totalUnverified,
             'isSupirPage' => request()->routeIs('admin.supir.*'),
         ])->layout('layouts.admin');
     }

@@ -111,12 +111,7 @@
         <div class="px-6 py-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <h2 class="text-[16px] font-bold text-slate-800">Permintaan Layanan Terbaru</h2>
             <div class="flex items-center gap-3">
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg class="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                    </div>
-                    <input type="text" placeholder="Cari layanan..." class="pl-9 pr-4 py-2 border border-slate-200 rounded-lg text-sm focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB] outline-none">
-                </div>
+                <input type="text" placeholder="Cari layanan..." class="px-3.5 py-2 border border-slate-200 rounded-lg text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-none">
                 <a href="{{ route('admin.orders.index') }}" class="px-4 py-2 border border-slate-200 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors">
                     Lihat Semua
                 </a>
