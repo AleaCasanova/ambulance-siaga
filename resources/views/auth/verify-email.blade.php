@@ -1,31 +1,32 @@
 <x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
-    </div>
-
-    @if (session('status') == 'verification-link-sent')
-        <div class="mb-4 font-medium text-sm text-green-600">
-            {{ __('A new verification link has been sent to the email address you provided during registration.') }}
-        </div>
-    @endif
-
-    <div class="mt-4 flex items-center justify-between">
-        <form method="POST" action="{{ route('verification.send') }}">
-            @csrf
-
-            <div>
-                <x-primary-button>
-                    {{ __('Resend Verification Email') }}
-                </x-primary-button>
+    <div class="w-full max-w-md sm:max-w-[500px] mx-auto">
+        <div class="bg-transparent sm:bg-white rounded-none sm:rounded-3xl p-0 sm:p-6 shadow-none sm:shadow-[0_15px_40px_-10px_rgba(0,156,166,0.15)] border-0 sm:border sm:border-slate-100">
+            <h2 class="text-2xl font-black text-slate-900 mb-2">Verifikasi Email Anda</h2>
+            <div class="mb-4 text-xs font-medium text-slate-500 leading-relaxed">
+                {{ __('Terima kasih telah mendaftar! Sebelum memulai, silakan verifikasi alamat email Anda melalui tautan yang telah kami kirimkan ke email Anda.') }}
             </div>
-        </form>
 
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
+            @if (session('status') == 'verification-link-sent')
+                <div class="mb-4 font-semibold text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 p-3 rounded-xl">
+                    {{ __('Tautan verifikasi baru telah dikirimkan ke alamat email yang Anda daftarkan.') }}
+                </div>
+            @endif
 
-            <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                {{ __('Log Out') }}
-            </button>
-        </form>
+            <div class="mt-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <form method="POST" action="{{ route('verification.send') }}" class="w-full sm:w-auto">
+                    @csrf
+                    <button type="submit" class="w-full sm:w-auto py-2.5 px-4 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-bold text-xs shadow-sm transition-all">
+                        {{ __('Kirim Ulang Email Verifikasi') }}
+                    </button>
+                </form>
+
+                <form method="POST" action="{{ route('logout') }}" class="w-full sm:w-auto">
+                    @csrf
+                    <button type="submit" class="w-full sm:w-auto py-2.5 px-4 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 font-bold text-xs transition-all">
+                        {{ __('Keluar (Log Out)') }}
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 </x-guest-layout>

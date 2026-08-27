@@ -25,11 +25,11 @@
             body { font-family: 'Plus Jakarta Sans', sans-serif; }
         </style>
     </head>
-    <body class="font-sans text-slate-800 antialiased bg-[#F4F7FA] min-h-screen lg:h-screen lg:overflow-hidden">
-        <div class="min-h-screen lg:h-screen flex flex-col lg:flex-row relative">
+    <body class="font-sans text-slate-800 antialiased bg-white lg:bg-[#F4F7FA] min-h-screen lg:h-screen lg:overflow-hidden">
+        <div class="min-h-screen lg:h-screen flex flex-col lg:flex-row relative bg-white lg:bg-transparent">
             
-            <!-- PANEL KIRI: AREA BRANDING (70% Lebar - Presisi Fit Viewport) -->
-            <div class="relative w-full lg:w-[70%] bg-gradient-to-br from-primary-600 via-[#008f97] to-primary-700 text-white flex flex-col justify-between p-6 sm:p-8 lg:p-10 overflow-hidden min-h-[480px] lg:h-full">
+            <!-- PANEL KIRI: AREA BRANDING (Hanya Tampil di Desktop lg:flex, Hidden di Mobile) -->
+            <div class="hidden lg:flex relative w-full lg:w-[70%] bg-gradient-to-br from-primary-600 via-[#008f97] to-primary-700 text-white flex-col justify-between p-6 sm:p-8 lg:p-10 overflow-hidden lg:h-full">
                 
                 <!-- ELEMEN DEKORATIF BACKGROUND -->
                 <div class="absolute -right-12 top-1/4 w-[450px] h-[450px] opacity-[0.08] pointer-events-none select-none text-white">
@@ -88,7 +88,7 @@
 
                     <!-- Middle Content Section -->
                     <div class="mt-8 lg:mt-12 relative flex-1">
-                        <!-- Badge Interaktif (Moved to top) -->
+                        <!-- Badge Interaktif -->
                         <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 text-[10px] sm:text-xs font-bold text-sky-50 uppercase tracking-widest mb-4 backdrop-blur-md shadow-lg w-max">
                             <span class="relative flex h-2 w-2">
                                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
@@ -110,7 +110,7 @@
                         </div>
                     </div>
 
-                    <!-- Bottom Info Platform (Replacing 3 Features Card) -->
+                    <!-- Bottom Info Platform -->
                     <div class="relative z-20 mt-8 xl:mt-auto w-full max-w-xl pb-4 pr-4">
                         <p class="text-sm sm:text-base lg:text-lg text-sky-50 leading-relaxed font-medium drop-shadow-md">
                             Platform terpadu yang membantu masyarakat mendapatkan layanan ambulans secara <strong class="text-white font-black tracking-wide">cepat, tepat, dan tanpa biaya</strong>. Kami menghubungkan Anda dengan berbagai mitra agar bantuan tiba seketika.
@@ -119,15 +119,15 @@
                 </div>
             </div>
 
-            <!-- Dekade Curve Separator (Absolute in center) -->
+            <!-- Dekade Curve Separator (Desktop Only) -->
             <svg class="hidden lg:block absolute top-0 bottom-0 right-[30%] -mr-1 h-full w-48 xl:w-64 text-[#F4F7FA] z-20 drop-shadow-[-15px_0_15px_rgba(0,0,0,0.06)] pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none" fill="currentColor">
                 <path d="M100 0 C 70 0 30 100 0 100 L 100 100 Z" />
             </svg>
 
-            <!-- PANEL KANAN: AREA FORM & CONTENT (Fit 100vh Without Scroll) -->
-            <div class="relative w-full lg:w-[30%] bg-[#F4F7FA] flex flex-col min-h-screen lg:h-full z-30 pointer-events-none">
-                <div class="lg:absolute lg:top-0 lg:right-0 lg:bottom-0 lg:w-[50vw] flex flex-col justify-between p-4 sm:p-6 lg:p-8 lg:overflow-y-auto pointer-events-auto">
-                    <div class="relative z-40 my-auto flex flex-col items-center justify-center w-full py-2 lg:-translate-x-8 xl:-translate-x-12">
+            <!-- PANEL KANAN: AREA FORM & CONTENT (Mobile: Full-screen clean top-aligned native app, Desktop: 30% right panel) -->
+            <div class="relative w-full lg:w-[30%] bg-white lg:bg-[#F4F7FA] flex flex-col min-h-screen lg:h-full z-30">
+                <div class="w-full min-h-screen lg:min-h-0 lg:absolute lg:top-0 lg:right-0 lg:bottom-0 lg:w-[50vw] flex flex-col justify-start lg:justify-between p-5 sm:p-6 lg:p-8 overflow-y-auto">
+                    <div class="relative z-40 lg:my-auto flex flex-col items-center justify-start lg:justify-center w-full pt-1 sm:pt-2 pb-8 lg:py-2 lg:-translate-x-8 xl:-translate-x-12">
                         {{ $slot }}
                     </div>
                 </div>

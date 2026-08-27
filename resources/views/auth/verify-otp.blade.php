@@ -1,20 +1,34 @@
 <x-guest-layout>
-    <div class="w-full max-w-[460px] sm:max-w-[500px] lg:max-w-[520px] my-auto">
-        <!-- Card Container Panel Kanan -->
-        <div class="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 lg:p-7 shadow-[0_12px_35px_-8px_rgba(14,138,205,0.12)] border border-slate-100/90">
+    <div class="w-full max-w-md sm:max-w-[500px] lg:max-w-[520px] mx-auto">
+        <!-- Card Container (Borderless & Clean on Mobile, Floating Card on Desktop) -->
+        <div class="bg-transparent sm:bg-white rounded-none sm:rounded-3xl p-0 sm:p-6 lg:p-7 shadow-none sm:shadow-[0_15px_40px_-10px_rgba(0,156,166,0.15)] border-0 sm:border sm:border-slate-100 transition-all">
             
+            <!-- Mobile Top Bar Navigation (Pinterest Style) -->
+            <div class="flex items-center justify-between pb-4 mb-5 border-b border-slate-100 sm:hidden">
+                <a href="{{ route('login') }}" class="inline-flex items-center gap-2 text-xs font-bold text-slate-600 hover:text-primary-600 transition-colors p-1 -ml-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                    <span>Masuk</span>
+                </a>
+                <div class="flex items-center gap-2">
+                    <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo" class="w-6 h-6 object-contain">
+                    <span class="text-xs font-black text-slate-800 tracking-tight">Ambulans Siaga</span>
+                </div>
+            </div>
+
             <!-- Header Icon & Title -->
-            <div class="text-center mb-4">
-                <div class="w-14 h-14 bg-sky-50 text-primary-600 rounded-2xl mx-auto flex items-center justify-center mb-3 border border-sky-100 shadow-sm">
+            <div class="text-left sm:text-center mb-5 sm:mb-6">
+                <div class="w-14 h-14 bg-sky-50 text-primary-600 rounded-2xl flex items-center justify-center mb-3 sm:mx-auto border border-sky-100 shadow-xs">
                     <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                     </svg>
                 </div>
-                <h2 class="text-xl sm:text-2xl font-black text-[#0F2747] tracking-tight">Verifikasi Kode OTP</h2>
-                <p class="text-xs font-semibold text-slate-500 mt-1 leading-relaxed max-w-sm mx-auto">
+                <h2 class="text-2xl sm:text-2xl font-black text-slate-900 tracking-tight">Verifikasi Kode OTP</h2>
+                <p class="text-xs font-semibold text-slate-500 mt-1 leading-relaxed">
                     Masukkan 6 digit kode verifikasi yang telah kami kirimkan ke alamat email:
                 </p>
-                <div class="mt-2 inline-flex items-center gap-1.5 px-3 py-1 bg-sky-50 border border-sky-200/80 rounded-full text-xs font-extrabold text-primary-600">
+                <div class="mt-2.5 inline-flex items-center gap-1.5 px-3.5 py-1 bg-sky-50 border border-sky-200/80 rounded-full text-xs font-extrabold text-primary-600">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 11-8 0 4 4 0 018 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"/>
                     </svg>

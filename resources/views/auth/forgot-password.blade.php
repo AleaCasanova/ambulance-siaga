@@ -1,55 +1,72 @@
 <x-guest-layout>
-    <div class="w-full max-w-[460px] sm:max-w-[500px] lg:max-w-[520px] my-auto">
-        <!-- Card Container -->
-        <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 lg:p-6 shadow-[0_12px_35px_-8px_rgba(0,156,166,0.12)] border border-slate-100/90">
+    <div class="w-full max-w-md sm:max-w-[500px] lg:max-w-[520px] mx-auto">
+        <!-- Container Card (Borderless & Clean on Mobile, Floating Card on Desktop) -->
+        <div class="bg-transparent sm:bg-white rounded-none sm:rounded-3xl p-0 sm:p-6 lg:p-7 shadow-none sm:shadow-[0_15px_40px_-10px_rgba(0,156,166,0.15)] border-0 sm:border sm:border-slate-100 transition-all">
             
-            <!-- Header -->
-            <div class="mb-4 text-center">
-                <div class="w-12 h-12 bg-sky-50 rounded-full flex items-center justify-center mx-auto mb-3 text-primary-600">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            <!-- Mobile Top Bar Navigation (Pinterest Style) -->
+            <div class="flex items-center justify-between pb-4 mb-5 border-b border-slate-100 sm:hidden">
+                <a href="{{ route('login') }}" class="inline-flex items-center gap-2 text-xs font-bold text-slate-600 hover:text-primary-600 transition-colors p-1 -ml-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
                     </svg>
+                    <span>Masuk</span>
+                </a>
+                <div class="flex items-center gap-2">
+                    <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo" class="w-6 h-6 object-contain">
+                    <span class="text-xs font-black text-slate-800 tracking-tight">Ambulans Siaga</span>
                 </div>
-                <h2 class="text-xl sm:text-2xl font-black text-[#0F2747] tracking-tight">Lupa Kata Sandi?</h2>
-                <p class="text-[11px] sm:text-xs font-semibold text-slate-500 mt-2 leading-relaxed max-w-sm mx-auto">
-                    {{ __('Tidak masalah. Cukup beri tahu kami alamat email Anda dan kami akan mengirimkan tautan untuk mereset kata sandi Anda.') }}
+            </div>
+
+            <!-- Header Form -->
+            <div class="mb-5 sm:mb-6 text-left sm:text-center">
+                <h2 class="text-2xl sm:text-2xl font-black text-slate-900 tracking-tight">Lupa Kata Sandi?</h2>
+                <p class="text-xs font-semibold text-slate-500 mt-1 leading-relaxed">
+                    Jangan khawatir. Masukkan alamat email akun Anda dan kami akan mengirimkan tautan reset kata sandi.
                 </p>
             </div>
 
-            <!-- Session Status -->
-            <x-auth-session-status class="mb-4 text-center text-xs font-bold text-emerald-600 bg-emerald-50 p-2 rounded-lg" :status="session('status')" />
+            <!-- Session Status Alert -->
+            <x-auth-session-status class="mb-4 text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 p-3 rounded-xl" :status="session('status')" />
 
-            <form method="POST" action="{{ route('password.email') }}" class="space-y-4">
+            <form method="POST" action="{{ route('password.email') }}" class="space-y-4 sm:space-y-3.5">
                 @csrf
 
                 <!-- Email Address -->
                 <div>
-                    <label for="email" class="block text-[10px] font-extrabold text-slate-700 uppercase tracking-wider mb-1">
+                    <label for="email" class="block text-xs font-bold text-slate-700 mb-1">
                         Alamat Email
                     </label>
                     <input id="email" type="email" name="email" :value="old('email')" required autofocus
-                           placeholder="Masukkan email Anda"
-                           class="w-full px-3 py-2 rounded-lg border border-slate-200 bg-slate-50/60 text-sm font-semibold text-[#0F2747] placeholder:text-slate-400 focus:bg-white focus:border-primary-600 focus:ring-2 focus:ring-[#009CA6]/20 transition-all outline-none">
+                           placeholder="nama@email.com"
+                           class="w-full px-4 py-3 sm:py-2.5 rounded-xl border border-slate-200 bg-slate-50/70 text-sm sm:text-xs font-semibold text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-primary-600 focus:ring-4 focus:ring-primary-100 transition-all outline-none">
                     <x-input-error :messages="$errors->get('email')" class="mt-1 text-xs" />
                 </div>
 
                 <div class="pt-2">
                     <button type="submit"
-                            class="w-full py-3 px-5 rounded-lg bg-primary-600 hover:bg-primary-700 text-white font-extrabold text-xs sm:text-sm shadow-md shadow-[#009CA6]/20 transition-all duration-200 transform active:scale-[0.99] flex items-center justify-center tracking-wider uppercase cursor-pointer">
-                        {{ __('Kirim Tautan Reset Sandi') }}
+                            class="w-full py-3.5 sm:py-2.5 px-5 rounded-xl bg-primary-600 hover:bg-primary-700 active:scale-[0.99] text-white font-bold text-sm sm:text-xs shadow-md shadow-primary-600/25 transition-all duration-200 flex items-center justify-center tracking-wider uppercase cursor-pointer">
+                        KIRIM TAUTAN RESET
                     </button>
                 </div>
             </form>
+
+            <!-- Tautan Kembali ke Login (Mobile friendly) -->
+            <div class="mt-5 text-center">
+                <a href="{{ route('login') }}" 
+                   class="inline-flex items-center justify-center gap-1.5 text-xs font-bold text-slate-600 hover:text-primary-600 transition-colors group">
+                    <svg class="w-4 h-4 text-slate-500 group-hover:text-primary-600 transform group-hover:-translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    <span>Kembali ke Halaman Login</span>
+                </a>
+            </div>
         </div>
 
-        <!-- Tautan Kembali ke Login -->
-        <div class="mt-4 text-center">
-            <a href="{{ route('login') }}" 
-               class="inline-flex items-center justify-center gap-1.5 text-[11px] sm:text-xs font-bold text-slate-600 hover:text-primary-600 transition-colors group">
-                <svg class="w-3.5 h-3.5 text-slate-500 group-hover:text-primary-600 transform group-hover:-translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-                </svg>
-                <span>Kembali ke Halaman Login</span>
+        <!-- Desktop Footer Link -->
+        <div class="hidden sm:block mt-4 text-center">
+            <a href="{{ route('home') }}" 
+               class="text-xs font-semibold text-slate-500 hover:text-primary-600 transition-colors">
+                ← Kembali ke Beranda
             </a>
         </div>
     </div>

@@ -199,10 +199,10 @@
             this.errorMessage = '';
             return true;
         }
-    }" class="w-full max-w-[480px] sm:max-w-[540px] my-auto">
+    }" class="w-full max-w-[480px] sm:max-w-[540px] mx-auto lg:my-auto">
 
         <!-- Card Container Panel Kanan -->
-        <div class="bg-white rounded-3xl p-5 sm:p-7 shadow-[0_15px_40px_-10px_rgba(0,156,166,0.15)] border border-slate-100 relative overflow-hidden transition-all duration-300">
+        <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-sm sm:shadow-[0_15px_40px_-10px_rgba(0,156,166,0.15)] border border-slate-100 relative overflow-hidden transition-all duration-300">
 
             <!-- Global Hidden Canvas for in-place photo capture -->
             <canvas id="webcam-canvas-mitra" class="hidden"></canvas>
