@@ -35,6 +35,13 @@ class ProfileController extends Controller
             $user->email_verified_at = null;
         }
 
+        if ($request->hasFile('avatar')) {
+            if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
+                Storage::disk('public')->delete($user->avatar);
+            }
+            $user->avatar = $request->file('avatar')->store('avatars', 'public');
+        }
+
         $user->save();
 
         if ($user->isSupir()) {

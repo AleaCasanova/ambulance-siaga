@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview 3D Real Ambulance Marker 360°</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            background: #e2e8f0;
+            font-family: system-ui, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .map-mockup {
+            width: 500px;
+            height: 380px;
+            background: #d4ebd0;
+            background-image: 
+                radial-gradient(#86efac 1px, transparent 1px),
+                linear-gradient(to right, #cbd5e1 4px, transparent 4px),
+                linear-gradient(to bottom, #cbd5e1 4px, transparent 4px);
+            background-size: 24px 24px, 120px 120px, 120px 120px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 4px solid white;
+        }
+
+        /* Road */
+        .road-h {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 48px;
+            background: #94a3b8;
+            transform: translateY(-50%);
+            border-top: 2px dashed #f1f5f9;
+            border-bottom: 2px dashed #f1f5f9;
+        }
+
+        /* 3D Ambulance Marker Container */
+        .amb-marker-3d-wrap {
+            position: relative;
+            width: 90px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 800px;
+            cursor: grab;
+            z-index: 10;
+        }
+
+        /* Pulsing GPS Radar Ring on Ground */
+        .amb-ground-radar {
+            position: absolute;
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.4) 0%, rgba(14, 165, 233, 0) 70%);
+            border: 2px solid rgba(14, 165, 233, 0.6);
+            transform: rotateX(60deg) scale(1);
+            animation: radarPulse 2s ease-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes radarPulse {
+            0% { transform: rotateX(60deg) scale(0.6); opacity: 1; }
+            100% { transform: rotateX(60deg) scale(1.6); opacity: 0; }
+        }
+
+        /* Ground Shadow */
+        .amb-ground-shadow {
+            position: absolute;
+            bottom: 12px;
+            width: 64px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(15, 23, 42, 0.35);
+            filter: blur(4px);
+            transform: rotateX(60deg);
+            pointer-events: none;
+        }
+
+        /* 3D Vehicle Stage (360 Degree Rotation) */
+        .amb-3d-stage {
+            width: 70px;
+            height: 46px;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: spin360 8s linear infinite;
+        }
+
+        @keyframes spin360 {
+            0% { transform: rotateX(-22deg) rotateY(0deg); }
+            100% { transform: rotateX(-22deg) rotateY(360deg); }
+        }
+
+        /* Ambulance Chassis / Body Parts */
+        .cube-face {
+            position: absolute;
+            box-sizing: border-box;
+            backface-visibility: visible;
+        }
+
+        /* 1. Main Medical Box (Rear Cabin) */
+        /* Size: W: 36px, H: 28px, D: 42px */
+        .rear-box {
+            position: absolute;
+            left: 17px;
+            top: 6px;
+            width: 36px;
+            height: 28px;
+            transform-style: preserve-3d;
+        }
+        /* Top Roof of Rear Box */
+        .rear-top {
+            width: 36px;
+            height: 42px;
+            background: #ffffff;
+            transform: rotateX(90deg) translateZ(14px);
+            border-radius: 3px;
+            box-shadow: inset 0 0 4px rgba(0,0,0,0.06);
+        }
+        /* Rear Face (Back Doors) */
+        .rear-back {
+            width: 36px;
+            height: 28px;
+            background: #ffffff;
+            transform: rotateY(180deg) translateZ(21px);
+            border: 1px solid #cbd5e1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2px;
+            box-shadow: inset 0 -6px 0 #dc2626;
+        }
+        /* Rear Windows & Door Lines */
+        .rear-doors-visual {
+            display: flex;
+            gap: 2px;
+            margin-top: 3px;
+        }
+        .rear-win {
+            width: 10px;
+            height: 9px;
+            background: #38bdf8;
+            border: 1px solid #0284c7;
+            border-radius: 1px;
+        }
+        .rear-cross {
+            font-size: 8px;
+            font-weight: 900;
+            color: #dc2626;
+            margin-top: 1px;
+            line-height: 1;
+        }
+
+        /* Rear Box Left Side (Driver Side) */
+        .rear-left {
+            width: 42px;
+            height: 28px;
+            background: #ffffff;
+            transform: rotateY(-90deg) translateZ(18px);
+            border: 1px solid #e2e8f0;
+            box-shadow: inset 0 -6px 0 #dc2626;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0 4px;
+        }
+        /* Rear Box Right Side (Passenger Side) */
+        .rear-right {
+            width: 42px;
+            height: 28px;
+            background: #f8fafc;
+            transform: rotateY(90deg) translateZ(18px);
+            border: 1px solid #e2e8f0;
+            box-shadow: inset 0 -6px 0 #dc2626;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0 4px;
+        }
+        .side-cross {
+            width: 12px;
+            height: 12px;
+            position: relative;
+            background: transparent;
+        }
+        .side-cross::before {
+            content: '';
+            position: absolute;
+            left: 4px;
+            top: 0;
+            width: 4px;
+            height: 12px;
+            background: #dc2626;
+            border-radius: 1px;
+        }
+        .side-cross::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 4px;
+            width: 12px;
+            height: 4px;
+            background: #dc2626;
+            border-radius: 1px;
+        }
+        .side-win {
+            width: 11px;
+            height: 8px;
+            background: #38bdf8;
+            border: 1px solid #0284c7;
+            border-radius: 2px;
+        }
+
+        /* 2. Front Cabin (Driver Cab) */
+        /* Size: W: 34px, H: 22px, D: 22px, placed in front of rear box (Z = -21px to -43px) */
+        .front-cabin {
+            position: absolute;
+            left: 18px;
+            top: 12px;
+            width: 34px;
+            height: 22px;
+            transform-style: preserve-3d;
+            transform: translateZ(-21px);
+        }
+        /* Cabin Hood / Top */
+        .cabin-top {
+            width: 34px;
+            height: 14px;
+            background: #ffffff;
+            transform: rotateX(90deg) translateZ(11px) translateY(-5px);
+            border-radius: 2px;
+        }
+        /* Cabin Windshield (slanted glass) */
+        .cabin-windshield {
+            width: 34px;
+            height: 13px;
+            background: linear-gradient(135deg, #7dd3fc, #0284c7);
+            transform: translateZ(-9px) translateY(-6px) rotateX(-35deg);
+            border: 1px solid #38bdf8;
+            border-radius: 3px 3px 0 0;
+            box-shadow: inset 2px 2px 0 rgba(255,255,255,0.7);
+        }
+        /* Cabin Front Grille & Headlights */
+        .cabin-front {
+            width: 34px;
+            height: 14px;
+            background: #ffffff;
+            transform: translateZ(-16px) translateY(3px);
+            border: 1px solid #cbd5e1;
+            box-shadow: inset 0 -4px 0 #dc2626;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1px 3px;
+        }
+        .headlight {
+            width: 5px;
+            height: 5px;
+            background: #fef08a;
+            border: 1px solid #eab308;
+            border-radius: 1px;
+            box-shadow: 0 0 6px #facc15;
+        }
+        .grille {
+            width: 14px;
+            height: 7px;
+            background: #334155;
+            border-radius: 1px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            padding: 0 1px;
+        }
+        .grille-bar {
+            height: 1px;
+            background: #94a3b8;
+        }
+        /* Cabin Left / Right sides */
+        .cabin-left {
+            width: 16px;
+            height: 20px;
+            background: #ffffff;
+            transform: rotateY(-90deg) translateZ(17px) translateX(8px);
+            border: 1px solid #e2e8f0;
+            box-shadow: inset 0 -4px 0 #dc2626;
+        }
+        .cabin-right {
+            width: 16px;
+            height: 20px;
+            background: #f8fafc;
+            transform: rotateY(90deg) translateZ(17px) translateX(-8px);
+            border: 1px solid #e2e8f0;
+            box-shadow: inset 0 -4px 0 #dc2626;
+        }
+        .cabin-side-win {
+            width: 11px;
+            height: 8px;
+            background: #38bdf8;
+            border: 1px solid #0284c7;
+            margin: 2px auto 0;
+            border-radius: 1px;
+        }
+
+        /* 3. Emergency Siren Lightbar on Roof */
+        .roof-siren-bar {
+            position: absolute;
+            left: 24px;
+            top: -2px;
+            width: 22px;
+            height: 6px;
+            transform-style: preserve-3d;
+            transform: translateZ(-8px);
+            display: flex;
+            justify-content: space-between;
+        }
+        .siren-beacon-red {
+            width: 9px;
+            height: 6px;
+            background: #ef4444;
+            border-radius: 2px;
+            box-shadow: 0 0 10px #ef4444, 0 0 20px #ef4444;
+            animation: strobeRed 0.6s infinite alternate;
+        }
+        .siren-beacon-blue {
+            width: 9px;
+            height: 6px;
+            background: #3b82f6;
+            border-radius: 2px;
+            box-shadow: 0 0 10px #3b82f6, 0 0 20px #3b82f6;
+            animation: strobeBlue 0.6s infinite alternate;
+        }
+
+        @keyframes strobeRed {
+            0% { opacity: 0.3; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1.15); box-shadow: 0 0 14px #ef4444, 0 0 24px #ef4444; }
+        }
+        @keyframes strobeBlue {
+            0% { opacity: 1; transform: scale(1.15); box-shadow: 0 0 14px #3b82f6, 0 0 24px #3b82f6; }
+            100% { opacity: 0.3; transform: scale(0.9); }
+        }
+
+        /* 4. 3D Wheels */
+        .wheel {
+            position: absolute;
+            width: 9px;
+            height: 9px;
+            background: #1e293b;
+            border: 2px solid #0f172a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .wheel::after {
+            content: '';
+            width: 3px;
+            height: 3px;
+            background: #94a3b8;
+            border-radius: 50%;
+        }
+        /* Wheel Positions */
+        .wheel-fl { transform: rotateY(-90deg) translateZ(19px) translateY(24px) translateX(25px); }
+        .wheel-fr { transform: rotateY(90deg) translateZ(19px) translateY(24px) translateX(-25px); }
+        .wheel-rl { transform: rotateY(-90deg) translateZ(19px) translateY(24px) translateX(2px); }
+        .wheel-rr { transform: rotateY(90deg) translateZ(19px) translateY(24px) translateX(-2px); }
+
+        /* Controls */
+        .controls {
+            margin-top: 24px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .btn {
+            background: #0284c7;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(2,132,199,0.3);
+        }
+        .btn:hover { background: #0369a1; }
+    </style>
+</head>
+<body>
+
+    <h2 style="color: #0f172a; margin-bottom: 8px; font-weight: 800;">Real 3D Ambulance Marker (360° Rotatable)</h2>
+    <p style="color: #64748b; margin-top: 0; margin-bottom: 24px;">Tampilan ambulans 3D dengan seluruh sisi (Depan, Kiri, Kanan, Belakang, Atas, Sirine & Roda)</p>
+
+    <div class="map-mockup">
+        <div class="road-h"></div>
+
+        <!-- 3D Ambulance Marker Element -->
+        <div class="amb-marker-3d-wrap" id="ambWrap">
+            <!-- Pulsing Radar GPS Ring -->
+            <div class="amb-ground-radar"></div>
+            <!-- Ground Shadow -->
+            <div class="amb-ground-shadow"></div>
+
+            <!-- 3D Ambulance Vehicle Mesh (Rotates 360) -->
+            <div class="amb-3d-stage" id="ambStage">
+
+                <!-- Rooftop Emergency Siren Lightbar -->
+                <div class="roof-siren-bar">
+                    <div class="siren-beacon-red"></div>
+                    <div class="siren-beacon-blue"></div>
+                </div>
+
+                <!-- Rear Medical Cabin Box -->
+                <div class="rear-box">
+                    <div class="cube-face rear-top"></div>
+                    <div class="cube-face rear-back">
+                        <div class="rear-doors-visual">
+                            <div class="rear-win"></div>
+                            <div class="rear-win"></div>
+                        </div>
+                        <div class="rear-cross">+</div>
+                    </div>
+                    <div class="cube-face rear-left">
+                        <div class="side-cross"></div>
+                        <div class="side-win"></div>
+                    </div>
+                    <div class="cube-face rear-right">
+                        <div class="side-win"></div>
+                        <div class="side-cross"></div>
+                    </div>
+                </div>
+
+                <!-- Front Driver Cabin -->
+                <div class="front-cabin">
+                    <div class="cube-face cabin-top"></div>
+                    <div class="cube-face cabin-windshield"></div>
+                    <div class="cube-face cabin-front">
+                        <div class="headlight"></div>
+                        <div class="grille">
+                            <div class="grille-bar"></div>
+                            <div class="grille-bar"></div>
+                        </div>
+                        <div class="headlight"></div>
+                    </div>
+                    <div class="cube-face cabin-left">
+                        <div class="cabin-side-win"></div>
+                    </div>
+                    <div class="cube-face cabin-right">
+                        <div class="cabin-side-win"></div>
+                    </div>
+                </div>
+
+                <!-- 4 Wheels -->
+                <div class="wheel wheel-fl"></div>
+                <div class="wheel wheel-fr"></div>
+                <div class="wheel wheel-rl"></div>
+                <div class="wheel wheel-rr"></div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="toggleSpin()">Toggle Auto-Spin 360°</button>
+        <button class="btn" onclick="setAngle(0)">Depan (0°)</button>
+        <button class="btn" onclick="setAngle(45)">Isometrik Depan (45°)</button>
+        <button class="btn" onclick="setAngle(90)">Samping (90°)</button>
+        <button class="btn" onclick="setAngle(180)">Belakang (180°)</button>
+        <button class="btn" onclick="setAngle(270)">Samping Kiri (270°)</button>
+    </div>
+
+    <script>
+        let isSpinning = true;
+        const stage = document.getElementById('ambStage');
+
+        function toggleSpin() {
+            isSpinning = !isSpinning;
+            if (isSpinning) {
+                stage.style.animation = 'spin360 8s linear infinite';
+            } else {
+                stage.style.animation = 'none';
+                stage.style.transform = 'rotateX(-22deg) rotateY(45deg)';
+            }
+        }
+
+        function setAngle(deg) {
+            isSpinning = false;
+            stage.style.animation = 'none';
+            stage.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            stage.style.transform = `rotateX(-22deg) rotateY(${deg}deg)`;
+        }
+    </script>
+</body>
+</html>

@@ -16,8 +16,8 @@
         </button>
     @else
         <button @click="notifOpen = !notifOpen" @click.outside="notifOpen = false"
-                class="relative p-2 rounded-xl transition-all duration-200 text-slate-400 bg-transparent hover:bg-slate-100 hover:text-slate-600 focus:outline-none"
-                :class="{ 'bg-slate-100 text-slate-600': notifOpen }">
+                class="relative p-2 rounded-xl transition-all duration-200 text-slate-600 bg-transparent hover:bg-slate-100 hover:text-primary-600 focus:outline-none"
+                :class="{ 'bg-slate-100 text-primary-600': notifOpen }">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
@@ -30,15 +30,28 @@
         </button>
     @endif
 
-    <!-- Dropdown Panel -->
+    <!-- Mobile Backdrop Overlay (< sm) -->
+    <div x-show="notifOpen" 
+         @click="notifOpen = false" 
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-150"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-40 bg-slate-900/40 backdrop-blur-2xs sm:hidden" 
+         style="display: none;"></div>
+
+    <!-- Dropdown Panel (Fixed centered on mobile, absolute right-aligned on desktop) -->
     <div x-show="notifOpen"
-         x-transition:enter="transition ease-out duration-100"
+         @click.outside="notifOpen = false"
+         x-transition:enter="transition ease-out duration-150"
          x-transition:enter-start="transform opacity-0 scale-95"
          x-transition:enter-end="transform opacity-100 scale-100"
-         x-transition:leave="transition ease-in duration-75"
+         x-transition:leave="transition ease-in duration-100"
          x-transition:leave-start="transform opacity-100 scale-100"
          x-transition:leave-end="transform opacity-0 scale-95"
-         class="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-2xl shadow-xl border border-slate-200/80 overflow-hidden z-50"
+         class="fixed left-3 right-3 top-[72px] max-w-sm mx-auto sm:max-w-none sm:mx-0 sm:absolute sm:inset-auto sm:right-0 sm:top-full sm:mt-2 sm:w-96 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden z-50"
          style="display: none;">
 
         <!-- Header -->
@@ -51,12 +64,20 @@
                     </span>
                 @endif
             </div>
-            @if($unreadCount > 0)
-                <button wire:click="markAllAsRead"
-                        class="text-xs font-semibold text-sky-600 hover:text-sky-700 transition-colors">
-                    Tandai Semua Dibaca
+            <div class="flex items-center gap-2">
+                @if($unreadCount > 0)
+                    <button wire:click="markAllAsRead"
+                            class="text-xs font-semibold text-sky-600 hover:text-sky-700 transition-colors">
+                        Tandai Semua Dibaca
+                    </button>
+                @endif
+                <!-- Mobile Close Button (X) -->
+                <button type="button" @click="notifOpen = false" 
+                        class="sm:hidden p-1 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-200/60 transition-colors"
+                        title="Tutup">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
-            @endif
+            </div>
         </div>
 
         <!-- List -->
@@ -64,7 +85,7 @@
             @forelse($notifications as $notif)
                 <div wire:click="markAsRead({{ $notif->id }})"
                      class="px-4 py-3 hover:bg-slate-50 cursor-pointer transition-colors flex items-start gap-3 {{ !$notif->is_read ? 'bg-sky-50/40' : '' }}">
-                    <div class="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center {{ $notif->type === 'danger' ? 'bg-red-100 text-red-600' : ($notif->type === 'success' ? 'bg-emerald-100 text-emerald-600' : 'bg-primary-100 text-primary-600') }}">
+                    <div class="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center {{ $notif->type === 'danger' ? 'bg-red-100 text-red-600' : ($notif->type === 'success' ? 'bg-primary-100 text-primary-600' : 'bg-primary-100 text-primary-600') }}">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>

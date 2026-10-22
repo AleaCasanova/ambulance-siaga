@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LaporanExportController;
+use App\Http\Controllers\MidtransController;
 use App\Http\Controllers\ProfileController;
 use App\Livewire\Admin\AmbulansIndex as AdminAmbulansIndex;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
@@ -11,23 +12,21 @@ use App\Livewire\Admin\LogAktivitasIndex as AdminLogAktivitasIndex;
 use App\Livewire\Admin\RumahSakitIndex as AdminRumahSakitIndex;
 use App\Livewire\Admin\SettingIndex as AdminSettingIndex;
 use App\Livewire\Admin\UsersIndex as AdminUsersIndex;
-use App\Livewire\Operator\Dashboard as OperatorDashboard;
-use App\Livewire\Operator\LiveMonitoring as OperatorLiveMonitoring;
-use App\Livewire\Operator\OrderIndex as OperatorOrderIndex;
 use App\Livewire\Masyarakat\Beranda;
-use App\Livewire\Masyarakat\InfoGsc;
 use App\Livewire\Masyarakat\Donasi;
-use App\Livewire\Masyarakat\MitraPengemudi;
+use App\Livewire\Masyarakat\InfoGsc;
 use App\Livewire\Masyarakat\MitraArmada;
+use App\Livewire\Masyarakat\MitraPengemudi;
 use App\Livewire\Masyarakat\OrderComplete;
 use App\Livewire\Masyarakat\OrderCreate;
 use App\Livewire\Masyarakat\OrderIndex as MasyarakatOrderIndex;
 use App\Livewire\Masyarakat\OrderTracking;
+use App\Livewire\Operator\Dashboard as OperatorDashboard;
+use App\Livewire\Operator\LiveMonitoring as OperatorLiveMonitoring;
+use App\Livewire\Operator\OrderIndex as OperatorOrderIndex;
 use App\Livewire\Supir\Dashboard as SupirDashboard;
 use App\Livewire\Supir\OrderShow as SupirOrderShow;
 use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\MidtransController;
 
 /*
 |--------------------------------------------------------------------------
@@ -130,8 +129,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard', \App\Livewire\Mitra\Dashboard::class)->name('dashboard');
         Route::get('/ambulans', \App\Livewire\Mitra\AmbulansIndex::class)->name('ambulans.index');
         Route::get('/supir', \App\Livewire\Mitra\SupirIndex::class)->name('supir.index');
-        Route::get('/orders', \App\Livewire\Mitra\OrderIndex::class)->name('orders.index');
     });
 });
 
 require __DIR__.'/auth.php';
+
+// Fallback route for storage files in case symlink is missing or broken on Windows/Laragon
+Route::get('/storage/{path}', function (string $path) {
+    if (\Illuminate\Support\Facades\Storage::disk('public')->exists($path)) {
+        return \Illuminate\Support\Facades\Storage::disk('public')->response($path);
+    }
+    abort(404);
+})->where('path', '.*');

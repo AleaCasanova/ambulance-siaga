@@ -276,7 +276,7 @@
 
             <!-- Card: Foto Verifikasi & Kondisi Pasien (Geotagging) -->
             @if($order->photo_path)
-                <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs space-y-3" x-data="{ showPhotoZoom: false }">
+                <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs space-y-3" x-data="{ showPhotoZoom: false, imgLoaded: false, imgError: false }">
                     <div class="flex items-center justify-between pb-2 border-b border-slate-100">
                         <div class="flex items-center gap-1.5">
                             <span class="text-sm">📸</span>
@@ -287,11 +287,26 @@
                         </span>
                     </div>
 
-                    <div class="relative rounded-xl overflow-hidden border border-slate-200 group cursor-pointer"
+                    <div class="relative rounded-xl overflow-hidden border border-slate-200 bg-slate-900 group cursor-pointer"
                          @click="showPhotoZoom = true">
-                        <img src="{{ asset('storage/' . $order->photo_path) }}" 
-                             alt="Foto Pasien" 
-                             class="w-full h-44 object-cover object-center group-hover:scale-105 transition-transform duration-300">
+                        <!-- Loading skeleton -->
+                        <div x-show="!imgLoaded && !imgError" class="w-full h-44 bg-slate-800 animate-pulse flex items-center justify-center text-slate-400 text-xs">
+                            <span>Memuat foto...</span>
+                        </div>
+
+                        <img src="{{ $order->photo_url ?? asset('storage/' . $order->photo_path) }}" 
+                             alt="Foto Pasien & Lokasi" 
+                             class="w-full h-44 object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                             x-show="!imgError"
+                             x-on:load="imgLoaded = true"
+                             x-on:error="imgError = true; imgLoaded = false">
+
+                        <!-- Fallback jika gagal muat -->
+                        <div x-show="imgError" class="w-full h-44 bg-slate-800 flex flex-col items-center justify-center p-4 text-center text-slate-300 space-y-1">
+                            <span class="text-xl">⚠️</span>
+                            <p class="font-bold text-xs">Berkas Foto Tidak Ditemukan</p>
+                        </div>
+
                         <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5 backdrop-blur-xs">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
                             <span>Klik untuk Perbesar Foto</span>
@@ -307,16 +322,23 @@
                     <!-- Lightbox Modal -->
                     <div x-show="showPhotoZoom" 
                          x-transition
-                         class="fixed inset-0 z-[20000] bg-black/90 backdrop-blur-md flex items-center justify-center p-4"
+                         class="fixed inset-0 z-[20000] bg-black/95 backdrop-blur-md flex items-center justify-center p-4"
                          @click="showPhotoZoom = false" style="display: none;">
                         <button type="button" @click="showPhotoZoom = false"
-                                class="absolute top-5 right-5 text-white bg-white/20 hover:bg-white/30 rounded-full p-2.5 transition-colors">
+                                class="absolute top-5 right-5 text-white bg-white/20 hover:bg-white/30 rounded-full p-2.5 transition-colors z-10">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                         </button>
-                        <img src="{{ asset('storage/' . $order->photo_path) }}" 
-                             alt="Foto Pembesaran" 
-                             class="max-w-full max-h-[85vh] rounded-2xl object-contain shadow-2xl"
-                             @click.stop="">
+                        <div class="max-w-4xl max-h-[90vh] flex flex-col items-center">
+                            <img src="{{ $order->photo_url ?? asset('storage/' . $order->photo_path) }}" 
+                                 alt="Foto Pembesaran Pasien" 
+                                 class="max-w-full max-h-[82vh] rounded-2xl object-contain shadow-2xl border border-white/10"
+                                 @click.stop="">
+                            @if($order->photo_address)
+                                <div class="mt-2.5 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs text-center truncate max-w-lg">
+                                    📍 {{ $order->photo_address }}
+                                </div>
+                            @endif
+                        </div>
                     </div>
                 </div>
             @endif
@@ -541,30 +563,47 @@
                         iconAnchor: [16, 16]
                     });
 
-                    const jemputIcon = L.divIcon({
-                        className: 'custom-jemput-icon',
-                        html: `<div style="background:#0284C7; width:28px; height:28px; border-radius:50%; border:2px solid white; box-shadow:0 2px 6px rgba(2,132,199,0.4); display:flex; align-items:center; justify-content:center; color:white; font-size:12px;">📍</div>`,
-                        iconSize: [28, 28],
-                        iconAnchor: [14, 28]
-                    });
+                    const jemputIcon = (typeof window.getPatientPin3DIcon === 'function')
+                        ? window.getPatientPin3DIcon({ size: 32 })
+                        : L.divIcon({
+                            className: 'custom-jemput-icon',
+                            html: `<div style="background:#EF4444; width:28px; height:28px; border-radius:50%; border:2px solid white; box-shadow:0 2px 6px rgba(239,68,68,0.4); display:flex; align-items:center; justify-content:center; color:white; font-size:12px;">📍</div>`,
+                            iconSize: [28, 28],
+                            iconAnchor: [14, 28]
+                        });
 
-                    const rsIcon = L.divIcon({
-                        className: 'custom-rs-icon',
-                        html: `<div style="background:#16A36A; width:34px; height:34px; border-radius:50%; border:2px solid white; box-shadow:0 2px 6px rgba(22,163,106,0.4); display:flex; align-items:center; justify-content:center; color:white; font-size:16px;">🏥</div>`,
-                        iconSize: [34, 34],
-                        iconAnchor: [17, 34]
-                    });
+                    const rsIcon = (typeof window.getHospital3DIcon === 'function')
+                        ? window.getHospital3DIcon({ size: 48 })
+                        : L.divIcon({
+                            className: 'custom-rs-icon',
+                            html: `<div style="background:#16A36A; width:34px; height:34px; border-radius:50%; border:2px solid white; box-shadow:0 2px 6px rgba(22,163,106,0.4); display:flex; align-items:center; justify-content:center; color:white; font-size:16px;">🏥</div>`,
+                            iconSize: [34, 34],
+                            iconAnchor: [17, 34]
+                        });
 
-                    this.ambMarker = L.marker([defaultLat, defaultLng], {
-                        icon: ambIcon,
-                        title: 'Posisi Ambulans'
-                    }).addTo(this.map).bindPopup('<b>Posisi Ambulans</b>');
+                    const destLat = ['membawa_pasien', 'selesai'].includes(this.orderStatus) ? this.rsLat : this.jemputLat;
+                    const destLng = ['membawa_pasien', 'selesai'].includes(this.orderStatus) ? this.rsLng : this.jemputLng;
 
-                    // Pickup Marker: HANYA saat menuju lokasi jemput / diproses
+                    if (typeof window.createLeafletAmbulance3DMarker === 'function') {
+                        this.ambMarker = window.createLeafletAmbulance3DMarker(this.map, defaultLat, defaultLng, {
+                            size: 54,
+                            autoSpin: false,
+                            destLat: destLat,
+                            destLng: destLng
+                        }).bindPopup('<b>Posisi Ambulans Anda (3D Real)</b><br>Menghadap arah perjalanan');
+                    } else {
+                        this.ambMarker = L.marker([defaultLat, defaultLng], {
+                            icon: ambIcon,
+                            title: 'Posisi Ambulans'
+                        }).addTo(this.map).bindPopup('<b>Posisi Ambulans</b>');
+                    }
+
+                    // Pickup Marker 3D: HANYA saat menuju lokasi jemput / diproses
                     if (this.jemputLat && this.jemputLng && !['membawa_pasien', 'selesai'].includes(this.orderStatus)) {
                         this.jemputMarker = L.marker([this.jemputLat, this.jemputLng], {
-                            icon: jemputIcon
-                        }).addTo(this.map).bindPopup('<b>Titik Jemput Pasien</b>');
+                            icon: jemputIcon,
+                            zIndexOffset: 1000
+                        }).addTo(this.map).bindPopup('<b>Titik Jemput Pasien (3D)</b>');
                     }
 
                     // Hospital Marker: HANYA saat membawa pasien / selesai
@@ -604,6 +643,9 @@
                         this.ambLng = newLng;
                         if (this.ambMarker) {
                             this.ambMarker.setLatLng([newLat, newLng]);
+                            if (this.ambMarker.engine3D) {
+                                this.ambMarker.engine3D.updatePosition(newLat, newLng);
+                            }
                         }
                     }
 
@@ -630,6 +672,20 @@
                             distKm = (route.distance / 1000).toFixed(1) + ' km';
                             etaMin = Math.max(1, Math.ceil(route.duration / 60)) + ' Menit';
                             summary = (route.legs && route.legs[0] && route.legs[0].summary) ? route.legs[0].summary : 'Jalan Utama';
+
+                            // Arahkan moncong ambulans 3D persis menyusuri rute jalan OSRM!
+                            if (routeCoords && routeCoords.length >= 2) {
+                                const alignCar = () => {
+                                    if (this.ambMarker && this.ambMarker.engine3D) {
+                                        this.ambMarker.engine3D.setHeadingAlongRoad(
+                                            routeCoords[0][0], routeCoords[0][1],
+                                            routeCoords[1][0], routeCoords[1][1]
+                                        );
+                                    }
+                                };
+                                alignCar();
+                                setTimeout(alignCar, 150);
+                            }
                         }
                     } catch (e) {
                         console.warn('OSRM routing fallback:', e);
@@ -671,14 +727,18 @@
                             this.jemputMarker = null;
                         }
                         if (!this.rsMarker && this.rsLat && this.rsLng) {
-                            this.rsMarker = L.marker([this.rsLat, this.rsLng], {
-                                icon: L.divIcon({
+                            const rsIcon = (typeof window.getHospital3DIcon === 'function')
+                                ? window.getHospital3DIcon({ size: 48 })
+                                : L.divIcon({
                                     className: 'custom-rs-icon',
                                     html: `<div style="background:#16A36A; width:34px; height:34px; border-radius:50%; border:2px solid white; box-shadow:0 2px 6px rgba(22,163,106,0.4); display:flex; align-items:center; justify-content:center; color:white; font-size:16px;">🏥</div>`,
                                     iconSize: [34, 34],
                                     iconAnchor: [17, 34]
-                                })
-                            }).addTo(this.map).bindPopup('<b>Rumah Sakit Rujukan</b>');
+                                });
+                            this.rsMarker = L.marker([this.rsLat, this.rsLng], {
+                                icon: rsIcon,
+                                zIndexOffset: 950
+                            }).addTo(this.map).bindPopup('<b>Rumah Sakit Rujukan 3D</b>');
                         }
 
                         if (this.ambMarker && this.rsMarker) {
@@ -698,14 +758,18 @@
                     }
 
                     if (!this.jemputMarker && this.jemputLat && this.jemputLng) {
-                        this.jemputMarker = L.marker([this.jemputLat, this.jemputLng], {
-                            icon: L.divIcon({
+                        const jemputIcon = (typeof window.getPatientPin3DIcon === 'function')
+                            ? window.getPatientPin3DIcon({ size: 32 })
+                            : L.divIcon({
                                 className: 'custom-jemput-icon',
-                                html: `<div style="background:#0284C7; width:28px; height:28px; border-radius:50%; border:2px solid white; box-shadow:0 2px 6px rgba(2,132,199,0.4); display:flex; align-items:center; justify-content:center; color:white; font-size:12px;">📍</div>`,
+                                html: `<div style="background:#EF4444; width:28px; height:28px; border-radius:50%; border:2px solid white; box-shadow:0 2px 6px rgba(239,68,68,0.4); display:flex; align-items:center; justify-content:center; color:white; font-size:12px;">📍</div>`,
                                 iconSize: [28, 28],
                                 iconAnchor: [14, 28]
-                            })
-                        }).addTo(this.map).bindPopup('<b>Titik Jemput Pasien</b>');
+                            });
+                        this.jemputMarker = L.marker([this.jemputLat, this.jemputLng], {
+                            icon: jemputIcon,
+                            zIndexOffset: 1000
+                        }).addTo(this.map).bindPopup('<b>Titik Jemput Pasien (3D)</b>');
                     }
 
                     if (this.ambMarker && this.jemputMarker) {

@@ -1,49 +1,65 @@
 <div>
 
 
-    <!-- Hero Section -->
-    <section class="relative pt-40 pb-24 sm:pb-32 px-6 lg:px-12 overflow-hidden bg-primary-600" style="background-image: url('{{ asset('images/donation (5).jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
-        <!-- Gradient Overlay: Mix of Cyan and Primary -->
-        <div class="absolute inset-0 bg-gradient-to-r from-primary-700 via-[#009CA6]/85 to-primary-600/75 mix-blend-multiply"></div>
-        <div class="absolute inset-0 bg-gradient-to-r from-primary-700/90 via-[#009CA6]/80 to-primary-800/75"></div>
-        
-        <!-- Gradasi Halus ke Bawah Menuju Section Form -->
-        <div class="absolute inset-x-0 bottom-0 h-32 sm:h-44 bg-gradient-to-t from-slate-50 via-slate-50/50 to-transparent pointer-events-none z-10"></div>
+    <!-- Dedicated Hero Section: Donasi (Sedekah Operasional Kemanusiaan) -->
+    <section class="relative pt-20 overflow-hidden bg-[#002b2f]">
+        <!-- Background Image (Penyaluran Donasi Kemanusiaan - Unik untuk Donasi) -->
+        <div class="absolute inset-0 z-0 bg-cover bg-center"
+             style="background-image: url('{{ asset('images/donation (4).jpg') }}');">
+            <!-- Overlay Transparan untuk Mempertajam Teks (Terang & Jernih) -->
+            <div class="absolute inset-0 bg-black/20"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-black/65 via-black/25 to-transparent"></div>
+        </div>
 
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12 relative z-20">
-            <div class="md:w-1/2 text-white z-10 text-center md:text-left">
-                <span class="inline-flex items-center gap-2 mb-4 sm:mb-6 bg-white/10 backdrop-blur px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full border border-white/20 shadow-xl">
-                    <svg class="w-4 h-4 sm:w-5 sm:h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20"><path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"></path></svg>
-                    <span class="font-bold tracking-wider text-[10px] sm:text-xs uppercase">Program Kemanusiaan & Donasi Operasional</span>
-                </span>
-                <h1 class="text-2xl sm:text-4xl lg:text-6xl font-black leading-tight sm:leading-[1.15] mb-4 sm:mb-6 drop-shadow-lg">
+        <!-- Hero Content -->
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 min-h-[460px] sm:min-h-[500px] lg:min-h-[540px] flex items-center relative z-20 py-14 sm:py-16">
+            <div class="max-w-3xl text-left text-white pr-4 lg:pr-12">
+                <!-- Badge -->
+                <div class="mb-4 sm:mb-5">
+                    <span class="inline-flex items-center gap-2 bg-black/45 backdrop-blur-md text-white border border-white/20 px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-bold tracking-widest uppercase shadow-md">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span>PROGRAM KEMANUSIAAN & DONASI OPERASIONAL 24 JAM</span>
+                    </span>
+                </div>
+
+                <!-- Big Headline -->
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight sm:leading-[1.15] mb-4 text-white drop-shadow-[0_3px_6px_rgba(0,0,0,0.85)] tracking-tight">
                     Bersama Kita Selamatkan Lebih Banyak Nyawa
                 </h1>
-                <p class="text-xs sm:text-base lg:text-lg text-sky-100 mb-6 sm:mb-8 max-w-lg mx-auto md:mx-0 leading-relaxed font-medium">
-                    Ribuan pasien gawat darurat dan keluarga kurang mampu menanti uluran tangan Anda. Donasi Anda menjadi energi operasional Ambulans Siaga 24 Jam.
+
+                <!-- Subtitle -->
+                <p class="text-xs sm:text-base lg:text-lg text-slate-100 mb-8 max-w-2xl leading-relaxed font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                    Ribuan pasien gawat darurat dan keluarga kurang mampu menanti uluran tangan Anda. Donasi dan sedekah Anda menjadi energi kelangsungan operasional armada Ambulans Siaga 24 Jam secara 100% gratis bagi dhuafa.
                 </p>
-                <div class="flex gap-3 sm:gap-4 justify-center md:justify-start">
-                    <button onclick="document.getElementById('form-donasi').scrollIntoView({behavior: 'smooth'})" class="bg-white text-primary-600 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-xs sm:text-base hover:bg-slate-50 transition-all shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:scale-105 flex items-center gap-2">
-                        Donasi Sekarang
-                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-                    </button>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap items-center gap-3 sm:gap-4">
+                    <a href="#form-donasi" 
+                       class="inline-flex items-center justify-center gap-2 border-2 border-white text-white hover:bg-white hover:text-primary-600 px-6 sm:px-8 py-3 sm:py-3.5 rounded-lg font-bold text-xs sm:text-sm uppercase tracking-wider transition-all shadow-[0_4px_15px_rgba(0,0,0,0.4)] hover:shadow-xl active:scale-95 bg-black/25 backdrop-blur-xs">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span>Donasi Sekarang</span>
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+                    </a>
+
+                    <a href="tel:{{ preg_replace('/[^0-9]/', '', $telepon ?? '081234567890') }}" 
+                       class="inline-flex items-center justify-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-5 sm:px-7 py-3 sm:py-3.5 rounded-lg font-bold text-xs sm:text-sm uppercase tracking-wider transition-all shadow-[0_4px_15px_rgba(0,156,166,0.4)] hover:shadow-lg active:scale-95">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                        <span>Hotline: {{ $telepon ?? '0812-3456-7890' }}</span>
+                    </a>
                 </div>
-            </div>
-            <div class="md:w-1/2 relative hidden md:block">
-                <div class="absolute right-0 top-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-white/20 rounded-full blur-3xl"></div>
-                <img src="{{ asset('images/donation (3).jpg') }}" alt="Aksi Nyata Relawan Ambulans Siaga" class="relative z-10 rounded-[3rem] shadow-2xl border-4 border-white/30 hover:-translate-y-2 transition-transform duration-500 object-cover w-full h-[400px]">
             </div>
         </div>
     </section>
 
     <!-- Donation Section (Form & Info) -->
-    <section id="form-donasi" class="py-16 px-6 lg:px-12 bg-slate-50 relative">
+    <section id="form-donasi" class="scroll-mt-20 py-16 px-6 lg:px-12 bg-slate-50 relative">
         <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12 lg:gap-16">
             
             <!-- Left: Donation Form -->
             <div class="lg:w-[55%]">
                 <div class="bg-white rounded-2xl sm:rounded-[2.5rem] shadow-[0_20px_50px_rgb(0,0,0,0.05)] border border-slate-100 p-6 sm:p-8 md:p-12 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-primary-600/5 rounded-bl-full -z-0"></div>
+                    <div class="absolute -top-12 -right-12 w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-gradient-to-br from-primary-600/15 to-primary-600/5 pointer-events-none -z-0"></div>
+                    <div class="absolute -top-6 -right-6 w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-primary-600/10 pointer-events-none -z-0"></div>
                     
                     <h2 class="text-xl sm:text-3xl font-black text-slate-800 mb-1.5 sm:mb-2 relative z-10">Mulai Berdonasi</h2>
                     <p class="text-xs sm:text-base text-slate-500 mb-6 sm:mb-8 font-medium relative z-10">Pilih nominal atau masukkan nominal donasi terbaik Anda.</p>
@@ -133,8 +149,12 @@
             <div class="lg:w-[45%] flex flex-col gap-10">
                 <!-- Usage Cards Section -->
                 <div>
-                    <span class="text-primary-600 font-black tracking-widest text-xs mb-2 block uppercase">Transparansi</span>
-                    <h3 class="text-2xl font-black text-slate-800 mb-6">Donasi Anda Digunakan Untuk:</h3>
+                    <div class="mb-3 sm:mb-4">
+                        <span class="inline-block bg-white text-primary-600 border border-primary-100 shadow-xs font-black tracking-widest text-[10px] sm:text-xs px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full uppercase">
+                            Transparansi
+                        </span>
+                    </div>
+                    <h3 class="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 tracking-tight leading-tight mb-5">Donasi Anda Digunakan Untuk:</h3>
                     
                     <div class="space-y-4">
                         <div class="bg-white p-5 rounded-2xl flex items-start gap-4 border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
@@ -197,15 +217,16 @@
     </section>
 
     <!-- Recent Donors (Dynamic Database) -->
-    <section class="py-16 px-6 lg:px-12 bg-white relative">
+    <section id="daftar-donatur" class="scroll-mt-20 py-16 px-6 lg:px-12 bg-white relative">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-10">
-                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/60 text-emerald-700 text-xs font-bold uppercase tracking-wider mb-3">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    Transparansi & Amanah Donasi
+            <div class="text-center mb-10 sm:mb-12">
+                <div class="mb-3 sm:mb-4">
+                    <span class="inline-block bg-white text-primary-600 border border-primary-100 shadow-xs font-black tracking-widest text-[10px] sm:text-xs px-4 py-1.5 sm:px-5 sm:py-2 rounded-full uppercase">
+                        Transparansi & Amanah Donasi
+                    </span>
                 </div>
-                <h2 class="text-3xl md:text-4xl font-black text-slate-800 mb-3">Terima Kasih Kepada Para Donatur</h2>
-                <p class="text-slate-500 font-medium max-w-2xl mx-auto text-sm sm:text-base">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-tight mb-3">Terima Kasih Kepada Para Donatur</h2>
+                <p class="text-slate-500 font-medium max-w-2xl mx-auto text-xs sm:text-base leading-relaxed">
                     Jazakumullah Khairan Katsiran atas kebaikan Anda. Total terkumpul <strong class="text-primary-600 font-black">Rp {{ number_format($totalDonasi, 0, ',', '.') }}</strong> dari <strong class="text-slate-700">{{ $totalDonaturCount }} Orang Baik</strong> untuk operasional ambulans siaga gratis.
                 </p>
             </div>
@@ -430,7 +451,7 @@
             <div class="text-center mt-8">
                 <button wire:click="toggleAllDonaturModal" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-slate-100 hover:bg-primary-50 text-slate-700 hover:text-primary-700 font-bold text-sm transition-all duration-200 border border-slate-200">
                     <svg class="w-4 h-4 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                    Lihat Semua Donatur ({{ $totalDonaturCount }})
+                    Lihat Semua Donatur
                 </button>
             </div>
         </div>
@@ -480,7 +501,7 @@
     </section>
 
     <!-- Bottom CTA Redesign (Gallery & Video Dokumentasi Kegiatan) -->
-    <section class="relative py-24 px-6 lg:px-12 bg-white overflow-hidden">
+    <section class="relative py-12 sm:py-16 px-4 sm:px-6 lg:px-12 bg-white overflow-hidden">
         
         <!-- Soft Blue Gradient Background -->
         <div class="absolute inset-0 bg-gradient-to-b from-sky-50/40 via-white to-white pointer-events-none"></div>
@@ -563,32 +584,34 @@
                 }
             ]
         }">
-            <div class="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
+            <div class="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
                 
                 <!-- Left Column (Text & CTA) -->
-                <div class="w-full lg:w-[40%] flex flex-col justify-center text-center lg:text-left">
-                    <span class="inline-flex items-center gap-2 mb-4 bg-primary-50 text-primary-700 px-4 py-1.5 rounded-full border border-primary-200 text-xs font-bold uppercase tracking-wider w-fit mx-auto lg:mx-0">
-                        <svg class="w-3.5 h-3.5 text-primary-600" fill="currentColor" viewBox="0 0 20 20"><path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"/></svg>
-                        Dokumentasi Aksi Nyata & Video
-                    </span>
-                    <h2 class="text-3xl md:text-4xl lg:text-[2.5rem] font-black text-slate-800 leading-[1.3] mb-8">
+                <div class="w-full lg:w-[42%] flex flex-col justify-center text-center lg:text-left">
+                    <div class="mb-3 sm:mb-4">
+                        <span class="inline-flex items-center gap-2 bg-white text-primary-600 border border-primary-100 shadow-sm font-black tracking-widest text-[10px] sm:text-xs px-4 py-1.5 sm:px-5 sm:py-2 rounded-full uppercase w-fit mx-auto lg:mx-0">
+                            <svg class="w-3.5 h-3.5 text-primary-600" fill="currentColor" viewBox="0 0 20 20"><path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"/></svg>
+                            Dokumentasi Aksi Nyata & Video
+                        </span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl lg:text-[2.2rem] font-black text-slate-900 tracking-tight leading-tight sm:leading-snug mb-4 sm:mb-6">
                         Satu aksi kebaikan Anda hari ini, bisa jadi adalah jawaban atas doa mereka yang sedang dalam kesulitan darurat medis.
                     </h2>
-                    <div class="w-20 h-1.5 bg-primary-600 rounded-full mb-10 mx-auto lg:mx-0"></div>
+                    <div class="w-14 sm:w-16 h-1 bg-primary-600 rounded-full mb-6 sm:mb-8 mx-auto lg:mx-0"></div>
                     <div class="flex justify-center lg:justify-start">
-                        <button onclick="document.getElementById('form-donasi').scrollIntoView({behavior: 'smooth'})" class="bg-primary-600 text-white px-10 py-5 rounded-full font-bold text-lg hover:bg-primary-700 transition-all duration-300 shadow-[0_10px_25px_rgba(0,156,166,0.3)] hover:shadow-[0_15px_35px_rgba(0,156,166,0.4)] hover:-translate-y-1.5 flex items-center gap-3 w-fit group">
-                            Donasi Sekarang
-                            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        <button onclick="document.getElementById('form-donasi').scrollIntoView({behavior: 'smooth'})" class="bg-primary-600 hover:bg-primary-700 text-white px-7 sm:px-8 py-3.5 sm:py-4 rounded-xl font-black text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 shadow-lg shadow-primary-600/25 hover:shadow-xl hover:shadow-primary-600/35 hover:-translate-y-1 active:scale-95 flex items-center gap-2.5 w-fit group cursor-pointer">
+                            <span>Donasi Sekarang</span>
+                            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                         </button>
                     </div>
                 </div>
 
                 <!-- Right Column (Interactive Gallery with Video & Photos) -->
-                <div class="w-full lg:w-[60%]">
-                    <div class="bg-white/90 backdrop-blur-sm rounded-[2rem] p-5 sm:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.04)] border border-slate-100">
+                <div class="w-full lg:w-[58%]">
+                    <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl shadow-slate-200/50 border border-slate-200/80">
                         
                         <!-- Main Media Container -->
-                        <div class="relative w-full aspect-video rounded-[1.5rem] overflow-hidden mb-6 bg-slate-900 shadow-inner group">
+                        <div class="relative w-full aspect-video rounded-xl sm:rounded-2xl overflow-hidden mb-4 sm:mb-5 bg-slate-900 shadow-inner group">
                             <template x-for="(item, index) in media" :key="index">
                                 <div x-show="activeMedia === index" 
                                      x-transition:enter="transition ease-out duration-300" 
@@ -610,30 +633,29 @@
                         </div>
 
                         <!-- Caption & Badge -->
-                        <div class="mb-6 px-2 min-h-[4.5rem]">
-                            <div class="flex items-center gap-2 mb-2">
-                                <span class="px-2.5 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider"
-                                      :class="media[activeMedia].type === 'video' ? 'bg-amber-100 text-amber-800' : 'bg-primary-100 text-primary-800'"
+                        <div class="mb-4 px-1 min-h-[3.6rem] sm:min-h-[4rem]">
+                            <div class="flex items-center gap-2 mb-1.5">
+                                <span class="px-2.5 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-primary-100 text-primary-800"
                                       x-text="media[activeMedia].badge"></span>
-                                <h3 class="text-lg sm:text-xl font-bold text-slate-800" x-text="media[activeMedia].title"></h3>
+                                <h3 class="text-base sm:text-lg font-bold text-slate-800 line-clamp-1" x-text="media[activeMedia].title"></h3>
                             </div>
-                            <p class="text-slate-500 leading-relaxed text-xs sm:text-sm" x-text="media[activeMedia].desc"></p>
+                            <p class="text-slate-500 leading-relaxed text-xs sm:text-sm line-clamp-2" x-text="media[activeMedia].desc"></p>
                         </div>
 
                         <!-- Thumbnails (With Video Play Indicator) -->
-                        <div class="flex gap-3 sm:gap-4 overflow-x-auto pb-4 pt-2 px-1 custom-scrollbar snap-x">
+                        <div class="flex gap-2.5 sm:gap-3 overflow-x-auto pb-2 pt-1 px-1 custom-scrollbar snap-x">
                             <template x-for="(item, index) in media" :key="index">
                                 <div @click="activeMedia = index" 
-                                     class="relative w-20 sm:w-24 md:w-28 aspect-video rounded-xl overflow-hidden cursor-pointer shrink-0 snap-center border-[3px] transition-all duration-300 group/thumb hover:-translate-y-1 hover:scale-[1.05] shadow-xs"
-                                     :class="activeMedia === index ? 'border-primary-600 shadow-[0_6px_16px_rgba(0,156,166,0.35)] scale-[1.05] z-10' : 'border-slate-200/80 opacity-75 hover:opacity-100 hover:border-primary-400'">
+                                     class="relative w-16 sm:w-20 md:w-24 aspect-video rounded-lg sm:rounded-xl overflow-hidden cursor-pointer shrink-0 snap-center border-2 transition-all duration-300 group/thumb hover:-translate-y-0.5 shadow-2xs"
+                                     :class="activeMedia === index ? 'border-primary-600 ring-2 ring-primary-500/30 scale-[1.03] z-10' : 'border-slate-200/80 opacity-75 hover:opacity-100 hover:border-primary-400'">
                                     
                                     <img :src="item.thumb" :alt="item.title" class="w-full h-full object-cover transition-transform duration-500" :class="activeMedia === index ? 'scale-105' : 'group-hover/thumb:scale-110'">
                                     
                                     <!-- Video Play Icon Badge on Thumbnail -->
                                     <template x-if="item.type === 'video'">
                                         <div class="absolute inset-0 bg-black/35 flex items-center justify-center">
-                                            <div class="w-6 h-6 rounded-full bg-amber-400 text-slate-900 flex items-center justify-center shadow-md">
-                                                <svg class="w-3.5 h-3.5 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                            <div class="w-5 h-5 rounded-full bg-amber-400 text-slate-900 flex items-center justify-center shadow-md">
+                                                <svg class="w-3 h-3 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                                             </div>
                                         </div>
                                     </template>
@@ -652,32 +674,33 @@
     </section>
 
     <!-- Testimonials & Interactive Feedback Section (Di Paling Bawah Setelah Dokumentasi) -->
-    <section class="py-20 px-6 lg:px-12 bg-slate-50 border-t border-slate-200/80">
+    <section class="py-12 sm:py-16 px-4 sm:px-6 lg:px-12 bg-slate-50 border-t border-slate-200/80">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center max-w-3xl mx-auto mb-12">
-                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold uppercase tracking-wider mb-3">
-                    <svg class="w-4 h-4 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                    Rating Kepuasan {{ $averageRating }} / 5.0 ({{ $totalRatingCount }} Ulasan)
+            <div class="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
+                <div class="mb-3 sm:mb-4">
+                    <span class="inline-block bg-white text-primary-600 border border-primary-100 shadow-xs font-black tracking-widest text-[10px] sm:text-xs px-4 py-1.5 sm:px-5 sm:py-2 rounded-full uppercase">
+                        Rating & Testimoni
+                    </span>
                 </div>
-                <h2 class="text-3xl md:text-4xl font-black text-slate-800 mb-3">Apa Kata Mereka?</h2>
-                <p class="text-slate-500 font-medium text-sm sm:text-base">Pengalaman nyata masyarakat, keluarga pasien, dan donatur terhadap layanan Ambulans Siaga.</p>
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-tight mb-2.5 sm:mb-3">Apa Kata Mereka?</h2>
+                <p class="text-slate-500 font-medium text-xs sm:text-sm md:text-base max-w-2xl mx-auto leading-relaxed">Pengalaman nyata masyarakat, keluarga pasien, dan donatur terhadap layanan Ambulans Siaga.</p>
             </div>
             
             <!-- ================= DESKTOP VIEW: 3 CARDS GRID (hidden md:grid) ================= -->
-            <div class="hidden md:grid md:grid-cols-3 gap-6 mb-8">
+            <div class="hidden md:grid md:grid-cols-3 gap-5 mb-6 sm:mb-8">
                 @forelse($testimoniList as $t)
-                <div class="bg-white p-6 sm:p-7 rounded-[2rem] shadow-sm border border-slate-200/80 hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
+                <div class="bg-white p-5 sm:p-6 rounded-2xl shadow-xs border border-slate-200/80 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between">
                     <div>
-                        <div class="flex text-yellow-400 mb-4 items-center gap-1">
+                        <div class="flex text-amber-400 mb-3 items-center gap-1">
                             @for($s = 1; $s <= ($t->skor ?: 5); $s++)
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                             @endfor
                         </div>
-                        <p class="text-slate-600 text-sm leading-relaxed mb-6 font-medium">"{!! e($t->ulasan) !!}"</p>
+                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4 font-medium italic">"{!! e($t->ulasan) !!}"</p>
                     </div>
-                    <div class="pt-4 border-t border-slate-100">
-                        <p class="font-extrabold text-slate-800 text-sm">- {{ $t->nama_tampil }}</p>
-                        <p class="text-xs text-primary-600 font-semibold mt-0.5">{{ $t->peran_tampil }}</p>
+                    <div class="pt-3.5 border-t border-slate-100">
+                        <p class="font-extrabold text-slate-800 text-xs sm:text-sm">- {{ $t->nama_tampil }}</p>
+                        <p class="text-[11px] sm:text-xs text-primary-600 font-semibold mt-0.5">{{ $t->peran_tampil }}</p>
                     </div>
                 </div>
                 @empty
@@ -688,7 +711,7 @@
             </div>
 
             <!-- ================= MOBILE VIEW: 1 CARD PERIODIC AUTO-SLIDER (md:hidden) ================= -->
-            <div class="md:hidden mb-8 relative"
+            <div class="md:hidden mb-6 relative"
                  x-data="{
                      current: 0,
                      total: {{ count($testimoniList) }},
@@ -718,19 +741,19 @@
                  @touchstart="paused = true; touchStartX = $event.changedTouches[0].screenX"
                  @touchend="paused = false; touchEndX = $event.changedTouches[0].screenX; if (touchStartX - touchEndX > 40) next(); if (touchEndX - touchStartX > 40) prev();">
                  
-                <div class="relative overflow-hidden rounded-[2rem] shadow-sm">
+                <div class="relative overflow-hidden rounded-2xl shadow-xs">
                     <div class="flex transition-transform duration-500 ease-out"
                          :style="'transform: translateX(-' + (current * 100) + '%)'">
                         @forelse($testimoniList as $t)
                         <div class="w-full flex-shrink-0">
-                            <div class="bg-white p-6 sm:p-7 rounded-[2rem] shadow-sm border border-slate-200/80 flex flex-col justify-between min-h-[220px]">
+                            <div class="bg-white p-5 rounded-2xl shadow-xs border border-slate-200/80 flex flex-col justify-between min-h-[160px] sm:min-h-[175px]">
                                 <div>
-                                    <div class="flex text-yellow-400 mb-3 items-center gap-1">
+                                    <div class="flex text-amber-400 mb-2.5 items-center gap-1">
                                         @for($s = 1; $s <= ($t->skor ?: 5); $s++)
                                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                                         @endfor
                                     </div>
-                                    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-5 font-medium">"{!! e($t->ulasan) !!}"</p>
+                                    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4 font-medium italic">"{!! e($t->ulasan) !!}"</p>
                                 </div>
                                 <div class="pt-3 border-t border-slate-100">
                                     <p class="font-extrabold text-slate-800 text-xs sm:text-sm">- {{ $t->nama_tampil }}</p>
@@ -770,37 +793,41 @@
             </div>
 
             <!-- Tombol Lihat Semua Ulasan -->
-            <div class="text-center mb-16">
-                <button wire:click="toggleAllReviewModal" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white hover:bg-primary-50 text-slate-700 hover:text-primary-700 font-bold text-sm transition-all duration-200 border border-slate-200 shadow-xs">
+            <div class="text-center mb-10 sm:mb-12">
+                <button wire:click="toggleAllReviewModal" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white hover:bg-primary-50 text-slate-700 hover:text-primary-700 font-bold text-sm transition-all duration-200 border border-slate-200 active:scale-95 cursor-pointer">
                     <svg class="w-4 h-4 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                    Lihat Semua Ulasan ({{ $totalRatingCount }})
+                    <span>Lihat Semua Ulasan</span>
                 </button>
             </div>
 
             <!-- Interaktif: Form Kirim Pesan Kebaikan & Umpan Balik Layanan -->
-            <div class="max-w-3xl mx-auto bg-white rounded-[2.5rem] p-6 sm:p-10 shadow-xl border border-slate-200/80 relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-36 h-36 bg-gradient-to-bl from-primary-600/10 via-teal-500/5 to-transparent rounded-bl-full pointer-events-none"></div>
+            <div class="max-w-2xl mx-auto bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-xl shadow-slate-200/60 border border-slate-200/80 relative overflow-hidden">
+                <div class="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-gradient-to-br from-primary-600/10 to-teal-500/5 pointer-events-none"></div>
 
-                <div class="text-center mb-8">
-                    <span class="text-primary-600 font-extrabold text-xs uppercase tracking-wider block mb-1">Umpan Balik Publik</span>
-                    <h3 class="text-2xl sm:text-3xl font-black text-slate-800">Kirimkan Doa, Pesan Kebaikan, atau Ulasan Layanan</h3>
-                    <p class="text-slate-500 text-xs sm:text-sm mt-1 max-w-lg mx-auto">Pesan Anda akan tampil di halaman ini dan memberikan semangat bagi para pejuang kemanusiaan.</p>
+                <div class="text-center mb-6">
+                    <div class="mb-3">
+                        <span class="inline-block bg-sky-50 text-primary-600 border border-primary-200/80 shadow-xs font-black tracking-widest text-[10px] sm:text-xs px-3.5 py-1.5 rounded-full uppercase">
+                            Umpan Balik Publik
+                        </span>
+                    </div>
+                    <h3 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight leading-tight">Kirimkan Doa, Pesan Kebaikan, atau Ulasan Layanan</h3>
+                    <p class="text-slate-500 text-xs sm:text-sm mt-2 max-w-md mx-auto leading-relaxed">Pesan Anda akan tampil di halaman ini dan memberikan semangat bagi para pejuang kemanusiaan.</p>
                 </div>
 
                 @if($feedbackSuccessMessage)
-                <div class="mb-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-bold flex items-center gap-3 shadow-xs"
+                <div class="mb-5 p-3.5 sm:p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs sm:text-sm font-bold flex items-center gap-3 shadow-xs"
                      x-data="{ show: true }" x-show="show" x-transition>
-                    <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                    <div class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
                     </div>
                     <span class="flex-1">{{ $feedbackSuccessMessage }}</span>
                 </div>
                 @endif
 
-                <form wire:submit.prevent="kirimUmpanBalik" class="space-y-6">
+                <form wire:submit.prevent="kirimUmpanBalik" class="space-y-4 sm:space-y-5">
                     
                     <!-- Rating Star Picker Section (Center Box) -->
-                    <div class="bg-gradient-to-b from-slate-50 to-amber-50/30 rounded-2xl p-5 sm:p-6 border border-slate-200/70 text-center"
+                    <div class="bg-gradient-to-b from-slate-50 to-amber-50/20 rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-slate-200/70 text-center"
                          x-data="{ 
                              hoverRating: 0,
                              ratingLabels: {
@@ -811,19 +838,19 @@
                                  5: 'Sangat Puas & Luar Biasa (5/5)'
                              }
                          }">
-                        <label class="block text-xs sm:text-sm font-extrabold text-slate-700 uppercase tracking-wider mb-2">
+                        <label class="block text-[11px] sm:text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-1.5">
                             Beri Rating Penilaian <span class="text-red-500">*</span>
                         </label>
                         
                         <!-- 5 Interactive Stars -->
-                        <div class="flex items-center justify-center gap-2 sm:gap-3 my-2" @mouseleave="hoverRating = 0">
+                        <div class="flex items-center justify-center gap-1.5 sm:gap-2.5 my-1.5" @mouseleave="hoverRating = 0">
                             @for($i = 1; $i <= 5; $i++)
                                 <button type="button" 
                                         @mouseenter="hoverRating = {{ $i }}"
                                         wire:click="$set('feedbackSkor', {{ $i }})"
-                                        class="p-1 rounded-xl transition-all duration-200 transform hover:scale-125 focus:outline-none group active:scale-95 cursor-pointer"
+                                        class="p-1 rounded-lg transition-all duration-200 transform hover:scale-125 focus:outline-none group active:scale-95 cursor-pointer"
                                         aria-label="Beri rating {{ $i }} bintang">
-                                    <svg class="w-8 h-8 sm:w-10 sm:h-10 transition-colors duration-200 filter drop-shadow-xs"
+                                    <svg class="w-7 h-7 sm:w-8 sm:h-8 transition-colors duration-200 filter drop-shadow-xs"
                                          :class="(hoverRating ? hoverRating >= {{ $i }} : {{ $feedbackSkor }} >= {{ $i }}) ? 'text-amber-400 fill-amber-400' : 'text-slate-200 fill-slate-200'"
                                          viewBox="0 0 24 24">
                                         <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
@@ -833,24 +860,24 @@
                         </div>
 
                         <!-- Dynamic Label Text -->
-                        <p class="text-xs sm:text-sm font-bold text-amber-800 transition-all min-h-[20px] mt-1"
+                        <p class="text-xs sm:text-sm font-bold text-amber-800 transition-all min-h-[18px] mt-1"
                            x-text="ratingLabels[hoverRating || {{ $feedbackSkor }}]">
                         </p>
                     </div>
 
                     <!-- Input Grid: Nama & Peran -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Nama Lengkap / Inisial <span class="text-red-500">*</span></label>
-                            <input type="text" wire:model="feedbackNama" placeholder="Contoh: Bapak Hendra / Hamba Allah" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20 text-sm transition bg-white">
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Nama Lengkap / Inisial <span class="text-red-500">*</span></label>
+                            <input type="text" wire:model="feedbackNama" placeholder="Contoh: Bapak Hendra / Hamba Allah" class="w-full px-3.5 py-2.5 sm:py-3 rounded-xl border border-slate-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20 text-xs sm:text-sm transition bg-white">
                             @error('feedbackNama') <span class="text-xs text-red-500 font-semibold block mt-1">{{ $message }}</span> @enderror
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Status / Peran <span class="text-red-500">*</span></label>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Status / Peran <span class="text-red-500">*</span></label>
                             <div class="relative" x-data="{ open: false }">
                                 <button type="button" @click="open = !open" @click.outside="open = false"
-                                        class="w-full flex items-center justify-between px-4 py-3 rounded-xl border border-slate-200 bg-white text-sm font-semibold text-slate-800 shadow-xs hover:border-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-600/20 transition-all cursor-pointer">
+                                        class="w-full flex items-center justify-between px-3.5 py-2.5 sm:py-3 rounded-xl border border-slate-200 bg-white text-xs sm:text-sm font-semibold text-slate-800 shadow-2xs hover:border-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-600/20 transition-all cursor-pointer">
                                     <span class="truncate">{{ $feedbackPeran ?? 'Pilih Status / Peran' }}</span>
                                     <svg class="w-4 h-4 text-slate-400 ml-2 flex-shrink-0 transition-transform duration-200" :class="open ? 'rotate-180 text-primary-600' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                                 </button>
@@ -885,21 +912,21 @@
 
                     <!-- Kota / Domisili -->
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1.5">Kota / Domisili <span class="text-slate-400 font-normal">(Opsional)</span></label>
-                        <input type="text" wire:model="feedbackLokasi" placeholder="Contoh: Cilacap, Jawa Tengah" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20 text-sm transition bg-white">
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Kota / Domisili <span class="text-slate-400 font-normal">(Opsional)</span></label>
+                        <input type="text" wire:model="feedbackLokasi" placeholder="Contoh: Cilacap, Jawa Tengah" class="w-full px-3.5 py-2.5 sm:py-3 rounded-xl border border-slate-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20 text-xs sm:text-sm transition bg-white">
                     </div>
 
                     <!-- Pesan Testimoni / Doa Kebaikan -->
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1.5">Pesan Testimoni / Doa Kebaikan <span class="text-red-500">*</span></label>
-                        <textarea wire:model="feedbackPesan" rows="3" placeholder="Tuliskan apresiasi, pengalaman layanan ambulans, atau doa untuk para relawan..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20 text-sm transition bg-white leading-relaxed"></textarea>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Pesan Testimoni / Doa Kebaikan <span class="text-red-500">*</span></label>
+                        <textarea wire:model="feedbackPesan" rows="3" placeholder="Tuliskan apresiasi, pengalaman layanan ambulans, atau doa untuk para relawan..." class="w-full px-3.5 py-2.5 sm:py-3 rounded-xl border border-slate-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20 text-xs sm:text-sm transition bg-white leading-relaxed"></textarea>
                         @error('feedbackPesan') <span class="text-xs text-red-500 font-semibold block mt-1">{{ $message }}</span> @enderror
                     </div>
 
                     <!-- Submit Button -->
-                    <div class="text-center pt-2">
+                    <div class="text-center pt-1">
                         <button type="submit" 
-                                class="inline-flex items-center justify-center bg-primary-600 text-white px-8 py-3.5 rounded-full font-bold text-sm hover:bg-primary-700 active:scale-95 transition-all shadow-lg hover:shadow-xl shadow-primary-600/30 w-full sm:w-auto cursor-pointer">
+                                class="inline-flex items-center justify-center bg-primary-600 hover:bg-primary-700 text-white px-7 sm:px-8 py-3 sm:py-3.5 rounded-full font-black text-xs sm:text-sm uppercase tracking-wider active:scale-95 transition-all shadow-md hover:shadow-lg shadow-primary-600/25 w-full sm:w-auto cursor-pointer">
                             <span>Kirim Ulasan & Pesan</span>
                         </button>
                     </div>

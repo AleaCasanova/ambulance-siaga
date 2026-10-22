@@ -1,44 +1,92 @@
-<div>
-    <div class="absolute top-0 left-0 w-full h-96 bg-primary-700 -z-10 overflow-hidden" style="background-image: url('{{ asset('images/beranda_utama_bg.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
-        <div class="absolute inset-0 bg-primary-700 mix-blend-multiply opacity-50"></div>
-        <div class="absolute inset-0 bg-gradient-to-b from-primary-600/90 to-primary-800/90"></div>
-    </div>
+<div class="bg-slate-50 min-h-screen">
+    <!-- Dedicated Hero Section: Pemesanan Ambulans Darurat -->
+    <section class="relative pt-20 overflow-hidden bg-[#002b2f]">
+        <!-- Background Image (Evakuasi Pasien & Respon Cepat Medis) -->
+        <div class="absolute inset-0 z-0 bg-cover bg-center"
+             style="background-image: url('{{ asset('images/beranda_utama_bg.jpg') }}');">
+            <!-- Overlay Transparan untuk Mempertajam Teks (Terang & Jernih) -->
+            <div class="absolute inset-0 bg-black/20"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-black/65 via-black/25 to-transparent"></div>
+        </div>
 
-    <main class="pt-32 pb-24 px-6 lg:px-12 max-w-7xl mx-auto min-h-screen">
-        <!-- Header Page -->
-    <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div class="flex items-center gap-4">
-            <div class="hidden sm:flex w-20 h-20 rounded-full bg-white p-2 items-center justify-center shadow-lg border-2 border-primary-100/80 flex-shrink-0 overflow-hidden">
-                <img src="{{ asset('images/logo_ambulansiaga.png') }}" alt="Logo Ambulans Siaga" class="w-full h-full object-contain">
+        <!-- Hero Content -->
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 min-h-[460px] sm:min-h-[500px] lg:min-h-[540px] flex items-center relative z-20 py-14 sm:py-16">
+            <div class="max-w-3xl text-left text-white pr-4 lg:pr-12">
+                <!-- Badge -->
+                <div class="mb-4 sm:mb-5">
+                    <span class="inline-flex items-center gap-2 bg-black/45 backdrop-blur-md text-white border border-white/20 px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-bold tracking-widest uppercase shadow-md">
+                        <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                        <span>LAYANAN DARURAT 24 JAM • BEBAS BIAYA</span>
+                    </span>
+                </div>
+
+                <!-- Big Headline -->
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight sm:leading-[1.15] mb-4 text-white drop-shadow-[0_3px_6px_rgba(0,0,0,0.85)] tracking-tight">
+                    Pesan Ambulans Darurat Cepat & Profesional
+                </h1>
+
+                <!-- Subtitle -->
+                <p class="text-xs sm:text-base lg:text-lg text-slate-100 mb-8 max-w-2xl leading-relaxed font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                    Layanan pemesanan ambulans gawat darurat dan evakuasi medis terintegrasi 24 jam untuk rujukan rumah sakit, pertolongan pertama, dan penjemputan pasien secara 100% gratis.
+                </p>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap items-center gap-3 sm:gap-4">
+                    <a href="#form-pemesanan" 
+                       class="inline-flex items-center justify-center gap-2 border-2 border-white text-white hover:bg-white hover:text-primary-600 px-6 sm:px-8 py-3 sm:py-3.5 rounded-lg font-bold text-xs sm:text-sm uppercase tracking-wider transition-all shadow-[0_4px_15px_rgba(0,0,0,0.4)] hover:shadow-xl active:scale-95 bg-black/25 backdrop-blur-xs">
+                        <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+                        <span>Isi Formulir Pemesanan</span>
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+                    </a>
+
+                    <a href="tel:{{ str_replace('-', '', $telepon ?? '081234567890') }}" 
+                       class="inline-flex items-center justify-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-5 sm:px-7 py-3 sm:py-3.5 rounded-lg font-bold text-xs sm:text-sm uppercase tracking-wider transition-all shadow-[0_4px_15px_rgba(0,156,166,0.4)] hover:shadow-lg active:scale-95">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                        <span>Hotline: {{ $telepon ?? '0812-3456-7890' }}</span>
+                    </a>
+                </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Main Content: Form & Map Section -->
+    <main id="form-pemesanan" class="scroll-mt-20 py-12 sm:py-16 px-4 sm:px-6 lg:px-12 max-w-7xl mx-auto min-h-screen relative">
+        <!-- Section Header -->
+        <div class="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200/80 pb-6">
             <div>
-                <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-white/20 text-white uppercase tracking-wider mb-2 backdrop-blur-sm">
-                    <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
-                    Siaga Darurat 24 Jam • Ambulans Siaga
+                <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-black bg-white text-primary-600 border border-primary-100 shadow-2xs uppercase tracking-wider mb-2">
+                    <span class="w-2 h-2 rounded-full bg-primary-500 animate-ping"></span>
+                    Formulir Kedaruratan & Peta Digital
                 </span>
-                <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Pesan Ambulans Darurat</h1>
-                <p class="text-primary-100 text-sm mt-1">Lengkapi form atau klik langsung pada Peta Interaktif untuk menentukan lokasi penjemputan.</p>
+                <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Formulir Pemesanan Ambulans</h2>
+                <p class="text-slate-500 text-xs sm:text-sm mt-1 max-w-xl font-medium">Lengkapi form atau klik langsung pada Peta Interaktif untuk menentukan lokasi penjemputan secara presisi.</p>
+            </div>
+
+            <div class="flex items-center gap-2 self-start sm:self-auto">
+                <span class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white text-primary-700 text-xs font-black border border-primary-100 shadow-2xs">
+                    <svg class="w-4 h-4 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                    Layanan 100% Bebas Biaya
+                </span>
             </div>
         </div>
 
-        <a href="{{ route('masyarakat.info') }}"
-           class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 border border-white/20 text-white text-sm font-semibold hover:bg-white hover:text-primary-600 transition-colors shadow-xs backdrop-blur-sm">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-            <span>Panduan Ambulans Siaga</span>
-        </a>
-    </div>
-
-    <!-- Main Grid: Form (Left) & Leaflet Map (Right) -->
+        <!-- Main Grid: Form (Left) & Leaflet Map (Right) -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8"
          x-data="orderMapComponent(
              {{ $jemput_lat }}, 
              {{ $jemput_lng }}, 
-             {{ json_encode($rumahSakits->keyBy('id')->map(fn($rs) => ['id' => $rs->id, 'nama' => $rs->nama, 'lat' => (float)$rs->lat, 'lng' => (float)$rs->lng])) }},
+             {{ json_encode($rumahSakits->keyBy('id')->map(fn($rs) => [
+                 'id' => $rs->id, 
+                 'nama' => $rs->nama, 
+                 'alamat' => $rs->alamat,
+                 'telepon' => $rs->telepon,
+                 'kapasitas_igd' => $rs->kapasitas_igd,
+                 'lat' => (float)$rs->lat, 
+                 'lng' => (float)$rs->lng
+             ])) }},
              {{ $rumah_sakit_id ? (int)$rumah_sakit_id : 'null' }}
          )"
-         x-init="initMap(); $watch('$wire.rumah_sakit_id', (val) => updateHospitalMarker(val))">
+         x-init="initMap(); $watch('$wire.rumah_sakit_id', (val) => { selectedRsId = val ? parseInt(val) : null; updateHospitalMarker(selectedRsId); })">
 
         <!-- Left Column: Form Pemesanan -->
         <div class="lg:col-span-6 bg-white/95 backdrop-blur-md rounded-3xl border border-white/60 p-6 sm:p-8 shadow-2xl shadow-slate-200/50 relative overflow-hidden">
@@ -163,21 +211,160 @@
                     </div>
                 </div>
 
-                <!-- Pilih Rumah Sakit Rujukan (Opsional) -->
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1.5">
-                        Pilih Rumah Sakit Rujukan (Opsional)
-                    </label>
-                    <select wire:model.live="rumah_sakit_id"
-                            @change="updateHospitalMarker($event.target.value)"
-                            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-primary-600 focus:ring-4 focus:ring-primary-600/10 text-sm font-medium transition-all">
-                        <option value="">-- Pilih RS Rujukan (Atau Biarkan Operator Menentukan) --</option>
-                        @foreach($rumahSakits as $rs)
-                            <option value="{{ $rs->id }}" data-lat="{{ $rs->lat }}" data-lng="{{ $rs->lng }}" data-nama="{{ $rs->nama }}">
-                                {{ $rs->nama }} - {{ $rs->kapasitas_igd }}
-                            </option>
-                        @endforeach
-                    </select>
+                <!-- Pilih Rumah Sakit Rujukan & Rekomendasi Terdekat -->
+                <div class="space-y-1.5" @click.outside="dropdownOpen = false">
+                    <!-- Hidden field to sync with Livewire form submission -->
+                    <input type="hidden" wire:model="rumah_sakit_id" :value="selectedRsId">
+
+                    <!-- Header Label & Quick Action -->
+                    <div class="flex items-center justify-between text-xs">
+                        <label class="font-bold text-slate-700">
+                            Pilih Rumah Sakit Rujukan <span class="text-slate-400 font-normal">(Opsional)</span>
+                        </label>
+                        
+                        <!-- Quick 'Pilih Terdekat' shortcut -->
+                        <template x-if="nearestHospital && selectedRsId !== nearestHospital.id">
+                            <button type="button" 
+                                    @click="chooseNearest()"
+                                    class="text-primary-600 hover:text-primary-700 font-medium flex items-center gap-1 hover:underline cursor-pointer transition-colors">
+                                <span>Terdekat:</span>
+                                <span class="font-semibold" x-text="nearestHospital.nama.length > 22 ? nearestHospital.nama.substring(0, 20) + '...' : nearestHospital.nama"></span>
+                                <span class="text-slate-400 font-mono text-[11px]" x-text="'(' + nearestHospital.distanceText + ')'"></span>
+                            </button>
+                        </template>
+                        <template x-if="nearestHospital && selectedRsId === nearestHospital.id">
+                            <span class="text-emerald-600 font-medium flex items-center gap-1 text-[11px]">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                Terdekat terpilih
+                            </span>
+                        </template>
+                    </div>
+
+                    <!-- Unified Combobox Trigger & Input -->
+                    <div class="relative">
+                        
+                        <!-- STATE 1: Display Selected RS (when not actively searching) -->
+                        <div x-show="selectedHospital && !dropdownOpen"
+                             @click="dropdownOpen = true; hospitalSearch = ''; $nextTick(() => $refs.hospitalSearchInput?.focus())"
+                             class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white hover:border-slate-300 flex items-center justify-between gap-3 cursor-pointer transition-all shadow-2xs">
+                            <div class="flex items-center gap-2.5 min-w-0">
+                                <svg class="w-4 h-4 text-primary-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                                </svg>
+                                <span class="text-sm font-semibold text-slate-800 truncate" x-text="selectedHospital ? selectedHospital.nama : ''"></span>
+                                <span class="text-xs font-mono text-slate-400 shrink-0" x-text="selectedHospital ? formatDistance(calculateDistance(lat, lng, selectedHospital.lat, selectedHospital.lng)) : ''"></span>
+                            </div>
+
+                            <div class="flex items-center gap-1 shrink-0">
+                                <button type="button"
+                                        @click.stop="clearHospital()"
+                                        title="Batal pilih RS"
+                                        class="p-1 rounded-md text-slate-400 hover:text-red-500 hover:bg-slate-200/60 transition-colors">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                </button>
+                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- STATE 2: Search Input Field (when searching or no RS selected) -->
+                        <div x-show="!selectedHospital || dropdownOpen" class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                            </div>
+                            
+                            <input type="text"
+                                   x-ref="hospitalSearchInput"
+                                   x-model="hospitalSearch"
+                                   @focus="dropdownOpen = true"
+                                   @click="dropdownOpen = true"
+                                   placeholder="Cari nama rumah sakit, puskesmas, atau biarkan kosong..."
+                                   class="w-full pl-10 pr-12 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-primary-600 focus:ring-4 focus:ring-primary-600/10 text-sm font-medium transition-all shadow-2xs">
+
+                            <div class="absolute inset-y-0 right-0 pr-2.5 flex items-center gap-1">
+                                <button type="button" x-show="hospitalSearch" @click="hospitalSearch = ''" class="text-slate-400 hover:text-slate-600 p-1 cursor-pointer">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                </button>
+                                <button type="button" @click="dropdownOpen = !dropdownOpen" class="text-slate-400 hover:text-slate-600 p-1 cursor-pointer">
+                                    <svg class="w-4 h-4 transition-transform duration-150" :class="{ 'rotate-180': dropdownOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Clean Minimalist Dropdown Menu Popover -->
+                        <div x-show="dropdownOpen"
+                             x-transition:enter="transition ease-out duration-100"
+                             x-transition:enter-start="opacity-0 translate-y-1"
+                             x-transition:enter-end="opacity-100 translate-y-0"
+                             x-transition:leave="transition ease-in duration-75"
+                             x-transition:leave-start="opacity-100 translate-y-0"
+                             x-transition:leave-end="opacity-0 translate-y-1"
+                             style="display: none;"
+                             class="absolute left-0 right-0 mt-1 z-50 bg-white rounded-xl border border-slate-200 shadow-xl overflow-hidden max-h-64 flex flex-col">
+                            
+                            <div class="overflow-y-auto divide-y divide-slate-100 flex-1">
+                                
+                                <!-- Option: Biarkan Operator Menentukan -->
+                                <button type="button"
+                                        @click="clearHospital()"
+                                        class="w-full px-4 py-2.5 text-left hover:bg-slate-50 transition-colors flex items-center justify-between text-xs cursor-pointer border-b border-slate-100"
+                                        :class="!selectedRsId ? 'bg-slate-50 font-semibold text-primary-700' : 'text-slate-700'">
+                                    <div class="min-w-0">
+                                        <div class="font-medium text-slate-800">Biarkan Operator Menentukan (Otomatis)</div>
+                                        <p class="text-[11px] text-slate-400 font-normal mt-0.5">Dipilihkan RS darurat terdekat yang IGD-nya paling siap</p>
+                                    </div>
+                                    <template x-if="!selectedRsId">
+                                        <svg class="w-4 h-4 text-primary-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                    </template>
+                                </button>
+
+                                <!-- Daftar Faskes Terdekat -->
+                                <template x-for="rs in filteredHospitals" :key="rs.id">
+                                    <button type="button"
+                                            @click="selectHospital(rs.id)"
+                                            :class="selectedRsId === rs.id ? 'bg-primary-50/60' : 'hover:bg-slate-50'"
+                                            class="w-full px-4 py-2.5 text-left transition-colors flex items-center justify-between gap-3 group cursor-pointer">
+                                        <div class="min-w-0 flex-1">
+                                            <div class="flex items-center gap-2">
+                                                <span class="text-xs font-semibold text-slate-900 group-hover:text-primary-700 truncate" x-text="rs.nama"></span>
+                                                <template x-if="nearestHospital && rs.id === nearestHospital.id">
+                                                    <span class="text-[10px] font-medium px-1.5 py-0.2 rounded bg-slate-100 text-slate-600 shrink-0">
+                                                        Terdekat
+                                                    </span>
+                                                </template>
+                                            </div>
+                                            <p class="text-[11px] text-slate-500 truncate mt-0.5">
+                                                <span x-text="rs.alamat"></span>
+                                                <span class="text-slate-300 mx-1">•</span>
+                                                <span class="text-slate-600 font-medium" x-text="rs.kapasitas_igd"></span>
+                                            </p>
+                                        </div>
+
+                                        <div class="flex items-center gap-2 shrink-0">
+                                            <span class="text-xs font-mono font-medium text-slate-500" x-text="rs.distanceText"></span>
+                                            <template x-if="selectedRsId === rs.id">
+                                                <svg class="w-4 h-4 text-primary-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                            </template>
+                                        </div>
+                                    </button>
+                                </template>
+
+                                <!-- Empty State jika tidak ditemukan -->
+                                <template x-if="filteredHospitals.length === 0">
+                                    <div class="p-4 text-center text-slate-400 text-xs">
+                                        <p>Tidak ada rumah sakit yang cocok dengan "<span x-text="hospitalSearch" class="font-medium text-slate-600"></span>"</p>
+                                        <button type="button" @click="hospitalSearch = ''" class="mt-1 text-primary-600 hover:underline cursor-pointer">
+                                            Tampilkan semua
+                                        </button>
+                                    </div>
+                                </template>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Catatan Tambahan untuk Supir -->
@@ -306,10 +493,96 @@
                 lat: defaultLat,
                 lng: defaultLng,
                 hospitals: hospitals || {},
-                selectedRsId: initialRsId,
+                selectedRsId: initialRsId ? parseInt(initialRsId) : null,
+                hospitalSearch: '',
+                dropdownOpen: false,
                 routeDistance: '',
                 routeEta: '',
                 routeSummary: '',
+
+                calculateDistance(lat1, lon1, lat2, lon2) {
+                    if (lat1 === undefined || lon1 === undefined || lat2 === undefined || lon2 === undefined || isNaN(lat1) || isNaN(lon1) || isNaN(lat2) || isNaN(lon2)) return 999999;
+                    const R = 6371; // Earth radius in km
+                    const dLat = (lat2 - lat1) * Math.PI / 180;
+                    const dLon = (lon2 - lon1) * Math.PI / 180;
+                    const a =
+                        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+                    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                    return R * c;
+                },
+
+                formatDistance(distKm) {
+                    if (distKm === undefined || distKm === null || isNaN(distKm) || distKm >= 99999) return '-';
+                    if (distKm < 1) {
+                        return Math.round(distKm * 1000) + ' m';
+                    }
+                    return distKm.toFixed(1) + ' km';
+                },
+
+                get sortedHospitals() {
+                    const list = Object.values(this.hospitals || {}).map(rs => {
+                        const dist = this.calculateDistance(this.lat, this.lng, parseFloat(rs.lat), parseFloat(rs.lng));
+                        return {
+                            ...rs,
+                            distanceKm: dist,
+                            distanceText: this.formatDistance(dist)
+                        };
+                    });
+                    list.sort((a, b) => a.distanceKm - b.distanceKm);
+                    return list;
+                },
+
+                get nearestHospital() {
+                    const sorted = this.sortedHospitals;
+                    return sorted.length > 0 ? sorted[0] : null;
+                },
+
+                get filteredHospitals() {
+                    const sorted = this.sortedHospitals;
+                    if (!this.hospitalSearch || !this.hospitalSearch.trim()) {
+                        return sorted;
+                    }
+                    const q = this.hospitalSearch.toLowerCase().trim();
+                    return sorted.filter(rs =>
+                        (rs.nama && rs.nama.toLowerCase().includes(q)) ||
+                        (rs.alamat && rs.alamat.toLowerCase().includes(q)) ||
+                        (rs.kapasitas_igd && rs.kapasitas_igd.toLowerCase().includes(q))
+                    );
+                },
+
+                get selectedHospital() {
+                    if (!this.selectedRsId) return null;
+                    return this.hospitals[this.selectedRsId] || null;
+                },
+
+                selectHospital(rsId) {
+                    const id = rsId ? parseInt(rsId) : null;
+                    this.selectedRsId = id;
+                    this.dropdownOpen = false;
+                    this.hospitalSearch = '';
+
+                    // Sync with Livewire
+                    if (typeof this.$wire !== 'undefined') {
+                        this.$wire.set('rumah_sakit_id', id);
+                    } else {
+                        @this.set('rumah_sakit_id', id);
+                    }
+
+                    // Update marker on map and draw OSRM route
+                    this.updateHospitalMarker(id);
+                },
+
+                chooseNearest() {
+                    if (this.nearestHospital) {
+                        this.selectHospital(this.nearestHospital.id);
+                    }
+                },
+
+                clearHospital() {
+                    this.selectHospital(null);
+                },
 
                 mountMapResponsive() {
                     const mapCard = document.getElementById('map-card-wrapper');
@@ -347,19 +620,22 @@
                                 maxZoom: 19
                             }).addTo(this.map);
 
-                            const jemputIcon = L.divIcon({
-                                className: 'custom-jemput-icon',
-                                html: `<div style="background: linear-gradient(135deg, #3B82F6, #1D4ED8); width: 38px; height: 38px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 12px rgba(59,130,246,0.5); display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: move;">📍</div>`,
-                                iconSize: [38, 38],
-                                iconAnchor: [19, 38]
-                            });
+                            const jemputIcon = (typeof window.getPatientPin3DIcon === 'function')
+                                ? window.getPatientPin3DIcon({ size: 34, draggable: true })
+                                : L.divIcon({
+                                    className: 'custom-jemput-icon',
+                                    html: `<div style="background: linear-gradient(135deg, #EF4444, #DC2626); width: 38px; height: 38px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 12px rgba(239,68,68,0.5); display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: move;">📍</div>`,
+                                    iconSize: [38, 38],
+                                    iconAnchor: [19, 38]
+                                });
 
                             // Create Draggable Marker
                             this.marker = L.marker([this.lat, this.lng], {
                                 draggable: true,
-                                icon: jemputIcon
+                                icon: jemputIcon,
+                                zIndexOffset: 1000
                             }).addTo(this.map)
-                            .bindPopup('<b>Titik Penjemputan Pasien</b><br>Geser atau klik peta untuk ubah')
+                            .bindPopup('<b>Titik Penjemputan Pasien (3D)</b><br>Geser atau klik peta untuk ubah lokasi')
                             .openPopup();
 
                             // Map Click Listener
@@ -452,12 +728,14 @@
                     const rsNama = rs.nama;
 
                     if (rsLat && rsLng) {
-                        const rsIcon = L.divIcon({
-                            className: 'custom-rs-icon',
-                            html: `<div style="background: linear-gradient(135deg, #10B981, #059669); width: 36px; height: 36px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 10px rgba(16,185,129,0.4); display: flex; align-items: center; justify-content: center; font-size: 18px;">🏥</div>`,
-                            iconSize: [36, 36],
-                            iconAnchor: [18, 18]
-                        });
+                        const rsIcon = (typeof window.getHospital3DIcon === 'function')
+                            ? window.getHospital3DIcon({ size: 48 })
+                            : L.divIcon({
+                                className: 'custom-rs-icon',
+                                html: `<div style="background: linear-gradient(135deg, #10B981, #059669); width: 36px; height: 36px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 10px rgba(16,185,129,0.4); display: flex; align-items: center; justify-content: center; font-size: 18px;">🏥</div>`,
+                                iconSize: [36, 36],
+                                iconAnchor: [18, 18]
+                            });
 
                         this.hospitalMarker = L.marker([rsLat, rsLng], {
                             title: rsNama,
@@ -489,18 +767,20 @@
 
                     // Pastikan marker RS selalu ada di peta saat ada RS yang aktif
                     if (!this.hospitalMarker && rsLat && rsLng) {
-                        const rsIcon = L.divIcon({
-                            className: 'custom-rs-icon',
-                            html: `<div style="background: linear-gradient(135deg, #10B981, #059669); width: 36px; height: 36px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 10px rgba(16,185,129,0.4); display: flex; align-items: center; justify-content: center; font-size: 18px;">🏥</div>`,
-                            iconSize: [36, 36],
-                            iconAnchor: [18, 18]
-                        });
+                        const rsIcon = (typeof window.getHospital3DIcon === 'function')
+                            ? window.getHospital3DIcon({ size: 48 })
+                            : L.divIcon({
+                                className: 'custom-rs-icon',
+                                html: `<div style="background: linear-gradient(135deg, #10B981, #059669); width: 36px; height: 36px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 10px rgba(16,185,129,0.4); display: flex; align-items: center; justify-content: center; font-size: 18px;">🏥</div>`,
+                                iconSize: [36, 36],
+                                iconAnchor: [18, 18]
+                            });
 
                         this.hospitalMarker = L.marker([rsLat, rsLng], {
                             title: rs.nama,
                             icon: rsIcon
                         }).addTo(this.map)
-                        .bindPopup(`<b>🏥 Rumah Sakit Rujukan:</b><br>${rs.nama}`);
+                        .bindPopup(`<b>🏥 Rumah Sakit Rujukan 3D:</b><br>${rs.nama}`);
                     }
 
                     if (rsLat && rsLng) {

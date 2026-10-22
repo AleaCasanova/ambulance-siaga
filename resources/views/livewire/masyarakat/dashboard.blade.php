@@ -1,176 +1,180 @@
 <div wire:poll.5s>
-    <!-- Hero Section dengan Background Teal & Ambulance Photo: Lebih Utilitarian & Profesional -->
-    <section class="relative pt-32 pb-28 px-4 sm:px-6 lg:px-12 overflow-hidden bg-primary-700"
-             style="background-image: url('{{ asset('images/beranda_utama_bg.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
-        
-        <!-- Gradient Overlay: Mix of Primary Teal & Deep Slate -->
-        <div class="absolute inset-0 bg-gradient-to-r from-primary-800/95 via-primary-700/90 to-slate-900/85"></div>
-        
-        <!-- Bottom Fade to Slate-50 Background -->
-        <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-50 to-transparent pointer-events-none"></div>
+    <!-- Dedicated Hero Section: Masyarakat Dashboard (Tanggap Darurat 24 Jam - Static & Senada Beranda) -->
+    <section class="relative pt-20 overflow-hidden bg-[#002b2f]">
+        <!-- Background Image (Ambulans HD Senada Beranda) -->
+        <div class="absolute inset-0 z-0 bg-cover bg-center"
+             style="background-image: url('{{ asset('images/ambulance_thumb2.JPG') }}');">
+            <!-- Overlay Transparan untuk Mempertajam Teks (Terang & Jernih) -->
+            <div class="absolute inset-0 bg-black/20"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-black/65 via-black/25 to-transparent"></div>
+        </div>
 
-        <div class="max-w-7xl mx-auto relative z-10 space-y-6">
-            <!-- Top Greeting & Emergency SOS Hero -->
-            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-                <div>
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-white/15 border border-white/25 text-white text-xs font-bold uppercase tracking-wider mb-3">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                        <span>Pusat Layanan Ambulans Masyarakat</span>
-                    </div>
-                    <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
-                        Halo, {{ $user?->name ?? 'Warga' }}
-                    </h1>
-                    <p class="text-sky-100 text-sm sm:text-base mt-2 max-w-2xl font-normal leading-relaxed">
-                        Layanan tanggap darurat medis Kabupaten Cilacap. Hubungi hotline atau lakukan panggilan ambulans untuk penanganan dan rujukan medis segera.
-                    </p>
+        <!-- Hero Content -->
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 min-h-[500px] sm:min-h-[560px] lg:min-h-[580px] flex items-center relative z-20 py-16 sm:py-20">
+            <div class="max-w-3xl text-left text-white pr-4 lg:pr-12">
+                <!-- Badge -->
+                <div class="mb-4 sm:mb-5">
+                    <span class="inline-flex items-center gap-2 bg-black/45 backdrop-blur-md text-white border border-white/20 px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-bold tracking-widest uppercase shadow-md">
+                        <span class="w-2 h-2 rounded-full {{ $activeOrder ? 'bg-amber-400' : 'bg-red-500' }} animate-pulse"></span>
+                        <span>{{ $activeOrder ? 'STATUS: EVAKUASI AMBULANS SEDANG BERLANGSUNG' : 'PUSAT KENDALI AMBULANS MASYARAKAT 24 JAM' }}</span>
+                    </span>
                 </div>
 
-                <!-- Hotline & CTA Cepat -->
-                <div class="flex flex-wrap items-center gap-3 shrink-0">
-                    <a href="{{ route('masyarakat.order.create') }}"
-                       class="group inline-flex items-center gap-3 px-6 py-3.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm shadow-md border border-red-400/30 transition-all">
-                        <div class="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center text-white shrink-0">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                        </div>
-                        <div class="text-left">
-                            <span class="block text-[10px] uppercase font-semibold text-red-200 leading-none">Kondisi Darurat</span>
-                            <span class="text-sm tracking-wide font-extrabold">Pesan Ambulans Sekarang</span>
-                        </div>
+                <!-- Big Headline (Meniru Teks Atas Foto: Plus Jakarta Sans Bold/Black) -->
+                <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black leading-tight sm:leading-[1.15] mb-4 sm:mb-6 text-white drop-shadow-[0_3px_6px_rgba(0,0,0,0.85)] tracking-tight">
+                    Halo, {{ $user?->name ?? 'Warga Siaga' }}
+                </h1>
+
+                <!-- Subtitle (Meniru Teks Bawah Foto: Plus Jakarta Sans Medium/Clean) -->
+                <p class="text-xs sm:text-base lg:text-lg text-slate-100 mb-8 sm:mb-10 max-w-2xl leading-relaxed font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                    Pusat layanan tanggap darurat medis Kabupaten Cilacap terintegrasi 24 jam. Siaga merespon panggilan ambulans gawat darurat, penjemputan pasien, dan rujukan faskes secara 100% gratis.
+                </p>
+
+                <!-- Action Buttons (Senada Beranda Guest) -->
+                <div class="flex flex-wrap items-center gap-3 sm:gap-4">
+                    <a href="{{ route('masyarakat.order.create') }}" 
+                       class="inline-flex items-center justify-center gap-2.5 bg-red-600 hover:bg-red-700 text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-black text-xs sm:text-sm uppercase tracking-wider transition-all shadow-[0_4px_20px_rgba(220,38,38,0.45)] hover:shadow-2xl active:scale-95 border border-red-500/50">
+                        <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                        <span>Pesan Ambulans Sekarang</span>
                     </a>
 
-                    <a href="tel:{{ preg_replace('/[^0-9]/', '', $teleponDarurat) }}"
-                       class="inline-flex items-center gap-3 px-5 py-3.5 rounded-xl bg-white/90 hover:bg-white text-slate-800 font-bold text-sm shadow-sm border border-slate-200/80 transition-all">
-                        <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                        </div>
-                        <div class="text-left">
-                            <span class="block text-[10px] uppercase font-semibold text-slate-500 leading-none">Hotline 24 Jam</span>
-                            <span class="text-sm font-extrabold text-slate-800">{{ $teleponDarurat }}</span>
-                        </div>
+                    <a href="tel:{{ preg_replace('/[^0-9]/', '', $teleponDarurat) }}" 
+                       class="inline-flex items-center justify-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-5 sm:px-7 py-3.5 sm:py-4 rounded-xl font-bold text-xs sm:text-sm uppercase tracking-wider transition-all shadow-[0_4px_15px_rgba(0,156,166,0.4)] hover:shadow-lg active:scale-95">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                        <span>Hotline: {{ $teleponDarurat }}</span>
                     </a>
                 </div>
             </div>
-
-            <!-- Flash Message Notification -->
-            @if(session()->has('success'))
-                <div x-data="{ show: true }" x-show="show" class="p-4 rounded-xl bg-emerald-600 text-white font-medium text-sm shadow-sm flex items-center justify-between border border-emerald-500">
-                    <div class="flex items-center gap-3">
-                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span>{{ session('success') }}</span>
-                    </div>
-                    <button @click="show = false" class="text-white/80 hover:text-white font-bold text-lg leading-none">&times;</button>
-                </div>
-            @endif
-
-            <!-- 1. ACTIVE ORDER BANNER (Jika sedang ada pesanan berjalan) -->
-            @if($activeOrder)
-                <div class="relative overflow-hidden p-5 sm:p-6 rounded-2xl bg-white/95 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-l-[6px] border-l-amber-500 border-y border-r border-slate-200/80">
-                    <div class="absolute -left-10 top-1/2 -translate-y-1/2 w-32 h-32 bg-amber-500/10 blur-3xl rounded-full pointer-events-none"></div>
-
-                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-5 relative z-10">
-                        <div class="space-y-2">
-                            <div class="flex items-center gap-2.5">
-                                <span class="px-2.5 py-1 rounded-md bg-amber-50 text-amber-700 font-extrabold text-[10px] uppercase tracking-wider border border-amber-200/60 flex items-center gap-1.5 shadow-sm">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
-                                    Evakuasi Berlangsung
-                                </span>
-                                <span class="text-xs font-bold text-slate-400">#{{ $activeOrder->kode_order }}</span>
-                            </div>
-                            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-800">
-                                Penanganan Pasien: {{ $activeOrder->nama_pasien }}
-                            </h2>
-                            <div class="flex flex-wrap items-center gap-3 text-xs sm:text-sm font-medium text-slate-600">
-                                <span class="flex items-center gap-1.5"><svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> {{ $activeOrder->lokasi_jemput }}</span>
-                                <span class="text-slate-300">•</span>
-                                <span class="text-amber-600 font-bold">{{ $activeOrder->status_label }}</span>
-                                @if($activeOrder->ambulans)
-                                    <span class="text-slate-300">•</span>
-                                    <span class="flex items-center gap-1.5"><svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/></svg> {{ $activeOrder->ambulans->kode_ambulans }}</span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="flex flex-wrap items-center gap-2.5 shrink-0 pt-2 md:pt-0 md:border-l md:border-slate-100 md:pl-5">
-                            <a href="{{ route('masyarakat.tracking', $activeOrder->id) }}"
-                               class="px-5 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs shadow-md shadow-amber-500/20 transition-all flex items-center gap-2">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
-                                <span>Pantau Lokasi Live</span>
-                            </a>
-
-                            @if($activeOrder->needsFormCompletion())
-                                <a href="{{ route('masyarakat.order.complete', $activeOrder->id) }}"
-                                   class="px-4 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold text-xs shadow-sm transition-all">
-                                    Lengkapi Data
-                                </a>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            @endif
         </div>
     </section>
 
-    <!-- Main Content below Hero -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12 relative z-20 space-y-8 pb-24">
+    <!-- Main Content below Hero (Floating Overlap Proportional Layout) -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 -mt-10 sm:-mt-14 relative z-30 space-y-8 pb-24">
 
-        <!-- 3 Quick Info Metric Cards (Clean Utilitarian Cards) -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
-            <!-- Card 1: Armada Siaga -->
-            <div class="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-xs flex items-center justify-between transition-all hover:border-slate-300">
+        <!-- Flash Message Notification -->
+        @if(session()->has('success'))
+            <div x-data="{ show: true }" x-show="show" class="p-4 rounded-2xl bg-emerald-600 text-white font-medium text-sm shadow-lg flex items-center justify-between border border-emerald-500">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                    <span>{{ session('success') }}</span>
+                </div>
+                <button @click="show = false" class="text-white/80 hover:text-white font-bold text-lg leading-none">&times;</button>
+            </div>
+        @endif
+
+        <!-- 1. ACTIVE ORDER BANNER (Jika sedang ada pesanan darurat berlangsung) -->
+        @if($activeOrder)
+            <div class="relative overflow-hidden p-6 sm:p-7 rounded-2xl bg-white shadow-[0_15px_45px_rgba(245,158,11,0.12)] border-l-[6px] border-l-amber-500 border-y border-r border-amber-200/70">
+                <div class="absolute -left-10 top-1/2 -translate-y-1/2 w-32 h-32 bg-amber-500/10 blur-3xl rounded-full pointer-events-none"></div>
+
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-5 relative z-10">
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2.5">
+                            <span class="px-2.5 py-1 rounded-md bg-amber-50 text-amber-700 font-extrabold text-[10px] uppercase tracking-wider border border-amber-200/60 flex items-center gap-1.5 shadow-xs">
+                                <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                                Evakuasi Sedang Berlangsung
+                            </span>
+                            <span class="text-xs font-mono font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded">#{{ $activeOrder->kode_order }}</span>
+                        </div>
+                        <h2 class="text-xl sm:text-2xl font-black text-slate-800 tracking-tight">
+                            Penanganan Pasien: {{ $activeOrder->nama_pasien }}
+                        </h2>
+                        <div class="flex flex-wrap items-center gap-3 text-xs sm:text-sm font-medium text-slate-600">
+                            <span class="flex items-center gap-1.5">
+                                <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> 
+                                {{ $activeOrder->lokasi_jemput }}
+                            </span>
+                            <span class="text-slate-300">•</span>
+                            <span class="text-amber-600 font-bold">{{ $activeOrder->status_label }}</span>
+                            @if($activeOrder->ambulans)
+                                <span class="text-slate-300">•</span>
+                                <span class="flex items-center gap-1.5 font-mono text-slate-700">
+                                    <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/></svg> 
+                                    {{ $activeOrder->ambulans->kode_ambulans }} ({{ $activeOrder->ambulans->plat_nomor }})
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-2.5 shrink-0 pt-2 md:pt-0 md:border-l md:border-slate-100 md:pl-5">
+                        <a href="{{ route('masyarakat.tracking', $activeOrder->id) }}"
+                           class="px-5 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs shadow-md shadow-amber-500/20 transition-all flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
+                            <span>Pantau Lokasi Live</span>
+                        </a>
+
+                        @if($activeOrder->needsFormCompletion())
+                            <a href="{{ route('masyarakat.order.complete', $activeOrder->id) }}"
+                               class="px-4 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold text-xs shadow-xs transition-all">
+                                Lengkapi Data
+                            </a>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        @endif
+
+        <!-- 2. TIGA FLOATING METRIC CARDS (Senada Beranda Guest) -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+            <!-- Card 1: Kesiapan Armada -->
+            <div class="p-6 rounded-2xl bg-white border border-slate-100 shadow-[0_15px_45px_rgba(15,23,42,0.08)] flex items-center justify-between transition-all hover:-translate-y-0.5 duration-300">
                 <div>
-                    <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider block mb-1">Kesiapan Armada</span>
+                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Kesiapan Armada</span>
                     <div class="flex items-baseline gap-2">
-                        <span class="text-2xl sm:text-3xl font-extrabold text-slate-900">{{ $ambulansTersedia }}</span>
-                        <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                        <span class="text-3xl font-black text-slate-900">{{ $ambulansTersedia }}</span>
+                        <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
                             Unit Siaga dari {{ $totalAmbulans }} Total
                         </span>
                     </div>
-                    <p class="text-xs text-slate-500 mt-1.5">Posko siaga & mitra faskes Cilacap</p>
+                    <p class="text-xs text-slate-500 mt-1.5 font-medium">Posko siaga & mitra faskes Cilacap</p>
                 </div>
-                <div class="w-12 h-12 rounded-xl bg-sky-50 text-primary-600 flex items-center justify-center shrink-0 border border-sky-100">
+                <div class="w-13 h-13 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center shrink-0 border border-primary-100 shadow-2xs">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 7h8m-8 4h8m-8 4h4m5-10H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2V7a2 2 0 00-2-2z"/><circle cx="7.5" cy="16.5" r="1.5"/><circle cx="16.5" cy="16.5" r="1.5"/></svg>
                 </div>
             </div>
 
-            <!-- Card 2: Status Akun Medis -->
-            <div class="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-xs flex items-center justify-between transition-all hover:border-slate-300">
+            <!-- Card 2: Status Akun Medis (ICE) -->
+            <div class="p-6 rounded-2xl bg-white border border-slate-100 shadow-[0_15px_45px_rgba(15,23,42,0.08)] flex items-center justify-between transition-all hover:-translate-y-0.5 duration-300">
                 <div>
-                    <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider block mb-1">Data Darurat Keluarga (ICE)</span>
-                    <div class="flex items-center gap-2">
+                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Data Darurat Keluarga (ICE)</span>
+                    <div class="flex items-center gap-2 mb-1.5">
                         @if($user?->masyarakat?->nik && $user?->masyarakat?->alamat)
-                            <span class="px-2.5 py-0.5 rounded-md text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                                 Terisi Lengkap
                             </span>
                         @else
-                            <span class="px-2.5 py-0.5 rounded-md text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200">
+                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200 flex items-center gap-1.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
                                 Belum Lengkap
                             </span>
                         @endif
                     </div>
-                    <button type="button" wire:click="$set('showEditIceModal', true)" class="text-xs text-primary-600 hover:text-primary-800 font-semibold mt-1.5 inline-flex items-center gap-1">
+                    <button type="button" wire:click="$set('showEditIceModal', true)" class="text-xs text-primary-600 hover:text-primary-800 font-bold inline-flex items-center gap-1 transition-colors">
                         <span>{{ $user?->masyarakat?->alamat ? 'Perbarui Data ICE' : '+ Lengkapi Data Darurat' }}</span>
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
                     </button>
                 </div>
-                <div class="w-12 h-12 rounded-xl bg-slate-50 text-slate-700 flex items-center justify-center shrink-0 border border-slate-200">
+                <div class="w-13 h-13 rounded-2xl bg-slate-50 text-slate-700 flex items-center justify-center shrink-0 border border-slate-200 shadow-2xs">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"/></svg>
                 </div>
             </div>
 
             <!-- Card 3: Layanan Bebas Biaya -->
-            <div class="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-xs flex items-center justify-between transition-all hover:border-slate-300">
+            <div class="p-6 rounded-2xl bg-white border border-slate-100 shadow-[0_15px_45px_rgba(15,23,42,0.08)] flex items-center justify-between transition-all hover:-translate-y-0.5 duration-300">
                 <div>
-                    <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider block mb-1">Ketentuan Tarif</span>
-                    <span class="text-xl sm:text-2xl font-extrabold text-emerald-700">100% Gratis</span>
-                    <p class="text-xs text-slate-500 mt-1.5">Didanai donasi kemanusiaan & relawan mitra</p>
+                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Ketentuan Tarif</span>
+                    <span class="text-2xl sm:text-3xl font-black text-emerald-600 block mb-1">100% Bebas Biaya</span>
+                    <p class="text-xs text-slate-500 font-medium">Didanai donasi kemanusiaan & relawan mitra</p>
                 </div>
-                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-100">
+                <div class="w-13 h-13 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-100 shadow-2xs">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                 </div>
             </div>
         </div>
 
-        <!-- Main Content Grid: 2 Columns -->
+        <!-- 3. MAIN CONTENT GRID: 2 COLUMNS (8 Cols Kiri & 4 Cols Kanan) -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
             <!-- LEFT COLUMN: Panduan P3K Darurat & Direktori Rumah Sakit (8 Cols) -->
@@ -183,10 +187,10 @@
                             <span class="text-xs font-bold uppercase tracking-wider text-red-700 bg-red-50 px-2.5 py-1 rounded-md border border-red-200">
                                 Panduan Medis Darurat (P3K)
                             </span>
-                            <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 mt-2">
+                            <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 mt-2 tracking-tight">
                                 Tindakan Pertama Sambil Menunggu Ambulans
                             </h2>
-                            <p class="text-slate-500 text-xs sm:text-sm mt-0.5">
+                            <p class="text-slate-500 text-xs sm:text-sm mt-0.5 font-medium">
                                 Langkah awal yang dapat Anda lakukan secara aman untuk menstabilkan kondisi pasien.
                             </p>
                         </div>
@@ -251,7 +255,7 @@
                             <ol class="list-decimal list-inside space-y-1.5 text-slate-600 font-normal leading-relaxed">
                                 <li><strong>Posisikan Setengah Duduk:</strong> Longgarkan kerah baju atau pakaian ketat di sekitar leher dan dada. Posisikan pasien duduk nyaman bersandar.</li>
                                 <li><strong>Pastikan Sirkulasi Udara Bebas:</strong> Buka jendela dan jauhkan kerumunan orang dari sekitar pasien.</li>
-                                <li><strong>Jika Tersedak Benda Padat:</strong> Berdiri di belakang korban, lingkarkan lengan di perut bagian atas pusar, lalu lakukan hentakan cepat ke arah dalam dan atas (*Heimlich maneuver*).</li>
+                                <li><strong>Jika Tersedak Benda Padat:</strong> Berdiri di belakang korban, lingkarkan lengan di perut bagian atas pusar, lalu lakukan hentakan cepat ke arah dalam dan atas (<i>Heimlich maneuver</i>).</li>
                             </ol>
                         </div>
 
@@ -294,28 +298,98 @@
                     </div>
                 </div>
 
-                <!-- Modul 2: Direktori Rumah Sakit & Hotline IGD 24 Jam di Cilacap -->
-                <div id="rumah-sakit" class="bg-white rounded-2xl border border-slate-200/90 p-6 sm:p-7 shadow-xs">
+                <!-- Modul 2: Direktori Rumah Sakit & Layanan IGD 24 Jam di Cilacap (Auto-Slider 2 Cards) -->
+                <div id="rumah-sakit" 
+                     class="bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-7 shadow-xs relative overflow-hidden"
+                     x-data="{
+                         track: null,
+                         timer: null,
+                         init() {
+                             this.track = this.$refs.sliderTrack;
+                             this.startAutoSlide();
+                         },
+                         startAutoSlide() {
+                             this.stopAutoSlide();
+                             // Geser otomatis setiap 5 detik (santai & nyaman dibaca)
+                             this.timer = setInterval(() => {
+                                 this.next();
+                             }, 5000);
+                         },
+                         stopAutoSlide() {
+                             if (this.timer) {
+                                 clearInterval(this.timer);
+                                 this.timer = null;
+                             }
+                         },
+                         next() {
+                             if (!this.track) return;
+                             const maxScroll = this.track.scrollWidth - this.track.clientWidth;
+                             // Jika sudah di ujung kanan, kembali ke awal
+                             if (this.track.scrollLeft >= maxScroll - 20) {
+                                 this.track.scrollTo({ left: 0, behavior: 'smooth' });
+                             } else {
+                                 const step = this.track.clientWidth;
+                                 this.track.scrollBy({ left: step, behavior: 'smooth' });
+                             }
+                         },
+                         prev() {
+                             if (!this.track) return;
+                             const maxScroll = this.track.scrollWidth - this.track.clientWidth;
+                             if (this.track.scrollLeft <= 20) {
+                                 this.track.scrollTo({ left: maxScroll, behavior: 'smooth' });
+                             } else {
+                                 const step = this.track.clientWidth;
+                                 this.track.scrollBy({ left: -step, behavior: 'smooth' });
+                             }
+                         }
+                     }"
+                     @mouseenter="stopAutoSlide()"
+                     @mouseleave="startAutoSlide()"
+                     @touchstart="stopAutoSlide()"
+                     @touchend="startAutoSlide()">
+
+                    <!-- Header Section with Prev/Next Controls -->
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5 pb-4 border-b border-slate-100">
                         <div>
-                            <span class="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">
-                                Jaringan Faskes Rujukan
-                            </span>
-                            <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 mt-2">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">
+                                    Jaringan Faskes Rujukan
+                                </span>
+                                <span class="text-xs text-slate-400 font-medium hidden sm:inline">• 30 Faskes Siaga</span>
+                            </div>
+                            <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 mt-2 tracking-tight">
                                 Rumah Sakit & Layanan IGD 24 Jam
                             </h2>
-                            <p class="text-slate-500 text-xs sm:text-sm mt-0.5">
+                            <p class="text-slate-500 text-xs sm:text-sm mt-0.5 font-medium">
                                 Kontak langsung instalasi gawat darurat rumah sakit di wilayah Kabupaten Cilacap.
                             </p>
                         </div>
+
+                        <!-- Navigation Controls -->
+                        <div class="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                            <button @click="prev()"
+                                    type="button"
+                                    aria-label="Faskes Sebelumnya"
+                                    class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl border border-slate-200 bg-slate-50 hover:bg-primary-600 hover:text-white hover:border-primary-600 text-slate-600 flex items-center justify-center transition-all cursor-pointer shadow-2xs active:scale-95">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+                            </button>
+                            <button @click="next()"
+                                    type="button"
+                                    aria-label="Faskes Berikutnya"
+                                    class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl border border-slate-200 bg-slate-50 hover:bg-primary-600 hover:text-white hover:border-primary-600 text-slate-600 flex items-center justify-center transition-all cursor-pointer shadow-2xs active:scale-95">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- 2-Card Visible Slider Track -->
+                    <div x-ref="sliderTrack"
+                         class="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory py-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                         @forelse($rumahSakits as $rs)
-                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 hover:bg-white hover:border-slate-300 transition-all flex flex-col justify-between">
+                            <div class="snap-start shrink-0 w-full sm:w-[calc(50%-8px)] p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200/80 hover:bg-white hover:border-primary-200 hover:shadow-sm transition-all flex flex-col justify-between min-h-[175px]">
                                 <div>
                                     <div class="flex items-start justify-between gap-2 mb-1.5">
-                                        <h3 class="font-bold text-slate-900 text-sm">
+                                        <h3 class="font-bold text-slate-900 text-sm truncate" title="{{ $rs->nama }}">
                                             {{ $rs->nama }}
                                         </h3>
                                         <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 shrink-0">
@@ -324,7 +398,7 @@
                                     </div>
                                     <p class="text-xs text-slate-500 mb-3 flex items-start gap-1.5">
                                         <svg class="w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                                        <span class="line-clamp-2 font-normal">{{ $rs->alamat }}</span>
+                                        <span class="line-clamp-2 font-normal" title="{{ $rs->alamat }}">{{ $rs->alamat }}</span>
                                     </p>
                                 </div>
 
@@ -345,7 +419,7 @@
                                 </div>
                             </div>
                         @empty
-                            <div class="col-span-2 py-8 text-center text-slate-400 text-xs font-medium">
+                            <div class="w-full py-8 text-center text-slate-400 text-xs font-medium">
                                 Belum ada data rumah sakit rujukan terdaftar.
                             </div>
                         @endforelse
@@ -361,8 +435,8 @@
                 <div class="bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-6 shadow-xs">
                     <div class="flex items-center justify-between mb-3 pb-3 border-b border-slate-100">
                         <div class="flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-primary-600"></span>
-                            <h3 class="font-bold text-slate-900 text-sm">Profil Darurat Anda (ICE)</h3>
+                            <span class="w-2.5 h-2.5 rounded-full bg-primary-600"></span>
+                            <h3 class="font-bold text-slate-900 text-sm tracking-tight">Profil Darurat Anda (ICE)</h3>
                         </div>
                         <button type="button" wire:click="$set('showEditIceModal', true)"
                                 class="text-xs font-bold text-primary-600 hover:text-primary-800 hover:underline">
@@ -370,7 +444,7 @@
                         </button>
                     </div>
 
-                    <p class="text-xs text-slate-500 mb-4 font-normal">
+                    <p class="text-xs text-slate-500 mb-4 font-normal leading-relaxed">
                         Data ini digunakan untuk mengisi formulir pemesanan ambulans secara otomatis saat kondisi darurat.
                     </p>
 
@@ -387,17 +461,19 @@
 
                         <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100 flex justify-between items-center">
                             <span class="text-slate-500 font-medium">NIK KTP:</span>
-                            <span class="font-bold text-slate-800">{{ $user?->masyarakat?->nik ?: '-' }}</span>
+                            <span class="font-bold text-slate-800 font-mono">{{ $user?->masyarakat?->nik ?: '-' }}</span>
                         </div>
 
                         <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100 flex justify-between items-center">
                             <span class="text-slate-500 font-medium">Kontak Darurat Keluarga:</span>
-                            <span class="font-bold text-red-600">{{ $user?->masyarakat?->kontak_darurat ?: 'Belum diisi' }}</span>
+                            <span class="font-bold {{ $user?->masyarakat?->kontak_darurat ? 'text-slate-800' : 'text-amber-600' }}">
+                                {{ $user?->masyarakat?->kontak_darurat ?: 'Belum diisi' }}
+                            </span>
                         </div>
 
                         <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
                             <span class="text-slate-500 font-medium block mb-0.5">Alamat Penjemputan Utama:</span>
-                            <span class="font-bold text-slate-800 block">{{ $user?->masyarakat?->alamat ?: 'Belum mengatur alamat tempat tinggal' }}</span>
+                            <span class="font-bold text-slate-800 block leading-snug">{{ $user?->masyarakat?->alamat ?: 'Belum mengatur alamat tempat tinggal' }}</span>
                         </div>
                     </div>
 
@@ -410,8 +486,8 @@
                 <!-- Card Riwayat Terakhir -->
                 <div class="bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-6 shadow-xs">
                     <div class="flex items-center justify-between mb-3 pb-3 border-b border-slate-100">
-                        <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                        <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2 tracking-tight">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
                             <span>Riwayat Pesanan Anda</span>
                         </h3>
                         <a href="{{ route('masyarakat.orders.index') }}" class="text-xs font-bold text-primary-600 hover:underline">
@@ -423,7 +499,7 @@
                         @forelse($recentOrders as $ro)
                             <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 hover:bg-slate-100/70 transition-colors">
                                 <div class="flex items-center justify-between text-xs mb-1">
-                                    <span class="font-bold text-slate-800">#{{ $ro->kode_order }}</span>
+                                    <span class="font-mono font-bold text-slate-800">#{{ $ro->kode_order }}</span>
                                     <span class="px-2 py-0.5 rounded text-[10px] font-bold
                                         @if($ro->status === 'selesai') bg-emerald-100 text-emerald-800
                                         @elseif($ro->status === 'dibatalkan') bg-slate-200 text-slate-600
@@ -434,21 +510,21 @@
                                 <p class="text-xs font-semibold text-slate-800 truncate">{{ $ro->nama_pasien }}</p>
                                 <p class="text-[11px] text-slate-500 truncate mt-0.5">{{ $ro->lokasi_jemput }}</p>
                                 <div class="mt-2 pt-2 border-t border-slate-200/60 flex items-center justify-between text-[11px]">
-                                    <span class="text-slate-400">{{ $ro->waktu_pesan ? $ro->waktu_pesan->format('d M Y') : '-' }}</span>
+                                    <span class="text-slate-400 font-medium">{{ $ro->waktu_pesan ? $ro->waktu_pesan->format('d M Y') : '-' }}</span>
                                     <a href="{{ route('masyarakat.tracking', $ro->id) }}" class="font-bold text-primary-600 hover:underline">
                                         Detail Rute &rarr;
                                     </a>
                                 </div>
                             </div>
                         @empty
-                            <div class="py-5 text-center text-slate-400 text-xs font-medium">
+                            <div class="py-6 text-center text-slate-400 text-xs font-medium">
                                 Belum ada riwayat pesanan ambulans.
                             </div>
                         @endforelse
                     </div>
                 </div>
 
-                <!-- Card Donasi Kemanusiaan Ambulans Siaga (Lebih Utilitarian & Informatif) -->
+                <!-- Card Donasi Kemanusiaan Ambulans Siaga -->
                 <div class="bg-gradient-to-br from-primary-800 to-slate-900 text-white rounded-2xl p-5 sm:p-6 shadow-md border border-primary-700/50">
                     <div class="flex items-center gap-2.5 mb-2">
                         <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-white shrink-0">
@@ -478,8 +554,8 @@
             <div class="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-7 shadow-xl border border-slate-200 animate-in fade-in zoom-in duration-150">
                 <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
                     <div>
-                        <h3 class="text-base font-bold text-slate-900">Pengaturan Data Darurat (ICE)</h3>
-                        <p class="text-xs text-slate-500">Lengkapi data untuk mempercepat proses pemanggilan ambulans.</p>
+                        <h3 class="text-base font-bold text-slate-900 tracking-tight">Pengaturan Data Darurat (ICE)</h3>
+                        <p class="text-xs text-slate-500 font-medium">Lengkapi data untuk mempercepat proses pemanggilan ambulans.</p>
                     </div>
                     <button type="button" wire:click="$set('showEditIceModal', false)" class="text-slate-400 hover:text-slate-600 font-bold text-xl leading-none">&times;</button>
                 </div>
@@ -533,5 +609,6 @@
         </div>
     @endif
 
+    <x-floating-donasi />
     <x-landing-footer />
 </div>

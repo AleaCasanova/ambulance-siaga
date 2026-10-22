@@ -1,299 +1,278 @@
-<section class="space-y-6">
-    <header>
-        <div class="flex items-center gap-2 mb-2">
-            <span class="px-2.5 py-1 rounded-full text-xs font-extrabold bg-primary-100 text-primary-700 uppercase tracking-wider">
-                Data Diri & Identitas
-            </span>
-        </div>
-        <h2 class="text-xl font-extrabold text-slate-800">
-            Informasi Akun & Kedaruratan
-        </h2>
-        <p class="mt-1 text-sm text-slate-500">
-            Perbarui data diri, nomor telepon, dan identitas darurat. Data NIK, Tanggal Lahir, Kontak Darurat, dan Alamat yang dilengkapi di sini akan otomatis digunakan pada setiap Pemesanan Ambulans Darurat agar Anda tidak perlu mengisinya berulang kali saat situasi darurat.
-        </p>
-    </header>
+@php
+    $score = 0;
+    if(!empty($user->name)) $score += 15;
+    if(!empty($user->email)) $score += 15;
+    if(!empty($user->phone)) $score += 15;
+    if(!empty($user->avatar)) $score += 10;
+    
+    if($user->isSupir()) {
+        if(!empty($user->supir?->plat_nomor) && $user->supir->plat_nomor !== '-') $score += 15;
+        if(!empty($user->supir?->nomor_sim)) $score += 15;
+        if(!empty($user->supir?->foto_sim)) $score += 15;
+    } else {
+        if(!empty($user->masyarakat?->nik) && $user->masyarakat->nik !== '-') $score += 15;
+        if(!empty($user->masyarakat?->tanggal_lahir)) $score += 10;
+        if(!empty($user->masyarakat?->jenis_kelamin)) $score += 10;
+        if(!empty($user->masyarakat?->alamat) && $user->masyarakat->alamat !== '-') $score += 10;
+    }
+    $score = min(100, $score);
+@endphp
 
+<section class="space-y-6">
+    <!-- Banner Kelengkapan Profil (Clean Dompet Dhuafa Style) -->
+    <div class="bg-primary-50/70 border border-primary-200/60 rounded-lg px-4 py-3 mb-6 flex items-center justify-between">
+        <span class="text-sm font-semibold text-primary-900">Kelengkapan profil Anda {{ $score }}%</span>
+        <div class="w-36 bg-primary-200/50 rounded-full h-2 overflow-hidden">
+            <div class="bg-primary-600 h-2 rounded-full transition-all duration-500" style="width: {{ $score }}%"></div>
+        </div>
+    </div>
+
+    <!-- Hidden Resend Verification Form -->
     <form id="send-verification" method="post" action="{{ route('verification.send') }}">
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
+    <!-- Main Update Form -->
+    <form method="post" action="{{ route('profile.update') }}" class="space-y-6" enctype="multipart/form-data">
         @csrf
         @method('patch')
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-            <!-- Nama Lengkap -->
-            <div>
-                <label for="name" class="block text-sm font-bold text-slate-700 mb-1.5">
-                    Nama Lengkap <span class="text-primary-600">*</span>
-                </label>
-                <input id="name" name="name" type="text"
-                       class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium transition-all"
-                       value="{{ old('name', $user->name) }}" required autofocus autocomplete="name" />
-                @error('name') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
-            </div>
-
-            <!-- Alamat Email -->
-            <div>
-                <label for="email" class="block text-sm font-bold text-slate-700 mb-1.5">
-                    Alamat Email <span class="text-primary-600">*</span>
-                </label>
-                <input id="email" name="email" type="email"
-                       class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium transition-all"
-                       value="{{ old('email', $user->email) }}" required autocomplete="username" />
-                @error('email') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
-
-                @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-                    <div class="mt-2">
-                        <p class="text-xs text-slate-600">
-                            Email Anda belum diverifikasi.
-                            <button form="send-verification" class="underline font-bold text-primary-600 hover:text-primary-700">
-                                Klik di sini untuk mengirim ulang email verifikasi.
-                            </button>
-                        </p>
-
-                        @if (session('status') === 'verification-link-sent')
-                            <p class="mt-2 font-semibold text-xs text-emerald-600">
-                                Link verifikasi baru telah dikirimkan ke alamat email Anda.
-                            </p>
-                        @endif
-                    </div>
-                @endif
-            </div>
-
-            <!-- Nomor Telepon / WhatsApp -->
-            <div>
-                <label for="phone" class="block text-sm font-bold text-slate-700 mb-1.5">
-                    No. Telepon / WhatsApp
-                </label>
-                <input id="phone" name="phone" type="text"
-                       placeholder="0812-3456-7890"
-                       class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium transition-all"
-                       value="{{ old('phone', $user->phone) }}" />
-                @error('phone') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
-            </div>
-
-        </div>
-
-        <!-- FORM DINAMIS BERDASARKAN ROLE -->
-        @if($user->isSupir())
-            <div class="mt-6 p-6 rounded-3xl bg-primary-50/70 border border-primary-100 space-y-6">
-                <div class="flex items-center gap-2 pb-3 border-b border-primary-200/60">
-                    <span class="w-2.5 h-2.5 rounded-full bg-primary-600"></span>
-                    <h3 class="text-sm font-extrabold text-primary-900 uppercase tracking-wider">Informasi Lembaga Mitra & Armada Supir</h3>
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+            
+            <!-- Sub-Column Kiri: Foto Profil (Dompet Dhuafa Style) -->
+            <div class="md:col-span-4 flex flex-col items-center text-center pt-1">
+                <div class="w-32 h-32 rounded-full bg-slate-100 border-2 border-slate-200 overflow-hidden flex items-center justify-center relative mb-4">
+                    @if($user->avatar)
+                        <img id="avatar-preview-img" src="{{ Storage::url($user->avatar) }}" alt="{{ $user->name }}" class="w-full h-full object-cover">
+                        <svg id="avatar-placeholder" class="w-20 h-20 text-slate-400 hidden" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                    @else
+                        <img id="avatar-preview-img" src="" alt="Preview" class="w-full h-full object-cover hidden">
+                        <svg id="avatar-placeholder" class="w-20 h-20 text-slate-300" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                    @endif
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="nama_lembaga" class="block text-sm font-bold text-slate-700 mb-1.5">
-                            Nama Lembaga / Organisasi
-                        </label>
-                        <input id="nama_lembaga" name="nama_lembaga" type="text"
-                               placeholder="Contoh: PMI Cilacap / LAZ Peduli / RS Mitra"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
-                               value="{{ old('nama_lembaga', $user->supir?->mitra?->nama_mitra) }}" />
-                        @error('nama_lembaga') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
-                    </div>
+                <!-- Hidden Native File Input -->
+                <input type="file" id="avatar" name="avatar" class="hidden" accept="image/jpeg,image/png,image/jpg,image/webp" onchange="previewAvatar(this)">
+                
+                <!-- PILIH FOTO Button (Clean Dompet Dhuafa Style) -->
+                <button type="button" onclick="document.getElementById('avatar').click()"
+                        class="px-5 py-2 rounded-md border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer">
+                    PILIH FOTO
+                </button>
+                @error('avatar') <p class="mt-1.5 text-xs text-rose-600 font-medium">{{ $message }}</p> @enderror
 
-                    <div>
-                        <label for="nama_penanggung_jawab" class="block text-sm font-bold text-slate-700 mb-1.5">
-                            Nama Driver / Penanggung Jawab
-                        </label>
-                        <input id="nama_penanggung_jawab" name="nama_penanggung_jawab" type="text"
-                               placeholder="Nama PJ Armada"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
-                               value="{{ old('nama_penanggung_jawab', $user->supir?->mitra?->penanggung_jawab) }}" />
-                        @error('nama_penanggung_jawab') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div>
-                        <label for="no_wa" class="block text-sm font-bold text-slate-700 mb-1.5">
-                            No. WhatsApp (WA) Aktif
-                        </label>
-                        <input id="no_wa" name="no_wa" type="text"
-                               placeholder="0812xxxxxx (WhatsApp)"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
-                               value="{{ old('no_wa', $user->supir?->no_wa) }}" />
-                        @error('no_wa') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div>
-                        <label for="alamat_unit" class="block text-sm font-bold text-slate-700 mb-1.5">
-                            Alamat Unit Ambulans / Posko
-                        </label>
-                        <input id="alamat_unit" name="alamat_unit" type="text"
-                               placeholder="Alamat penempatan unit ambulans"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
-                               value="{{ old('alamat_unit', $user->supir?->mitra?->alamat) }}" />
-                        @error('alamat_unit') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div>
-                        <label for="merk_kendaraan" class="block text-sm font-bold text-slate-700 mb-1.5">
-                            Merk Kendaraan
-                        </label>
-                        <input id="merk_kendaraan" name="merk_kendaraan" type="text"
-                               placeholder="Contoh: Toyota HiAce Commuter / Suzuki APV"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
-                               value="{{ old('merk_kendaraan', $user->supir?->merk_kendaraan) }}" />
-                        @error('merk_kendaraan') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div>
-                        <label for="plat_nomor" class="block text-sm font-bold text-slate-700 mb-1.5">
-                            Plat No. Kendaraan
-                        </label>
-                        <input id="plat_nomor" name="plat_nomor" type="text"
-                               placeholder="Contoh: R 9988 ZZ"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
-                               value="{{ old('plat_nomor', $user->supir?->plat_nomor) }}" />
-                        @error('plat_nomor') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div>
-                        <label for="nomor_sim" class="block text-sm font-bold text-slate-700 mb-1.5">
-                            Nomor SIM (SIM A / B1 Umum)
-                        </label>
-                        <input id="nomor_sim" name="nomor_sim" type="text"
-                               placeholder="Nomor SIM Driver"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
-                               value="{{ old('nomor_sim', $user->supir?->nomor_sim) }}" />
-                        @error('nomor_sim') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
-                        
-                        <div class="mt-3">
-                            <label for="foto_sim" class="block text-xs font-bold text-slate-600 mb-1">
-                                Upload Foto SIM (Maks 2MB)
-                            </label>
-                            <input id="foto_sim" name="foto_sim" type="file" accept="image/*"
-                                   class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100" />
-                            @error('foto_sim') <p class="mt-1 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
-                            
-                            @if($user->supir?->foto_sim)
-                                <div class="mt-2">
-                                    <p class="text-[10px] text-slate-500 mb-1">Foto SIM saat ini:</p>
-                                    <img src="{{ Storage::url($user->supir->foto_sim) }}" alt="Foto SIM" class="h-20 w-auto rounded border border-slate-200 object-cover">
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div>
-                        <label for="nomor_stnk" class="block text-sm font-bold text-slate-700 mb-1.5">
-                            STNK Kendaraan
-                        </label>
-                        <input id="nomor_stnk" name="nomor_stnk" type="text"
-                               placeholder="Nomor STNK"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
-                               value="{{ old('nomor_stnk', $user->supir?->nomor_stnk) }}" />
-                        @error('nomor_stnk') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
-
-                        <div class="mt-3">
-                            <label for="foto_stnk" class="block text-xs font-bold text-slate-600 mb-1">
-                                Upload Foto STNK (Maks 2MB)
-                            </label>
-                            <input id="foto_stnk" name="foto_stnk" type="file" accept="image/*"
-                                   class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100" />
-                            @error('foto_stnk') <p class="mt-1 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
-
-                            @if($user->supir?->foto_stnk)
-                                <div class="mt-2">
-                                    <p class="text-[10px] text-slate-500 mb-1">Foto STNK saat ini:</p>
-                                    <img src="{{ Storage::url($user->supir->foto_stnk) }}" alt="Foto STNK" class="h-20 w-auto rounded border border-slate-200 object-cover">
-                                </div>
-                            @endif
-                        </div>
-                    </div>
+                <!-- Caption Format & Ukuran Gambar -->
+                <div class="mt-3 text-[11px] text-slate-400 space-y-0.5">
+                    <p>Ukuran gambar: maks. 1 MB</p>
+                    <p>Format gambar: .JPEG, .PNG</p>
                 </div>
             </div>
 
-        @elseif(!$user->isSupir() && !$user->isOperator() && !$user->isAdmin())
-            <div class="mt-6 p-6 rounded-3xl bg-slate-50/70 border border-slate-200 space-y-6">
-                <div class="flex items-center gap-2 pb-3 border-b border-slate-200">
-                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
-                    <div>
-                        <h3 class="text-sm font-extrabold text-slate-800 uppercase tracking-wider">Informasi Warga & Kedaruratan Pasien</h3>
-                        <p class="text-xs text-slate-500 mt-0.5">Data ini otomatis dihubungkan saat Anda melakukan panggilan ambulans darurat 24 Jam.</p>
-                    </div>
+            <!-- Sub-Column Kanan: Input Form Bersih & Natural -->
+            <div class="md:col-span-8 space-y-4">
+                
+                <!-- Nama -->
+                <div>
+                    <label for="name" class="block text-xs font-semibold text-slate-700 mb-1">
+                        Nama
+                    </label>
+                    <input id="name" name="name" type="text"
+                           class="w-full px-3.5 py-2 rounded-md border border-slate-300 focus:border-primary-600 focus:ring-1 focus:ring-primary-600 text-sm text-slate-800 transition-colors"
+                           value="{{ old('name', $user->name) }}" required autocomplete="name" />
+                    @error('name') <p class="mt-1 text-xs text-rose-600 font-medium">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Row: Gender & Tanggal Lahir (Dompet Dhuafa Style) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label for="nik" class="block text-sm font-bold text-slate-700 mb-1.5">
-                            NIK / No. KTP (16 Digit)
+                        <label for="jenis_kelamin" class="block text-xs font-semibold text-slate-700 mb-1">
+                            Gender
                         </label>
-                        <input id="nik" name="nik" type="text" maxlength="16"
-                               placeholder="330101xxxxxxxxxx"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
-                               value="{{ old('nik', $user->masyarakat?->nik) }}" />
-                        @error('nik') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
+                        <select id="jenis_kelamin" name="jenis_kelamin"
+                                class="w-full px-3.5 py-2 rounded-md border border-slate-300 focus:border-primary-600 focus:ring-1 focus:ring-primary-600 text-sm text-slate-800 transition-colors bg-white">
+                            <option value="">Pilih Gender</option>
+                            <option value="L" {{ old('jenis_kelamin', $user->masyarakat?->jenis_kelamin) === 'L' ? 'selected' : '' }}>Laki-laki</option>
+                            <option value="P" {{ old('jenis_kelamin', $user->masyarakat?->jenis_kelamin) === 'P' ? 'selected' : '' }}>Perempuan</option>
+                        </select>
+                        @error('jenis_kelamin') <p class="mt-1 text-xs text-rose-600 font-medium">{{ $message }}</p> @enderror
                     </div>
 
                     <div>
-                        <label for="tanggal_lahir" class="block text-sm font-bold text-slate-700 mb-1.5">
+                        <label for="tanggal_lahir" class="block text-xs font-semibold text-slate-700 mb-1">
                             Tanggal Lahir
                         </label>
                         <input id="tanggal_lahir" name="tanggal_lahir" type="date"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
+                               class="w-full px-3.5 py-2 rounded-md border border-slate-300 focus:border-primary-600 focus:ring-1 focus:ring-primary-600 text-sm text-slate-800 transition-colors bg-white"
                                value="{{ old('tanggal_lahir', $user->masyarakat?->tanggal_lahir?->format('Y-m-d')) }}" />
-                        @error('tanggal_lahir') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div>
-                        <label for="jenis_kelamin" class="block text-sm font-bold text-slate-700 mb-1.5">
-                            Jenis Kelamin
-                        </label>
-                        <select id="jenis_kelamin" name="jenis_kelamin"
-                                class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all">
-                            <option value="">-- Pilih Jenis Kelamin --</option>
-                            <option value="L" {{ old('jenis_kelamin', $user->masyarakat?->jenis_kelamin) === 'L' ? 'selected' : '' }}>Laki-laki (Pria)</option>
-                            <option value="P" {{ old('jenis_kelamin', $user->masyarakat?->jenis_kelamin) === 'P' ? 'selected' : '' }}>Perempuan (Wanita)</option>
-                        </select>
-                        @error('jenis_kelamin') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div>
-                        <label for="kontak_darurat" class="block text-sm font-bold text-slate-700 mb-1.5">
-                            Nomor Kontak Darurat Keluarga
-                        </label>
-                        <input id="kontak_darurat" name="kontak_darurat" type="text"
-                               placeholder="0813-xxxx-xxxx (Keluarga/Kerabat)"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all"
-                               value="{{ old('kontak_darurat', $user->masyarakat?->kontak_darurat) }}" />
-                        @error('kontak_darurat') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div class="md:col-span-2">
-                        <label for="alamat" class="block text-sm font-bold text-slate-700 mb-1.5">
-                            Alamat Lengkap Tempat Tinggal
-                        </label>
-                        <textarea id="alamat" name="alamat" rows="3"
-                                  placeholder="Contoh: Jl. Gatot Subroto No. 45, Sidanegara, Cilacap"
-                                  class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 text-sm font-medium bg-white transition-all">{{ old('alamat', $user->masyarakat?->alamat) }}</textarea>
-                        @error('alamat') <p class="mt-1.5 text-xs font-semibold text-red-600">{{ $message }}</p> @enderror
+                        @error('tanggal_lahir') <p class="mt-1 text-xs text-rose-600 font-medium">{{ $message }}</p> @enderror
                     </div>
                 </div>
+
+                <!-- Nomor KTP / NIK -->
+                <div>
+                    <label for="nik" class="block text-xs font-semibold text-slate-700 mb-1">
+                        Nomor KTP
+                    </label>
+                    <input id="nik" name="nik" type="text" maxlength="16"
+                           placeholder="330101xxxxxxxxxx"
+                           class="w-full px-3.5 py-2 rounded-md border border-slate-300 focus:border-primary-600 focus:ring-1 focus:ring-primary-600 text-sm text-slate-800 transition-colors"
+                           value="{{ old('nik', $user->masyarakat?->nik) }}" />
+                    @error('nik') <p class="mt-1 text-xs text-rose-600 font-medium">{{ $message }}</p> @enderror
+                </div>
+
+                <!-- Nomor Handphone -->
+                <div>
+                    <label for="phone" class="block text-xs font-semibold text-slate-700 mb-1">
+                        Nomor Handphone
+                    </label>
+                    <input id="phone" name="phone" type="text"
+                           placeholder="0812-3456-7890"
+                           class="w-full px-3.5 py-2 rounded-md border border-slate-300 focus:border-primary-600 focus:ring-1 focus:ring-primary-600 text-sm text-slate-800 transition-colors"
+                           value="{{ old('phone', $user->phone) }}" />
+                    @error('phone') <p class="mt-1 text-xs text-rose-600 font-medium">{{ $message }}</p> @enderror
+                </div>
+
+                <!-- Alamat Email -->
+                <div>
+                    <label for="email" class="block text-xs font-semibold text-slate-700 mb-1">
+                        Alamat Email
+                    </label>
+                    <input id="email" name="email" type="email"
+                           class="w-full px-3.5 py-2 rounded-md border border-slate-300 focus:border-primary-600 focus:ring-1 focus:ring-primary-600 text-sm text-slate-800 transition-colors"
+                           value="{{ old('email', $user->email) }}" required autocomplete="username" />
+                    @error('email') <p class="mt-1 text-xs text-rose-600 font-medium">{{ $message }}</p> @enderror
+
+                    @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
+                        <div class="mt-2 text-xs text-slate-500">
+                            Email belum diverifikasi.
+                            <button form="send-verification" class="text-primary-600 hover:underline font-semibold">
+                                Kirim ulang email verifikasi
+                            </button>
+                            @if (session('status') === 'verification-link-sent')
+                                <span class="text-emerald-600 block mt-1 font-medium">Link verifikasi baru telah dikirimkan.</span>
+                            @endif
+                        </div>
+                    @endif
+                </div>
+
+                <!-- Nomor Kontak Darurat -->
+                <div>
+                    <label for="kontak_darurat" class="block text-xs font-semibold text-slate-700 mb-1">
+                        Nomor Kontak Darurat (Keluarga)
+                    </label>
+                    <input id="kontak_darurat" name="kontak_darurat" type="text"
+                           placeholder="0813-xxxx-xxxx"
+                           class="w-full px-3.5 py-2 rounded-md border border-slate-300 focus:border-primary-600 focus:ring-1 focus:ring-primary-600 text-sm text-slate-800 transition-colors"
+                           value="{{ old('kontak_darurat', $user->masyarakat?->kontak_darurat) }}" />
+                    @error('kontak_darurat') <p class="mt-1 text-xs text-rose-600 font-medium">{{ $message }}</p> @enderror
+                </div>
+
+                <!-- Alamat Lengkap -->
+                <div>
+                    <label for="alamat" class="block text-xs font-semibold text-slate-700 mb-1">
+                        Alamat
+                    </label>
+                    <textarea id="alamat" name="alamat" rows="3"
+                              placeholder="Alamat lengkap..."
+                              class="w-full px-3.5 py-2 rounded-md border border-slate-300 focus:border-primary-600 focus:ring-1 focus:ring-primary-600 text-sm text-slate-800 transition-colors">{{ old('alamat', $user->masyarakat?->alamat) }}</textarea>
+                    @error('alamat') <p class="mt-1 text-xs text-rose-600 font-medium">{{ $message }}</p> @enderror
+                </div>
+
+                <!-- Bagian Khusus Supir / Driver -->
+                @if($user->isSupir())
+                    <div class="mt-5 p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-3">
+                        <h4 class="text-xs font-bold text-slate-700">Informasi Armada & Driver</h4>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label for="nama_lembaga" class="block text-xs text-slate-600 mb-1">Nama Mitra</label>
+                                <input id="nama_lembaga" name="nama_lembaga" type="text"
+                                       class="w-full px-3 py-1.5 rounded-md border border-slate-300 text-sm bg-white"
+                                       value="{{ old('nama_lembaga', $user->supir?->mitra?->nama_mitra) }}" />
+                            </div>
+
+                            <div>
+                                <label for="nama_penanggung_jawab" class="block text-xs text-slate-600 mb-1">Penanggung Jawab</label>
+                                <input id="nama_penanggung_jawab" name="nama_penanggung_jawab" type="text"
+                                       class="w-full px-3 py-1.5 rounded-md border border-slate-300 text-sm bg-white"
+                                       value="{{ old('nama_penanggung_jawab', $user->supir?->mitra?->penanggung_jawab) }}" />
+                            </div>
+
+                            <div>
+                                <label for="merk_kendaraan" class="block text-xs text-slate-600 mb-1">Merk Kendaraan</label>
+                                <input id="merk_kendaraan" name="merk_kendaraan" type="text"
+                                       class="w-full px-3 py-1.5 rounded-md border border-slate-300 text-sm bg-white"
+                                       value="{{ old('merk_kendaraan', $user->supir?->merk_kendaraan) }}" />
+                            </div>
+
+                            <div>
+                                <label for="plat_nomor" class="block text-xs text-slate-600 mb-1">Plat Nomor</label>
+                                <input id="plat_nomor" name="plat_nomor" type="text"
+                                       class="w-full px-3 py-1.5 rounded-md border border-slate-300 text-sm bg-white"
+                                       value="{{ old('plat_nomor', $user->supir?->plat_nomor) }}" />
+                            </div>
+
+                            <div>
+                                <label for="nomor_sim" class="block text-xs text-slate-600 mb-1">Nomor SIM</label>
+                                <input id="nomor_sim" name="nomor_sim" type="text"
+                                       class="w-full px-3 py-1.5 rounded-md border border-slate-300 text-sm bg-white"
+                                       value="{{ old('nomor_sim', $user->supir?->nomor_sim) }}" />
+                            </div>
+
+                            <div>
+                                <label for="nomor_stnk" class="block text-xs text-slate-600 mb-1">Nomor STNK</label>
+                                <input id="nomor_stnk" name="nomor_stnk" type="text"
+                                       class="w-full px-3 py-1.5 rounded-md border border-slate-300 text-sm bg-white"
+                                       value="{{ old('nomor_stnk', $user->supir?->nomor_stnk) }}" />
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                <!-- Tombol Simpan (Dompet Dhuafa Style: Clean Green/Cyan Rectangle) -->
+                <div class="pt-3 flex items-center gap-4">
+                    <button type="submit"
+                            class="px-7 py-2.5 rounded-md bg-primary-600 hover:bg-primary-700 text-white font-bold text-sm shadow-xs transition-colors cursor-pointer">
+                        Simpan
+                    </button>
+
+                    @if (session('status') === 'profile-updated')
+                        <span x-data="{ show: true }"
+                              x-show="show"
+                              x-transition
+                              x-init="setTimeout(() => show = false, 4000)"
+                              class="text-xs font-semibold text-emerald-600">
+                            Perubahan profil berhasil disimpan.
+                        </span>
+                    @endif
+                </div>
+
             </div>
-        @endif
-
-        <div class="flex items-center gap-4 pt-4 border-t border-slate-100">
-            <button type="submit"
-                    class="px-6 py-3 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-extrabold text-sm shadow-md shadow-primary-600/30 transition-all">
-                SIMPAN PERUBAHAN
-            </button>
-
-            @if (session('status') === 'profile-updated')
-                <p x-data="{ show: true }"
-                   x-show="show"
-                   x-transition
-                   x-init="setTimeout(() => show = false, 4000)"
-                   class="flex items-center gap-1.5 text-sm font-bold text-emerald-600">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                    </svg>
-                    <span>Perubahan profil berhasil disimpan.</span>
-                </p>
-            @endif
         </div>
     </form>
 </section>
+
+<!-- Vanilla JS Live Preview untuk Avatar -->
+<script>
+    function previewAvatar(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('avatar-preview-img');
+                const placeholder = document.getElementById('avatar-placeholder');
+                if (preview) {
+                    preview.src = e.target.result;
+                    preview.classList.remove('hidden');
+                }
+                if (placeholder) {
+                    placeholder.classList.add('hidden');
+                }
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>

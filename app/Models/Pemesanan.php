@@ -174,6 +174,27 @@ class Pemesanan extends Model
     }
 
     /**
+     * URL foto bukti verifikasi / kondisi darurat
+     */
+    public function getPhotoUrlAttribute(): ?string
+    {
+        if (!$this->photo_path) {
+            return null;
+        }
+
+        if (str_starts_with($this->photo_path, 'http://') || str_starts_with($this->photo_path, 'https://') || str_starts_with($this->photo_path, 'data:')) {
+            return $this->photo_path;
+        }
+
+        $cleanPath = ltrim($this->photo_path, '/');
+        if (str_starts_with($cleanPath, 'storage/')) {
+            $cleanPath = substr($cleanPath, 8);
+        }
+
+        return asset('storage/' . $cleanPath);
+    }
+
+    /**
      * Cek apakah pesanan membutuhkan pelengkapan formulir medis
      */
     public function needsFormCompletion(): bool

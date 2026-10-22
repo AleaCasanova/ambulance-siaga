@@ -406,15 +406,17 @@
 
                         const bounds = L.latLngBounds([]);
 
-                        // Titik Pasien (Merah)
-                        const patientIcon = L.divIcon({
-                            className: 'custom-div-icon',
-                            html: `<div style="font-size: 24px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); text-align: center; margin-top:-10px;">📍</div>`,
-                            iconSize: [30, 30],
-                            iconAnchor: [15, 30]
-                        });
-                        L.marker([orderData.lat, orderData.lng], {icon: patientIcon}).addTo(this.map)
-                            .bindPopup(`<b>📍 Lokasi Pasien</b><br>${orderData.nama}`);
+                        // Titik Pasien 3D (Merah)
+                        const patientIcon = (typeof window.getPatientPin3DIcon === 'function')
+                            ? window.getPatientPin3DIcon({ size: 32 })
+                            : L.divIcon({
+                                className: 'custom-div-icon',
+                                html: `<div style="font-size: 24px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); text-align: center; margin-top:-10px;">📍</div>`,
+                                iconSize: [30, 30],
+                                iconAnchor: [15, 30]
+                            });
+                        L.marker([orderData.lat, orderData.lng], {icon: patientIcon, zIndexOffset: 1000}).addTo(this.map)
+                            .bindPopup(`<b>Lokasi Pasien (3D)</b><br>${orderData.nama}`);
                         bounds.extend([orderData.lat, orderData.lng]);
 
                         // Titik Armada (Hijau)

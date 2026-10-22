@@ -14,7 +14,7 @@
         <!-- Fonts: Plus Jakarta Sans -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
         <!-- Leaflet.js CSS (Peta & Monitoring) -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
@@ -24,6 +24,7 @@
 
         <!-- Chart.js & Leaflet.js -->
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+        <script src="{{ asset('js/ambulance-3d-engine.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
         @livewireStyles
@@ -35,7 +36,7 @@
             }
         </style>
     </head>
-    <body class="font-sans antialiased bg-slate-50 text-slate-800">
+    <body class="font-sans antialiased bg-slate-50 text-slate-800 {{ (auth()->user() && (auth()->user()->hasRole('masyarakat') || !auth()->user()->role_id)) ? 'sharp-theme' : '' }}">
         <div class="min-h-screen flex flex-col relative" x-data="{ mobileMenuOpen: false }">
 
             <!-- Global Teal Background -->
@@ -47,7 +48,7 @@
             @include('layouts.header')
 
             <!-- Main Application Area -->
-            <div class="pt-32 flex-1 flex flex-col w-full transition-all duration-300 ease-in-out z-10">
+            <div class="pt-32 flex-1 flex flex-col w-full transition-all duration-300 ease-in-out relative">
                 <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
                     <!-- Flash Message Toast Alert -->
                     @if(session('success'))

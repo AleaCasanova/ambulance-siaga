@@ -17,7 +17,7 @@
         <!-- Text & Button -->
         <div class="flex-1 min-w-0 flex flex-col justify-center relative z-10">
             <div class="flex items-center gap-1 mb-0.5">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-primary-500 animate-pulse shrink-0"></span>
                 <h4 class="text-slate-900 font-black text-[11px] sm:text-xs lg:text-sm leading-tight truncate">Ayo Donasi!</h4>
             </div>
             <p class="text-slate-600 text-[8.5px] sm:text-[9.5px] lg:text-[10px] leading-tight mb-1 font-medium truncate">Bantu pasien darurat</p>

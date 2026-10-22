@@ -56,10 +56,10 @@
                 } elseif ($user->hasRole('masyarakat') || !$user->role_id) {
                     // Masyarakat (Sudah Login)
                     $footerLinks = [
-                        ['url' => route('masyarakat.dashboard'), 'label' => 'Pusat Siaga'],
+                        ['url' => route('masyarakat.dashboard'), 'label' => 'Beranda'],
                         ['url' => route('masyarakat.order.create'), 'label' => 'Pesan Ambulans'],
-                        ['url' => route('masyarakat.orders.index'), 'label' => 'Pesanan Saya'],
-                        ['url' => route('donasi'), 'label' => 'Donasi & Infaq'],
+                        ['url' => route('masyarakat.orders.index'), 'label' => 'Pesanan'],
+                        ['url' => route('donasi'), 'label' => 'Donasi'],
                         ['url' => route('masyarakat.info'), 'label' => 'Tentang Kami'],
                         ['url' => route('mitra.pengemudi'), 'label' => 'Kemitraan Pengemudi'],
                         ['url' => route('mitra.armada'), 'label' => 'Kemitraan Armada'],

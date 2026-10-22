@@ -307,35 +307,35 @@
 
     <!-- Modal Detail Pesanan & Foto Verifikasi Pasien -->
     @if($showDetailModal && $selectedDetailOrder)
-        <div class="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 bg-slate-900/70 backdrop-blur-xs animate-fade-in"
+        <div class="fixed inset-0 z-[100] overflow-y-auto bg-slate-900/80 backdrop-blur-sm p-3 sm:p-6 flex items-center justify-center min-h-screen py-8 sm:py-12 animate-fade-in"
              x-data="{ showLightbox: false }">
-            <div class="bg-white rounded-3xl max-w-2xl w-full shadow-2xl border border-slate-100 overflow-hidden relative z-[10000] max-h-[90vh] flex flex-col"
+            <div class="bg-white rounded-3xl max-w-2xl w-full shadow-2xl border border-slate-100 overflow-hidden relative z-[101] my-auto max-h-[88vh] flex flex-col"
                  @click.outside="$wire.closeDetailModal()">
                 
                 <!-- Modal Header -->
-                <div class="px-6 py-4 border-b border-slate-100 bg-slate-50/80 flex items-center justify-between gap-3 shrink-0">
-                    <div class="flex items-center gap-2.5">
-                        <span class="w-2.5 h-2.5 rounded-full bg-teal-600 animate-pulse"></span>
-                        <div>
-                            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Verifikasi & Detail Pasien</span>
-                            <h3 class="font-extrabold text-slate-800 text-base leading-tight font-mono">
+                <div class="px-5 sm:px-6 py-4 border-b border-slate-100 bg-slate-50/90 flex items-center justify-between gap-3 shrink-0">
+                    <div class="flex items-center gap-2.5 min-w-0">
+                        <span class="w-2.5 h-2.5 rounded-full bg-teal-600 animate-pulse shrink-0"></span>
+                        <div class="min-w-0">
+                            <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Verifikasi & Detail Pasien</span>
+                            <h3 class="font-extrabold text-slate-800 text-base sm:text-lg leading-tight font-mono truncate">
                                 #{{ $selectedDetailOrder->kode_order }}
                             </h3>
                         </div>
                     </div>
-                    <div class="flex items-center gap-2">
+                    <div class="flex items-center gap-2 shrink-0">
                         <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-extrabold {{ $selectedDetailOrder->prioritas_badge_classes }}">
                             PRIORITAS {{ strtoupper($selectedDetailOrder->prioritas) }}
                         </span>
                         <button type="button" wire:click="closeDetailModal"
-                                class="w-8 h-8 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-600 flex items-center justify-center transition-colors">
+                                class="w-8 h-8 rounded-full bg-slate-200/80 hover:bg-slate-300 text-slate-600 flex items-center justify-center transition-colors">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                         </button>
                     </div>
                 </div>
 
                 <!-- Modal Body (Scrollable) -->
-                <div class="p-6 space-y-5 overflow-y-auto text-xs text-slate-700">
+                <div class="p-5 sm:p-6 space-y-5 overflow-y-auto text-xs text-slate-700">
                     
                     <!-- Foto Verifikasi / Bukti Darurat -->
                     <div>
@@ -344,23 +344,46 @@
                         </span>
                         
                         @if($selectedDetailOrder->photo_path)
-                            <div class="relative rounded-2xl overflow-hidden border border-slate-200 bg-slate-900 group cursor-pointer"
-                                 @click="showLightbox = true">
-                                <img src="{{ asset('storage/' . $selectedDetailOrder->photo_path) }}" 
-                                     alt="Foto Pasien & Lokasi" 
-                                     class="w-full h-56 object-cover object-center group-hover:scale-105 transition-transform duration-300">
+                            <div class="relative rounded-2xl overflow-hidden border border-slate-200 bg-slate-900 group cursor-pointer shadow-inner"
+                                 @click="showLightbox = true"
+                                 x-data="{ imgLoaded: false, imgError: false }">
                                 
-                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end justify-between p-3.5 text-white">
+                                <!-- Loading skeleton -->
+                                <div x-show="!imgLoaded && !imgError" class="w-full h-56 sm:h-64 bg-slate-800 animate-pulse flex items-center justify-center text-slate-400 text-xs">
+                                    <div class="flex items-center gap-2">
+                                        <svg class="w-5 h-5 animate-spin text-teal-400" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                                        </svg>
+                                        <span>Memuat foto pasien...</span>
+                                    </div>
+                                </div>
+
+                                <img src="{{ $selectedDetailOrder->photo_url ?? asset('storage/' . $selectedDetailOrder->photo_path) }}" 
+                                     alt="Foto Pasien & Lokasi" 
+                                     class="w-full h-56 sm:h-64 object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                                     x-show="!imgError"
+                                     x-on:load="imgLoaded = true"
+                                     x-on:error="imgError = true; imgLoaded = false">
+                                
+                                <!-- Fallback jika gambar error/tidak ditemukan -->
+                                <div x-show="imgError" class="w-full h-56 sm:h-64 bg-slate-800 flex flex-col items-center justify-center p-4 text-center text-slate-300 space-y-2">
+                                    <span class="text-2xl">⚠️</span>
+                                    <p class="font-bold text-xs">Berkas Foto Tidak Ditemukan</p>
+                                    <p class="text-[11px] text-slate-400 font-mono">{{ $selectedDetailOrder->photo_path }}</p>
+                                </div>
+                                
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent flex items-end justify-between p-3.5 text-white pointer-events-none">
                                     <div class="space-y-0.5">
                                         <div class="flex items-center gap-1.5 text-[11px] font-bold">
-                                            <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                            <span>Foto Terverifikasi Geotagging</span>
+                                            <svg class="w-3.5 h-3.5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                            <span class="text-emerald-300">Foto Terverifikasi Geotagging</span>
                                         </div>
-                                        <p class="text-[10px] text-slate-300 truncate max-w-[320px]">
+                                        <p class="text-[10px] text-slate-200 truncate max-w-[280px] sm:max-w-md">
                                             {{ $selectedDetailOrder->photo_address ?: $selectedDetailOrder->lokasi_jemput }}
                                         </p>
                                     </div>
-                                    <span class="px-2.5 py-1 rounded-lg bg-white/20 backdrop-blur-md text-[10px] font-bold border border-white/30 flex items-center gap-1">
+                                    <span class="px-2.5 py-1 rounded-lg bg-black/40 backdrop-blur-md text-[10px] font-bold border border-white/30 flex items-center gap-1 shrink-0 text-white pointer-events-auto">
                                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
                                         <span>Perbesar</span>
                                     </span>
@@ -453,7 +476,7 @@
                 </div>
 
                 <!-- Modal Footer -->
-                <div class="px-6 py-4 border-t border-slate-100 bg-slate-50/80 flex items-center justify-end gap-3 shrink-0">
+                <div class="px-5 sm:px-6 py-4 border-t border-slate-100 bg-slate-50/90 flex items-center justify-end gap-3 shrink-0">
                     <button type="button" wire:click="closeDetailModal"
                             class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors">
                         Tutup
@@ -489,16 +512,24 @@
                      x-transition:leave="transition ease-in duration-150"
                      x-transition:leave-start="opacity-100"
                      x-transition:leave-end="opacity-0"
-                     class="fixed inset-0 z-[20000] bg-black/90 backdrop-blur-md flex items-center justify-center p-4"
-                     @click="showLightbox = false">
+                     class="fixed inset-0 z-[20000] bg-black/95 backdrop-blur-md flex items-center justify-center p-4"
+                     @click="showLightbox = false"
+                     style="display: none;">
                     <button type="button" @click="showLightbox = false"
-                            class="absolute top-5 right-5 text-white bg-white/20 hover:bg-white/30 rounded-full p-2.5 transition-colors">
+                            class="absolute top-5 right-5 text-white bg-white/20 hover:bg-white/30 rounded-full p-2.5 transition-colors z-10">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
-                    <img src="{{ asset('storage/' . $selectedDetailOrder->photo_path) }}" 
-                         alt="Foto Pembesaran" 
-                         class="max-w-full max-h-[85vh] rounded-2xl object-contain shadow-2xl"
-                         @click.stop="">
+                    <div class="max-w-4xl max-h-[90vh] flex flex-col items-center">
+                        <img src="{{ $selectedDetailOrder->photo_url ?? asset('storage/' . $selectedDetailOrder->photo_path) }}" 
+                             alt="Foto Pembesaran Pasien" 
+                             class="max-w-full max-h-[82vh] rounded-2xl object-contain shadow-2xl border border-white/10"
+                             @click.stop="">
+                        @if($selectedDetailOrder->photo_address)
+                            <div class="mt-2.5 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs text-center truncate max-w-lg">
+                                📍 {{ $selectedDetailOrder->photo_address }}
+                            </div>
+                        @endif
+                    </div>
                 </div>
             @endif
         </div>
@@ -540,10 +571,19 @@
                             iconAnchor: [15, 15]
                         });
 
-                        this.driverMarker = L.marker([defaultLat, defaultLng], {
-                            icon: ambIcon,
-                            title: 'Posisi Anda'
-                        }).addTo(this.map).bindPopup('<b>Posisi Ambulans Anda</b>');
+                        if (typeof window.createLeafletAmbulance3DMarker === 'function') {
+                            this.driverMarker = window.createLeafletAmbulance3DMarker(this.map, defaultLat, defaultLng, {
+                                size: 52,
+                                autoSpin: false,
+                                destLat: initJemputLat || null,
+                                destLng: initJemputLng || null
+                            }).bindPopup('<b>Posisi Ambulans Anda (3D Real)</b><br>Menghadap arah perjalanan');
+                        } else {
+                            this.driverMarker = L.marker([defaultLat, defaultLng], {
+                                icon: ambIcon,
+                                title: 'Posisi Anda'
+                            }).addTo(this.map).bindPopup('<b>Posisi Ambulans Anda</b>');
+                        }
 
                         if (initJemputLat && initJemputLng && initJemputLat !== 0) {
                             this.selectOrder({
@@ -576,27 +616,33 @@
                         this.routePolyline = null;
                     }
 
-                    const jemputIcon = L.divIcon({
-                        className: 'custom-jemput-icon',
-                        html: `<div style="background:#0284C7; width:28px; height:28px; border-radius:50%; border:2px solid white; box-shadow:0 2px 6px rgba(2,132,199,0.4); display:flex; align-items:center; justify-content:center; color:white; font-size:12px;">📍</div>`,
-                        iconSize: [28, 28],
-                        iconAnchor: [14, 28]
-                    });
-
-                    this.jemputMarker = L.marker([orderData.jemputLat, orderData.jemputLng], {
-                        icon: jemputIcon
-                    }).addTo(this.map).bindPopup(`<b>Titik Jemput: ${orderData.nama}</b><br><span style="font-size:11px;">${orderData.jemput}</span>`).openPopup();
-
-                    if (orderData.tujuanLat && orderData.tujuanLng && orderData.tujuanLat !== 0) {
-                        const rsIcon = L.divIcon({
-                            className: 'custom-rs-icon',
-                            html: `<div style="background:#16A36A; width:28px; height:28px; border-radius:50%; border:2px solid white; box-shadow:0 2px 6px rgba(22,163,106,0.4); display:flex; align-items:center; justify-content:center; color:white; font-size:12px;">🏥</div>`,
+                    const jemputIcon = (typeof window.getPatientPin3DIcon === 'function')
+                        ? window.getPatientPin3DIcon({ size: 32 })
+                        : L.divIcon({
+                            className: 'custom-jemput-icon',
+                            html: `<div style="background:#EF4444; width:28px; height:28px; border-radius:50%; border:2px solid white; box-shadow:0 2px 6px rgba(239,68,68,0.4); display:flex; align-items:center; justify-content:center; color:white; font-size:12px;">📍</div>`,
                             iconSize: [28, 28],
                             iconAnchor: [14, 28]
                         });
 
+                    this.jemputMarker = L.marker([orderData.jemputLat, orderData.jemputLng], {
+                        icon: jemputIcon,
+                        zIndexOffset: 1000
+                    }).addTo(this.map).bindPopup(`<b>Titik Jemput (3D): ${orderData.nama}</b><br><span style="font-size:11px;">${orderData.jemput}</span>`).openPopup();
+
+                    if (orderData.tujuanLat && orderData.tujuanLng && orderData.tujuanLat !== 0) {
+                        const rsIcon = (typeof window.getHospital3DIcon === 'function')
+                            ? window.getHospital3DIcon({ size: 46 })
+                            : L.divIcon({
+                                className: 'custom-rs-icon',
+                                html: `<div style="background:#16A36A; width:28px; height:28px; border-radius:50%; border:2px solid white; box-shadow:0 2px 6px rgba(22,163,106,0.4); display:flex; align-items:center; justify-content:center; color:white; font-size:12px;">🏥</div>`,
+                                iconSize: [28, 28],
+                                iconAnchor: [14, 28]
+                            });
+
                         this.rsMarker = L.marker([orderData.tujuanLat, orderData.tujuanLng], {
-                            icon: rsIcon
+                            icon: rsIcon,
+                            zIndexOffset: 950
                         }).addTo(this.map).bindPopup(`<b>Tujuan: ${orderData.tujuan}</b>`);
                     }
 
@@ -621,6 +667,20 @@
                             this.routeDistance = (route.distance / 1000).toFixed(1) + ' km';
                             this.routeEta = Math.max(1, Math.ceil(route.duration / 60)) + ' Menit';
                             this.routeSummary = (route.legs && route.legs[0] && route.legs[0].summary) ? route.legs[0].summary : 'Jalan Utama';
+
+                            // Arahkan moncong ambulans 3D persis menyusuri rute jalan!
+                            if (coords && coords.length >= 2) {
+                                const alignCar = () => {
+                                    if (this.driverMarker && this.driverMarker.engine3D) {
+                                        this.driverMarker.engine3D.setHeadingAlongRoad(
+                                            coords[0][0], coords[0][1],
+                                            coords[1][0], coords[1][1]
+                                        );
+                                    }
+                                };
+                                alignCar();
+                                setTimeout(alignCar, 150);
+                            }
                         }
                     } catch (e) {
                         this.routePolyline = L.polyline([

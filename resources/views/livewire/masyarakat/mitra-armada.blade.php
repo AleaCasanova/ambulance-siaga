@@ -2,85 +2,51 @@
     showTypeModal: false 
 }" class="min-h-screen bg-slate-50/50 font-sans text-slate-800 selection:bg-primary-600 selection:text-white">
 
-    <!-- Section 1: Hero Banner (Perusahaan / Lembaga / Mitra Armada) -->
-    <section class="relative pt-36 sm:pt-40 pb-24 sm:pb-28 px-6 lg:px-12 overflow-hidden bg-primary-600" style="background-image: url('{{ asset('images/beranda_utama_bg.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
-        <!-- Gradient Overlay: Rich Teal/Cyan & Primary (Matching Beranda & Donasi) -->
-        <div class="absolute inset-0 bg-gradient-to-r from-primary-700 via-[#009CA6]/85 to-primary-600/75 mix-blend-multiply"></div>
-        <div class="absolute inset-0 bg-gradient-to-r from-primary-700/90 via-[#009CA6]/80 to-primary-800/75"></div>
-        
-        <!-- Bottom Fade to Slate/White -->
-        <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-slate-50 via-slate-50/40 to-transparent pointer-events-none z-10"></div>
+    <!-- Dedicated Hero Section: Mitra Armada (Kolaborasi Lembaga & RS) -->
+    <section class="relative pt-20 overflow-hidden bg-[#002b2f]">
+        <!-- Background Image (Deretan Mobil Ambulans Mitra) -->
+        <div class="absolute inset-0 z-0 bg-cover bg-center"
+             style="background-image: url('{{ asset('images/mitra.jpg') }}');">
+            <!-- Overlay Transparan untuk Mempertajam Teks (Terang & Jernih) -->
+            <div class="absolute inset-0 bg-black/20"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-black/65 via-black/25 to-transparent"></div>
+        </div>
 
-        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 relative z-10">
-            <!-- Left: Hero Text Content -->
-            <div class="lg:w-[55%] text-white z-10 text-center lg:text-left space-y-6">
-                
-                <!-- Category Switcher Pill (Perusahaan Active -> Switch to Pengemudi) -->
-                <div class="inline-flex items-center p-1 bg-black/25 backdrop-blur-md rounded-full border border-white/20 shadow-lg">
-                    <a href="{{ route('mitra.pengemudi') }}" 
-                       class="px-5 py-2 rounded-full text-xs sm:text-sm text-white/80 hover:text-white font-semibold transition-all">
-                        Perorangan (Pengemudi)
-                    </a>
-                    <a href="{{ route('mitra.armada') }}" 
-                       class="px-5 py-2 rounded-full text-xs sm:text-sm bg-white text-primary-700 font-black shadow-md transition-all">
-                        Perusahaan / Lembaga
-                    </a>
+        <!-- Hero Content -->
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 min-h-[460px] sm:min-h-[500px] lg:min-h-[540px] flex items-center relative z-20 py-14 sm:py-16">
+            <div class="max-w-3xl text-left text-white pr-4 lg:pr-12">
+                <!-- Badge -->
+                <div class="mb-4 sm:mb-5">
+                    <span class="inline-flex items-center gap-2 bg-black/45 backdrop-blur-md text-white border border-white/20 px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-bold tracking-widest uppercase shadow-md">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span>KOLABORASI FLEET & FASKES TERPADU 24 JAM</span>
+                    </span>
                 </div>
 
-                <!-- Main Headline -->
-                <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black leading-[1.15] drop-shadow-lg text-white">
-                    Menjadi <span class="text-teal-200">Mitra Armada</span> <br class="hidden sm:block">
-                    Siaga Ambulans
+                <!-- Big Headline -->
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight sm:leading-[1.15] mb-4 text-white drop-shadow-[0_3px_6px_rgba(0,0,0,0.85)] tracking-tight">
+                    Kemitraan Terpadu Armada Ambulans Lembaga & Rumah Sakit
                 </h1>
 
                 <!-- Subtitle -->
-                <p class="text-lg sm:text-xl text-sky-100 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
-                    Lembaga, Rumah Sakit, Klinik, maupun Yayasan Anda kini dapat terkoneksi langsung dalam ekosistem digital Ambulans Siaga yang cepat, akurat, dan transparan!
+                <p class="text-xs sm:text-base lg:text-lg text-slate-100 mb-8 max-w-2xl leading-relaxed font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                    Hubungkan armada ambulans Rumah Sakit, Klinik, Yayasan, dan Lembaga Anda ke dalam ekosistem digital terpadu Ambulans Siaga untuk mengoptimalkan respon evakuasi medis, efisiensi penugasan supir, dan pemantauan terpusat.
                 </p>
 
-                <!-- CTA Group -->
-                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap items-center gap-3 sm:gap-4">
                     <a href="{{ route('register.mitra') }}" 
-                       class="w-full sm:w-auto group relative inline-flex justify-center items-center gap-2 bg-white text-primary-700 px-8 py-4 rounded-full font-black text-lg hover:bg-slate-50 transition-all shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:scale-105">
-                        <span>Daftar Mitra Armada</span>
-                        <svg class="w-5 h-5 text-primary-600 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                       class="inline-flex items-center justify-center gap-2 border-2 border-white text-white hover:bg-white hover:text-primary-600 px-6 sm:px-8 py-3 sm:py-3.5 rounded-lg font-bold text-xs sm:text-sm uppercase tracking-wider transition-all shadow-[0_4px_15px_rgba(0,0,0,0.4)] hover:shadow-xl active:scale-95 bg-black/25 backdrop-blur-xs">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span>Daftar Mitra Lembaga</span>
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                     </a>
-                    
+
                     <a href="{{ route('login') }}" 
-                       class="w-full sm:w-auto inline-flex justify-center items-center gap-2 bg-white/10 backdrop-blur-sm border-2 border-white/40 text-white px-7 py-4 rounded-full font-bold text-base hover:bg-white/20 hover:border-white transition-all">
-                        <span>Masuk ke Web Portal</span>
+                       class="inline-flex items-center justify-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-5 sm:px-7 py-3 sm:py-3.5 rounded-lg font-bold text-xs sm:text-sm uppercase tracking-wider transition-all shadow-[0_4px_15px_rgba(0,156,166,0.4)] hover:shadow-lg active:scale-95">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>
+                        <span>Masuk Web Portal</span>
                     </a>
-                </div>
-            </div>
-
-            <!-- Right Content Visual -->
-            <div class="lg:w-[45%] relative h-[420px] w-full hidden md:block">
-                <!-- Floating top badge -->
-                <div class="absolute top-2 right-4 bg-white/20 backdrop-blur-md p-4 rounded-2xl shadow-2xl z-30 flex items-center gap-4 w-64 border border-white/30">
-                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shrink-0 shadow-inner text-emerald-600">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                    </div>
-                    <div>
-                        <p class="text-xs font-medium text-white/80">Verifikasi Resmi</p>
-                        <p class="text-sm font-black text-white">Badan Hukum / Lembaga</p>
-                    </div>
-                </div>
-
-                <div class="relative bg-white/10 backdrop-blur-sm p-3 rounded-3xl border border-white/20 shadow-2xl mt-8">
-                    <img src="{{ asset('images/ambulance_thumb.jpg') }}" 
-                         alt="Mitra Ambulans Siaga" 
-                         class="w-full h-80 object-cover rounded-2xl shadow-lg">
-                </div>
-
-                <!-- Floating bottom badge -->
-                <div class="absolute bottom-2 left-2 bg-white p-4 rounded-2xl shadow-2xl z-30 flex items-center gap-4 w-64 border border-slate-100 animate-pulse">
-                    <div class="w-12 h-12 bg-primary-600/10 text-primary-600 rounded-full flex items-center justify-center shrink-0">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                    </div>
-                    <div>
-                        <p class="text-sm font-black text-slate-800">Siaga Multi-Mitra</p>
-                        <p class="text-xs font-semibold text-slate-500">Integrasi 24 Jam</p>
-                    </div>
                 </div>
             </div>
         </div>

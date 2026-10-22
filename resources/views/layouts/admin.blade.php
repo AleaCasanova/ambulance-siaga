@@ -11,10 +11,10 @@
     <link rel="icon" type="image/png" href="{{ asset('images/logo_ambulansiaga.png') }}">
     <link rel="shortcut icon" href="{{ asset('images/logo_ambulansiaga.png') }}">
 
-    <!-- Fonts: Inter for SaaS look -->
+    <!-- Fonts: Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
     <!-- Leaflet.js CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
@@ -24,12 +24,13 @@
 
     <!-- Chart.js & Leaflet.js -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="{{ asset('js/ambulance-3d-engine.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     @livewireStyles
     <style>
         body { 
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #F8FAFC; /* Slate 50 */
             color: #1E293B; /* Slate 800 */
         }
@@ -45,7 +46,7 @@
         .custom-yellow-icon { filter: hue-rotate(40deg) saturate(3); }
     </style>
 </head>
-<body class="antialiased min-h-screen flex bg-slate-50 overflow-x-hidden" x-data="{ sidebarOpen: false, sidebarCollapsed: false }">
+<body class="font-sans antialiased min-h-screen flex bg-slate-50 overflow-x-hidden" x-data="{ sidebarOpen: false, sidebarCollapsed: false }">
 
     <!-- Mobile Backdrop Overlay -->
     <div x-show="sidebarOpen" 

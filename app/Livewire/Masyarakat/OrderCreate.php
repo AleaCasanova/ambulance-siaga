@@ -94,6 +94,8 @@ class OrderCreate extends Component
             if ($rs) {
                 $this->tujuan_lokasi = $rs->nama . ' - ' . $rs->alamat;
             }
+        } else {
+            $this->tujuan_lokasi = 'Ditentukan Dispatcher (RS Rujukan Terdekat)';
         }
     }
 
@@ -194,9 +196,13 @@ class OrderCreate extends Component
     public function render()
     {
         $rumahSakits = RumahSakit::orderBy('nama', 'asc')->get();
+        $telepon = SettingAplikasi::getVal('telepon_darurat', '0812-3456-7890');
+        $namaOrg = SettingAplikasi::getVal('nama_organisasi', 'Ambulans Siaga');
 
         return view('livewire.masyarakat.order-create', [
             'rumahSakits' => $rumahSakits,
+            'telepon' => $telepon,
+            'namaOrg' => $namaOrg,
         ])->layout('layouts.blank');
     }
 }

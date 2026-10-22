@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class NotificationDropdown extends Component
 {
-    public $isDark = true;
+    public $isDark = false;
 
     public function markAsRead($id)
     {

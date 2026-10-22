@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,6 +13,26 @@ input::-ms-clear {
 }
 
 @layer base {
+    /* Global Typography Standardization (Plus Jakarta Sans) */
+    html, body {
+        font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+    }
+
+    /* Big & Bold Text: Meniru teks judul/headline atas (Kecepatan & Kepedulian dalam Menyelamatkan Nyawa) */
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        letter-spacing: -0.025em;
+        font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    }
+
+    /* Small & Body Text: Meniru teks deskripsi/sub judul bawah */
+    p, span, label, input, select, textarea, button, td, th {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
     /* Global Elegant & Modern Dropdown / Select Styles */
     select {
         appearance: none;
@@ -60,3 +82,86 @@ input::-ms-clear {
         color: #0284C7 !important;
     }
 }
+
+/* =========================================================================
+   ROLE USER (MASYARAKAT):
+   1. Tombol CTA, Input Form, Card Kontainer, & Modal = 5px Border Radius
+   2. Icon, Avatar, Logo, Status Indicator, Toggle Switch, & Pin Peta yang aslinya bulat = Tetap Bulat Sempurna
+   ========================================================================= */
+.sharp-theme,
+.sharp-theme *,
+.sharp-theme *::before,
+.sharp-theme *::after {
+    border-radius: 5px !important;
+}
+
+/* Pastikan tombol teks panjang/CTA (bukan icon bulat atau tab switcher) tetap menggunakan sudut halus 5px */
+.sharp-theme a[class*="px-"]:not([class*=" w-"]):not([class^="w-"]):not([class*=" h-"]):not([class^="h-"]):not([class*="rounded-full"]),
+.sharp-theme button[class*="px-"]:not([class*=" w-"]):not([class^="w-"]):not([class*=" h-"]):not([class^="h-"]):not([class*="rounded-full"]),
+.sharp-theme a[class*="py-"]:not([class*=" w-"]):not([class^="w-"]):not([class*=" h-"]):not([class^="h-"]):not([class*="rounded-full"]),
+.sharp-theme button[class*="py-"]:not([class*=" w-"]):not([class^="w-"]):not([class*=" h-"]):not([class^="h-"]):not([class*="rounded-full"]),
+.sharp-theme input,
+.sharp-theme select,
+.sharp-theme textarea {
+    border-radius: 5px !important;
+}
+
+/* Kembalikan semua icon, avatar, logo, status indicator, toggle, tab switcher, dan elemen bulat (.rounded-full) agar tetap bulat sempurna */
+.sharp-theme .rounded-full,
+.sharp-theme [class*="rounded-full"],
+.sharp-theme [class*="rounded-full"] *,
+.sharp-theme .rounded-full::before,
+.sharp-theme .rounded-full::after,
+.sharp-theme [class*="rounded-full"]::before,
+.sharp-theme [class*="rounded-full"]::after,
+.sharp-theme [class*="after:rounded-full"]::after,
+.sharp-theme a.rounded-full,
+.sharp-theme button.rounded-full,
+.sharp-theme a[class*="rounded-full"],
+.sharp-theme button[class*="rounded-full"],
+.sharp-theme div.rounded-full,
+.sharp-theme div[class*="rounded-full"],
+.sharp-theme .leaflet-marker-icon,
+.sharp-theme .leaflet-marker-icon *,
+.sharp-theme .leaflet-marker-icon div,
+.sharp-theme .custom-marker,
+.sharp-theme .custom-marker * {
+    border-radius: 9999px !important;
+}
+
+/* Jika di dalam tombol teks ada icon / dot bulat, pastikan dot/icon tersebut tetap bulat */
+.sharp-theme a[class*="px-"] [class*="rounded-full"],
+.sharp-theme button[class*="px-"] [class*="rounded-full"],
+.sharp-theme a[class*="px-"] .rounded-full,
+.sharp-theme button[class*="px-"] .rounded-full {
+    border-radius: 9999px !important;
+}
+
+/* =========================================================================
+   TYPOGRAPHY HARMONY SYSTEM (Plus Jakarta Sans)
+   - Teks Tebal & Besar: Meniru Headline Gambar Atas (Font-weight 800-900, tight tracking)
+   - Teks Kecil & Body: Meniru Deskripsi Gambar Bawah (Font-weight 400-500, clean leading)
+   ========================================================================= */
+.font-black {
+    font-weight: 900 !important;
+    letter-spacing: -0.03em !important;
+}
+
+.font-extrabold {
+    font-weight: 800 !important;
+    letter-spacing: -0.025em !important;
+}
+
+.font-bold {
+    font-weight: 700 !important;
+    letter-spacing: -0.015em !important;
+}
+
+/* Preservasi Elemen Monospace (Kode Order, Plat Nomor, Koordinat, Token/Timer) */
+.font-mono,
+.font-mono * {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+    letter-spacing: 0.04em !important;
+}
+
+
