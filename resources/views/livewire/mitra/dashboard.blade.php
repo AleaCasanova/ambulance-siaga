@@ -119,8 +119,24 @@
                     </span>
                 </div>
 
-                <!-- Leaflet Map Container -->
-                <div wire:ignore id="mitraMap" class="w-full h-80 rounded-2xl border border-slate-200 overflow-hidden bg-slate-100 z-10"></div>
+                <!-- Leaflet Map Container & Standar Legend -->
+                <div class="relative rounded-2xl border border-slate-200/90 shadow-xs overflow-hidden bg-slate-100">
+                    <div wire:ignore id="mitraMap" class="w-full h-80 z-10"></div>
+                </div>
+
+                <!-- Legend Bar Standar -->
+                <div class="mt-3 flex flex-wrap items-center justify-between gap-3 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-100 p-3 sm:p-3.5 text-xs text-slate-600">
+                    <div class="flex items-center gap-2">
+                        <span class="relative flex h-2.5 w-2.5">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-600"></span>
+                        </span>
+                        <span class="font-bold text-slate-800">Ambulans Lembaga</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-slate-500 font-medium">
+                        <span>🛰️ Satelit GPS Realtime</span>
+                    </div>
+                </div>
             </div>
 
             <!-- Tabel Riwayat Misi Terbaru -->
@@ -267,22 +283,58 @@
         const defaultLat = -7.7279;
         const defaultLng = 109.0059;
 
-        const map = L.map('mitraMap').setView([defaultLat, defaultLng], 12);
+        const map = L.map('mitraMap', {
+            zoomControl: true,
+            scrollWheelZoom: true
+        }).setView([defaultLat, defaultLng], 12);
+
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             maxZoom: 19
         }).addTo(map);
 
-        // Ambulans Markers
+        const markersBounds = [];
+
+        // Ambulans Markers 3D
         @foreach($fleetList as $idx => $flt)
             @php
                 $lat = -7.7279 + (($idx - 1) * 0.015);
                 $lng = 109.0059 + (($idx - 1) * 0.012);
             @endphp
-            L.marker([{{ $lat }}, {{ $lng }}])
-                .addTo(map)
-                .bindPopup("<b>{{ $flt->kode_ambulans }}</b><br>Plat: {{ $flt->plat_nomor }}<br>Status: {{ $flt->status }}");
+            (function() {
+                const lat = {{ $lat }};
+                const lng = {{ $lng }};
+                markersBounds.push([lat, lng]);
+
+                const popupContent = `
+                    <div class="p-1 min-w-[160px] text-slate-800">
+                        <div class="font-bold text-sm text-slate-900 leading-snug mb-0.5">{{ $flt->kode_ambulans }}</div>
+                        <div class="text-[11px] text-slate-500 font-semibold mb-2">Plat: {{ $flt->plat_nomor }} • {{ $flt->jenis_ambulans }}</div>
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold
+                            @if($flt->status === 'Tersedia') bg-emerald-100 text-emerald-800
+                            @elseif($flt->status === 'Ditugaskan') bg-sky-100 text-sky-800
+                            @elseif($flt->status === 'Perawatan') bg-amber-100 text-amber-800
+                            @else bg-slate-100 text-slate-700 @endif">
+                            {{ $flt->status }}
+                        </span>
+                    </div>
+                `;
+
+                if (typeof window.createLeafletAmbulance3DMarker === 'function') {
+                    const ambMarker = window.createLeafletAmbulance3DMarker(map, lat, lng, {
+                        size: 54,
+                        autoSpin: false
+                    });
+                    ambMarker.bindPopup(popupContent);
+                } else {
+                    L.marker([lat, lng]).addTo(map).bindPopup(popupContent);
+                }
+            })();
         @endforeach
+
+        if (markersBounds.length > 0) {
+            map.fitBounds(markersBounds, { padding: [50, 50], maxZoom: 15 });
+        }
     });
 </script>
 @endpush

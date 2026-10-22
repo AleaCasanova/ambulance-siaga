@@ -16,17 +16,17 @@
         <div class="flex items-center gap-2.5 shrink-0">
             <input type="text" wire:model.live.debounce.300ms="search"
                    placeholder="Cari kode atau plat..."
-                   class="w-40 sm:w-52 px-3.5 py-2 rounded-xl border border-slate-300 bg-white text-xs font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 shadow-xs">
+                   class="w-40 sm:w-52 px-3.5 py-2 rounded-lg border border-slate-300 bg-white text-xs font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 shadow-xs">
 
             <div class="relative" x-data="{ open: false }">
                 <button type="button" @click="open = !open" @click.outside="open = false"
-                        class="flex items-center justify-between gap-2 px-3.5 py-2 rounded-xl border border-slate-300 bg-white text-xs font-semibold text-slate-700 shadow-xs hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-100 transition-all whitespace-nowrap">
+                        class="flex items-center justify-between gap-2 px-3.5 py-2 rounded-lg border border-slate-300 bg-white text-xs font-semibold text-slate-700 shadow-xs hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-100 transition-all whitespace-nowrap">
                     <span>{{ $statusFilter ? $statusFilter : 'Semua Status' }}</span>
                     <svg class="w-3.5 h-3.5 text-slate-400 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                 </button>
 
                 <div x-show="open" x-transition.opacity.duration.150ms
-                     class="absolute right-0 top-full mt-1.5 w-44 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 overflow-hidden"
+                     class="absolute right-0 top-full mt-1.5 w-44 bg-white rounded-lg shadow-xl border border-slate-200 py-1.5 z-50 overflow-hidden"
                      style="display: none;">
                     <button type="button" @click="$wire.set('statusFilter', ''); open = false"
                             class="w-full text-left px-3.5 py-2 text-xs font-semibold flex items-center justify-between hover:bg-sky-50 hover:text-sky-600 transition-colors {{ $statusFilter === '' ? 'text-sky-600 bg-sky-50/50' : 'text-slate-700' }}">
@@ -44,7 +44,7 @@
             </div>
 
             <button type="button" wire:click="openCreateModal"
-                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs shadow-md transition-all whitespace-nowrap">
+                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs shadow-md transition-all whitespace-nowrap">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
                 </svg>
@@ -54,31 +54,31 @@
     </div>
 
     <!-- Table Ambulans -->
-    <div class="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
+    <div class="bg-white rounded-xl border border-slate-200/80 shadow-xs overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                        <th class="py-3 px-6 whitespace-nowrap">Kode Armada</th>
-                        <th class="py-3 px-6 whitespace-nowrap">Plat Nomor</th>
-                        <th class="py-3 px-6 whitespace-nowrap">Jenis Ambulans</th>
-                        <th class="py-3 px-6 whitespace-nowrap">Status Operasional</th>
-                        <th class="py-3 px-6 whitespace-nowrap">Perlengkapan Medis</th>
-                        <th class="py-3 px-6 whitespace-nowrap text-right">Aksi</th>
+                        <th class="py-3 px-4 sm:px-5 whitespace-nowrap">Kode Armada</th>
+                        <th class="py-3 px-4 sm:px-5 whitespace-nowrap">Plat Nomor</th>
+                        <th class="py-3 px-4 sm:px-5 whitespace-nowrap">Jenis Ambulans</th>
+                        <th class="py-3 px-4 sm:px-5 whitespace-nowrap">Status Operasional</th>
+                        <th class="py-3 px-4 sm:px-5 whitespace-nowrap">Perlengkapan Medis</th>
+                        <th class="py-3 px-4 sm:px-5 whitespace-nowrap text-right">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100 text-sm">
+                <tbody class="divide-y divide-slate-100 text-xs">
                     @forelse($ambulansList as $amb)
                         <tr class="hover:bg-slate-50/50 transition-colors">
-                            <td class="py-4 px-6 font-extrabold text-slate-800">
-                                <span class="inline-block px-2.5 py-1 rounded-lg bg-sky-50 text-sky-700 font-black border border-sky-200">
+                            <td class="py-3 px-4 sm:px-5 whitespace-nowrap">
+                                <span class="inline-block px-2.5 py-0.5 rounded-md bg-sky-50 text-sky-700 font-bold text-xs border border-sky-200/70">
                                     {{ $amb->kode_ambulans }}
                                 </span>
                             </td>
-                            <td class="py-4 px-6 font-bold text-slate-800">{{ $amb->plat_nomor }}</td>
-                            <td class="py-4 px-6 text-slate-700">{{ $amb->jenis_ambulans }}</td>
-                            <td class="py-4 px-6">
-                                <div class="flex items-center gap-1.5 font-bold text-sm
+                            <td class="py-3 px-4 sm:px-5 font-semibold text-slate-800 text-xs whitespace-nowrap">{{ $amb->plat_nomor }}</td>
+                            <td class="py-3 px-4 sm:px-5 text-slate-700 text-xs whitespace-nowrap">{{ $amb->jenis_ambulans }}</td>
+                            <td class="py-3 px-4 sm:px-5 whitespace-nowrap">
+                                <div class="inline-flex items-center gap-1.5 font-bold text-xs
                                     @if($amb->status === 'Tersedia') text-emerald-600
                                     @elseif($amb->status === 'Ditugaskan') text-sky-600
                                     @else text-amber-600 @endif">
@@ -86,10 +86,10 @@
                                     <span>{{ $amb->status }}</span>
                                 </div>
                             </td>
-                            <td class="py-4 px-6 max-w-xs">
-                                <p class="text-xs text-slate-600 line-clamp-2">{{ $amb->perlengkapan_medis ?: '-' }}</p>
+                            <td class="py-3 px-4 sm:px-5 max-w-xs">
+                                <p class="text-xs text-slate-600 line-clamp-1" title="{{ $amb->perlengkapan_medis }}">{{ $amb->perlengkapan_medis ?: '-' }}</p>
                             </td>
-                            <td class="py-3 px-6 text-right whitespace-nowrap">
+                            <td class="py-3 px-4 sm:px-5 text-right whitespace-nowrap">
                                 <div class="flex items-center justify-end gap-1.5">
                                     <button type="button" wire:click="openEditModal({{ $amb->id }})"
                                             title="Edit Armada Ambulans"
@@ -128,7 +128,7 @@
     <!-- Modal Form Create / Edit -->
     @if($showModal)
         <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 overflow-hidden">
-            <div class="relative bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div class="relative bg-white rounded-xl max-w-lg w-full shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
                 <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between shrink-0 bg-white">
                     <h3 class="text-base font-bold text-slate-900">
                         {{ $isEdit ? 'Edit Armada Ambulans' : 'Tambah Armada Ambulans Baru' }}
@@ -146,20 +146,20 @@
                             <div>
                                 <label class="block text-xs font-semibold text-slate-700 mb-1">Kode Armada</label>
                                 <input type="text" wire:model="kode_ambulans" required placeholder="Cth: AMB-01"
-                                       class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-bold uppercase focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                       class="w-full px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-bold uppercase focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
                                 @error('kode_ambulans') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-slate-700 mb-1">Plat Nomor</label>
                                 <input type="text" wire:model="plat_nomor" required placeholder="Cth: R 9988 SC"
-                                       class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-bold uppercase focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                       class="w-full px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-bold uppercase focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
                                 @error('plat_nomor') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
                             </div>
                         </div>
 
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1">Jenis Armada / Layanan</label>
-                            <select wire:model="jenis_ambulans" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-800 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                            <select wire:model="jenis_ambulans" class="w-full px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-800 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
                                 <option value="Ambulans Gawat Darurat (AGD)">Ambulans Gawat Darurat (AGD)</option>
                                 <option value="Ambulans Transport Medis">Ambulans Transport Medis</option>
                                 <option value="Ambulans Jenazah gratis">Ambulans Jenazah gratis</option>
@@ -169,7 +169,7 @@
 
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1">Status Operasional</label>
-                            <select wire:model="status" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-800 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                            <select wire:model="status" class="w-full px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-800 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
                                 <option value="Tersedia">Tersedia (Siaga Menerima Tugas)</option>
                                 <option value="Ditugaskan">Sedang Ditugaskan</option>
                                 <option value="Perawatan">Perawatan / Service</option>
@@ -182,18 +182,18 @@
                             <label class="block text-xs font-semibold text-slate-700 mb-1">Daftar Perlengkapan Medis</label>
                             <textarea wire:model="perlengkapan_medis" rows="3"
                                       placeholder="Contoh: Tabung Oksigen, Stretcher, P3K Kit, Tensi Meter..."
-                                      class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white"></textarea>
+                                      class="w-full px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white"></textarea>
                             @error('perlengkapan_medis') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
                         </div>
                     </div>
 
                     <div class="px-6 py-3.5 border-t border-slate-100 flex items-center justify-end gap-2.5 shrink-0 bg-slate-50/80">
                         <button type="button" wire:click="$set('showModal', false)"
-                                class="px-4 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-slate-600 font-semibold text-xs transition-colors shadow-xs">
+                                class="px-4 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-slate-600 font-semibold text-xs transition-colors shadow-xs">
                             Batal
                         </button>
                         <button type="submit"
-                                class="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-bold text-xs shadow-xs transition-all">
+                                class="inline-flex items-center gap-1.5 px-5 py-2 rounded-lg bg-primary-600 hover:bg-primary-700 text-white font-bold text-xs shadow-xs transition-all">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                             <span>{{ $isEdit ? 'Simpan Perubahan' : 'Tambah Armada' }}</span>
                         </button>

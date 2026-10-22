@@ -52,7 +52,7 @@
 
             <!-- Dropdown Menu -->
             <div x-show="open" x-transition.opacity.duration.200ms
-                 class="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-slate-100 py-2 z-50"
+                 class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-slate-100 py-2 z-50"
                  style="display: none;">
                 
                 <div class="px-4 py-2 border-b border-slate-100 md:hidden">

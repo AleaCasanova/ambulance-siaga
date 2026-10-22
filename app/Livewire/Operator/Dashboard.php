@@ -19,6 +19,11 @@ class Dashboard extends Component
     public ?int $selectedAmbulansId = null;
     public ?int $selectedSupirId = null;
 
+    // Cancellation Modal State
+    public bool $showCancelModal = false;
+    public ?int $cancelOrderId = null;
+    public string $cancelReason = '';
+
     // Data for Map inside Assign Modal
     public ?array $assignOrderData = null;
     public array $assignDriversData = [];
@@ -60,6 +65,36 @@ class Dashboard extends Component
     {
         $this->showAssignModal = false;
         $this->selectedOrderId = null;
+    }
+
+    public function openCancelModal(int $orderId)
+    {
+        $this->cancelOrderId = $orderId;
+        $this->cancelReason = '';
+        $this->showCancelModal = true;
+    }
+
+    public function closeCancelModal()
+    {
+        $this->showCancelModal = false;
+        $this->cancelOrderId = null;
+        $this->cancelReason = '';
+    }
+
+    public function confirmCancelOrder(PemesananService $service)
+    {
+        $this->validate([
+            'cancelOrderId' => 'required|exists:pemesanan,id',
+            'cancelReason'  => 'required|string|min:3',
+        ]);
+
+        try {
+            $service->updateStatus($this->cancelOrderId, 'dibatalkan', $this->cancelReason, auth()->id());
+            $this->closeCancelModal();
+            session()->flash('success', 'Pesanan darurat berhasil dibatalkan.');
+        } catch (\Exception $e) {
+            session()->flash('error', $e->getMessage());
+        }
     }
 
     public function assignOrder(PemesananService $service)

@@ -621,12 +621,12 @@
                             }).addTo(this.map);
 
                             const jemputIcon = (typeof window.getPatientPin3DIcon === 'function')
-                                ? window.getPatientPin3DIcon({ size: 34, draggable: true })
+                                ? window.getPatientPin3DIcon({ size: 28, draggable: true })
                                 : L.divIcon({
                                     className: 'custom-jemput-icon',
-                                    html: `<div style="background: linear-gradient(135deg, #EF4444, #DC2626); width: 38px; height: 38px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 12px rgba(239,68,68,0.5); display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: move;">📍</div>`,
-                                    iconSize: [38, 38],
-                                    iconAnchor: [19, 38]
+                                    html: `<div style="background: linear-gradient(135deg, #EF4444, #DC2626); width: 34px; height: 34px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 12px rgba(239,68,68,0.5); display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: move;">📍</div>`,
+                                    iconSize: [34, 34],
+                                    iconAnchor: [17, 34]
                                 });
 
                             // Create Draggable Marker
@@ -635,7 +635,7 @@
                                 icon: jemputIcon,
                                 zIndexOffset: 1000
                             }).addTo(this.map)
-                            .bindPopup('<b>Titik Penjemputan Pasien (3D)</b><br>Geser atau klik peta untuk ubah lokasi')
+                            .bindPopup('<b>Titik Penjemputan Pasien</b><br>Geser atau klik peta untuk ubah lokasi')
                             .openPopup();
 
                             // Map Click Listener

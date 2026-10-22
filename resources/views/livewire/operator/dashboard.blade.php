@@ -1,246 +1,268 @@
-<div wire:poll.5s>
+<div wire:poll.5s
+     x-data="{
+         soundEnabled: localStorage.getItem('operator_sound_enabled') !== 'false',
+         playChime() {
+             if (!this.soundEnabled) return;
+             try {
+                 const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                 const osc = ctx.createOscillator();
+                 const gain = ctx.createGain();
+                 osc.type = 'sine';
+                 osc.frequency.setValueAtTime(880, ctx.currentTime);
+                 osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.15);
+                 gain.gain.setValueAtTime(0.18, ctx.currentTime);
+                 gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+                 osc.connect(gain);
+                 gain.connect(ctx.destination);
+                 osc.start();
+                 osc.stop(ctx.currentTime + 0.5);
+             } catch(e) {}
+         },
+         toggleSound() {
+             this.soundEnabled = !this.soundEnabled;
+             localStorage.setItem('operator_sound_enabled', this.soundEnabled);
+             if (this.soundEnabled) this.playChime();
+         }
+     }"
+     x-init="$watch('$wire.stats.menunggu', (newVal, oldVal) => {
+         if (newVal > oldVal) {
+             playChime();
+         }
+     })">
     <!-- Header Page -->
-    <div class="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-sky-100 text-sky-700 uppercase tracking-wider mb-2">
-                <span class="w-2 h-2 rounded-full bg-sky-600 animate-ping"></span>
-                Pusat Kendali Ambulans Siaga
-            </span>
-            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">Dashboard Operator</h1>
-            <p class="text-slate-500 text-sm mt-1">Pantau pesanan darurat masuk dan tugaskan armada ambulans tercepat di wilayah Cilacap.</p>
+            <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">
+                Pusat Kendali Operasional
+            </div>
+            <h1 class="text-2xl sm:text-[26px] font-bold text-slate-900 tracking-tight leading-tight">Dashboard Operator</h1>
+            <p class="text-slate-500 text-xs sm:text-sm mt-0.5">Pantau pesanan darurat masuk dan tugaskan armada ambulans secara terkoordinasi.</p>
         </div>
 
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2.5 shrink-0 flex-wrap">
+            <button type="button" 
+                    @click="toggleSound()" 
+                    :title="soundEnabled ? 'Sirine Notifikasi Aktif' : 'Sirine Notifikasi Dimatikan'"
+                    class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border text-xs font-semibold transition-colors shadow-2xs"
+                    :class="soundEnabled ? 'bg-emerald-50 border-emerald-200 text-emerald-800' : 'bg-slate-50 border-slate-200 text-slate-500'">
+                <span class="w-2 h-2 rounded-full" :class="soundEnabled ? 'bg-emerald-500 animate-pulse' : 'bg-slate-300'"></span>
+                <span x-text="soundEnabled ? 'Sirine: On' : 'Sirine: Off'"></span>
+            </button>
             <a href="{{ route('operator.monitoring') }}"
-               class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-sky-600 text-white font-bold text-sm shadow-md transition-all">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
-                </svg>
-                <span>Peta Layar Penuh</span>
+               class="inline-flex items-center px-3.5 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs shadow-xs transition-colors">
+                Peta Layar Penuh
             </a>
             <a href="{{ route('operator.orders.index') }}"
-               class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-700 text-sm font-semibold hover:bg-slate-50 transition-colors">
-                <span>Semua Order</span>
+               class="inline-flex items-center px-3.5 py-2 rounded-lg bg-white border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-50 transition-colors shadow-2xs">
+                Semua Order
             </a>
         </div>
     </div>
 
-    <!-- 4 Statistik Utama -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <!-- 1. Menunggu -->
-        <div class="p-6 rounded-3xl bg-white border border-slate-200/80 shadow-xs flex items-center justify-between">
-            <div>
-                <span class="text-xs font-bold text-amber-600 uppercase tracking-wider block mb-1">Menunggu Penugasan</span>
-                <span class="text-3xl font-black text-slate-800">{{ $stats['menunggu'] }}</span>
-                <span class="text-xs text-slate-400 block mt-1">Pesanan baru masuk</span>
+    <!-- 4 Statistik Utama (Clean & Professional) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <!-- 1. Menunggu Penugasan -->
+        <div class="p-5 rounded-xl bg-white border border-slate-200/90 shadow-xs hover:border-slate-300 transition-colors">
+            <p class="text-[11px] font-semibold tracking-wider text-slate-400 uppercase">Menunggu Penugasan</p>
+            <div class="mt-3 flex items-baseline gap-1.5">
+                <span class="text-3xl font-bold text-slate-900 tracking-tight">{{ $stats['menunggu'] }}</span>
+                <span class="text-xs font-medium text-slate-500">pesanan</span>
             </div>
-            <div class="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold border border-amber-100">
-                <svg class="w-7 h-7 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                </svg>
-            </div>
+            <p class="text-xs text-slate-500 mt-2">Antrean pesanan baru masuk</p>
         </div>
 
-        <!-- 2. Order Aktif -->
-        <div class="p-6 rounded-3xl bg-white border border-slate-200/80 shadow-xs flex items-center justify-between">
-            <div>
-                <span class="text-xs font-bold text-sky-600 uppercase tracking-wider block mb-1">Ambulans Bertugas</span>
-                <span class="text-3xl font-black text-slate-800">{{ $stats['aktif'] }}</span>
-                <span class="text-xs text-slate-400 block mt-1">Sedang dalam evakuasi</span>
+        <!-- 2. Ambulans Bertugas -->
+        <div class="p-5 rounded-xl bg-white border border-slate-200/90 shadow-xs hover:border-slate-300 transition-colors">
+            <p class="text-[11px] font-semibold tracking-wider text-slate-400 uppercase">Ambulans Bertugas</p>
+            <div class="mt-3 flex items-baseline gap-1.5">
+                <span class="text-3xl font-bold text-slate-900 tracking-tight">{{ $stats['aktif'] }}</span>
+                <span class="text-xs font-medium text-slate-500">armada</span>
             </div>
-            <div class="w-14 h-14 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center font-bold border border-sky-100">
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                </svg>
-            </div>
+            <p class="text-xs text-slate-500 mt-2">Sedang dalam proses evakuasi</p>
         </div>
 
-        <!-- 3. Ambulans Tersedia -->
-        <div class="p-6 rounded-3xl bg-white border border-slate-200/80 shadow-xs flex items-center justify-between">
-            <div>
-                <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider block mb-1">Ambulans Siaga</span>
-                <span class="text-3xl font-black text-slate-800">{{ $stats['amb_tersedia'] }}</span>
-                <span class="text-xs text-slate-400 block mt-1">Armada siap ditugaskan</span>
+        <!-- 3. Ambulans Siaga -->
+        <div class="p-5 rounded-xl bg-white border border-slate-200/90 shadow-xs hover:border-slate-300 transition-colors">
+            <p class="text-[11px] font-semibold tracking-wider text-slate-400 uppercase">Ambulans Siaga</p>
+            <div class="mt-3 flex items-baseline gap-1.5">
+                <span class="text-3xl font-bold text-slate-900 tracking-tight">{{ $stats['amb_tersedia'] }}</span>
+                <span class="text-xs font-medium text-slate-500">armada</span>
             </div>
-            <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold border border-emerald-100">
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-            </div>
+            <p class="text-xs text-slate-500 mt-2">Siap menerima penugasan</p>
         </div>
 
         <!-- 4. Supir Online -->
-        <div class="p-6 rounded-3xl bg-white border border-slate-200/80 shadow-xs flex items-center justify-between">
-            <div>
-                <span class="text-xs font-bold text-primary-600 uppercase tracking-wider block mb-1">Supir Online</span>
-                <span class="text-3xl font-black text-slate-800">{{ $stats['supir_online'] }}</span>
-                <span class="text-xs text-slate-400 block mt-1">Supir aktif di lapangan</span>
+        <div class="p-5 rounded-xl bg-white border border-slate-200/90 shadow-xs hover:border-slate-300 transition-colors">
+            <p class="text-[11px] font-semibold tracking-wider text-slate-400 uppercase">Supir Online</p>
+            <div class="mt-3 flex items-baseline gap-1.5">
+                <span class="text-3xl font-bold text-slate-900 tracking-tight">{{ $stats['supir_online'] }}</span>
+                <span class="text-xs font-medium text-slate-500">personel</span>
             </div>
-            <div class="w-14 h-14 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center font-bold border border-primary-100">
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                </svg>
-            </div>
+            <p class="text-xs text-slate-500 mt-2">Aktif dan terhubung di lapangan</p>
         </div>
     </div>
 
     <!-- Main Grid: Pesanan Darurat Masuk (Left) & Live Map (Right) -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8"
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8"
          x-data="operatorDashboardMap(@js($mapMarkers))"
          x-init="initMap()"
          @map-markers-updated.window="updateMarkers($event.detail.markers)">
 
-        <!-- Left Column: Pesanan Masuk & Order Aktif -->
+        <!-- Left Column: Pesanan Masuk & Order Aktif (5 Kolom) -->
         <div class="lg:col-span-5 space-y-6">
 
             <!-- Card: Order Darurat Menunggu Penugasan -->
-            <div class="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-xs">
+            <div class="bg-white rounded-xl border border-slate-200/80 p-5 shadow-xs">
                 <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
-                    <div class="flex items-center gap-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-ping"></span>
-                        <h2 class="font-bold text-slate-800 text-base">Pesanan Darurat Masuk</h2>
-                    </div>
-                    <span class="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-amber-100 text-amber-800">
+                    <h2 class="font-bold text-slate-900 text-sm">Pesanan Darurat Masuk</h2>
+                    <span class="px-2.5 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-700">
                         {{ $ordersMenunggu->count() }} Menunggu
                     </span>
                 </div>
 
-                <div class="space-y-4 max-h-[360px] overflow-y-auto">
+                <div class="space-y-3.5 max-h-[380px] overflow-y-auto pr-0.5">
                     @forelse($ordersMenunggu as $om)
                         @php
-                            $cardColor = match($om->prioritas) {
-                                'tinggi' => 'bg-red-50/80 border-red-200 hover:bg-red-50',
-                                'sedang' => 'bg-amber-50/80 border-amber-200 hover:bg-amber-50',
-                                'rendah' => 'bg-emerald-50/80 border-emerald-200 hover:bg-emerald-50',
-                                default => 'bg-slate-50/80 border-slate-200 hover:bg-slate-50'
+                            $badgePriority = match($om->prioritas) {
+                                'tinggi' => 'bg-rose-50 text-rose-700 border-rose-200',
+                                'sedang' => 'bg-amber-50 text-amber-700 border-amber-200',
+                                'rendah' => 'bg-emerald-50 text-emerald-700 border-emerald-200',
+                                default => 'bg-slate-50 text-slate-700 border-slate-200'
                             };
-                            $textKodeColor = match($om->prioritas) {
-                                'tinggi' => 'text-red-800',
-                                'sedang' => 'text-amber-800',
-                                'rendah' => 'text-emerald-800',
-                                default => 'text-slate-800'
-                            };
-                            $iconColor = match($om->prioritas) {
-                                'tinggi' => 'text-red-600',
-                                'sedang' => 'text-amber-600',
-                                'rendah' => 'text-emerald-600',
-                                default => 'text-slate-600'
+                            $priorityLabel = match($om->prioritas) {
+                                'tinggi' => 'Prioritas Tinggi',
+                                'sedang' => 'Prioritas Sedang',
+                                'rendah' => 'Prioritas Rendah',
+                                default => 'Prioritas Biasa'
                             };
                         @endphp
-                        <div class="p-4 rounded-2xl border transition-all {{ $cardColor }}">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="text-xs font-black {{ $textKodeColor }}">{{ $om->kode_order }}</span>
-                                <span class="text-[11px] text-slate-500">{{ $om->waktu_pesan ? $om->waktu_pesan->diffForHumans() : '-' }}</span>
+                        <div class="p-3.5 rounded-lg border border-slate-200/80 bg-white hover:border-slate-300 transition-colors shadow-2xs">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="text-xs font-mono font-bold text-sky-700">{{ $om->kode_order }}</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] font-semibold border {{ $badgePriority }}">
+                                    {{ $priorityLabel }}
+                                </span>
                             </div>
-                            <h3 class="font-bold text-slate-800 text-sm mb-1">{{ $om->nama_pasien }}</h3>
-                            <p class="text-xs text-slate-600 leading-normal mb-2">{{ $om->kondisi_pasien }}</p>
-                            <div class="flex items-center gap-1.5 text-xs text-slate-600 font-semibold mb-3">
-                                <svg class="w-4 h-4 {{ $iconColor }} flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                </svg>
-                                <span class="truncate">{{ $om->lokasi_jemput }}</span>
+                            
+                            <h3 class="font-bold text-slate-900 text-xs mb-1">{{ $om->nama_pasien }}</h3>
+                            
+                            @if($om->kondisi_pasien)
+                                <p class="text-xs text-slate-600 leading-relaxed mb-2 line-clamp-2">{{ $om->kondisi_pasien }}</p>
+                            @endif
+
+                            <div class="text-[11px] text-slate-500 leading-normal mb-3">
+                                <span class="font-medium text-slate-600">Lokasi:</span> {{ $om->lokasi_jemput }}
                             </div>
 
-                            <div class="flex flex-col sm:flex-row gap-2 mt-1">
+                            <div class="flex items-center gap-2 pt-2 border-t border-slate-100">
                                 <select wire:change="updatePriority({{ $om->id }}, $event.target.value)" 
-                                        class="flex-1 rounded-xl border border-white/60 bg-white/80 text-xs font-bold px-3 py-2 focus:ring-2 focus:ring-sky-200 outline-none shadow-xs text-slate-700">
-                                    <option value="tinggi" {{ $om->prioritas == 'tinggi' ? 'selected' : '' }}>🚨 Tinggi</option>
-                                    <option value="sedang" {{ $om->prioritas == 'sedang' ? 'selected' : '' }}>⚠️ Sedang</option>
-                                    <option value="rendah" {{ $om->prioritas == 'rendah' ? 'selected' : '' }}>✅ Rendah</option>
+                                        class="w-28 rounded-lg border border-slate-200 bg-slate-50 text-[11px] font-semibold px-2 py-1.5 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-slate-700">
+                                    <option value="tinggi" {{ $om->prioritas == 'tinggi' ? 'selected' : '' }}>Tinggi</option>
+                                    <option value="sedang" {{ $om->prioritas == 'sedang' ? 'selected' : '' }}>Sedang</option>
+                                    <option value="rendah" {{ $om->prioritas == 'rendah' ? 'selected' : '' }}>Rendah</option>
                                 </select>
                                 <button type="button" wire:click="openAssignModal({{ $om->id }})"
-                                        class="flex-1 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-extrabold text-xs shadow-md shadow-sky-600/30 transition-all text-center">
-                                    TUGASKAN
+                                        class="flex-1 py-1.5 px-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 text-white font-semibold text-xs shadow-xs transition-colors text-center">
+                                    Tugaskan
+                                </button>
+                                <button type="button" wire:click="openCancelModal({{ $om->id }})"
+                                        title="Batalkan Pesanan Ini"
+                                        class="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-rose-50 hover:border-rose-200 hover:text-rose-700 text-slate-500 text-xs font-semibold transition-colors">
+                                    Batal
                                 </button>
                             </div>
                         </div>
                     @empty
-                        <div class="py-10 text-center text-slate-400">
-                            <svg class="w-10 h-10 mx-auto text-slate-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            <p class="text-xs font-semibold">Semua pesanan darurat telah ditangani</p>
+                        <div class="py-8 text-center text-slate-400">
+                            <p class="text-xs font-semibold text-slate-600">Tidak ada antrean pesanan darurat</p>
+                            <p class="text-[11px] text-slate-400 mt-0.5">Semua permintaan saat ini telah tertangani</p>
                         </div>
                     @endforelse
                 </div>
             </div>
 
             <!-- Card: Order Aktif Sedang Bertugas -->
-            <div class="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-xs">
-                <h3 class="font-bold text-slate-800 text-base mb-4 flex items-center justify-between">
-                    <span>Ambulans Sedang Bertugas</span>
-                    <span class="text-xs font-semibold text-slate-500">{{ $activeOrders->count() }} Armada</span>
-                </h3>
+            <div class="bg-white rounded-xl border border-slate-200/80 p-5 shadow-xs">
+                <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+                    <h3 class="font-bold text-slate-900 text-sm">Ambulans Sedang Bertugas</h3>
+                    <span class="text-xs font-medium text-slate-500">{{ $activeOrders->count() }} Armada Aktif</span>
+                </div>
 
-                <div class="space-y-3 max-h-[300px] overflow-y-auto">
+                <div class="space-y-2.5 max-h-[300px] overflow-y-auto pr-0.5">
                     @forelse($activeOrders as $ao)
-                        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center justify-between">
-                            <div class="min-w-0 flex-1 pr-2">
+                        <div class="p-3 rounded-lg bg-slate-50 border border-slate-200/70 flex items-center justify-between gap-3">
+                            <div class="min-w-0 flex-1">
                                 <div class="flex items-center gap-2 mb-0.5">
-                                    <span class="text-xs font-extrabold text-slate-800">{{ $ao->ambulans?->kode_ambulans ?? 'AMB' }}</span>
-                                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-sky-600 animate-ping"></span>
-                                    <span class="text-[11px] font-semibold text-sky-600">{{ $ao->status_label }}</span>
+                                    <span class="text-xs font-bold text-slate-800">{{ $ao->ambulans?->kode_ambulans ?? 'AMB' }}</span>
+                                    <span class="text-[11px] font-medium text-sky-700 bg-sky-50 px-1.5 py-0.5 rounded border border-sky-100">{{ $ao->status_label }}</span>
                                 </div>
-                                <p class="text-xs font-bold text-slate-700 truncate">Pasien: {{ $ao->nama_pasien }}</p>
-                                <p class="text-[11px] text-slate-500">Supir: {{ $ao->supir?->user->name ?? '-' }}</p>
+                                <p class="text-xs text-slate-700 truncate"><span class="text-slate-400">Pasien:</span> {{ $ao->nama_pasien }}</p>
+                                <p class="text-[11px] text-slate-500"><span class="text-slate-400">Driver:</span> {{ $ao->supir?->user->name ?? '-' }}</p>
                             </div>
                             <a href="{{ route('masyarakat.tracking', $ao->id) }}" target="_blank"
-                               class="px-3 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-bold hover:bg-sky-600 transition-colors flex-shrink-0">
+                               class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 text-xs font-medium hover:bg-slate-50 transition-colors shrink-0 shadow-2xs">
                                 Pantau
                             </a>
                         </div>
                     @empty
-                        <p class="text-xs text-slate-400 text-center py-6">Tidak ada armada yang sedang bertugas</p>
+                        <p class="text-xs text-slate-400 text-center py-6">Tidak ada armada yang sedang bertugas saat ini</p>
                     @endforelse
                 </div>
             </div>
 
         </div>
 
-        <!-- Right Column: Peta Monitoring Realtime -->
+        <!-- Right Column: Peta Monitoring Realtime (7 Kolom) -->
         <div class="lg:col-span-7 flex flex-col">
-            <div class="bg-white rounded-3xl border border-slate-200/80 p-5 shadow-xs flex-1 flex flex-col min-h-[580px]">
-                <div class="flex items-center justify-between mb-4">
+            <div class="bg-white rounded-xl border border-slate-200/80 shadow-xs flex-1 flex flex-col overflow-hidden">
+                <div class="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
                     <div>
-                        <h2 class="font-bold text-slate-800 text-base flex items-center gap-2">
-                            <span class="w-2.5 h-2.5 rounded-full bg-sky-600 animate-ping"></span>
-                            <span>Peta Monitoring Semua Armada & Order</span>
-                        </h2>
-                        <p class="text-xs text-slate-500">Titik kuning = Darurat masuk | Titik biru = Ambulans aktif</p>
+                        <h2 class="font-bold text-slate-900 text-sm">Peta Monitoring Armada & Pasien</h2>
+                        <p class="text-xs text-slate-500 mt-0.5">Pemantauan posisi armada ambulans dan titik jemput pasien secara real-time</p>
                     </div>
                     <button type="button" @click="fitAll()"
-                            class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors">
+                            class="px-3 py-1.5 rounded-lg text-xs font-medium bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 transition-colors shadow-2xs">
                         Fokus Semua
                     </button>
                 </div>
 
-                <!-- Leaflet Container (wire:ignore prevents map destruction on poll) -->
-                <div wire:ignore class="w-full h-full min-h-[520px] rounded-2xl border border-slate-200/80 z-10 overflow-hidden">
-                    <div id="operator-map" class="w-full h-full min-h-[520px]"></div>
+                <!-- Leaflet Container -->
+                <div wire:ignore class="relative w-full flex-1 min-h-[460px] bg-slate-100 z-0">
+                    <div id="operator-map" class="absolute inset-0"></div>
+                </div>
+
+                <!-- Legend & Panduan Simbol -->
+                <div class="border-t border-slate-100 bg-slate-50/80 p-3 px-5 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-600">
+                    <div class="flex items-center gap-5 flex-wrap">
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-2.5 h-2.5 rounded-full bg-cyan-600 inline-block shrink-0"></span>
+                            <span class="font-medium text-slate-700">Ambulans Siaga</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block shrink-0"></span>
+                            <span class="font-medium text-slate-700">Titik Jemput Pasien</span>
+                        </div>
+                    </div>
+                    <div class="text-slate-400 text-[11px]">
+                        Koordinat GPS & OSRM
+                    </div>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <!-- Assignment Modal -->
+    <!-- Assignment Modal (Clean Dialog) -->
     @if($showAssignModal)
-        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-xs">
-            <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200">
-                <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center font-bold">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-extrabold text-slate-800">Tugaskan Armada Ambulans</h3>
-                            <p class="text-xs text-slate-500">Pilih ambulans siaga dan supir online untuk penjemputan</p>
-                        </div>
+        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
+            <div class="bg-white rounded-xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 overflow-hidden">
+                <div class="flex items-center justify-between mb-5 pb-3 border-b border-slate-100">
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-900">Tugaskan Armada Ambulans</h3>
+                        <p class="text-xs text-slate-500 mt-0.5">Pilih armada siaga dan supir untuk penjemputan</p>
                     </div>
                     <button wire:click="closeAssignModal" class="text-slate-400 hover:text-slate-600">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                         </svg>
                     </button>
@@ -250,35 +272,38 @@
                 @if($assignOrderData)
                 <div x-data="assignMapAlpine(@js($assignOrderData), @js($assignDriversData))" 
                      @select-driver.window="$wire.set('selectedSupirId', $event.detail.supir); $wire.set('selectedAmbulansId', $event.detail.amb);"
-                     class="mb-6">
-                    <p class="text-sm font-bold text-slate-700 mb-2">Peta Radar Armada Siaga</p>
-                    <div class="p-1 border-2 border-slate-200 rounded-2xl bg-white shadow-sm">
-                        <div x-ref="mapContainer" class="h-64 w-full rounded-xl z-0" wire:ignore></div>
+                     class="mb-5">
+                    <div class="flex items-center justify-between mb-1.5">
+                        <span class="text-xs font-bold text-slate-700">Radar Jarak Armada Siaga</span>
+                        <span class="text-[11px] text-slate-500">Klik armada untuk memilih</span>
                     </div>
-                    <p class="text-xs text-slate-500 mt-2 flex items-center gap-2">
-                        <span>📍 Merah: Pasien</span>
-                        <span>|</span>
-                        <span>🚑 Hijau: Ambulans Siaga (Klik untuk tugaskan)</span>
-                    </p>
+                    <div class="border border-slate-200 rounded-lg overflow-hidden bg-slate-100 shadow-2xs">
+                        <div x-ref="mapContainer" class="h-56 w-full z-0" wire:ignore></div>
+                    </div>
+                    <div class="flex items-center gap-3 text-[11px] text-slate-500 mt-1.5">
+                        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-rose-500"></span> Lokasi Pasien</span>
+                        <span>•</span>
+                        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-cyan-600"></span> Supir / Armada Siaga</span>
+                    </div>
                 </div>
                 @endif
 
-                <!-- Tampilkan Error Jika Ada Kegagalan Penugasan (misal supir sedang sibuk) -->
+                <!-- Flash Error -->
                 @if(session('error'))
-                    <div class="mb-4 p-4 rounded-xl bg-red-50 border border-red-200 text-red-600 flex items-start gap-3 shadow-sm">
-                        <svg class="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                        <span class="text-sm font-bold">{{ session('error') }}</span>
+                    <div class="mb-4 p-3 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium flex items-start gap-2 shadow-2xs">
+                        <svg class="w-4 h-4 shrink-0 mt-0.5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                        <span>{{ session('error') }}</span>
                     </div>
                 @endif
 
-                <form wire:submit="assignOrder" class="space-y-5">
+                <form wire:submit="assignOrder" class="space-y-4">
                     <!-- Pilih Armada Ambulans -->
                     <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-2">
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
                             Pilih Armada Ambulans (Tersedia: {{ $availableAmbulances->count() }})
                         </label>
                         <select wire:model="selectedAmbulansId"
-                                class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 text-sm font-medium">
+                                class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 text-xs font-semibold text-slate-800 bg-white">
                             <option value="">-- Pilih Ambulans yang Tersedia --</option>
                             @foreach($availableAmbulances as $amb)
                                 <option value="{{ $amb->id }}">
@@ -286,16 +311,16 @@
                                 </option>
                             @endforeach
                         </select>
-                        @error('selectedAmbulansId') <p class="text-xs text-red-600 font-medium mt-1">{{ $message }}</p> @enderror
+                        @error('selectedAmbulansId') <p class="text-xs text-rose-600 font-medium mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <!-- Pilih Supir Online -->
                     <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-2">
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
                             Pilih Supir Ambulans (Online: {{ $onlineSupirs->count() }})
                         </label>
                         <select wire:model="selectedSupirId"
-                                class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 text-sm font-medium">
+                                class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 text-xs font-semibold text-slate-800 bg-white">
                             <option value="">-- Pilih Supir Siaga / Online --</option>
                             @foreach($onlineSupirs as $sp)
                                 <option value="{{ $sp->id }}">
@@ -303,18 +328,69 @@
                                 </option>
                             @endforeach
                         </select>
-                        @error('selectedSupirId') <p class="text-xs text-red-600 font-medium mt-1">{{ $message }}</p> @enderror
+                        @error('selectedSupirId') <p class="text-xs text-rose-600 font-medium mt-1">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="flex gap-3 pt-3 border-t border-slate-100">
+                    <div class="flex gap-2.5 pt-3 border-t border-slate-100">
+                        <button type="button" wire:click="closeAssignModal"
+                                class="px-4 py-2.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-slate-600 font-semibold text-xs transition-colors">
+                            Batal
+                        </button>
                         <button type="submit"
                                 wire:loading.attr="disabled"
-                                class="flex-1 py-3.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-extrabold text-sm shadow-lg shadow-sky-600/30 transition-all">
-                            KONFIRMASI PENUGASAN
+                                class="flex-1 py-2.5 rounded-lg bg-cyan-600 hover:bg-cyan-700 text-white font-bold text-xs shadow-xs transition-colors text-center">
+                            <span wire:loading.remove wire:target="assignOrder">Konfirmasi Penugasan</span>
+                            <span wire:loading wire:target="assignOrder">Memproses...</span>
                         </button>
-                        <button type="button" wire:click="closeAssignModal"
-                                class="px-5 py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold text-sm transition-colors">
-                            Batal
+                    </div>
+                </form>
+            </div>
+        </div>
+    @endif
+
+    <!-- Cancellation Modal (Dialog Pembatalan Resmi) -->
+    @if($showCancelModal)
+        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
+            <div class="bg-white rounded-xl max-w-md w-full p-6 shadow-2xl border border-slate-200">
+                <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-900">Batalkan Pesanan Darurat</h3>
+                        <p class="text-xs text-slate-500 mt-0.5">Pilih atau isi alasan pembatalan resmi</p>
+                    </div>
+                    <button wire:click="closeCancelModal" class="text-slate-400 hover:text-slate-600">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <form wire:submit="confirmCancelOrder" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">Alasan Pembatalan</label>
+                        <select wire:model="cancelReason" 
+                                class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs font-medium text-slate-800 bg-white mb-2">
+                            <option value="">-- Pilih Alasan Umum --</option>
+                            <option value="Keluarga pasien berangkat mandiri menggunakan kendaraan pribadi">Keluarga berangkat mandiri</option>
+                            <option value="Panggilan uji coba / salah pencet oleh pemesan">Uji coba / salah pencet</option>
+                            <option value="Pasien sudah tertangani oleh ambulans / faskes lain di lokasi">Sudah tertangani pihak lain</option>
+                            <option value="Titik penjemputan di luar jangkauan respon ambulans">Di luar jangkauan operasional</option>
+                        </select>
+
+                        <textarea wire:model="cancelReason" rows="3"
+                                  placeholder="Atau ketikkan keterangan alasan spesifik..."
+                                  class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs text-slate-800 focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none"></textarea>
+                        @error('cancelReason') <p class="text-xs text-rose-600 font-medium mt-1">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div class="flex gap-2.5 pt-3 border-t border-slate-100">
+                        <button type="button" wire:click="closeCancelModal"
+                                class="px-4 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-medium text-xs transition-colors">
+                            Kembali
+                        </button>
+                        <button type="submit" wire:loading.attr="disabled"
+                                class="flex-1 py-2 rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-semibold text-xs shadow-xs transition-colors text-center">
+                            <span wire:loading.remove wire:target="confirmCancelOrder">Konfirmasi Batalkan</span>
+                            <span wire:loading wire:target="confirmCancelOrder">Memproses...</span>
                         </button>
                     </div>
                 </form>
@@ -327,20 +403,24 @@
         function operatorDashboardMap(initialMarkers) {
             return {
                 map: null,
-                markersLayer: null,
                 markersData: initialMarkers,
+                createdMarkers: [],
 
                 initMap() {
-                    if (this.map) return; // Mencegah error 'Map container is already initialized'
+                    if (this.map) return;
 
-                    this.map = L.map('operator-map').setView([-7.7188, 109.0159], 13);
+                    this.map = L.map('operator-map', {
+                        zoomControl: false,
+                        scrollWheelZoom: true
+                    }).setView([-7.7188, 109.0159], 13);
 
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                        attribution: '&copy; OpenStreetMap contributors',
                         maxZoom: 19
                     }).addTo(this.map);
 
-                    this.markersLayer = L.layerGroup().addTo(this.map);
+                    L.control.zoom({ position: 'bottomright' }).addTo(this.map);
+
                     this.renderMarkers();
 
                     setTimeout(() => {
@@ -349,34 +429,86 @@
                 },
 
                 renderMarkers() {
-                    this.markersLayer.clearLayers();
+                    // Bersihkan marker lama
+                    if (this.createdMarkers && this.createdMarkers.length > 0) {
+                        this.createdMarkers.forEach(m => {
+                            if (m && typeof m.remove === 'function') m.remove();
+                        });
+                    }
+                    this.createdMarkers = [];
+
                     const bounds = L.latLngBounds([]);
 
                     this.markersData.forEach((item) => {
                         if (!item.lat || !item.lng) return;
 
-                        let title = '';
                         let popup = '';
+                        let marker = null;
 
                         if (item.type === 'ambulans') {
-                            title = `Ambulans ${item.kode}`;
-                            popup = `<b>Ambulans: ${item.kode}</b><br>Supir: ${item.supir}<br>Pasien: ${item.pasien}<br>Status: ${item.status}`;
-                        } else if (item.type === 'darurat') {
-                            title = `DARURAT: ${item.pasien}`;
-                            popup = `<b>DARURAT MASUK!</b><br>Order: ${item.kode}<br>Pasien: ${item.pasien}<br>Lokasi: ${item.lokasi}`;
+                            popup = `
+                                <div class="font-sans min-w-[190px] p-0.5">
+                                    <div class="border-b border-slate-100 pb-1 mb-1.5 flex items-center justify-between">
+                                        <h4 class="font-bold text-slate-900 text-xs">Ambulans ${item.kode}</h4>
+                                        <span class="text-[10px] font-bold text-cyan-700 bg-cyan-50 px-1.5 py-0.5 rounded">${item.status}</span>
+                                    </div>
+                                    <div class="text-[11px] text-slate-600 space-y-0.5">
+                                        <p>Supir: <span class="font-semibold text-slate-800">${item.supir}</span></p>
+                                        <p>Pasien: <span class="font-semibold text-slate-800">${item.pasien}</span></p>
+                                    </div>
+                                </div>
+                            `;
+                            
+                            if (typeof window.createLeafletAmbulance3DMarker === 'function') {
+                                marker = window.createLeafletAmbulance3DMarker(this.map, item.lat, item.lng, {
+                                    size: 48,
+                                    autoSpin: false
+                                });
+                                marker.bindPopup(popup, { className: 'enterprise-popup', closeButton: false });
+                            } else {
+                                const ambIcon = L.divIcon({
+                                    className: 'custom-amb-icon',
+                                    html: `<div style="background:#0891b2; width:30px; height:30px; border-radius:50%; border:2px solid white; box-shadow:0 2px 6px rgba(8,145,178,0.4); display:flex; align-items:center; justify-content:center; font-size:14px;">🚑</div>`,
+                                    iconSize: [30, 30],
+                                    iconAnchor: [15, 15]
+                                });
+                                marker = L.marker([item.lat, item.lng], { icon: ambIcon }).addTo(this.map).bindPopup(popup);
+                            }
                         } else {
-                            title = `Jemput: ${item.pasien}`;
-                            popup = `<b>Titik Jemput: ${item.pasien}</b><br>Lokasi: ${item.lokasi}`;
+                            const isDarurat = (item.type === 'darurat');
+                            popup = `
+                                <div class="font-sans min-w-[200px] p-0.5">
+                                    <div class="border-b border-slate-100 pb-1 mb-1.5 flex items-center justify-between">
+                                        <h4 class="font-bold text-slate-900 text-xs">${isDarurat ? 'Panggilan Darurat' : 'Titik Jemput'}</h4>
+                                        <span class="text-[10px] font-bold ${isDarurat ? 'text-rose-700 bg-rose-50' : 'text-sky-700 bg-sky-50'} px-1.5 py-0.5 rounded">Pasien</span>
+                                    </div>
+                                    <div class="text-[11px] text-slate-600 space-y-0.5">
+                                        <p>Nama: <span class="font-bold text-slate-800">${item.pasien}</span></p>
+                                        <p class="truncate" title="${item.lokasi}">Lokasi: <span>${item.lokasi}</span></p>
+                                    </div>
+                                </div>
+                            `;
+
+                            const patientIcon = (typeof window.getPatientPin3DIcon === 'function')
+                                ? window.getPatientPin3DIcon({ size: 28 })
+                                : L.divIcon({
+                                    className: 'custom-jemput-icon',
+                                    html: `<div style="background:#ef4444; width:26px; height:26px; border-radius:50%; border:2px solid white; box-shadow:0 2px 6px rgba(239,68,68,0.4); display:flex; align-items:center; justify-content:center; font-size:12px;">📍</div>`,
+                                    iconSize: [26, 26],
+                                    iconAnchor: [13, 26]
+                                });
+
+                            marker = L.marker([item.lat, item.lng], { icon: patientIcon, zIndexOffset: 1000 }).addTo(this.map).bindPopup(popup);
                         }
 
-                        const marker = L.marker([item.lat, item.lng], { title }).addTo(this.markersLayer)
-                            .bindPopup(popup);
-
+                        if (marker) {
+                            this.createdMarkers.push(marker);
+                        }
                         bounds.extend([item.lat, item.lng]);
                     });
 
                     if (bounds.isValid() && this.markersData.length > 0) {
-                        this.map.fitBounds(bounds, { padding: [50, 50] });
+                        this.map.fitBounds(bounds, { padding: [40, 40] });
                     }
                 },
 
@@ -398,9 +530,9 @@
                     setTimeout(() => {
                         if (!this.$refs.mapContainer) return;
                         
-                        this.map = L.map(this.$refs.mapContainer).setView([orderData.lat, orderData.lng], 13);
+                        this.map = L.map(this.$refs.mapContainer, { zoomControl: false }).setView([orderData.lat, orderData.lng], 13);
                         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                            attribution: '&copy; OpenStreetMap contributors',
                             maxZoom: 19
                         }).addTo(this.map);
 
@@ -408,44 +540,58 @@
 
                         // Titik Pasien 3D (Merah)
                         const patientIcon = (typeof window.getPatientPin3DIcon === 'function')
-                            ? window.getPatientPin3DIcon({ size: 32 })
+                            ? window.getPatientPin3DIcon({ size: 28 })
                             : L.divIcon({
-                                className: 'custom-div-icon',
-                                html: `<div style="font-size: 24px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); text-align: center; margin-top:-10px;">📍</div>`,
-                                iconSize: [30, 30],
-                                iconAnchor: [15, 30]
+                                className: 'custom-patient-icon',
+                                html: `<div style="background:#ef4444; width:26px; height:26px; border-radius:50%; border:2px solid white; display:flex; align-items:center; justify-content:center; font-size:12px;">📍</div>`,
+                                iconSize: [26, 26],
+                                iconAnchor: [13, 26]
                             });
-                        L.marker([orderData.lat, orderData.lng], {icon: patientIcon, zIndexOffset: 1000}).addTo(this.map)
-                            .bindPopup(`<b>Lokasi Pasien (3D)</b><br>${orderData.nama}`);
+
+                        L.marker([orderData.lat, orderData.lng], { icon: patientIcon, zIndexOffset: 1000 })
+                            .addTo(this.map)
+                            .bindPopup(`<b class="text-xs">Lokasi Pasien:</b><br><span class="text-xs">${orderData.nama}</span>`)
+                            .openPopup();
+
                         bounds.extend([orderData.lat, orderData.lng]);
 
-                        // Titik Armada (Hijau)
+                        // Titik Armada Siaga (Cyan)
                         driversData.forEach(d => {
-                            const driverIcon = L.divIcon({
-                                className: 'custom-div-icon',
-                                html: `<div style="background-color: #10b981; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 10px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: bold;"></div>`,
-                                iconSize: [20, 20],
-                                iconAnchor: [10, 10]
-                            });
-                            
-                            const marker = L.marker([d.lat, d.lng], {icon: driverIcon}).addTo(this.map);
-                            marker.bindPopup(`
-                                <div class="text-center">
-                                    <b class="text-slate-800">${d.nama}</b><br>
-                                    <span class="text-xs text-slate-500">${d.kode_ambulans}</span><br>
-                                    <button type="button" class="mt-2 w-full text-xs font-bold bg-sky-600 text-white px-3 py-1.5 rounded-lg shadow hover:bg-sky-700" 
-                                            onclick="window.dispatchEvent(new CustomEvent('select-driver', {detail: {supir: ${d.id}, amb: ${d.ambulans_id || 'null'}}}))">
+                            if (!d.lat || !d.lng) return;
+
+                            let ambMarker;
+                            if (typeof window.createLeafletAmbulance3DMarker === 'function') {
+                                ambMarker = window.createLeafletAmbulance3DMarker(this.map, d.lat, d.lng, { size: 44, autoSpin: false });
+                            } else {
+                                const driverIcon = L.divIcon({
+                                    className: 'custom-driver-icon',
+                                    html: `<div style="background:#0891b2; width:28px; height:28px; border-radius:50%; border:2px solid white; display:flex; align-items:center; justify-content:center; font-size:12px; cursor:pointer;">🚑</div>`,
+                                    iconSize: [28, 28],
+                                    iconAnchor: [14, 14]
+                                });
+                                ambMarker = L.marker([d.lat, d.lng], { icon: driverIcon }).addTo(this.map);
+                            }
+
+                            ambMarker.bindPopup(`
+                                <div class="font-sans p-0.5 text-xs">
+                                    <div class="font-bold text-slate-800">${d.nama}</div>
+                                    <div class="text-[11px] text-slate-500">${d.kode_ambulans}</div>
+                                    <button onclick="window.dispatchEvent(new CustomEvent('select-driver', { detail: { supir: ${d.id}, amb: ${d.ambulans_id || 'null'} } }))" 
+                                            class="mt-2 w-full px-2 py-1 bg-cyan-600 text-white rounded text-[11px] font-bold">
                                         Pilih Supir Ini
                                     </button>
                                 </div>
                             `);
+
                             bounds.extend([d.lat, d.lng]);
                         });
 
                         if (bounds.isValid()) {
                             this.map.fitBounds(bounds, { padding: [30, 30] });
                         }
-                    }, 200); // Tunggu modal render
+
+                        setTimeout(() => { this.map.invalidateSize(); }, 250);
+                    }, 200);
                 }
             }));
         });

@@ -545,11 +545,11 @@
 
     /**
      * Helper to get Leaflet 3D Patient Location Pin Icon
-     * Glossy Red 3D Pin (pure red teardrop with center hollow, pointing directly to location)
+     * Modern 3D Red Teardrop Location Pin with center hole
      */
     function getPatientPin3DIcon(options = {}) {
-        const size = options.size || 32;
-        const height = Math.round(size * 1.475);
+        const size = options.size || 28;
+        const height = Math.round(size * 1.28);
         const pulseColor = options.pulseColor || 'rgba(239, 68, 68, 0.65)';
         const cursorStyle = options.draggable ? 'cursor:grab;' : 'cursor:pointer;';
 
@@ -561,8 +561,8 @@
                     <div style="position:absolute; bottom:-2px; left:50%; transform:translateX(-50%); width:${Math.round(size * 0.75)}px; height:${Math.round(size * 0.28)}px; border-radius:50%; background:radial-gradient(ellipse, ${pulseColor} 0%, rgba(239, 68, 68, 0) 70%); border:1px solid rgba(239, 68, 68, 0.75); pointer-events:none; animation: patientPinPulse 2.2s ease-in-out infinite;"></div>
                     <!-- Ground Contact Shadow at Tip -->
                     <div style="position:absolute; bottom:-1px; left:50%; transform:translateX(-50%); width:${Math.round(size * 0.42)}px; height:${Math.round(size * 0.16)}px; border-radius:50%; background:rgba(15, 23, 42, 0.45); filter:blur(1.5px); pointer-events:none;"></div>
-                    <!-- 3D Patient Location Pin (Red Only) -->
-                    <img src="/images/pin-pasien-3d.png" alt="Lokasi Pasien 3D" style="width:100%; height:100%; object-fit:contain; filter:drop-shadow(0 4px 6px rgba(0,0,0,0.3)); position:relative; z-index:2; display:block; pointer-events:none;" />
+                    <!-- 3D Patient Location Pin -->
+                    <img src="/images/pin-pasien-3d.png" alt="Lokasi Pasien" style="width:100%; height:100%; object-fit:contain; filter:drop-shadow(0 3px 5px rgba(0,0,0,0.25)); position:relative; z-index:2; display:block; pointer-events:none;" />
                 </div>
             `,
             iconSize: [size, height],
@@ -577,7 +577,7 @@
             icon: icon,
             zIndexOffset: options.zIndexOffset || 1000,
             draggable: options.draggable || false,
-            title: options.title || 'Lokasi Pasien 3D'
+            title: options.title || 'Lokasi Pasien'
         }).addTo(map);
         return marker;
     }

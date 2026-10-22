@@ -51,6 +51,19 @@ class SettingIndex extends Component
         session()->flash('success', 'Konfigurasi sistem Ambulans Siaga berhasil disimpan.');
     }
 
+    public function resetCilacapCoords()
+    {
+        $this->default_lat = '-7.7188';
+        $this->default_lng = '109.0159';
+        session()->flash('info', 'Koordinat telah direset ke titik pusat Cilacap.');
+    }
+
+    public function updateCoordinates($lat, $lng)
+    {
+        $this->default_lat = (string) round((float) $lat, 6);
+        $this->default_lng = (string) round((float) $lng, 6);
+    }
+
     public function render()
     {
         return view('livewire.admin.setting-index')->layout('layouts.admin');

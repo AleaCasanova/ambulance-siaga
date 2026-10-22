@@ -48,11 +48,24 @@
     </div>
 
     <!-- 2. State Machine Action Console (1 Primary Action Berdasarkan Tahapan Misi) -->
-    <div class="bg-white rounded-xl border border-slate-200 p-5 sm:p-6 shadow-xs space-y-5">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+    <div class="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 p-5 sm:p-7 shadow-xs space-y-6">
+        @php
+            $currentStep = match($order->status) {
+                'diproses' => 1,
+                'menuju_lokasi' => 2,
+                'membawa_pasien' => 3,
+                'selesai' => 4,
+                default => 1,
+            };
+        @endphp
+
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-5 pb-5 border-b border-slate-100">
             <div>
-                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">Tahap Operasional Sekarang</span>
-                <h2 class="text-lg font-bold text-slate-900">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-cyan-50 text-cyan-800 border border-cyan-200/70 mb-2">
+                    <span class="w-2 h-2 rounded-full bg-cyan-500 animate-pulse"></span>
+                    <span>Tahap Operasional Sekarang • Langkah {{ $currentStep }} dari 4</span>
+                </div>
+                <h2 class="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
                     @if($order->status === 'diproses')
                         Tugas Diterima — Siap Meluncur ke Lokasi Jemput
                     @elseif($order->status === 'menuju_lokasi')
@@ -76,8 +89,8 @@
                 @if($targetNavLat && $targetNavLng && $order->status !== 'selesai')
                     <a href="https://www.google.com/maps/dir/?api=1&destination={{ $targetNavLat }},{{ $targetNavLng }}"
                        target="_blank"
-                       class="px-5 py-3 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs shadow-xs transition-all flex items-center gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                       class="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 text-slate-700 hover:text-cyan-700 font-bold text-xs shadow-2xs transition-all">
+                        <svg class="w-4 h-4 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                         <span>{{ $targetNavLabel }} (Google Maps)</span>
                     </a>
                 @endif
@@ -85,14 +98,14 @@
                 @if($order->status === 'diproses')
                     <button type="button"
                             wire:click="updateStatus('menuju_lokasi')"
-                            class="px-6 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs transition-all flex items-center gap-2">
+                            class="inline-flex items-center gap-2 px-6 py-2.5 sm:py-3 rounded-xl bg-cyan-600 hover:bg-cyan-700 active:scale-[0.98] text-white font-extrabold text-xs shadow-md shadow-cyan-600/20 transition-all">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                         <span>Mulai Menuju Penjemputan</span>
                     </button>
                 @elseif($order->status === 'menuju_lokasi')
                     <button type="button"
                             wire:click="updateStatus('membawa_pasien')"
-                            class="px-6 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs transition-all flex items-center gap-2">
+                            class="inline-flex items-center gap-2 px-6 py-2.5 sm:py-3 rounded-xl bg-cyan-600 hover:bg-cyan-700 active:scale-[0.98] text-white font-extrabold text-xs shadow-md shadow-cyan-600/20 transition-all">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                         <span>Konfirmasi Tiba & Angkut Pasien ke RS</span>
                     </button>
@@ -100,20 +113,20 @@
                     <button type="button"
                             wire:click="updateStatus('selesai')"
                             wire:confirm="Konfirmasi pasien telah tiba dengan aman di Rumah Sakit dan tugas evakuasi selesai?"
-                            class="px-6 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs transition-all flex items-center gap-2">
+                            class="inline-flex items-center gap-2 px-6 py-2.5 sm:py-3 rounded-xl bg-cyan-600 hover:bg-cyan-700 active:scale-[0.98] text-white font-extrabold text-xs shadow-md shadow-cyan-600/20 transition-all">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         <span>Selesaikan Tugas di Rumah Sakit</span>
                     </button>
                 @elseif($order->status === 'selesai')
-                    <span class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200">
-                        <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                    <span class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-cyan-50 text-cyan-800 text-xs font-bold border border-cyan-200 shadow-2xs">
+                        <svg class="w-4 h-4 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                         <span>Misi Evakuasi Selesai</span>
                     </span>
                 @endif
             </div>
         </div>
 
-        <!-- Stepper Progress Bar (Minimalist Line & Dot Track - Perfectly Centered & Symmetrical) -->
+        <!-- Stepper Progress Bar (Clean, Balanced & Modern Track) -->
         @php
             $stepList = [
                 [
@@ -137,71 +150,61 @@
                     'desc' => 'Serah terima medis selesai',
                 ],
             ];
-
-            $currentStep = match($order->status) {
-                'diproses' => 1,
-                'menuju_lokasi' => 2,
-                'membawa_pasien' => 3,
-                'selesai' => 4,
-                default => 1,
-            };
         @endphp
 
-        <div class="pt-2 pb-1 px-1 sm:px-2">
+        <div class="rounded-2xl bg-slate-50/70 border border-slate-100 p-4 sm:p-5">
             <div class="flex items-start justify-between w-full">
                 @foreach($stepList as $idx => $step)
                     @php
                         $isCompleted = $order->status === 'selesai' || $step['num'] < $currentStep;
                         $isActive = $order->status !== 'selesai' && $step['num'] === $currentStep;
                         $isUpcoming = $step['num'] > $currentStep && $order->status !== 'selesai';
-                        
-                        // Status garis penghubung ke titik berikutnya
                         $isLineActive = $order->status === 'selesai' || $step['num'] < $currentStep;
                     @endphp
 
                     <div class="flex-1 flex flex-col items-center relative text-center">
                         <!-- Connector Line to Next Step -->
                         @if($idx < count($stepList) - 1)
-                            <div class="absolute top-3 sm:top-3.5 left-1/2 w-full h-[3px] -translate-y-1/2 bg-slate-200 z-0 overflow-hidden">
-                                <div class="h-full bg-primary-600 transition-all duration-500 {{ $isLineActive ? 'w-full' : 'w-0' }}"></div>
+                            <div class="absolute top-3.5 sm:top-4 left-1/2 w-full h-[2px] -translate-y-1/2 bg-slate-200 z-0 overflow-hidden">
+                                <div class="h-full bg-cyan-600 transition-all duration-500 {{ $isLineActive ? 'w-full' : 'w-0' }}"></div>
                             </div>
                         @endif
 
                         <!-- Step Dot (Centered) -->
                         <div class="relative z-10 flex items-center justify-center mb-2.5">
                             @if($isCompleted)
-                                <!-- Completed: Solid teal circle with checkmark -->
-                                <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-primary-600 text-white flex items-center justify-center shadow-xs ring-4 ring-white transition-all">
-                                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <!-- Completed: Solid cyan circle with checkmark -->
+                                <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-cyan-600 text-white flex items-center justify-center shadow-xs ring-4 ring-white transition-all">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.8" d="M5 13l4 4L19 7"/>
                                     </svg>
                                 </div>
                             @elseif($isActive)
-                                <!-- Active: Pulsing teal circle -->
+                                <!-- Active: Pulsing cyan badge with step number -->
                                 <div class="relative flex items-center justify-center">
-                                    <span class="absolute w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary-400/30 animate-ping"></span>
-                                    <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-primary-600 text-white flex items-center justify-center shadow-md ring-4 ring-primary-100 transition-all">
-                                        <div class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-white"></div>
+                                    <span class="absolute w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-cyan-500/25 animate-ping"></span>
+                                    <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-cyan-600 text-white flex items-center justify-center shadow-md shadow-cyan-600/30 ring-4 ring-cyan-100 font-extrabold text-xs transition-all">
+                                        {{ $step['num'] }}
                                     </div>
                                 </div>
                             @else
-                                <!-- Upcoming: Inactive gray dot -->
-                                <div class="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-slate-200 border-2 border-white ring-4 ring-white flex items-center justify-center transition-all">
-                                    <div class="w-1.5 h-1.5 rounded-full bg-slate-300"></div>
+                                <!-- Upcoming: Clean outlined circle with number -->
+                                <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white text-slate-400 border border-slate-300 ring-4 ring-white flex items-center justify-center font-bold text-xs transition-all">
+                                    {{ $step['num'] }}
                                 </div>
                             @endif
                         </div>
 
-                        <!-- Step Text Explanation (Simetris & Presisi di Tengah Titik) -->
+                        <!-- Step Text Explanation -->
                         <div class="px-1 max-w-[160px] sm:max-w-[200px]">
-                            <h4 class="text-xs sm:text-sm font-extrabold leading-tight
-                                @if($isActive) text-primary-900 font-black
+                            <h4 class="text-xs sm:text-sm font-bold leading-tight
+                                @if($isActive) text-slate-900 font-extrabold
                                 @elseif($isCompleted) text-slate-800
                                 @else text-slate-400 @endif">
                                 {{ $step['title'] }}
                             </h4>
                             <p class="text-[10px] sm:text-[11px] mt-1 leading-snug hidden sm:block
-                                @if($isActive) text-primary-700 font-medium
+                                @if($isActive) text-cyan-700 font-semibold
                                 @elseif($isCompleted) text-slate-500
                                 @else text-slate-400 @endif">
                                 {{ $step['desc'] }}
@@ -438,23 +441,44 @@
                     </div>
                 </div>
 
-                <!-- Leaflet Map Box -->
-                <div class="relative w-full h-full min-h-[440px] rounded-lg border border-slate-200 overflow-hidden z-10">
+                <!-- Leaflet Map Box (Standardized with Masyarakat) -->
+                <div class="relative w-full h-full min-h-[440px] rounded-2xl border border-slate-200/90 shadow-xs overflow-hidden z-10">
                     <div id="supir-map" class="w-full h-full min-h-[440px]"></div>
 
-                    <!-- Turn-by-turn ETA bar -->
-                    <div x-show="routeSummary" x-transition
-                         class="absolute top-3 left-3 right-3 sm:right-auto sm:max-w-xs z-[1000] bg-white/95 backdrop-blur-xs p-3 rounded-lg border border-slate-200 shadow-md flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-lg bg-primary-700 text-white flex items-center justify-center shrink-0">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+                    <!-- Turn-by-turn ETA bar (Standardized with Masyarakat) -->
+                    <div x-show="routeSummary" x-transition:enter="transition ease-out duration-300"
+                         class="absolute top-3.5 left-3.5 sm:max-w-xs z-[1000] bg-white/95 backdrop-blur-md p-3 sm:p-3.5 rounded-2xl border border-slate-100 shadow-xl flex items-center gap-3">
+                        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary-700 text-white flex items-center justify-center shrink-0 shadow-md">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
                         </div>
                         <div class="min-w-0">
-                            <div class="flex items-center gap-1.5">
-                                <span class="text-xs font-bold text-slate-900" x-text="routeEta"></span>
-                                <span class="text-[10px] font-bold text-primary-700 bg-primary-50 px-2 py-0.5 rounded-full border border-primary-100" x-text="routeDistance"></span>
+                            <div class="flex items-center gap-1.5 sm:gap-2">
+                                <span class="text-xs sm:text-sm font-extrabold text-slate-900" x-text="routeEta"></span>
+                                <span class="text-[10px] sm:text-xs font-bold text-primary-800 bg-primary-100 px-2 py-0.5 rounded-full" x-text="routeDistance"></span>
                             </div>
-                            <p class="text-[11px] text-slate-500 truncate" x-text="routeSummary"></p>
+                            <p class="text-[10px] sm:text-[11px] text-slate-500 font-medium truncate max-w-[200px]" x-text="routeSummary"></p>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Legend & Panduan Simbol -->
+                <div class="mt-3 p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-100 flex flex-wrap items-center justify-between gap-2.5 sm:gap-4 text-[11px] sm:text-xs">
+                    <div class="flex items-center gap-3 sm:gap-4 flex-wrap">
+                        <div class="flex items-center gap-1.5 font-bold text-slate-700">
+                            <span class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#0891B2] inline-block flex-shrink-0"></span>
+                            <span>Ambulans Siaga</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 font-bold text-slate-700" x-show="!['membawa_pasien', 'selesai'].includes(orderStatus)">
+                            <span class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#EF4444] inline-block flex-shrink-0"></span>
+                            <span>Titik Jemput Pasien</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 font-bold text-slate-700" x-show="['membawa_pasien', 'selesai'].includes(orderStatus)">
+                            <span class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#10B981] inline-block flex-shrink-0"></span>
+                            <span>Rumah Sakit Rujukan</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-slate-500 font-medium text-[11px]">
+                        <span>🛰️ Satelit GPS Realtime</span>
                     </div>
                 </div>
 
@@ -564,7 +588,7 @@
                     });
 
                     const jemputIcon = (typeof window.getPatientPin3DIcon === 'function')
-                        ? window.getPatientPin3DIcon({ size: 32 })
+                        ? window.getPatientPin3DIcon({ size: 28 })
                         : L.divIcon({
                             className: 'custom-jemput-icon',
                             html: `<div style="background:#EF4444; width:28px; height:28px; border-radius:50%; border:2px solid white; box-shadow:0 2px 6px rgba(239,68,68,0.4); display:flex; align-items:center; justify-content:center; color:white; font-size:12px;">📍</div>`,
@@ -573,7 +597,7 @@
                         });
 
                     const rsIcon = (typeof window.getHospital3DIcon === 'function')
-                        ? window.getHospital3DIcon({ size: 48 })
+                        ? window.getHospital3DIcon({ size: 50 })
                         : L.divIcon({
                             className: 'custom-rs-icon',
                             html: `<div style="background:#16A36A; width:34px; height:34px; border-radius:50%; border:2px solid white; box-shadow:0 2px 6px rgba(22,163,106,0.4); display:flex; align-items:center; justify-content:center; color:white; font-size:16px;">🏥</div>`,
@@ -586,11 +610,11 @@
 
                     if (typeof window.createLeafletAmbulance3DMarker === 'function') {
                         this.ambMarker = window.createLeafletAmbulance3DMarker(this.map, defaultLat, defaultLng, {
-                            size: 54,
+                            size: 58,
                             autoSpin: false,
                             destLat: destLat,
                             destLng: destLng
-                        }).bindPopup('<b>Posisi Ambulans Anda (3D Real)</b><br>Menghadap arah perjalanan');
+                        }).bindPopup('<b>Posisi Ambulans Anda</b><br>Terpantau GPS Realtime');
                     } else {
                         this.ambMarker = L.marker([defaultLat, defaultLng], {
                             icon: ambIcon,
@@ -603,7 +627,7 @@
                         this.jemputMarker = L.marker([this.jemputLat, this.jemputLng], {
                             icon: jemputIcon,
                             zIndexOffset: 1000
-                        }).addTo(this.map).bindPopup('<b>Titik Jemput Pasien (3D)</b>');
+                        }).addTo(this.map).bindPopup('<b>Titik Jemput Pasien</b>');
                     }
 
                     // Hospital Marker: HANYA saat membawa pasien / selesai
@@ -728,7 +752,7 @@
                         }
                         if (!this.rsMarker && this.rsLat && this.rsLng) {
                             const rsIcon = (typeof window.getHospital3DIcon === 'function')
-                                ? window.getHospital3DIcon({ size: 48 })
+                                ? window.getHospital3DIcon({ size: 50 })
                                 : L.divIcon({
                                     className: 'custom-rs-icon',
                                     html: `<div style="background:#16A36A; width:34px; height:34px; border-radius:50%; border:2px solid white; box-shadow:0 2px 6px rgba(22,163,106,0.4); display:flex; align-items:center; justify-content:center; color:white; font-size:16px;">🏥</div>`,
@@ -738,14 +762,14 @@
                             this.rsMarker = L.marker([this.rsLat, this.rsLng], {
                                 icon: rsIcon,
                                 zIndexOffset: 950
-                            }).addTo(this.map).bindPopup('<b>Rumah Sakit Rujukan 3D</b>');
+                            }).addTo(this.map).bindPopup('<b>Rumah Sakit Rujukan</b>');
                         }
 
                         if (this.ambMarker && this.rsMarker) {
                             await this.fetchOsrmRoute(
                                 this.ambMarker.getLatLng(),
                                 this.rsMarker.getLatLng(),
-                                '#0284C7', 5, 0.95, currentReq
+                                '#0891B2', 5.5, 0.95, currentReq
                             );
                         }
                         return;
@@ -759,7 +783,7 @@
 
                     if (!this.jemputMarker && this.jemputLat && this.jemputLng) {
                         const jemputIcon = (typeof window.getPatientPin3DIcon === 'function')
-                            ? window.getPatientPin3DIcon({ size: 32 })
+                            ? window.getPatientPin3DIcon({ size: 28 })
                             : L.divIcon({
                                 className: 'custom-jemput-icon',
                                 html: `<div style="background:#EF4444; width:28px; height:28px; border-radius:50%; border:2px solid white; box-shadow:0 2px 6px rgba(239,68,68,0.4); display:flex; align-items:center; justify-content:center; color:white; font-size:12px;">📍</div>`,
@@ -769,14 +793,14 @@
                         this.jemputMarker = L.marker([this.jemputLat, this.jemputLng], {
                             icon: jemputIcon,
                             zIndexOffset: 1000
-                        }).addTo(this.map).bindPopup('<b>Titik Jemput Pasien (3D)</b>');
+                        }).addTo(this.map).bindPopup('<b>Titik Jemput Pasien</b>');
                     }
 
                     if (this.ambMarker && this.jemputMarker) {
                         await this.fetchOsrmRoute(
                             this.ambMarker.getLatLng(),
                             this.jemputMarker.getLatLng(),
-                            '#0284C7', 4.5, 0.9, currentReq
+                            '#0891B2', 5.5, 0.95, currentReq
                         );
                     }
                 },

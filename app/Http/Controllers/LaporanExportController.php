@@ -102,10 +102,53 @@ class LaporanExportController extends Controller
 
         $laporan = $query->get();
 
+        $totalOrders = $laporan->count();
+        $selesaiOrders = $laporan->where('status', 'selesai')->count();
+        $batalOrders = $laporan->where('status', 'dibatalkan')->count();
+        $successRate = $totalOrders > 0 ? round(($selesaiOrders / $totalOrders) * 100) : 0;
+
+        // Waktu Respon Rata-rata (menit)
+        $validResponses = $laporan->filter(function($row) {
+            return $row->waktu_respon && ($row->waktu_pesan || $row->created_at);
+        });
+        
+        $avgResponseMinutes = 0;
+        if ($validResponses->count() > 0) {
+            $totalMinutes = $validResponses->sum(function($row) {
+                $start = $row->waktu_pesan ?? $row->created_at;
+                return max(1, $row->waktu_respon->diffInMinutes($start));
+            });
+            $avgResponseMinutes = round($totalMinutes / $validResponses->count());
+        }
+
+        // Rating Kepuasan CSAT
+        $ratings = $laporan->pluck('rating.skor')->filter();
+        $avgRating = $ratings->count() > 0 ? round($ratings->avg(), 1) : null;
+        $totalRatingCount = $ratings->count();
+
+        // Kategori Darurat vs Non-Darurat
+        $daruratCount = $laporan->filter(function($row) {
+            $keperluan = strtolower($row->keperluan_penggunaan ?? '');
+            $prioritas = strtolower($row->prioritas ?? '');
+            return str_contains($keperluan, 'darurat') || str_contains($keperluan, 'emergency') || str_contains($prioritas, 'darurat') || str_contains($prioritas, 'tinggi');
+        })->count();
+
+        // RS Rujukan Terbanyak
+        $topRs = $laporan->map(function($row) {
+            return $row->rumahSakit?->nama ?? $row->tujuan_lokasi;
+        })->filter()->countBy()->sortDesc()->keys()->first() ?? '-';
+
         $rekap = [
-            'total'   => $laporan->count(),
-            'selesai' => $laporan->where('status', 'selesai')->count(),
-            'batal'   => $laporan->where('status', 'dibatalkan')->count(),
+            'total'             => $totalOrders,
+            'selesai'           => $selesaiOrders,
+            'batal'             => $batalOrders,
+            'success_rate'      => $successRate,
+            'avg_response'      => $avgResponseMinutes,
+            'avg_rating'        => $avgRating,
+            'rating_count'      => $totalRatingCount,
+            'darurat_count'     => $daruratCount,
+            'non_darurat_count' => $totalOrders - $daruratCount,
+            'top_rs'            => $topRs,
         ];
 
         return [$startDate, $endDate, $statusFilter, $laporan, $rekap];

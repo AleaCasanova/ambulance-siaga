@@ -129,6 +129,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard', \App\Livewire\Mitra\Dashboard::class)->name('dashboard');
         Route::get('/ambulans', \App\Livewire\Mitra\AmbulansIndex::class)->name('ambulans.index');
         Route::get('/supir', \App\Livewire\Mitra\SupirIndex::class)->name('supir.index');
+        Route::get('/orders', \App\Livewire\Mitra\OrderIndex::class)->name('orders.index');
     });
 });
 

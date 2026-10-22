@@ -38,7 +38,7 @@
                         <svg class="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                     </div>
                     <input wire:model.live.debounce.300ms="search" type="text" placeholder="Masukkan kata kunci..." 
-                           class="w-full pl-10 pr-32 py-2.5 rounded-xl border border-slate-200 bg-white text-sm text-slate-800 placeholder-slate-400 focus:border-sky-500 focus:ring-2 focus:ring-sky-100 shadow-xs transition-all outline-none">
+                           class="w-full pl-10 pr-32 py-2.5 rounded-lg border border-slate-200 bg-white text-sm text-slate-800 placeholder-slate-400 focus:border-sky-500 focus:ring-2 focus:ring-sky-100 shadow-xs transition-all outline-none">
                     
                     <!-- Custom Field Dropdown -->
                     <div class="absolute inset-y-1 right-1 flex items-center" x-data="{ open: false }">
@@ -55,7 +55,7 @@
                         
                         <!-- Floating Menu -->
                         <div x-show="open" x-transition.opacity.duration.150ms
-                             class="absolute right-0 top-full mt-1.5 w-36 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 overflow-hidden"
+                             class="absolute right-0 top-full mt-1.5 w-36 bg-white rounded-lg shadow-xl border border-slate-200 py-1.5 z-50 overflow-hidden"
                              style="display: none;">
                             <button type="button" @click="$wire.set('searchField', 'nama'); open = false" 
                                     class="w-full text-left px-3.5 py-2 text-xs font-semibold flex items-center justify-between hover:bg-sky-50 hover:text-sky-600 transition-colors {{ $searchField === 'nama' ? 'text-sky-600 bg-sky-50/50' : 'text-slate-700' }}">
@@ -79,7 +79,7 @@
                 <!-- Custom Status Filter Dropdown -->
                 <div class="relative w-full sm:w-48" x-data="{ open: false }">
                     <button type="button" @click="open = !open" @click.outside="open = false"
-                            class="w-full flex items-center justify-between py-2.5 px-3.5 rounded-xl border border-slate-200 bg-white text-sm font-medium text-slate-700 shadow-xs hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-100 transition-all">
+                            class="w-full flex items-center justify-between py-2.5 px-3.5 rounded-lg border border-slate-200 bg-white text-sm font-medium text-slate-700 shadow-xs hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-100 transition-all">
                         <span class="truncate">
                             @if($statusFilter === 'berhasil') Berhasil (Settlement)
                             @elseif($statusFilter === 'pending') Menunggu (Pending)
@@ -92,7 +92,7 @@
 
                     <!-- Floating Menu -->
                     <div x-show="open" x-transition.opacity.duration.150ms
-                         class="absolute left-0 top-full mt-1.5 w-full bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 overflow-hidden"
+                         class="absolute left-0 top-full mt-1.5 w-full bg-white rounded-lg shadow-xl border border-slate-200 py-1.5 z-50 overflow-hidden"
                          style="display: none;">
                         <button type="button" @click="$wire.set('statusFilter', ''); open = false"
                                 class="w-full text-left px-3.5 py-2 text-xs font-semibold flex items-center justify-between hover:bg-sky-50 hover:text-sky-600 transition-colors {{ $statusFilter === '' ? 'text-sky-600 bg-sky-50/50' : 'text-slate-700' }}">
@@ -120,7 +120,7 @@
                 <!-- Custom Date Filter Dropdown -->
                 <div class="relative w-full sm:w-48" x-data="{ open: false }">
                     <button type="button" @click="open = !open" @click.outside="open = false"
-                            class="w-full flex items-center justify-between py-2.5 px-3.5 rounded-xl border border-slate-200 bg-white text-sm font-medium text-slate-700 shadow-xs hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-100 transition-all">
+                            class="w-full flex items-center justify-between py-2.5 px-3.5 rounded-lg border border-slate-200 bg-white text-sm font-medium text-slate-700 shadow-xs hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-100 transition-all">
                         <span class="truncate">
                             @if($dateFilter === 'today') Hari Ini
                             @elseif($dateFilter === '7days') 7 Hari Terakhir
@@ -135,7 +135,7 @@
 
                     <!-- Floating Menu -->
                     <div x-show="open" x-transition.opacity.duration.150ms
-                         class="absolute left-0 top-full mt-1.5 w-full bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 overflow-hidden"
+                         class="absolute left-0 top-full mt-1.5 w-full bg-white rounded-lg shadow-xl border border-slate-200 py-1.5 z-50 overflow-hidden"
                          style="display: none;">
                         <button type="button" @click="$wire.set('dateFilter', ''); open = false"
                                 class="w-full text-left px-3.5 py-2 text-xs font-semibold flex items-center justify-between hover:bg-sky-50 hover:text-sky-600 transition-colors {{ $dateFilter === '' ? 'text-sky-600 bg-sky-50/50' : 'text-slate-700' }}">
@@ -238,25 +238,25 @@
                         <th class="px-4 py-3 whitespace-nowrap">E-mail</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100 text-[13px] text-slate-700">
+                <tbody class="divide-y divide-slate-100 text-xs text-slate-700">
                     @forelse($donasis as $donasi)
                         <tr class="hover:bg-slate-50/70 transition-colors">
-                            <td class="px-4 py-4 whitespace-nowrap text-slate-500 text-xs font-medium">
+                            <td class="px-4 py-3 whitespace-nowrap text-slate-500 text-xs font-medium">
                                 {{ $donasi->created_at ? $donasi->created_at->format('d M Y, H:i') : '-' }}
                             </td>
-                            <td class="px-4 py-4 whitespace-nowrap font-semibold text-slate-800">
+                            <td class="px-4 py-3 whitespace-nowrap font-mono text-xs font-semibold text-slate-800">
                                 ORD-{{ $donasi->created_at ? $donasi->created_at->format('Ymd') : 'DON' }}-{{ strtoupper(substr(md5($donasi->id), 0, 6)) }}
                             </td>
-                            <td class="px-4 py-4 whitespace-nowrap">
-                                <span class="font-bold text-slate-900 block">{{ $donasi->is_anonim ? 'Hamba Allah' : ($donasi->nama ?: 'Hamba Allah') }}</span>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <span class="font-bold text-slate-900 text-xs block">{{ $donasi->is_anonim ? 'Hamba Allah' : ($donasi->nama ?: 'Hamba Allah') }}</span>
                                 @if($donasi->pesan)
                                     <span class="text-[11px] text-slate-500 italic block truncate max-w-[200px]" title="{{ $donasi->pesan }}">"{{ $donasi->pesan }}"</span>
                                 @endif
                             </td>
-                            <td class="px-4 py-4 whitespace-nowrap text-xs text-slate-600">
+                            <td class="px-4 py-3 whitespace-nowrap text-xs text-slate-600">
                                 Midtrans (QRIS / Bank / E-Wallet)
                             </td>
-                            <td class="px-4 py-4 whitespace-nowrap">
+                            <td class="px-4 py-3 whitespace-nowrap">
                                 @if(in_array($donasi->status, ['settlement', 'success']))
                                     <div class="flex items-center gap-1.5 font-bold text-xs text-emerald-600">
                                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
@@ -274,10 +274,10 @@
                                     </div>
                                 @endif
                             </td>
-                            <td class="px-4 py-4 whitespace-nowrap font-bold text-slate-900">
+                            <td class="px-4 py-3 whitespace-nowrap font-bold text-xs text-slate-900">
                                 Rp{{ number_format($donasi->nominal, 0, ',', '.') }}
                             </td>
-                            <td class="px-4 py-4 whitespace-nowrap text-xs text-slate-500">
+                            <td class="px-4 py-3 whitespace-nowrap text-xs text-slate-500">
                                 <div class="truncate max-w-[160px]" title="{{ $donasi->email ?? '-' }}">
                                     {{ $donasi->is_anonim ? 'hamba.allah@rahasia.com' : ($donasi->email ?? '-') }}
                                 </div>

@@ -287,16 +287,34 @@
                     </button>
                 </div>
 
-                <div class="relative w-full h-full min-h-[400px] rounded-lg border border-slate-200 overflow-hidden z-10">
+                <div class="relative w-full h-full min-h-[400px] rounded-2xl border border-slate-200/90 shadow-xs overflow-hidden z-10">
                     <div id="driver-dispatch-map" class="w-full h-full min-h-[400px]"></div>
 
-                    <div x-show="routeSummary" x-transition
-                         class="absolute top-3 left-3 right-3 sm:right-auto sm:max-w-xs z-[1000] bg-white/95 backdrop-blur-xs p-3 rounded-lg border border-slate-200 shadow-md">
-                        <div class="flex items-center gap-1.5">
-                            <span class="text-xs font-bold text-slate-900" x-text="routeEta"></span>
-                            <span class="text-[10px] font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded-full border border-teal-100" x-text="routeDistance"></span>
+                    <div x-show="routeSummary" x-transition:enter="transition ease-out duration-300"
+                         class="absolute top-3 left-3 right-3 sm:right-auto sm:max-w-xs z-[1000] bg-white/95 backdrop-blur-md p-3 rounded-2xl border border-slate-100 shadow-xl">
+                        <div class="flex items-center gap-1.5 sm:gap-2">
+                            <span class="text-xs sm:text-sm font-extrabold text-slate-900" x-text="routeEta"></span>
+                            <span class="text-[10px] sm:text-xs font-bold text-primary-800 bg-primary-100 px-2 py-0.5 rounded-full" x-text="routeDistance"></span>
                         </div>
-                        <p class="text-[11px] text-slate-500 truncate mt-0.5" x-text="routeSummary"></p>
+                        <p class="text-[10px] sm:text-[11px] text-slate-500 font-medium truncate mt-0.5" x-text="routeSummary"></p>
+                    </div>
+                </div>
+
+                <!-- Legend & Panduan Simbol (Standardized with Masyarakat) -->
+                <div class="mt-3 p-3 rounded-xl bg-slate-50 border border-slate-100 flex flex-wrap items-center justify-between gap-2.5 text-[11px]">
+                    <div class="flex items-center gap-3 flex-wrap">
+                        <div class="flex items-center gap-1.5 font-bold text-slate-700">
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#0891B2] inline-block flex-shrink-0"></span>
+                            <span>Ambulans Siaga</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 font-bold text-slate-700">
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#EF4444] inline-block flex-shrink-0 animate-pulse"></span>
+                            <span>Titik Jemput Pasien</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 font-bold text-slate-700">
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#10B981] inline-block flex-shrink-0 animate-pulse"></span>
+                            <span>Rumah Sakit</span>
+                        </div>
                     </div>
                 </div>
 
@@ -573,11 +591,11 @@
 
                         if (typeof window.createLeafletAmbulance3DMarker === 'function') {
                             this.driverMarker = window.createLeafletAmbulance3DMarker(this.map, defaultLat, defaultLng, {
-                                size: 52,
+                                size: 58,
                                 autoSpin: false,
                                 destLat: initJemputLat || null,
                                 destLng: initJemputLng || null
-                            }).bindPopup('<b>Posisi Ambulans Anda (3D Real)</b><br>Menghadap arah perjalanan');
+                            }).bindPopup('<b>Posisi Ambulans Anda</b><br>Terpantau GPS Realtime');
                         } else {
                             this.driverMarker = L.marker([defaultLat, defaultLng], {
                                 icon: ambIcon,
@@ -617,7 +635,7 @@
                     }
 
                     const jemputIcon = (typeof window.getPatientPin3DIcon === 'function')
-                        ? window.getPatientPin3DIcon({ size: 32 })
+                        ? window.getPatientPin3DIcon({ size: 28 })
                         : L.divIcon({
                             className: 'custom-jemput-icon',
                             html: `<div style="background:#EF4444; width:28px; height:28px; border-radius:50%; border:2px solid white; box-shadow:0 2px 6px rgba(239,68,68,0.4); display:flex; align-items:center; justify-content:center; color:white; font-size:12px;">📍</div>`,
@@ -628,11 +646,11 @@
                     this.jemputMarker = L.marker([orderData.jemputLat, orderData.jemputLng], {
                         icon: jemputIcon,
                         zIndexOffset: 1000
-                    }).addTo(this.map).bindPopup(`<b>Titik Jemput (3D): ${orderData.nama}</b><br><span style="font-size:11px;">${orderData.jemput}</span>`).openPopup();
+                    }).addTo(this.map).bindPopup(`<b>Titik Jemput: ${orderData.nama}</b><br><span style="font-size:11px;">${orderData.jemput}</span>`).openPopup();
 
                     if (orderData.tujuanLat && orderData.tujuanLng && orderData.tujuanLat !== 0) {
                         const rsIcon = (typeof window.getHospital3DIcon === 'function')
-                            ? window.getHospital3DIcon({ size: 46 })
+                            ? window.getHospital3DIcon({ size: 50 })
                             : L.divIcon({
                                 className: 'custom-rs-icon',
                                 html: `<div style="background:#16A36A; width:28px; height:28px; border-radius:50%; border:2px solid white; box-shadow:0 2px 6px rgba(22,163,106,0.4); display:flex; align-items:center; justify-content:center; color:white; font-size:12px;">🏥</div>`,
@@ -657,9 +675,9 @@
                             const coords = route.geometry.coordinates.map(c => [c[1], c[0]]);
 
                             this.routePolyline = L.polyline(coords, {
-                                color: '#00838F',
-                                weight: 4.5,
-                                opacity: 0.9,
+                                color: '#0891B2',
+                                weight: 5.5,
+                                opacity: 0.95,
                                 lineCap: 'round',
                                 lineJoin: 'round'
                             }).addTo(this.map);

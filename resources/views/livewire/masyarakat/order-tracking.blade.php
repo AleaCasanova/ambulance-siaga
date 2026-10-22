@@ -365,17 +365,20 @@
                 <div class="p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-100 flex flex-wrap items-center justify-between gap-2.5 sm:gap-4 text-[11px] sm:text-xs">
                     <div class="flex items-center gap-3 sm:gap-4 flex-wrap">
                         <div class="flex items-center gap-1.5 font-bold text-slate-700">
-                            <span class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#0284C7] inline-block flex-shrink-0 animate-pulse"></span>
-                            <span>Ambulans Siaga 3D Real (360°)</span>
+                            <span class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#0891B2] inline-block flex-shrink-0"></span>
+                            <span>Ambulans Siaga</span>
                         </div>
                         <div class="flex items-center gap-1.5 font-bold text-slate-700" x-show="!['membawa_pasien', 'selesai'].includes(orderStatus)">
-                            <span class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#EF4444] inline-block flex-shrink-0 animate-pulse"></span>
-                            <span>Titik Jemput Pasien 3D</span>
+                            <span class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#EF4444] inline-block flex-shrink-0"></span>
+                            <span>Titik Jemput Pasien</span>
                         </div>
                         <div class="flex items-center gap-1.5 font-bold text-slate-700" x-show="['membawa_pasien', 'selesai'].includes(orderStatus)">
-                            <span class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#10B981] inline-block flex-shrink-0 animate-pulse"></span>
-                            <span>Rumah Sakit Rujukan 3D</span>
+                            <span class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#10B981] inline-block flex-shrink-0"></span>
+                            <span>Rumah Sakit Rujukan</span>
                         </div>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-slate-500 font-medium text-[11px]">
+                        <span>🛰️ Satelit GPS Realtime</span>
                     </div>
                 </div>
 
@@ -430,7 +433,7 @@
                     });
 
                     const jemputIcon = (typeof window.getPatientPin3DIcon === 'function')
-                        ? window.getPatientPin3DIcon({ size: 32 })
+                        ? window.getPatientPin3DIcon({ size: 28 })
                         : L.divIcon({
                             className: 'custom-jemput-icon',
                             html: `<div style="background: linear-gradient(135deg, #EF4444, #DC2626); width: 34px; height: 34px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 10px rgba(239,68,68,0.4); display: flex; align-items: center; justify-content: center; font-size: 16px;">📍</div>`,
@@ -458,7 +461,7 @@
                                 autoSpin: false,
                                 destLat: targetLat,
                                 destLng: targetLng
-                            }).bindPopup('<b>Ambulans Siaga 3D Real</b><br>Menghadap arah perjalanan • Terpantau GPS Realtime');
+                            }).bindPopup('<b>Ambulans Siaga</b><br>Terpantau GPS Realtime');
                         } else {
                             this.ambMarker = L.marker([this.ambLat, this.ambLng], {
                                 icon: ambIcon,
@@ -474,7 +477,7 @@
                             icon: jemputIcon,
                             zIndexOffset: 1000
                         }).addTo(this.map)
-                        .bindPopup('<b>Titik Penjemputan Pasien (3D)</b><br>Lokasi tunggu pasien saat ini');
+                        .bindPopup('<b>Titik Penjemputan Pasien</b><br>Lokasi tunggu pasien saat ini');
                     }
 
                     // Hospital Marker (Green) - Hanya ditampilkan saat tahap membawa pasien / selesai
@@ -528,7 +531,7 @@
                                     autoSpin: false,
                                     destLat: targetLat,
                                     destLng: targetLng
-                                }).bindPopup('<b>Ambulans Siaga 3D Real</b><br>Menghadap arah perjalanan • Terpantau GPS Realtime');
+                                }).bindPopup('<b>Ambulans Siaga</b><br>Terpantau GPS Realtime');
                             } else {
                                 const ambIcon = L.divIcon({
                                     className: 'custom-amb-icon',
@@ -631,14 +634,14 @@
                                     iconSize: [34, 34],
                                     iconAnchor: [17, 34]
                                 });
-                            this.rsMarker = L.marker([this.rsLat, this.rsLng], { icon: rsIcon, zIndexOffset: 950 }).addTo(this.map).bindPopup('<b>Rumah Sakit Rujukan 3D</b>');
+                            this.rsMarker = L.marker([this.rsLat, this.rsLng], { icon: rsIcon, zIndexOffset: 950 }).addTo(this.map).bindPopup('<b>Rumah Sakit Rujukan</b>');
                         }
 
                         if (this.ambMarker && this.rsMarker) {
                             await this.fetchOsrmRoute(
                                 this.ambMarker.getLatLng(),
                                 this.rsMarker.getLatLng(),
-                                '#0284C7', 5.5, 0.95, currentReq
+                                '#0891B2', 5.5, 0.95, currentReq
                             );
                         }
                         return;
@@ -652,7 +655,7 @@
 
                     if (!this.jemputMarker && this.jemputLat && this.jemputLng) {
                         const jemputIcon = (typeof window.getPatientPin3DIcon === 'function')
-                            ? window.getPatientPin3DIcon({ size: 32 })
+                            ? window.getPatientPin3DIcon({ size: 28 })
                             : L.divIcon({
                                 className: 'custom-jemput-icon',
                                 html: `<div style="background: linear-gradient(135deg, #EF4444, #DC2626); width: 34px; height: 34px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 10px rgba(239,68,68,0.4); display: flex; align-items: center; justify-content: center; font-size: 16px;">📍</div>`,
@@ -661,14 +664,14 @@
                             });
                         this.jemputMarker = L.marker([this.jemputLat, this.jemputLng], { icon: jemputIcon, zIndexOffset: 1000 })
                             .addTo(this.map)
-                            .bindPopup('<b>Titik Penjemputan Pasien (3D)</b>');
+                            .bindPopup('<b>Titik Penjemputan Pasien</b>');
                     }
 
                     if (this.ambMarker && this.jemputMarker) {
                         await this.fetchOsrmRoute(
                             this.ambMarker.getLatLng(),
                             this.jemputMarker.getLatLng(),
-                            '#0284C7', 5.5, 0.95, currentReq
+                            '#0891B2', 5.5, 0.95, currentReq
                         );
                     }
                 },

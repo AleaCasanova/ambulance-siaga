@@ -13,10 +13,10 @@
         <div class="flex items-center gap-3 shrink-0">
             <input type="text" wire:model.live.debounce.300ms="search"
                    placeholder="Cari nama, email, SIM..."
-                   class="w-44 sm:w-60 px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-xs font-medium focus:border-slate-400 focus:ring-2 focus:ring-slate-100 shadow-xs transition-all">
+                   class="w-44 sm:w-60 px-3.5 py-2 rounded-lg border border-slate-200 bg-white text-xs font-medium focus:border-slate-400 focus:ring-2 focus:ring-slate-100 shadow-xs transition-all">
 
             <button type="button" wire:click="openCreateModal"
-                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-semibold text-xs shadow-xs transition-all whitespace-nowrap">
+                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary-600 hover:bg-primary-700 text-white font-semibold text-xs shadow-xs transition-all whitespace-nowrap">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
                 </svg>
@@ -75,7 +75,7 @@
     @endif
 
     <!-- Table Users (DGV) -->
-    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
+    <div class="bg-white rounded-xl border border-slate-200/80 shadow-xs overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
@@ -208,12 +208,12 @@
     <!-- Modal Form Create / Edit (Spacious, Elegant & No Top Clip) -->
     @if($showModal)
         <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 overflow-hidden">
-            <div class="relative bg-white rounded-2xl max-w-3xl lg:max-w-4xl w-full shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div class="relative bg-white rounded-xl max-w-3xl lg:max-w-4xl w-full shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
                 
                 <!-- Fixed Header (Never Cut Off) -->
                 <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between shrink-0 bg-white">
                     <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 rounded-xl {{ $isEdit && !$is_active ? 'bg-amber-50 text-amber-600' : 'bg-primary-50 text-primary-600' }} flex items-center justify-center font-bold shrink-0">
+                        <div class="w-9 h-9 rounded-lg {{ $isEdit && !$is_active ? 'bg-amber-50 text-amber-600' : 'bg-primary-50 text-primary-600' }} flex items-center justify-center font-bold shrink-0">
                             @if($isEdit && !$is_active)
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                             @elseif($isEdit)
@@ -243,7 +243,7 @@
                         
                         <!-- Alert Banner for Pending Accounts -->
                         @if($isEdit && !$is_active)
-                            <div class="p-3.5 rounded-xl bg-amber-50 border border-amber-200/90 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
+                            <div class="p-3.5 rounded-lg bg-amber-50 border border-amber-200/90 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
                                 <div class="flex items-center gap-2.5 min-w-0">
                                     <span class="w-8 h-8 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center shrink-0">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
@@ -256,7 +256,7 @@
                                 <button type="button" wire:click="toggleActive({{ $userId }})"
                                         wire:confirm="Verifikasi dan aktifkan akun '{{ $name }}' sekarang?"
                                         class="inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs transition-colors shrink-0 whitespace-nowrap">
-                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
                                     <span>Verifikasi & Aktifkan</span>
                                 </button>
                             </div>
@@ -273,7 +273,7 @@
                                 <div>
                                     <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Lengkap</label>
                                     <input type="text" wire:model="name" required placeholder="Contoh: Budi Santoso"
-                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                           class="w-full px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
                                     @error('name') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
                                 </div>
 
@@ -281,7 +281,7 @@
                                 <div>
                                     <label class="block text-xs font-semibold text-slate-700 mb-1">Alamat Email</label>
                                     <input type="email" wire:model="email" required placeholder="email@contoh.com"
-                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                           class="w-full px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
                                     @error('email') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
                                 </div>
 
@@ -289,14 +289,14 @@
                                 <div>
                                     <label class="block text-xs font-semibold text-slate-700 mb-1">Nomor Telepon / WhatsApp</label>
                                     <input type="text" wire:model="phone" placeholder="Contoh: 081234567890"
-                                           class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                           class="w-full px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
                                     @error('phone') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
                                 </div>
 
                                 <!-- Role Selector -->
                                 <div>
                                     <label class="block text-xs font-semibold text-slate-700 mb-1">Role / Hak Akses</label>
-                                    <select wire:model.live="role_id" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-800 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                    <select wire:model.live="role_id" class="w-full px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-800 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
                                         <option value="">-- Pilih Role --</option>
                                         @foreach($roles as $rl)
                                             <option value="{{ $rl->id }}">{{ $rl->label ?? ucfirst($rl->name) }}</option>
@@ -553,14 +553,14 @@
                                     Kata Sandi {{ $isEdit ? '(Kosongkan jika tetap)' : '' }}
                                 </label>
                                 <input type="password" wire:model="password" {{ $isEdit ? '' : 'required' }} placeholder="••••••••"
-                                       class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                       class="w-full px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
                                 @error('password') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
                             </div>
 
                             <!-- Is Active Checkbox in neat card -->
                             <div>
                                 <label class="block text-xs font-semibold text-slate-700 mb-1">Status Login Akun</label>
-                                <label class="flex items-center gap-2.5 px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-slate-100/70 cursor-pointer transition-colors">
+                                <label class="flex items-center gap-2.5 px-3.5 py-2 rounded-lg border border-slate-200 bg-slate-50/70 hover:bg-slate-100/70 cursor-pointer transition-colors">
                                     <input type="checkbox" wire:model="is_active" class="rounded border-slate-300 text-primary-600 focus:ring-primary-500">
                                     <div class="text-xs">
                                         <span class="font-bold text-slate-800 block">Akun Aktif & Terverifikasi</span>
@@ -573,11 +573,11 @@
                     <!-- Fixed Footer (Always Visible at Bottom) -->
                     <div class="px-6 py-3.5 border-t border-slate-100 flex items-center justify-end gap-2.5 shrink-0 bg-slate-50/80">
                         <button type="button" wire:click="$set('showModal', false)"
-                                class="px-4 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-slate-600 font-semibold text-xs transition-colors shadow-xs">
+                                class="px-4 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-slate-600 font-semibold text-xs transition-colors shadow-xs">
                             Batal
                         </button>
                         <button type="submit"
-                                class="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-bold text-xs shadow-xs transition-all">
+                                class="inline-flex items-center gap-1.5 px-5 py-2 rounded-lg bg-primary-600 hover:bg-primary-700 text-white font-bold text-xs shadow-xs transition-all">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                             </svg>

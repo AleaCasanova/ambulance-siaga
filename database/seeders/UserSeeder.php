@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
         $operatorRole   = Role::where('name', 'operator')->first();
         $supirRole      = Role::where('name', 'supir')->first();
         $masyarakatRole = Role::where('name', 'masyarakat')->first();
+        $mitraRole      = Role::where('name', 'mitra')->first();
 
         // 1. Admin
         User::updateOrCreate(
@@ -143,5 +144,19 @@ class UserSeeder extends Seeder
                 'kontak_darurat' => '081299887766',
             ]
         );
+
+        // 7. Mitra Lembaga
+        if ($mitraRole) {
+            User::updateOrCreate(
+                ['email' => 'mitra@ambulancesiaga.org'],
+                [
+                    'name'      => 'Mitra Lazisnu Cilacap',
+                    'password'  => Hash::make('password'),
+                    'role_id'   => $mitraRole->id,
+                    'phone'     => '081234560007',
+                    'is_active' => true,
+                ]
+            );
+        }
     }
 }

@@ -17,12 +17,12 @@
             <!-- Search -->
             <input type="text" wire:model.live.debounce.300ms="search"
                    placeholder="Cari order, pasien, lokasi..."
-                   class="px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 shadow-xs">
+                   class="px-4 py-2.5 rounded-lg border border-slate-300 bg-white text-sm font-medium focus:border-sky-500 focus:ring-2 focus:ring-sky-200 shadow-xs">
 
             <!-- Filter Status -->
             <div class="relative" x-data="{ open: false }">
                 <button type="button" @click="open = !open" @click.outside="open = false"
-                        class="flex items-center justify-between gap-2 px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm font-semibold text-slate-700 shadow-xs hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-100 transition-all">
+                        class="flex items-center justify-between gap-2 px-4 py-2.5 rounded-lg border border-slate-300 bg-white text-sm font-semibold text-slate-700 shadow-xs hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-100 transition-all">
                     <span>
                         @if($statusFilter === 'menunggu') Menunggu Penugasan
                         @elseif($statusFilter === 'diproses') Ditugaskan (Diproses)
@@ -37,7 +37,7 @@
                 </button>
 
                 <div x-show="open" x-transition.opacity.duration.150ms
-                     class="absolute right-0 top-full mt-1.5 w-56 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 overflow-hidden"
+                     class="absolute right-0 top-full mt-1.5 w-56 bg-white rounded-lg shadow-xl border border-slate-200 py-1.5 z-50 overflow-hidden"
                      style="display: none;">
                     <button type="button" @click="$wire.set('statusFilter', ''); open = false"
                             class="w-full text-left px-3.5 py-2 text-xs font-semibold flex items-center justify-between hover:bg-sky-50 hover:text-sky-600 transition-colors {{ $statusFilter === '' ? 'text-sky-600 bg-sky-50/50' : 'text-slate-700' }}">
@@ -63,7 +63,7 @@
 
             <!-- Tombol Tambah Order (Hotline Manual) -->
             <button type="button" wire:click="openCreateModal"
-                    class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-sm shadow-md shadow-sky-600/30 transition-all">
+                    class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-bold text-sm shadow-md shadow-sky-600/30 transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
                 </svg>
@@ -73,7 +73,7 @@
     </div>
 
     <!-- Table Orders -->
-    <div class="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
+    <div class="bg-white rounded-xl border border-slate-200/80 shadow-xs overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
@@ -86,40 +86,40 @@
                         <th class="py-3 px-4 whitespace-nowrap text-right">Aksi Operasional</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100 text-sm">
+                <tbody class="divide-y divide-slate-100 text-xs">
                     @forelse($orders as $order)
                         <tr class="hover:bg-slate-50/50 transition-colors">
                             <!-- Kode -->
-                            <td class="py-3 px-4">
-                                <span class="font-extrabold text-slate-800 block">{{ $order->kode_order }}</span>
-                                <span class="text-xs text-slate-500 block">{{ $order->created_at->format('d M Y, H:i') }} WIB</span>
+                            <td class="py-3 px-4 whitespace-nowrap">
+                                <span class="font-bold text-slate-800 font-mono text-xs block">{{ $order->kode_order }}</span>
+                                <span class="text-[11px] text-slate-400 block mt-0.5">{{ $order->created_at->format('d M Y, H:i') }} WIB</span>
                             </td>
 
                             <!-- Pasien -->
                             <td class="py-3 px-4">
-                                <span class="font-extrabold text-slate-800 block">{{ $order->nama_pasien }}</span>
-                                <span class="text-xs text-slate-500 block line-clamp-1">{{ $order->kondisi_pasien ?: '-' }}</span>
+                                <span class="font-bold text-slate-800 text-xs block truncate max-w-[180px]">{{ $order->nama_pasien }}</span>
+                                <span class="text-[11px] text-slate-500 block line-clamp-1 max-w-[200px]" title="{{ $order->kondisi_pasien }}">{{ $order->kondisi_pasien ?: '-' }}</span>
                             </td>
 
                             <!-- Lokasi -->
                             <td class="py-3 px-4">
-                                <span class="font-semibold text-slate-700 block text-xs max-w-xs truncate" title="{{ $order->lokasi_jemput }}">
+                                <span class="font-medium text-slate-700 block text-xs max-w-xs truncate" title="{{ $order->lokasi_jemput }}">
                                     {{ $order->lokasi_jemput }}
                                 </span>
                                 @if($order->rumahSakit)
-                                    <span class="text-[11px] font-bold text-sky-600 block mt-0.5">RS: {{ $order->rumahSakit->nama }}</span>
+                                    <span class="text-[11px] font-bold text-sky-600 block mt-0.5 truncate max-w-xs" title="{{ $order->rumahSakit->nama }}">RS: {{ $order->rumahSakit->nama }}</span>
                                 @endif
                             </td>
 
                             <!-- Armada & Supir -->
-                            <td class="py-3 px-4">
+                            <td class="py-3 px-4 whitespace-nowrap">
                                 @if($order->ambulans && $order->supir)
-                                    <div class="text-xs">
-                                        <span class="font-bold text-slate-800 block">{{ $order->ambulans->kode_ambulans }} ({{ $order->ambulans->plat_nomor }})</span>
-                                        <span class="text-slate-500 block">Supir: {{ $order->supir->user->name ?? '-' }}</span>
+                                    <div>
+                                        <span class="font-bold text-slate-800 text-xs block">{{ $order->ambulans->kode_ambulans }} ({{ $order->ambulans->plat_nomor }})</span>
+                                        <span class="text-[11px] text-slate-500 block">Supir: {{ $order->supir->user->name ?? '-' }}</span>
                                     </div>
                                 @else
-                                    <div class="flex items-center gap-1.5 font-bold text-amber-600 text-[11px]">
+                                    <div class="inline-flex items-center gap-1.5 font-bold text-amber-600 text-xs whitespace-nowrap">
                                         <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
                                         <span>Belum Ditugaskan</span>
                                     </div>
@@ -127,8 +127,8 @@
                             </td>
 
                             <!-- Status -->
-                            <td class="py-3 px-4">
-                                <div class="flex items-center gap-1.5 font-bold text-sm
+                            <td class="py-3 px-4 whitespace-nowrap">
+                                <div class="inline-flex items-center gap-1.5 font-bold text-xs
                                     @if($order->status === 'menunggu') text-amber-600
                                     @elseif(in_array($order->status, ['diproses', 'menuju_lokasi', 'membawa_pasien'])) text-sky-600 animate-pulse
                                     @elseif($order->status === 'selesai') text-emerald-600
@@ -222,7 +222,7 @@
     <!-- MODAL 1: ASSIGN ARMADA & SUPIR -->
     @if($showAssignModal)
         <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 overflow-hidden">
-            <div class="relative bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div class="relative bg-white rounded-xl max-w-xl w-full shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
                 <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between shrink-0 bg-white">
                     <h3 class="text-base font-bold text-slate-900">Tugaskan Armada Ambulans</h3>
                     <button wire:click="closeAssignModal" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors">
@@ -239,7 +239,7 @@
                             <div x-data="assignMapAlpine(@js($assignOrderData), @js($assignDriversData))" 
                                  @select-driver.window="$wire.set('selectedSupirId', $event.detail.supir); $wire.set('selectedAmbulansId', $event.detail.amb);">
                                 <p class="text-xs font-semibold text-slate-700 mb-1.5">Peta Radar Armada Siaga Terdekat</p>
-                                <div class="border border-slate-200 rounded-xl overflow-hidden shadow-2xs">
+                                <div class="border border-slate-200 rounded-lg overflow-hidden shadow-2xs">
                                     <div x-ref="mapContainer" class="h-52 w-full z-0" wire:ignore></div>
                                 </div>
                                 <p class="text-[11px] text-slate-500 mt-1.5 flex items-center gap-2">
@@ -253,7 +253,7 @@
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1">Pilih Unit Ambulans Siaga</label>
                             <select wire:model="selectedAmbulansId" required
-                                    class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-800 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                    class="w-full px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-800 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
                                 <option value="">-- Pilih Ambulans --</option>
                                 @foreach($availableAmbulances as $amb)
                                     <option value="{{ $amb->id }}">{{ $amb->kode_ambulans }} - {{ $amb->plat_nomor }} ({{ $amb->jenis_ambulans }})</option>
@@ -265,7 +265,7 @@
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1">Pilih Supir Ambulans</label>
                             <select wire:model="selectedSupirId" required
-                                    class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-800 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                    class="w-full px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-800 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
                                 <option value="">-- Pilih Supir --</option>
                                 @foreach($onlineSupirs as $spr)
                                     <option value="{{ $spr->id }}">{{ $spr->user->name ?? 'Supir ID ' . $spr->id }} (SIM: {{ $spr->nomor_sim ?? '-' }})</option>
@@ -277,11 +277,11 @@
 
                     <div class="px-6 py-3.5 border-t border-slate-100 flex items-center justify-end gap-2.5 shrink-0 bg-slate-50/80">
                         <button type="button" wire:click="closeAssignModal"
-                                class="px-4 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-slate-600 font-semibold text-xs transition-colors shadow-xs">
+                                class="px-4 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-slate-600 font-semibold text-xs transition-colors shadow-xs">
                             Batal
                         </button>
                         <button type="submit"
-                                class="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-bold text-xs shadow-xs transition-all">
+                                class="inline-flex items-center gap-1.5 px-5 py-2 rounded-lg bg-primary-600 hover:bg-primary-700 text-white font-bold text-xs shadow-xs transition-all">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
                             <span>Tugaskan Sekarang</span>
                         </button>
@@ -294,7 +294,7 @@
     <!-- MODAL 2: CREATE MANUAL ORDER (HOTLINE) -->
     @if($showCreateModal)
         <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 overflow-hidden">
-            <div class="relative bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div class="relative bg-white rounded-xl max-w-lg w-full shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
                 <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between shrink-0 bg-white">
                     <h3 class="text-base font-bold text-slate-900">Buat Pesanan Darurat (Hotline Manual)</h3>
                     <button wire:click="$set('showCreateModal', false)" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors">
@@ -309,28 +309,28 @@
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Pasien / Pemanggil</label>
                             <input type="text" wire:model="nama_pasien" required placeholder="Contoh: Bpk. Ahmad"
-                                   class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                   class="w-full px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
                             @error('nama_pasien') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
                         </div>
 
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1">Kondisi Darurat / Kejadian</label>
                             <input type="text" wire:model="kondisi_pasien" required placeholder="Contoh: Sesak nafas akut mendadak"
-                                   class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                   class="w-full px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
                             @error('kondisi_pasien') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
                         </div>
 
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1">Alamat / Lokasi Penjemputan</label>
                             <input type="text" wire:model="lokasi_jemput" required placeholder="Jl. Gatot Subroto No. 45, Cilacap..."
-                                   class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                   class="w-full px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
                             @error('lokasi_jemput') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
                         </div>
 
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1">Pilih Rumah Sakit Tujuan (Rujukan)</label>
                             <select wire:model="rumah_sakit_id"
-                                    class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-800 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                    class="w-full px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-800 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
                                 <option value="">-- Pilihlah RS Rujukan (Opsional) --</option>
                                 @foreach($rumahSakits as $rs)
                                     <option value="{{ $rs->id }}">{{ $rs->nama }}</option>
@@ -342,11 +342,11 @@
 
                     <div class="px-6 py-3.5 border-t border-slate-100 flex items-center justify-end gap-2.5 shrink-0 bg-slate-50/80">
                         <button type="button" wire:click="$set('showCreateModal', false)"
-                                class="px-4 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-slate-600 font-semibold text-xs transition-colors shadow-xs">
+                                class="px-4 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-slate-600 font-semibold text-xs transition-colors shadow-xs">
                             Batal
                         </button>
                         <button type="submit"
-                                class="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-bold text-xs shadow-xs transition-all">
+                                class="inline-flex items-center gap-1.5 px-5 py-2 rounded-lg bg-primary-600 hover:bg-primary-700 text-white font-bold text-xs shadow-xs transition-all">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                             <span>Buat Pesanan Darurat</span>
                         </button>
@@ -359,7 +359,7 @@
     <!-- MODAL 3: EDIT ORDER -->
     @if($showEditModal)
         <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 overflow-hidden">
-            <div class="relative bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div class="relative bg-white rounded-xl max-w-lg w-full shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
                 <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between shrink-0 bg-white">
                     <h3 class="text-base font-bold text-slate-900">Edit Detail Pesanan</h3>
                     <button wire:click="$set('showEditModal', false)" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors">
@@ -374,28 +374,28 @@
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Pasien</label>
                             <input type="text" wire:model="edit_nama_pasien" required
-                                   class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                   class="w-full px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
                             @error('edit_nama_pasien') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
                         </div>
 
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1">Kondisi Pasien / Darurat</label>
                             <input type="text" wire:model="edit_kondisi_pasien" required
-                                   class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                   class="w-full px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
                             @error('edit_kondisi_pasien') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
                         </div>
 
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1">Alamat Penjemputan</label>
                             <input type="text" wire:model="edit_lokasi_jemput" required
-                                   class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                   class="w-full px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
                             @error('edit_lokasi_jemput') <p class="text-[11px] text-red-600 mt-1">{{ $message }}</p> @enderror
                         </div>
 
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1">Rumah Sakit Tujuan</label>
                             <select wire:model="edit_rumah_sakit_id"
-                                    class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-800 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                    class="w-full px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-800 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
                                 <option value="">-- Pilihlah RS Rujukan --</option>
                                 @foreach($rumahSakits as $rs)
                                     <option value="{{ $rs->id }}">{{ $rs->nama }}</option>
@@ -407,7 +407,7 @@
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1">Status Pesanan</label>
                             <select wire:model="edit_status" required
-                                    class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-800 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
+                                    class="w-full px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-800 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white">
                                 <option value="menunggu">Menunggu Penugasan</option>
                                 <option value="diproses">Ditugaskan (Diproses)</option>
                                 <option value="menuju_lokasi">Menuju Lokasi Jemput</option>
@@ -421,11 +421,11 @@
 
                     <div class="px-6 py-3.5 border-t border-slate-100 flex items-center justify-end gap-2.5 shrink-0 bg-slate-50/80">
                         <button type="button" wire:click="$set('showEditModal', false)"
-                                class="px-4 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-slate-600 font-semibold text-xs transition-colors shadow-xs">
+                                class="px-4 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-slate-600 font-semibold text-xs transition-colors shadow-xs">
                             Batal
                         </button>
                         <button type="submit"
-                                class="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-bold text-xs shadow-xs transition-all">
+                                class="inline-flex items-center gap-1.5 px-5 py-2 rounded-lg bg-primary-600 hover:bg-primary-700 text-white font-bold text-xs shadow-xs transition-all">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                             <span>Simpan Perubahan</span>
                         </button>
@@ -438,7 +438,7 @@
     <!-- MODAL 4: DETAIL ORDER & FOTO VERIFIKASI -->
     @if($showDetailModal && $detailOrder)
         <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 overflow-hidden" x-data="{ zoomPhoto: false }">
-            <div class="relative bg-white rounded-2xl max-w-4xl w-full shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div class="relative bg-white rounded-xl max-w-4xl w-full shadow-2xl border border-slate-200 flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
                 
                 <!-- Modal Header -->
                 <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between shrink-0 bg-white">
@@ -462,7 +462,7 @@
                             <h4 class="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
                                 <span class="w-1.5 h-4 bg-sky-500 rounded-full"></span> Info Darurat & Pasien
                             </h4>
-                            <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 space-y-3">
+                            <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 space-y-3">
                                 <div>
                                     <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Nama Pasien</span>
                                     <span class="block text-sm font-bold text-slate-800">{{ $detailOrder->nama_pasien }}</span>
@@ -482,7 +482,7 @@
                             <h4 class="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
                                 <span class="w-1.5 h-4 bg-emerald-500 rounded-full"></span> Status & Penugasan
                             </h4>
-                            <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 space-y-3">
+                            <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 space-y-3">
                                 <div>
                                     <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Status Operasional</span>
                                     <span class="inline-block mt-1 px-3 py-1 rounded-lg text-xs font-bold bg-slate-200 text-slate-800">{{ $detailOrder->status_label }}</span>
@@ -505,13 +505,13 @@
                             <span class="w-1.5 h-4 bg-amber-500 rounded-full"></span> Verifikasi Lokasi Pemesan (GPS Camera)
                         </h4>
                         
-                        <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+                        <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
                             @if($detailOrder->photo_path)
                                 <div class="grid grid-cols-1 md:grid-cols-5 divide-y md:divide-y-0 md:divide-x divide-slate-100">
                                     
                                     <!-- Foto Section (Col 1-3) -->
                                     <div class="md:col-span-3 p-4 bg-slate-50 flex flex-col items-center justify-center">
-                                        <div class="relative rounded-xl overflow-hidden shadow-md cursor-pointer group" @click="zoomPhoto = true">
+                                        <div class="relative rounded-lg overflow-hidden shadow-md cursor-pointer group" @click="zoomPhoto = true">
                                             <img src="{{ $detailOrder->photo_url ?? asset('storage/' . $detailOrder->photo_path) }}" alt="Foto Verifikasi" class="w-full max-h-[400px] object-contain bg-slate-900">
                                             <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                                 <span class="px-4 py-2 bg-white/20 backdrop-blur-md rounded-lg text-white font-bold text-sm flex items-center gap-2 border border-white/30">
@@ -573,7 +573,7 @@
                 
                 <!-- Modal Footer -->
                 <div class="px-6 py-3.5 border-t border-slate-100 flex items-center justify-end shrink-0 bg-slate-50/80">
-                    <button type="button" wire:click="closeDetailModal" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-semibold text-xs transition-colors shadow-xs">
+                    <button type="button" wire:click="closeDetailModal" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-900 text-white font-semibold text-xs transition-colors shadow-xs">
                         Tutup Rincian
                     </button>
                 </div>
@@ -614,7 +614,7 @@
 
                             // Titik Pasien 3D (Merah)
                             const patientIcon = (typeof window.getPatientPin3DIcon === 'function')
-                                ? window.getPatientPin3DIcon({ size: 32 })
+                                ? window.getPatientPin3DIcon({ size: 28 })
                                 : L.divIcon({
                                     className: 'custom-div-icon',
                                     html: `<div style="font-size: 24px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); text-align: center; margin-top:-10px;">📍</div>`,
@@ -622,29 +622,45 @@
                                     iconAnchor: [15, 30]
                                 });
                             L.marker([orderData.lat, orderData.lng], {icon: patientIcon, zIndexOffset: 1000}).addTo(this.map)
-                                .bindPopup(`<b>Lokasi Pasien (3D)</b><br>${orderData.nama}`);
+                                .bindPopup(`<b>Lokasi Pasien</b><br>${orderData.nama}`);
                             bounds.extend([orderData.lat, orderData.lng]);
 
-                            // Titik Armada (Hijau)
+                            // Titik Armada (Standardized 3D)
                             driversData.forEach(d => {
-                                const driverIcon = L.divIcon({
-                                    className: 'custom-div-icon',
-                                    html: `<div style="background-color: #10b981; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 10px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: bold;"></div>`,
-                                    iconSize: [20, 20],
-                                    iconAnchor: [10, 10]
-                                });
-                                
-                                const marker = L.marker([d.lat, d.lng], {icon: driverIcon}).addTo(this.map);
-                                marker.bindPopup(`
-                                    <div class="text-center">
-                                        <b class="text-slate-800">${d.nama}</b><br>
-                                        <span class="text-xs text-slate-500">${d.kode_ambulans}</span><br>
-                                        <button type="button" class="mt-2 w-full text-xs font-bold bg-sky-600 text-white px-3 py-1.5 rounded-lg shadow hover:bg-sky-700" 
-                                                onclick="window.dispatchEvent(new CustomEvent('select-driver', {detail: {supir: ${d.id}, amb: ${d.ambulans_id || 'null'}}}))">
-                                            Pilih Supir Ini
-                                        </button>
-                                    </div>
-                                `);
+                                if (typeof window.createLeafletAmbulance3DMarker === 'function') {
+                                    const m = window.createLeafletAmbulance3DMarker(this.map, d.lat, d.lng, {
+                                        size: 46,
+                                        autoSpin: false
+                                    });
+                                    m.bindPopup(`
+                                        <div class="text-center">
+                                            <b class="text-slate-800">${d.nama}</b><br>
+                                            <span class="text-xs text-slate-500">${d.kode_ambulans}</span><br>
+                                            <button type="button" class="mt-2 w-full text-xs font-bold bg-primary-600 text-white px-3 py-1.5 rounded-lg shadow hover:bg-primary-700" 
+                                                    onclick="window.dispatchEvent(new CustomEvent('select-driver', {detail: {supir: ${d.id}, amb: ${d.ambulans_id || 'null'}}}))">
+                                                Pilih Supir Ini
+                                            </button>
+                                        </div>
+                                    `);
+                                } else {
+                                    const driverIcon = L.divIcon({
+                                        className: 'custom-driver-icon',
+                                        html: `<div style="background: linear-gradient(135deg, #0284C7, #0369A1); width: 30px; height: 30px; border-radius: 50%; border: 2px solid white; box-shadow: 0 4px 10px rgba(2,132,199,0.5); display: flex; align-items: center; justify-content: center; font-size: 14px;">🚑</div>`,
+                                        iconSize: [30, 30],
+                                        iconAnchor: [15, 15]
+                                    });
+                                    const marker = L.marker([d.lat, d.lng], {icon: driverIcon}).addTo(this.map);
+                                    marker.bindPopup(`
+                                        <div class="text-center">
+                                            <b class="text-slate-800">${d.nama}</b><br>
+                                            <span class="text-xs text-slate-500">${d.kode_ambulans}</span><br>
+                                            <button type="button" class="mt-2 w-full text-xs font-bold bg-primary-600 text-white px-3 py-1.5 rounded-lg shadow hover:bg-primary-700" 
+                                                    onclick="window.dispatchEvent(new CustomEvent('select-driver', {detail: {supir: ${d.id}, amb: ${d.ambulans_id || 'null'}}}))">
+                                                Pilih Supir Ini
+                                            </button>
+                                        </div>
+                                    `);
+                                }
                                 bounds.extend([d.lat, d.lng]);
                             });
 
